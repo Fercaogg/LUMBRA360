@@ -247,7 +247,7 @@ export function Recorrido() {
               <span className="font-mono text-xs tracking-[0.14em] text-tinta-suave">
                 {String(i + 1).padStart(2, "0")} · {paso.corto.toUpperCase()}
               </span>
-              <h3 className="text-balance font-serif text-[clamp(2rem,4vw,3.25rem)] font-light leading-[1.02] tracking-[-0.02em]">{paso.titulo}</h3>
+              <h3 className="text-balance font-serif text-[clamp(2rem,4vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.02em]">{paso.titulo}</h3>
               <p className="max-w-md text-pretty text-lg leading-relaxed text-tinta-suave">{paso.texto}</p>
               <ul className="flex flex-col border-t border-linea">
                 {paso.detalle.map((d) => (

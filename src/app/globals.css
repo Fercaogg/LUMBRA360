@@ -6,9 +6,10 @@
    - acento: el primario (petróleo). lumbre: el acento cálido, con moderación.
    La web va fija en modo claro (data-theme="light" en <html>) hasta adaptar la interfaz al oscuro. */
 @theme inline {
-  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-sans: var(--font-instrument), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
-  --font-serif: var(--font-newsreader), Georgia, serif;
+  /* «serif» se mantiene como nombre de la familia de titulares: ahora es la misma grotesca. */
+  --font-serif: var(--font-instrument), "Helvetica Neue", Arial, sans-serif;
 
   --color-papel: var(--fondo-alterno);
   --color-hundido: var(--fondo-hundido);
@@ -57,6 +58,13 @@ body {
   background: var(--fondo);
   color: var(--texto);
   font-feature-settings: "kern";
+}
+
+@layer base {
+  /* Titulares: grotesca con tracking cerrado. Las utilidades tracking-* pueden ajustarlo. */
+  .font-serif {
+    letter-spacing: -0.025em;
+  }
 }
 
 :focus-visible {
@@ -179,21 +187,9 @@ body {
 .orbita-lumbre {
   position: absolute;
   left: 50%;
-  top: calc(50% - var(--alto) * 0.92);
+  top: calc(50% - var(--alto) * 0.95);
   translate: -50% -50%;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--lumbre);
-  box-shadow: 0 0 0 8px color-mix(in srgb, var(--lumbre) 18%, transparent), 0 0 60px 18px color-mix(in srgb, var(--lumbre) 35%, transparent);
-}
-.orbita-lumbre span {
-  position: absolute;
-  inset: -22px;
-  border-radius: 50%;
-  border: 1.5px solid var(--tinta-900);
-  border-top-color: transparent;
-  transform: rotate(20deg);
+  filter: drop-shadow(0 10px 28px color-mix(in srgb, var(--lumbre) 45%, transparent));
 }
 
 /* Recorrido del método: escenario isométrico */

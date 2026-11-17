@@ -2,6 +2,8 @@
 
 Versión 2.0 · Dirección «Galería de luz»
 
+> **Sustituida por la versión 3.0 «Tinta y lumbre».** El logotipo, la paleta y la tipografía vigentes están en `brand/DESIGN.md` y `brand/tokens.css`. Esta guía se conserva como histórico hasta rehacerla.
+
 LUMBRA360 une «lumbre» y visión de 360°. La idea central es la claridad: iluminar lo que antes estaba en zona gris (riesgos, cumplimiento y pruebas) para que la empresa sienta que **tiene todo en orden y lo puede demostrar**.
 
 Esta guía explica el porqué de cada decisión y las normas de uso. Los valores exactos están en `DESIGN.md` y `tokens.css`, y todo se ve en funcionamiento en `brand.html`.
@@ -123,38 +125,40 @@ Todas las parejas de texto cumplen WCAG 2.x nivel AA. Calculado con `brand/scrip
 
 | Modo | Pareja | Texto | Fondo | Contraste | Resultado |
 |---|---|---|---|---|---|
-| claro | Texto (tinta) sobre blanco | `#0B1A1D` | `#FFFFFF` | 17,8:1 | Cumple |
-| claro | Texto (tinta) sobre pergamino | `#0B1A1D` | `#F7F5F1` | 16,35:1 | Cumple |
-| claro | Texto secundario sobre blanco | `#5C5850` | `#FFFFFF` | 7,08:1 | Cumple |
-| claro | Texto secundario sobre pergamino | `#5C5850` | `#F7F5F1` | 6,5:1 | Cumple |
-| claro | Texto terciario sobre blanco | `#706A61` | `#FFFFFF` | 5,35:1 | Cumple |
-| claro | Enlace (tinta 600) sobre blanco | `#24555D` | `#FFFFFF` | 8,29:1 | Cumple |
-| claro | Botón primario: blanco sobre tinta 900 | `#FFFFFF` | `#0D262B` | 15,8:1 | Cumple |
-| claro | Botón primario pulsado: blanco sobre tinta 800 | `#FFFFFF` | `#13343A` | 13,29:1 | Cumple |
-| claro | Botón de lumbre: tinta sobre lumbre | `#0D262B` | `#E6A23A` | 7,22:1 | Cumple |
-| claro | Lumbre texto sobre lumbre suave | `#7F4E16` | `#FAE8C4` | 5,79:1 | Cumple |
-| claro | Tinta suave: texto sobre su fondo | `#13343A` | `#EFF4F4` | 11,97:1 | Cumple |
-| claro | Correcto: texto sobre su fondo | `#2B6339` | `#E8F2EA` | 6,22:1 | Cumple |
-| claro | Aviso: texto sobre su fondo | `#7F4E16` | `#FBF0D9` | 6,18:1 | Cumple |
-| claro | Error: texto sobre su fondo | `#9C2F27` | `#FBE9E6` | 6,28:1 | Cumple |
-| claro | Información: texto sobre su fondo | `#285682` | `#E6EEF6` | 6,53:1 | Cumple |
-| claro | Borde de control sobre blanco | `#8A8378` | `#FFFFFF` | 3,75:1 | Cumple |
-| claro | Foco (tinta 500) sobre blanco | `#356C74` | `#FFFFFF` | 5,92:1 | Cumple |
-| claro | Texto sobre superficie de marca | `#EEEBE5` | `#0D262B` | 13,28:1 | Cumple |
-| oscuro | Texto sobre fondo | `#EEEBE5` | `#0B1214` | 15,89:1 | Cumple |
-| oscuro | Texto sobre superficie | `#EEEBE5` | `#121C1F` | 14,57:1 | Cumple |
-| oscuro | Texto secundario sobre superficie | `#B4AEA3` | `#121C1F` | 7,86:1 | Cumple |
-| oscuro | Texto terciario sobre superficie | `#968F84` | `#121C1F` | 5,41:1 | Cumple |
-| oscuro | Enlace (tinta 300) sobre superficie | `#82AAAF` | `#121C1F` | 6,87:1 | Cumple |
-| oscuro | Botón primario: tinta sobre marfil | `#0B1A1D` | `#EEEBE5` | 14,96:1 | Cumple |
-| oscuro | Botón de lumbre: tinta sobre lumbre 300 | `#0D262B` | `#EFB95A` | 8,85:1 | Cumple |
-| oscuro | Tinta suave: texto sobre su fondo | `#CFE0E2` | `#1A2B30` | 10,76:1 | Cumple |
-| oscuro | Correcto: texto sobre su fondo | `#8FCB9C` | `#16291D` | 8,17:1 | Cumple |
-| oscuro | Aviso: texto sobre su fondo | `#F2C46E` | `#2E2412` | 9,36:1 | Cumple |
-| oscuro | Error: texto sobre su fondo | `#F2A49B` | `#33191A` | 8,16:1 | Cumple |
-| oscuro | Información: texto sobre su fondo | `#9CC2E8` | `#16243A` | 8,38:1 | Cumple |
-| oscuro | Borde de control sobre superficie | `#6E7F84` | `#121C1F` | 4,15:1 | Cumple |
-| oscuro | Foco (tinta 300) sobre fondo | `#82AAAF` | `#0B1214` | 7,49:1 | Cumple |
+| claro | Texto (tinta 950) sobre blanco | `#111111` | `#FFFFFF` | 18,88:1 | Cumple |
+| claro | Texto (tinta 950) sobre piedra 50 | `#111111` | `#F5F5F2` | 17,29:1 | Cumple |
+| claro | Texto secundario sobre blanco | `#55554F` | `#FFFFFF` | 7,5:1 | Cumple |
+| claro | Texto secundario sobre piedra 50 | `#55554F` | `#F5F5F2` | 6,87:1 | Cumple |
+| claro | Texto terciario sobre blanco | `#6B6B65` | `#FFFFFF` | 5,36:1 | Cumple |
+| claro | Botón primario: blanco sobre tinta 900 | `#FFFFFF` | `#1B1B1B` | 17,22:1 | Cumple |
+| claro | Botón primario pulsado: blanco sobre tinta 800 | `#FFFFFF` | `#272726` | 14,95:1 | Cumple |
+| claro | Botón de lumbre: tinta sobre lumbre | `#111111` | `#F25A1F` | 5,63:1 | Cumple |
+| claro | Texto de lumbre (600) sobre blanco | `#B83A0E` | `#FFFFFF` | 5,75:1 | Cumple |
+| claro | Lumbre suave: texto sobre su fondo | `#9A300C` | `#FFE1D4` | 6,06:1 | Cumple |
+| claro | Tinta suave: texto sobre su fondo | `#272726` | `#F4F4F3` | 13,59:1 | Cumple |
+| claro | Correcto: texto sobre su fondo | `#1D6440` | `#E6F2EB` | 6,19:1 | Cumple |
+| claro | Aviso: texto sobre su fondo | `#7A4B00` | `#FBF0D6` | 6,54:1 | Cumple |
+| claro | Error: texto sobre su fondo | `#A3122F` | `#FCE8EC` | 6,66:1 | Cumple |
+| claro | Información: texto sobre su fondo | `#24508F` | `#E7EEF8` | 6,87:1 | Cumple |
+| claro | Borde de control sobre blanco | `#8A8A84` | `#FFFFFF` | 3,47:1 | Cumple |
+| claro | Foco (lumbre 500) sobre blanco | `#D9480F` | `#FFFFFF` | 4,3:1 | Cumple |
+| claro | Lumbre como gráfico sobre blanco | `#F25A1F` | `#FFFFFF` | 3,36:1 | Cumple |
+| claro | Texto sobre superficie de marca | `#F5F5F2` | `#1B1B1B` | 15,77:1 | Cumple |
+| claro | Lumbre sobre superficie de marca | `#F25A1F` | `#1B1B1B` | 5,13:1 | Cumple |
+| oscuro | Texto sobre fondo | `#F2F2EF` | `#0E0E0E` | 17,21:1 | Cumple |
+| oscuro | Texto sobre superficie | `#F2F2EF` | `#171716` | 15,99:1 | Cumple |
+| oscuro | Texto secundario sobre superficie | `#A9A9A3` | `#171716` | 7,6:1 | Cumple |
+| oscuro | Texto terciario sobre superficie | `#8C8C86` | `#171716` | 5,31:1 | Cumple |
+| oscuro | Botón primario: tinta sobre blanco roto | `#111111` | `#F2F2EF` | 16,84:1 | Cumple |
+| oscuro | Botón de lumbre: tinta sobre lumbre | `#111111` | `#FF6A33` | 6,62:1 | Cumple |
+| oscuro | Lumbre suave: texto sobre su fondo | `#FF9670` | `#2E170D` | 7,91:1 | Cumple |
+| oscuro | Tinta suave: texto sobre su fondo | `#E7E7E5` | `#232322` | 12,7:1 | Cumple |
+| oscuro | Correcto: texto sobre su fondo | `#8FCFA8` | `#13261B` | 8,83:1 | Cumple |
+| oscuro | Aviso: texto sobre su fondo | `#F0C66E` | `#2B2210` | 9,71:1 | Cumple |
+| oscuro | Error: texto sobre su fondo | `#F5A3B3` | `#331219` | 8,68:1 | Cumple |
+| oscuro | Información: texto sobre su fondo | `#A3C2EE` | `#14213A` | 8,8:1 | Cumple |
+| oscuro | Borde de control sobre superficie | `#6E6E69` | `#171716` | 3,5:1 | Cumple |
+| oscuro | Foco (lumbre 300) sobre fondo | `#FF9670` | `#0E0E0E` | 9,05:1 | Cumple |
 
 ### Uso del color de estado
 

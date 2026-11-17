@@ -1,115 +1,104 @@
 ---
-version: 2.0
-name: LUMBRA360 · Galería de luz
+version: 3.0
+name: lumbra · Tinta y lumbre
 description: >-
-  Una galería blanca y serena donde la información de cumplimiento queda expuesta con calma.
-  Mucho aire, titulares grandes en una serif ligera, una sola tinta petróleo casi negra para el
-  texto y la interfaz, y un único acento cálido (lumbre) que aparece solo donde importa.
+  Parte del logotipo: «lumbra» en una grotesca negra compacta, con la «m» convertida en una onda.
+  Lienzo blanco con mucho aire, tinta negra para el texto y la interfaz, titulares grandes en grotesca
+  con interletraje cerrado y un único acento bermellón (lumbre) que aparece solo donde importa.
   Las vistas densas (tablas, indicadores, estados) ganan precisión sin perder la calma.
 
 colors:
-  ink: "#0B1A1D"            # tinta 950: todo el texto
-  ink-action: "#0D262B"     # tinta 900: botón primario, logotipo
-  ink-action-press: "#13343A"
-  ink-link: "#24555D"       # tinta 600: enlaces en texto
-  ink-focus: "#356C74"      # tinta 500: anillo de foco
-  ink-soft-bg: "#EFF4F4"    # tinta 50: selección, fila activa
-  text-secondary: "#5C5850" # piedra 700
-  text-tertiary: "#706A61"  # piedra 600
+  ink: "#111111"            # tinta 950: todo el texto
+  ink-action: "#1B1B1B"     # tinta 900: logotipo, botón primario, bloques oscuros
+  ink-action-press: "#272726"
+  ink-link: "#111111"       # enlaces en tinta, subrayados
+  focus: "#D9480F"          # lumbre 500: anillo de foco
+  ink-soft-bg: "#F4F4F3"    # tinta 50: selección, fila activa
+  text-secondary: "#55554F" # piedra 700
+  text-tertiary: "#6B6B65"  # piedra 600
   canvas: "#FFFFFF"         # lienzo dominante
-  canvas-alt: "#F7F5F1"     # pergamino: alterna secciones
-  canvas-sunken: "#EFECE6"
-  hairline: "#E6E2DA"
-  hairline-strong: "#D3CDC2"
-  control-border: "#8A8378"
-  on-ink: "#FFFFFF"
-  ivory: "#EEEBE5"          # texto sobre superficie oscura
-  lumbre: "#E6A23A"         # único acento
-  lumbre-soft: "#FAE8C4"
-  lumbre-text: "#7F4E16"
-  success-text: "#2B6339"
-  success-bg: "#E8F2EA"
-  warning-text: "#7F4E16"
-  warning-bg: "#FBF0D9"
-  error-text: "#9C2F27"
-  error-bg: "#FBE9E6"
-  info-text: "#285682"
-  info-bg: "#E6EEF6"
+  canvas-alt: "#F5F5F2"     # alterna secciones
+  canvas-sunken: "#EDEDEA"
+  hairline: "#E3E3DF"
+  hairline-strong: "#CFCFCA"
+  control-border: "#8A8A84"
+  on-ink: "#F5F5F2"         # texto sobre tinta
+  lumbre: "#F25A1F"         # único acento
+  lumbre-soft: "#FFE1D4"
+  lumbre-text: "#B83A0E"    # lumbre como texto sobre blanco
+  success-text: "#1D6440"
+  success-bg: "#E6F2EB"
+  warning-text: "#7A4B00"
+  warning-bg: "#FBF0D6"
+  error-text: "#A3122F"     # carmesí: no se confunde con la lumbre
+  error-bg: "#FCE8EC"
+  info-text: "#24508F"
+  info-bg: "#E7EEF8"
   data-good: "#2E8A5F"
   data-mid: "#C98A1B"
   data-bad: "#B3382C"
 
 typography:
   hero:
-    fontFamily: "Newsreader, Georgia, serif"
-    fontSize: 80px            # 44 px en móvil
-    fontWeight: 300
-    lineHeight: 1.02
-    letterSpacing: -0.03em
+    fontFamily: "Instrument Sans, Helvetica Neue, Arial, sans-serif"
+    fontSize: 120px           # 50 px en móvil
+    fontWeight: 400
+    lineHeight: 0.92
+    letterSpacing: -0.045em
   display:
-    fontFamily: "Newsreader, Georgia, serif"
-    fontSize: 56px            # 36 px en móvil
-    fontWeight: 300
-    lineHeight: 1.05
+    fontFamily: "Instrument Sans, Helvetica Neue, Arial, sans-serif"
+    fontSize: 76px            # 38 px en móvil
+    fontWeight: 400
+    lineHeight: 0.98
     letterSpacing: -0.03em
   h1:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 44px
-    fontWeight: 400
-    lineHeight: 1.1
-    letterSpacing: -0.02em
+    fontWeight: 500
+    lineHeight: 1.05
+    letterSpacing: -0.03em
   h2:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 34px
-    fontWeight: 400
+    fontWeight: 500
     lineHeight: 1.1
-    letterSpacing: -0.02em
+    letterSpacing: -0.025em
   h3:
-    fontFamily: "Newsreader, Georgia, serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 24px
-    fontWeight: 400
-    lineHeight: 1.3
+    fontWeight: 500
+    lineHeight: 1.25
     letterSpacing: -0.02em
   h4:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 19px
     fontWeight: 600
     lineHeight: 1.3
-    letterSpacing: -0.005em
   lead:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
-    fontSize: 22px            # 19 px en móvil
+    fontFamily: "Instrument Sans, sans-serif"
+    fontSize: 20px
     fontWeight: 400
     lineHeight: 1.55
-    letterSpacing: 0
   body:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 17px
     fontWeight: 400
     lineHeight: 1.55
-    letterSpacing: -0.005em
   ui:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.45
-    letterSpacing: -0.005em
   data:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontFamily: "Instrument Sans, sans-serif"
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.45
     fontFeature: tnum
-  caption:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
-    fontSize: 14px
-    fontWeight: 400
-    lineHeight: 1.45
   eyebrow:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
     fontSize: 12px
-    fontWeight: 600
-    lineHeight: 1.4
+    fontWeight: 400
     letterSpacing: 0.14em
     textTransform: uppercase
   literal:
@@ -141,16 +130,16 @@ spacing:
 
 elevation:
   flat: none
-  hairline: "0 0 0 1px rgb(11 26 29 / 0.06)"
-  float: "0 1px 2px rgb(11 26 29 / 0.04), 0 12px 32px -16px rgb(11 26 29 / 0.16)"
-  overlay: "0 2px 6px rgb(11 26 29 / 0.05), 0 32px 64px -24px rgb(11 26 29 / 0.24)"
+  hairline: "0 0 0 1px rgb(17 17 17 / 0.06)"
+  float: "0 1px 2px rgb(17 17 17 / 0.04), 0 12px 32px -16px rgb(17 17 17 / 0.16)"
+  overlay: "0 2px 6px rgb(17 17 17 / 0.05), 0 32px 64px -24px rgb(17 17 17 / 0.24)"
 
 components:
   button-primary:     { background: "{colors.ink-action}", text: "{colors.on-ink}", typography: "{typography.ui}", rounded: "{rounded.pill}", height: 44px, padding: "0 22px" }
   button-secondary:   { background: transparent, text: "{colors.ink}", border: "1px {colors.hairline-strong}", rounded: "{rounded.pill}", height: 44px }
   button-lumbre:      { background: "{colors.lumbre}", text: "{colors.ink-action}", rounded: "{rounded.pill}", use: "solo exportar el dossier" }
-  button-text:        { background: transparent, text: "{colors.ink-link}", underline: "on hover" }
-  input:              { background: "{colors.canvas}", border: "1px {colors.control-border}", rounded: "{rounded.sm}", height: 44px, focus: "ring 3px {colors.ink-focus} 25%" }
+  button-text:        { background: transparent, text: "{colors.ink-link}", underline: always }
+  input:              { background: "{colors.canvas}", border: "1px {colors.control-border}", rounded: "{rounded.sm}", height: 44px, focus: "anillo 2px {colors.focus}" }
   card-presentation:  { background: "{colors.canvas-alt}", rounded: "{rounded.lg}", padding: 40px, shadow: none }
   card-data:          { background: "{colors.canvas}", border: "1px {colors.hairline}", rounded: "{rounded.md}", padding: 20px }
   kpi:                { label: "{typography.caption}", value: "{typography.h1} tnum", rule: "barra 4px {rounded.xs}" }
@@ -164,9 +153,9 @@ components:
   nav-top:            { background: "{colors.canvas} 85% + blur", height: 64px, border: "1px {colors.hairline}" }
 ---
 
-# DESIGN.md · LUMBRA360
+# DESIGN.md · lumbra
 
-Sistema de diseño propio de LUMBRA360, versión 2.0, dirección **«Galería de luz»**. Los tokens anteriores son la fuente de verdad. Su implementación está en `brand/tokens.css`, `brand/tailwind.config.ts` y `brand/tailwind.theme.css`. La página `brand/brand.html` lo muestra todo en funcionamiento.
+Sistema de diseño propio de lumbra, versión 3.0, **«Tinta y lumbre»**. Parte del logotipo entregado por el cliente (`brand/logo/fuente/lumbra-original.svg`), que no se redibuja. Los tokens anteriores son la fuente de verdad. Su implementación está en `brand/tokens.css`, `brand/tailwind.config.ts` y `brand/tailwind.theme.css`. La página `brand/brand.html` lo muestra todo en funcionamiento.
 
 ## Referencias y qué se toma de cada una
 
@@ -177,7 +166,7 @@ Se han usado dos análisis de terceros como referencia de criterio, no de identi
   - Titulares grandes con interletraje negativo.
   - Una sola tinta para el texto y un solo color de acción.
   - Ausencia de sombras decorativas y de degradados.
-  - Ritmo de secciones que alternan fondo (blanco ↔ pergamino ↔ tinta).
+  - Ritmo de secciones que alternan fondo (blanco ↔ piedra 50 ↔ tinta).
   - Botones en cápsula, contracción leve al pulsar y cuerpo de lectura a 17 px.
 - **Referencia secundaria (infraestructura financiera):** solo para lo denso.
   - Tablas con cifras tabulares y etiquetas de columna discretas.
@@ -189,7 +178,7 @@ Se han usado dos análisis de terceros como referencia de criterio, no de identi
 - Ni sus tipografías (SF Pro, Söhne).
 - Ni sus nombres, logotipos o degradados característicos.
 
-El color de acción de LUMBRA360 es su propia tinta petróleo. El acento es la lumbre ámbar, que viene del nombre.
+El color de acción es el negro del logotipo. El acento es la lumbre bermellón, que viene del nombre.
 
 ## Resumen
 
@@ -197,105 +186,50 @@ LUMBRA360 se presenta como una sala bien iluminada: el contenido es la obra y la
 
 **Rasgos clave**
 
-- **Lienzo blanco dominante** con pergamino cálido (`canvas-alt`) para alternar secciones y agrupar. El cambio de fondo es el separador: no hacen falta líneas ni sombras.
+- **Lienzo blanco dominante** con gris piedra muy claro (`canvas-alt`) para alternar secciones y agrupar. El cambio de fondo es el separador: no hacen falta líneas ni sombras.
 - **Una sola tinta.** Todo el texto va en tinta 950, y la acción principal es un botón de tinta 900. No hay un segundo color de acción.
 - **Un solo acento.** La lumbre aparece en el punto del símbolo, en la acción de mayor valor (exportar el dossier) y en la evidencia recién registrada. Nunca rellena superficies grandes.
-- **Tipografía protagonista.** Newsreader ligera (300) a 56–80 px con interletraje negativo. Las páginas se leen como un buen documento, no como un panel de control.
+- **Tipografía protagonista.** Instrument Sans regular a 76–120 px con interletraje muy cerrado. Las páginas se leen como un buen documento, no como un panel de control.
 - **Densidad controlada.** Las vistas de datos usan tablas con cifras tabulares, filetes de 1 px y cápsulas de estado, como un buen informe financiero.
 - **Elevación mínima.** Sin sombras en tarjetas ni botones. Solo flotan los menús y los modales.
+
+## Logotipo
+
+- **Original:** `brand/logo/fuente/lumbra-original.svg`, del cliente. Las versiones se generan con `python3 brand/scripts/logo_lumbra.py`: se quitan los recortes y el lienzo vacío, y se ajusta el encuadre. No se redibuja ni se cambia la tipografía del logotipo.
+- **Versiones:** horizontal positivo (tinta), negativo (blanco roto) y acento (onda en lumbre, solo para piezas de marca).
+- **Símbolo:** la onda de la «m». Se usa sola en el favicon (lumbre sobre tinta), en el acceso y como gran gráfico en los cierres.
+- **Mínimo:** 72 px de ancho en pantalla para el horizontal. El símbolo se lee a 16 px.
+- **No:** separar letras, cambiar la grotesca, contornear, poner degradados o colorear otra letra que no sea la onda.
 
 ## Color
 
 ### Tinta
-
-Petróleo casi negro, con base azul verdosa. Da autoridad sin la frialdad del negro puro ni del azul corporativo.
-
-| Token | Hex | Uso |
-|---|---|---|
-| `ink` (tinta 950) | `#0B1A1D` | Todo el texto principal |
-| `ink-action` (tinta 900) | `#0D262B` | Botón primario, logotipo, superficie oscura |
-| `ink-action-press` (tinta 800) | `#13343A` | Botón primario pulsado o con el cursor encima |
-| `ink-link` (tinta 600) | `#24555D` | Enlaces dentro del texto |
-| `ink-focus` (tinta 500) | `#356C74` | Anillo de foco |
-| `ink-soft-bg` (tinta 50) | `#EFF4F4` | Fila seleccionada, elemento activo, icono de estado vacío |
+El negro del logotipo, `#1B1B1B`, es la acción, el logotipo y los bloques oscuros. El texto va en `#111111`. La escala neutra de tinta (50 a 950) sirve para estados, rellenos y bordes.
 
 ### Lienzo y neutros
-
-Neutros cálidos, de papel. Evitan la frialdad clínica y el aspecto de plantilla.
-
-| Token | Hex | Uso |
-|---|---|---|
-| `canvas` | `#FFFFFF` | Lienzo dominante |
-| `canvas-alt` | `#F7F5F1` | Pergamino: secciones alternas, navegación lateral, tarjetas de presentación |
-| `canvas-sunken` | `#EFECE6` | Pistas de barras, campos desactivados |
-| `hairline` | `#E6E2DA` | Filetes decorativos |
-| `hairline-strong` | `#D3CDC2` | Borde de botón secundario, raíl de la línea temporal |
-| `control-border` | `#8A8378` | Borde de campos (3,6:1 sobre blanco) |
-| `text-secondary` | `#5C5850` | Texto secundario (6,9:1) |
-| `text-tertiary` | `#706A61` | Metadatos y cabeceras de tabla (5,3:1) |
+Blanco puro dominante y `#F5F5F2` para alternar secciones. Los neutros (piedra) llevan un punto mínimo de calidez para que el blanco no sea clínico, sin llegar al crema.
 
 ### Lumbre
-
-`#E6A23A` es el único acento. Normas:
-- Como mucho, en torno al 5 % de una pantalla.
-- Nunca como color de texto sobre fondo claro.
-- El texto sobre lumbre va siempre en tinta 900 (6,8:1).
+`#F25A1F`, bermellón. Un único acento: la acción de mayor valor (exportar el dossier), la onda del símbolo, viñetas pequeñas y nada más. Como texto sobre blanco, solo `#B83A0E` o más oscuro. Sobre lumbre, texto en tinta (5,6:1), nunca en blanco.
 
 ### Semánticos
-
-Siempre acompañados de icono y etiqueta.
-
-| Estado | Texto | Fondo | Uso |
-|---|---|---|---|
-| Correcto | `#2B6339` | `#E8F2EA` | Al día, completado |
-| Aviso | `#7F4E16` | `#FBF0D9` | Plazo próximo, algo pendiente |
-| Error | `#9C2F27` | `#FBE9E6` | Fallo real. Nunca como decoración |
-| Información | `#285682` | `#E6EEF6` | Contexto, anonimato |
+Verde, ámbar, carmesí y azul, siempre con icono y etiqueta. El error es carmesí (`#A3122F`) para que no se confunda con la lumbre.
 
 ### Datos
-
-Para las marcas de los gráficos se usan `#2E8A5F`, `#C98A1B` y `#B3382C`, validados para daltonismo. Llevan siempre etiqueta y porcentaje en texto. En modo oscuro quedan pendientes de validar.
+Trío de datos validado para daltonismo: `#2E8A5F`, `#C98A1B`, `#B3382C`. Siempre con etiqueta y porcentaje. Modo oscuro: pendiente de validar.
 
 ### Modo oscuro
+Negro neutro (`#0E0E0E`), superficies `#171716`, texto blanco roto y la acción en blanco roto. La lumbre sube a `#FF6A33`.
 
-No es una inversión: cada valor se ha elegido a mano.
-- Fondo `#0B1214` y superficie `#121C1F`.
-- Texto marfil `#EEEBE5`.
-- **La acción pasa a ser marfil con texto de tinta.**
-- La lumbre sube a `#EFB95A`.
-
-Se activa con la preferencia del sistema o con `data-theme`.
+Contraste: 34 parejas comprobadas con `brand/scripts/contraste.py`, todas AA.
 
 ## Tipografía
 
-| Familia | Papel | Por qué |
-|---|---|---|
-| **Newsreader** (SIL OFL) | Titulares: 300 en tamaños grandes y 400 desde h1 hacia abajo | Serif editorial con ejes ópticos. A tamaño grande y peso ligero da la presencia serena de una galería. Más carácter que una sans y sin rigidez institucional. |
-| **IBM Plex Sans** (SIL OFL) | Interfaz, lectura y datos: 400 y 600 | Neutra y técnica, con cifras tabulares (`tnum`). Muy legible a 14–17 px. Menos genérica que las sans habituales del SaaS. |
-| **IBM Plex Mono** (SIL OFL) | Huellas SHA-256, códigos y referencias | Señala lo que se copia tal cual. |
-
-**Escala**
-
-| Token | Tamaño | Peso | Interlineado | Interletraje |
-|---|---|---|---|---|
-| hero | 80 px (44 en móvil) | 300 | 1,02 | −0,03 em |
-| display | 56 px (36 en móvil) | 300 | 1,05 | −0,03 em |
-| h1 | 44 px (32 en móvil) | 400 | 1,1 | −0,02 em |
-| h2 | 34 px (26 en móvil) | 400 | 1,1 | −0,02 em |
-| h3 | 24 px | 400 | 1,3 | −0,02 em |
-| h4 | 19 px, Plex | 600 | 1,3 | −0,005 em |
-| lead | 22 px (19 en móvil) | 400 | 1,55 | 0 |
-| body | 17 px | 400 | 1,55 | −0,005 em |
-| ui | 16 px | 400 | 1,45 | −0,005 em |
-| data | 14 px, con `tnum` | 400 | 1,45 | 0 |
-| eyebrow | 12 px, mayúsculas | 600 | 1,4 | +0,14 em |
-
-**Principios**
-
-- **Lectura a 17 px**, como la referencia principal. La interfaz va a 16 px y los datos a 14 px.
-- **Pesos:** 300 solo en Newsreader grande; 400 para texto; 600 para énfasis. No se usan 500 ni 700: la jerarquía la hacen el tamaño y el aire.
-- **Interletraje negativo** solo en titulares. Mayúsculas espaciadas solo en etiquetas de una o dos palabras.
-- **Cifras tabulares** en toda tabla, indicador y fecha alineada.
+- **Instrument Sans** (SIL OFL) para todo: titulares, interfaz y datos. Grotesca contemporánea que acompaña al logotipo sin imitarlo. Tiene cifras tabulares (`tnum`) para tablas e indicadores.
+- **Titulares:** regular (400) en tamaños grandes, con interletraje muy cerrado (−0,045 em en el héroe). La elegancia sale del tamaño y del aire, no del peso.
+- **Interfaz:** 400 para texto, 600 para énfasis. Cuerpo de lectura a 17 px.
+- **IBM Plex Mono** (SIL OFL) para valores literales (huellas, códigos) y para los índices de sección en mayúsculas espaciadas.
+- La clase `font-serif` de la aplicación se mantiene como nombre de la familia de titulares, pero ahora apunta a Instrument Sans.
 
 ## Espacio y composición
 
@@ -306,7 +240,7 @@ Se activa con la preferencia del sistema o con `data-theme`.
   - 736 px para bloques de texto centrados.
   - 64 caracteres de línea de lectura.
 - **Tarjetas:** las de presentación llevan 40 px de relleno, las de datos 20 a 24 px y las celdas de tabla 12 a 16 px.
-- **Ritmo de la landing:** blanco → pergamino → blanco → tinta (un bloque oscuro como pausa) → pergamino. El cambio de fondo divide.
+- **Ritmo de la landing:** blanco → piedra 50 → blanco → tinta (un bloque oscuro como pausa) → piedra 50. El cambio de fondo divide.
 
 ## Elevación y forma
 
@@ -336,7 +270,7 @@ Se usan dos gramáticas: **cápsula para actuar** (botones y estados) y **rectá
   - Al pulsar: escala 0,97 y tinta 800.
   - Uno por vista.
 - **Botón secundario.** Cápsula transparente con filete `hairline-strong` y texto en tinta.
-- **Botón de lumbre.** Cápsula ámbar con texto de tinta. **Solo para exportar el dossier**: es el gesto que da sentido al producto.
+- **Botón de lumbre.** Cápsula bermellón con texto de tinta. **Solo para exportar el dossier**: es el gesto que da sentido al producto.
 - **Botón de texto.** Tinta 600, subrayado al pasar el cursor.
 - **Campo.** Rectángulo de 8 px de radio con borde `control-border`, etiqueta encima en 14 px y 600, y ayuda debajo. Foco: borde de tinta y anillo de 3 px. Error: borde rojo y mensaje con icono.
 - **Tabla de datos.**
@@ -345,16 +279,16 @@ Se usan dos gramáticas: **cápsula para actuar** (botones y estados) y **rectá
   - Fila al pasar el cursor en `canvas-alt`.
   - Sin rayado cebra.
   - En móvil, cada fila pasa a ser una tarjeta.
-- **Indicador (KPI).** Etiqueta en 14 px secundaria, cifra en Newsreader 44 px con `tnum`, barra de 4 px y nota. Sin gráficos decorativos.
+- **Indicador (KPI).** Etiqueta en 14 px secundaria, cifra en Instrument Sans 44 px con `tnum`, barra de 4 px y nota. Sin gráficos decorativos.
 - **Cápsula de estado.** 12 px y 600, con icono de 14 px y fondo y texto semánticos: «Al día», «En curso», «Vence pronto», «Requiere atención», «Sin iniciar», «Protegido por anonimato» y «Firmado».
 - **Línea temporal de evidencias.**
   - Raíl de 1 px y nodos de 9 px con anillo de tinta.
   - Cada entrada lleva fecha, hora, autor y huella en Plex Mono.
   - La entrada nueva lleva el nodo de lumbre.
   - No hay acción de borrar.
-- **Modal.** Blanco, con radio de 28 px y sombra de capa. Título en Newsreader 24, consecuencia explicada, «Cancelar» y la acción. Se construye con `<dialog>` nativo.
+- **Modal.** Blanco, con radio de 28 px y sombra de capa. Título en Instrument Sans 24 (500), consecuencia explicada, «Cancelar» y la acción. Se construye con `<dialog>` nativo.
 - **Alerta.** Rectángulo de 12 px con fondo semántico, icono, título y una salida concreta.
-- **Estado vacío.** Centrado, con icono en círculo de 48 px, título en Newsreader, una frase y una acción.
+- **Estado vacío.** Centrado, con icono en círculo de 48 px, título en Instrument Sans, una frase y una acción.
 - **Navegación lateral.**
   - Pergamino, 248 px de ancho.
   - Elementos de 40 px con icono de 20 px.
@@ -398,7 +332,7 @@ Sin rebotes ni bucles.
 
 **Hacer**
 - Dejar que el aire y el tamaño hagan la jerarquía antes de añadir bordes o color.
-- Alternar fondos (blanco ↔ pergamino ↔ tinta) para separar secciones.
+- Alternar fondos (blanco ↔ piedra 50 ↔ tinta) para separar secciones.
 - Usar la tinta para el texto y la acción, y la lumbre solo donde importa.
 - Usar cifras tabulares en todo número que se compare.
 - Acompañar siempre un estado de icono y etiqueta.

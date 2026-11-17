@@ -4,10 +4,11 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { Simbolo } from "@/components/marca/logotipo";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-// Órbita de evidencias: ocho láminas giran alrededor de la lumbre, como el anillo del símbolo.
+// Órbita de evidencias: ocho láminas giran alrededor de la onda de la marca.
 // Decorativa: el contenido real está en el texto de la portada.
 const LAMINAS = [
   "Campaña cerrada",
@@ -104,7 +105,7 @@ export function Orbita() {
 
         {/* Lumbre */}
         <div className="orbita-lumbre">
-          <span />
+          <Simbolo tamano={84} color="var(--lumbre)" />
         </div>
 
         <div data-anillo className="orbita-anillo">

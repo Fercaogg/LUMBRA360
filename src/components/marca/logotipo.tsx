@@ -1,38 +1,40 @@
 import { NOMBRE } from "@/config/marca";
+import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "./onda";
 
-// Logotipo de marca (brand/logo). Los SVG llevan el nombre convertido a trazados;
-// el texto alternativo sale de la constante NOMBRE.
+// Logotipo de marca (brand/logo, generado desde el original con brand/scripts/logo_lumbra.py).
+// El texto alternativo sale de la constante NOMBRE.
+const PROPORCION = 1093.37 / 274.97;
+
 export function Logotipo({
   variante = "positivo",
-  alto = 28,
+  alto = 24,
   className = "",
   decorativo = false,
 }: {
-  variante?: "positivo" | "negativo";
+  variante?: "positivo" | "negativo" | "acento";
   alto?: number;
   className?: string;
   decorativo?: boolean;
 }) {
-  // Proporción del SVG horizontal: 272 × 48.
-  const ancho = Math.round((alto * 272) / 48);
+  const ancho = Math.round(alto * PROPORCION);
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`/marca/lumbra360-horizontal-${variante}.svg`}
+      src={`/marca/lumbra-horizontal-${variante}.svg`}
       alt={decorativo ? "" : NOMBRE}
       width={ancho}
       height={alto}
-      className={`block h-auto max-w-full ${className}`}
-      style={{ height: alto, width: "auto" }}
+      className={`block max-w-full shrink-0 ${className}`}
+      style={{ height: alto, width: ancho }}
     />
   );
 }
 
-// A 32 px o menos se usa el dibujo pequeño, de trazo grueso, para que siga legible.
-export function Simbolo({ tamano = 32, className = "" }: { tamano?: number; className?: string }) {
-  const archivo = tamano <= 32 ? "lumbra360-simbolo-pequeno-positivo.svg" : "lumbra360-simbolo-positivo.svg";
+// Símbolo: la onda del logotipo. `tamano` es el ancho en px.
+export function Simbolo({ tamano = 32, color = "currentColor", className = "" }: { tamano?: number; color?: string; className?: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={`/marca/${archivo}`} alt="" width={tamano} height={tamano} className={className} />
+    <svg viewBox={ONDA_CAJA} width={tamano} height={Math.round((tamano * 201.4) / 324.36)} aria-hidden className={className}>
+      <path d={ONDA_TRAZADO} transform={ONDA_TRANSFORMACION} fill={color} />
+    </svg>
   );
 }

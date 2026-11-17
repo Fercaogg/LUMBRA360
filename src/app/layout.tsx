@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import { LEMA, NOMBRE } from "@/config/marca";
 import "./globals.css";
 
-// Tipografías de marca (ver brand/brand-guidelines.md): Newsreader para titulares,
-// IBM Plex Sans para interfaz y datos, IBM Plex Mono para valores literales.
-const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["300", "400", "500", "600"], style: ["normal", "italic"] });
-const plex = IBM_Plex_Sans({ variable: "--font-plex", subsets: ["latin"], weight: ["400", "500", "600"] });
+// Tipografías de marca (ver brand/DESIGN.md): Instrument Sans para titulares, interfaz y datos
+// (con cifras tabulares) e IBM Plex Mono para valores literales. Ambas con licencia SIL OFL.
+const instrument = Instrument_Sans({ variable: "--font-instrument", subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700"] });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 export const metadata: Metadata = {
@@ -19,12 +18,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f7f5f0",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" data-theme="light" className={`${newsreader.variable} ${plex.variable} ${plexMono.variable} h-full antialiased`}>
+    <html lang="es" data-theme="light" className={`${instrument.variable} ${plexMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <a
           href="#contenido"

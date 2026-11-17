@@ -2,6 +2,8 @@
 
 Versión 2.0 · Dirección «Galería de luz»
 
+> **Sustituida por la versión 3.0 «Tinta y lumbre».** El logotipo, la paleta y la tipografía vigentes están en `brand/DESIGN.md` y `brand/tokens.css`. Esta guía se conserva como histórico hasta rehacerla.
+
 LUMBRA360 une «lumbre» y visión de 360°. La idea central es la claridad: iluminar lo que antes estaba en zona gris (riesgos, cumplimiento y pruebas) para que la empresa sienta que **tiene todo en orden y lo puede demostrar**.
 
 Esta guía explica el porqué de cada decisión y las normas de uso. Los valores exactos están en `DESIGN.md` y `tokens.css`, y todo se ve en funcionamiento en `brand.html`.

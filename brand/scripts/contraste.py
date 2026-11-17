@@ -1,4 +1,4 @@
-"""Comprueba el contraste WCAG 2.x de las parejas de color de LUMBRA360.
+"""Comprueba el contraste WCAG 2.x de las parejas de color de lumbra.
 Uso: python3 brand/scripts/contraste.py   (sale con error si alguna pareja de texto no llega a AA)"""
 
 import sys
@@ -15,43 +15,44 @@ def ratio(a: str, b: str) -> float:
 # (descripción, texto, fondo, mínimo) · 4.5 texto normal, 3.0 texto grande o elemento gráfico
 PAREJAS = {
     "claro": [
-        ("Texto (tinta) sobre blanco", "#0B1A1D", "#FFFFFF", 4.5),
-        ("Texto (tinta) sobre pergamino", "#0B1A1D", "#F7F5F1", 4.5),
-        ("Texto secundario sobre blanco", "#5C5850", "#FFFFFF", 4.5),
-        ("Texto secundario sobre pergamino", "#5C5850", "#F7F5F1", 4.5),
-        ("Texto terciario sobre blanco", "#706A61", "#FFFFFF", 4.5),
-        ("Enlace (tinta 600) sobre blanco", "#24555D", "#FFFFFF", 4.5),
-        ("Botón primario: blanco sobre tinta 900", "#FFFFFF", "#0D262B", 4.5),
-        ("Botón primario pulsado: blanco sobre tinta 800", "#FFFFFF", "#13343A", 4.5),
-        ("Botón de lumbre: tinta sobre lumbre", "#0D262B", "#E6A23A", 4.5),
-        ("Lumbre texto sobre lumbre suave", "#7F4E16", "#FAE8C4", 4.5),
-        ("Tinta suave: texto sobre su fondo", "#13343A", "#EFF4F4", 4.5),
-        ("Correcto: texto sobre su fondo", "#2B6339", "#E8F2EA", 4.5),
-        ("Aviso: texto sobre su fondo", "#7F4E16", "#FBF0D9", 4.5),
-        ("Error: texto sobre su fondo", "#9C2F27", "#FBE9E6", 4.5),
-        ("Información: texto sobre su fondo", "#285682", "#E6EEF6", 4.5),
-        ("Borde de control sobre blanco", "#8A8378", "#FFFFFF", 3.0),
-        ("Foco (tinta 500) sobre blanco", "#356C74", "#FFFFFF", 3.0),
-        ("Texto sobre superficie de marca", "#EEEBE5", "#0D262B", 4.5),
+        ("Texto (tinta 950) sobre blanco", "#111111", "#FFFFFF", 4.5),
+        ("Texto (tinta 950) sobre piedra 50", "#111111", "#F5F5F2", 4.5),
+        ("Texto secundario sobre blanco", "#55554F", "#FFFFFF", 4.5),
+        ("Texto secundario sobre piedra 50", "#55554F", "#F5F5F2", 4.5),
+        ("Texto terciario sobre blanco", "#6B6B65", "#FFFFFF", 4.5),
+        ("Botón primario: blanco sobre tinta 900", "#FFFFFF", "#1B1B1B", 4.5),
+        ("Botón primario pulsado: blanco sobre tinta 800", "#FFFFFF", "#272726", 4.5),
+        ("Botón de lumbre: tinta sobre lumbre", "#111111", "#F25A1F", 4.5),
+        ("Texto de lumbre (600) sobre blanco", "#B83A0E", "#FFFFFF", 4.5),
+        ("Lumbre suave: texto sobre su fondo", "#9A300C", "#FFE1D4", 4.5),
+        ("Tinta suave: texto sobre su fondo", "#272726", "#F4F4F3", 4.5),
+        ("Correcto: texto sobre su fondo", "#1D6440", "#E6F2EB", 4.5),
+        ("Aviso: texto sobre su fondo", "#7A4B00", "#FBF0D6", 4.5),
+        ("Error: texto sobre su fondo", "#A3122F", "#FCE8EC", 4.5),
+        ("Información: texto sobre su fondo", "#24508F", "#E7EEF8", 4.5),
+        ("Borde de control sobre blanco", "#8A8A84", "#FFFFFF", 3.0),
+        ("Foco (lumbre 500) sobre blanco", "#D9480F", "#FFFFFF", 3.0),
+        ("Lumbre como gráfico sobre blanco", "#F25A1F", "#FFFFFF", 3.0),
+        ("Texto sobre superficie de marca", "#F5F5F2", "#1B1B1B", 4.5),
+        ("Lumbre sobre superficie de marca", "#F25A1F", "#1B1B1B", 4.5),
     ],
     "oscuro": [
-        ("Texto sobre fondo", "#EEEBE5", "#0B1214", 4.5),
-        ("Texto sobre superficie", "#EEEBE5", "#121C1F", 4.5),
-        ("Texto secundario sobre superficie", "#B4AEA3", "#121C1F", 4.5),
-        ("Texto terciario sobre superficie", "#968F84", "#121C1F", 4.5),
-        ("Enlace (tinta 300) sobre superficie", "#82AAAF", "#121C1F", 4.5),
-        ("Botón primario: tinta sobre marfil", "#0B1A1D", "#EEEBE5", 4.5),
-        ("Botón de lumbre: tinta sobre lumbre 300", "#0D262B", "#EFB95A", 4.5),
-        ("Tinta suave: texto sobre su fondo", "#CFE0E2", "#1A2B30", 4.5),
-        ("Correcto: texto sobre su fondo", "#8FCB9C", "#16291D", 4.5),
-        ("Aviso: texto sobre su fondo", "#F2C46E", "#2E2412", 4.5),
-        ("Error: texto sobre su fondo", "#F2A49B", "#33191A", 4.5),
-        ("Información: texto sobre su fondo", "#9CC2E8", "#16243A", 4.5),
-        ("Borde de control sobre superficie", "#6E7F84", "#121C1F", 3.0),
-        ("Foco (tinta 300) sobre fondo", "#82AAAF", "#0B1214", 3.0),
+        ("Texto sobre fondo", "#F2F2EF", "#0E0E0E", 4.5),
+        ("Texto sobre superficie", "#F2F2EF", "#171716", 4.5),
+        ("Texto secundario sobre superficie", "#A9A9A3", "#171716", 4.5),
+        ("Texto terciario sobre superficie", "#8C8C86", "#171716", 4.5),
+        ("Botón primario: tinta sobre blanco roto", "#111111", "#F2F2EF", 4.5),
+        ("Botón de lumbre: tinta sobre lumbre", "#111111", "#FF6A33", 4.5),
+        ("Lumbre suave: texto sobre su fondo", "#FF9670", "#2E170D", 4.5),
+        ("Tinta suave: texto sobre su fondo", "#E7E7E5", "#232322", 4.5),
+        ("Correcto: texto sobre su fondo", "#8FCFA8", "#13261B", 4.5),
+        ("Aviso: texto sobre su fondo", "#F0C66E", "#2B2210", 4.5),
+        ("Error: texto sobre su fondo", "#F5A3B3", "#331219", 4.5),
+        ("Información: texto sobre su fondo", "#A3C2EE", "#14213A", 4.5),
+        ("Borde de control sobre superficie", "#6E6E69", "#171716", 3.0),
+        ("Foco (lumbre 300) sobre fondo", "#FF9670", "#0E0E0E", 3.0),
     ],
 }
-
 
 def resultados():
     """Lista de (modo, pareja, texto, fondo, contraste, cumple)."""
