@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { ORIGEN_INSST } from "@/config/atribucion";
-import { NOMBRE } from "@/config/marca";
+import { Logotipo } from "@/components/marca/logotipo";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { Enviar, Formulario } from "@/components/ui/formulario";
 import { Cargando, Etiqueta } from "@/components/ui/piezas";
@@ -22,10 +22,10 @@ type Cuestionario = {
 };
 
 const AVISOS: Record<string, { titulo: string; texto: string }> = {
-  no_valido: { titulo: "Este código o enlace no es válido", texto: "Revisa que lo has escrito bien, o pide uno nuevo a tu empresa." },
-  usado: { titulo: "Este código ya se ha usado", texto: "Cada código sirve una sola vez. Si no has respondido tú, pide otro a tu empresa." },
+  no_valido: { titulo: "Este código o enlace no es válido", texto: "Revise que lo ha escrito bien, o pida uno nuevo a su empresa." },
+  usado: { titulo: "Este código ya se ha usado", texto: "Cada código sirve una sola vez. Si no ha respondido usted, pida otro a su empresa." },
   cerrada: { titulo: "Esta campaña ya se ha cerrado", texto: "Ya no admite respuestas." },
-  no_abierta: { titulo: "Esta campaña todavía no se ha abierto", texto: "Vuelve a probar cuando tu empresa te avise." },
+  no_abierta: { titulo: "Esta campaña todavía no se ha abierto", texto: "Vuelva a probar cuando su empresa le avise." },
 };
 
 async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
@@ -43,7 +43,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
     const aviso = AVISOS[cuestionario.estado] ?? AVISOS.no_valido;
     return (
       <div className="flex flex-col items-start gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">{aviso.titulo}</h1>
+        <h1 className="font-serif text-2xl font-medium leading-tight tracking-tight">{aviso.titulo}</h1>
         <p className="text-pretty text-tinta-suave">{aviso.texto}</p>
         <EnlaceBoton variante="secundario" href="/responder">
           Escribir otro código
@@ -60,7 +60,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
     <>
       <header className="flex flex-col gap-2">
         <p className="text-sm text-tinta-suave">{empresa}</p>
-        <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">{campana?.nombre}</h1>
+        <h1 className="text-balance font-serif text-2xl font-medium leading-tight tracking-tight sm:text-3xl">{campana?.nombre}</h1>
         <p className="flex flex-wrap items-center gap-2 text-sm text-tinta-suave">
           <span>{items.length} preguntas</span>
           {instrumento?.minutos ? <span>· unos {instrumento.minutos} minutos</span> : null}
@@ -72,15 +72,15 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
       <section aria-labelledby="titulo-anonimato" className="flex flex-col gap-2 rounded-xl border border-acento/20 bg-acento-tenue p-4 text-acento-fuerte">
         <h2 id="titulo-anonimato" className="font-semibold">Es voluntario y anónimo</h2>
         <ul className="flex list-disc flex-col gap-1 pl-5 text-sm">
-          <li>No pedimos tu nombre ni tu correo.</li>
-          <li>Junto a tu respuesta no se guarda tu dirección IP ni la hora. Solo el día.</li>
+          <li>No pedimos su nombre ni su correo.</li>
+          <li>Junto a su respuesta no se guarda su dirección IP ni la hora. Solo el día.</li>
           {esEvaluacion ? (
             <li>
-              Tu empresa nunca ve respuestas individuales. El técnico de prevención trata las respuestas, sin ningún dato que te identifique, y solo
+              Su empresa nunca ve respuestas individuales. El técnico de prevención trata las respuestas, sin ningún dato que le identifique, y solo
               comunica resultados de conjunto.
             </li>
           ) : (
-            <li>Tu empresa nunca ve respuestas individuales. Solo resultados de grupos de {campana?.minimo_grupo} personas o más.</li>
+            <li>Su empresa nunca ve respuestas individuales. Solo resultados de grupos de {campana?.minimo_grupo} personas o más.</li>
           )}
         </ul>
       </section>
@@ -91,7 +91,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
         {conGrupos.map((dimension) => (
           <fieldset key={dimension.id} className="flex flex-col gap-2 rounded-xl border border-linea bg-superficie p-4">
             <legend className="px-1 font-medium">{dimension.nombre} (opcional)</legend>
-            <p className="text-sm text-tinta-suave">Sirve para ver resultados por grupo. Puedes dejarlo sin indicar.</p>
+            <p className="text-sm text-tinta-suave">Sirve para ver resultados por grupo. Puede dejarlo sin indicar.</p>
             <div className="flex flex-col">
               <label className="flex min-h-11 items-center gap-3">
                 <input type="radio" name={`dim_${dimension.id}`} value="" defaultChecked className="size-5 accent-acento" />
@@ -138,7 +138,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
 export default function PaginaCuestionario({ params }: { params: Promise<{ acceso: string }> }) {
   return (
     <main id="contenido" className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
-      <p className="text-sm font-semibold tracking-wide text-acento">{NOMBRE}</p>
+      <Logotipo alto={26} />
       <Suspense fallback={<Cargando texto="Cargando el cuestionario…" />}>
         <Contenido params={params} />
       </Suspense>

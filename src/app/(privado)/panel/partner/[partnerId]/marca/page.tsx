@@ -23,7 +23,7 @@ export default async function PaginaMarca({ params }: { params: Promise<{ partne
     <>
       <Cabecera
         titulo="Marca"
-        descripcion="Si activas la marca blanca, tus empresas verán tu nombre y tu logo en su panel."
+        descripcion="Si activa la marca blanca, sus empresas verán su nombre y su logo en el panel."
       />
       <Pestanas enlaces={pestanasPartner(partner.id, esGestor)} actual={`${base}/marca`} />
       <Tarjeta className="max-w-xl">
@@ -33,14 +33,14 @@ export default async function PaginaMarca({ params }: { params: Promise<{ partne
             etiqueta="Activar marca blanca"
             name="marcaBlanca"
             defaultChecked={partner.marca_blanca}
-            ayuda="Puedes desactivarla cuando quieras."
+            ayuda="Puede desactivarla cuando quiera."
           />
           <Campo
-            etiqueta="Nombre que verán tus empresas"
+            etiqueta="Nombre que verán sus empresas"
             name="marcaNombre"
             defaultValue={partner.marca_nombre ?? ""}
             maxLength={80}
-            ayuda={`Si lo dejas vacío se usa "${partner.nombre}".`}
+            ayuda={`Si lo deja vacío se usa "${partner.nombre}".`}
           />
           {logo ? (
             <div className="flex flex-col gap-1.5">

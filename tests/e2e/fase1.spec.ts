@@ -23,12 +23,12 @@ test("un correo sin invitación recibe la misma respuesta y ningún correo", asy
   await page.goto("/acceso");
   await page.getByLabel("Correo").fill("no-es-un-correo");
   await page.getByRole("button", { name: "Enviar enlace" }).click();
-  await expect(page.getByText("Escribe un correo válido.")).toBeVisible();
+  await expect(page.getByText("Escriba un correo válido.")).toBeVisible();
 
   const desconocido = `nadie-${Date.now()}@demo.invalid`;
   await page.getByLabel("Correo").fill(desconocido);
   await page.getByRole("button", { name: "Enviar enlace" }).click();
-  await expect(page.getByRole("status")).toContainText("recibirás un enlace");
+  await expect(page.getByRole("status")).toContainText("recibirá un enlace");
   const buzon = await (await fetch("http://127.0.0.1:54324/api/v1/messages?limit=50")).json();
   expect(JSON.stringify(buzon)).not.toContain(desconocido);
 });

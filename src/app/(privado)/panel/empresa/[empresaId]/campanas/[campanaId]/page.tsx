@@ -10,6 +10,7 @@ import {
   subirInforme,
 } from "@/app/(privado)/acciones-evaluacion";
 import { ORIGEN_INSST } from "@/config/atribucion";
+import { CifraAnimada } from "@/components/movimiento/movimiento";
 import { AvisoSuprimido, ResultadosPorFactor, type BloqueResultados } from "@/components/panel/resultados";
 import { Boton, clasesBoton, EnlaceBoton } from "@/components/ui/boton";
 import { AreaTexto, Campo, Casilla, Enviar, Formulario, ListaDevuelta } from "@/components/ui/formulario";
@@ -87,7 +88,7 @@ export default async function PaginaCampana({
   const enlaceGeneral = campana.token_enlace ? `${urlSitio()}/responder/${campana.token_enlace}` : null;
   const recordatorio =
     `Recordatorio: el cuestionario «${campana.nombre}» sigue abierto. Responder es voluntario y anónimo: no se pide nombre ni correo. ` +
-    (enlaceGeneral ? `Entra aquí: ${enlaceGeneral}` : `Entra en ${urlSitio()}/responder y escribe tu código.`);
+    (enlaceGeneral ? `Puede responder aquí: ${enlaceGeneral}` : `Entre en ${urlSitio()}/responder y escriba su código.`);
 
   return (
     <>
@@ -110,8 +111,12 @@ export default async function PaginaCampana({
         <Tarjeta className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Participación</h2>
           <p className="flex items-baseline gap-2">
-            <span className="whitespace-nowrap text-4xl font-semibold tabular-nums">
-              {participacion?.porcentaje !== null && participacion?.porcentaje !== undefined ? `${participacion.porcentaje} %` : (participacion?.respuestas ?? 0)}
+            <span className="whitespace-nowrap font-serif text-5xl font-medium leading-none tabular-nums">
+              {participacion?.porcentaje !== null && participacion?.porcentaje !== undefined ? (
+                <CifraAnimada valor={participacion.porcentaje} sufijo=" %" />
+              ) : (
+                <CifraAnimada valor={participacion?.respuestas ?? 0} />
+              )}
             </span>
             <span className="text-tinta-suave">
               {participacion?.plantilla
@@ -151,7 +156,7 @@ export default async function PaginaCampana({
             <Tarjeta className="flex flex-col gap-3">
               <h2 className="text-lg font-semibold">Códigos de un solo uso</h2>
               <p className="text-sm text-tinta-suave">
-                Generados hasta ahora: {participacion?.codigos_generados ?? 0}. Repártelos al azar, impresos o en mano, sin anotar a quién das cada uno. Solo se muestran al generarlos.
+                Generados hasta ahora: {participacion?.codigos_generados ?? 0}. Repártalos al azar, impresos o en mano, sin anotar a quién da cada uno. Solo se muestran al generarlos.
               </p>
               <Formulario accion={generarCodigos}>
                 <input type="hidden" name="campanaId" value={campana.id} />
@@ -165,7 +170,7 @@ export default async function PaginaCampana({
               <h2 className="text-lg font-semibold">Enlace general</h2>
               {enlaceGeneral ? (
                 <>
-                  <p className="text-sm text-tinta-suave">Comparte este enlace con toda la plantilla por un canal común. Es el mismo para todas las personas.</p>
+                  <p className="text-sm text-tinta-suave">Comparta este enlace con toda la plantilla por un canal común. Es el mismo para todas las personas.</p>
                   <p className="break-all rounded-lg border border-linea bg-papel p-3 font-mono text-sm">{enlaceGeneral}</p>
                 </>
               ) : (
@@ -176,7 +181,7 @@ export default async function PaginaCampana({
           {campana.estado === "abierta" ? (
             <Tarjeta className="flex flex-col gap-3">
               <h2 className="text-lg font-semibold">Recordatorio general</h2>
-              <p className="text-sm text-tinta-suave">Envíalo a toda la plantilla por vuestro canal habitual. Nunca a personas concretas: no sabemos quién ha respondido.</p>
+              <p className="text-sm text-tinta-suave">Envíelo a toda la plantilla por su canal habitual. Nunca a personas concretas: no sabemos quién ha respondido.</p>
               <label htmlFor="recordatorio" className="sr-only">Texto del recordatorio</label>
               <textarea id="recordatorio" readOnly rows={4} defaultValue={recordatorio} className="w-full rounded-lg border border-linea bg-papel p-3 text-sm" />
             </Tarjeta>
@@ -266,7 +271,7 @@ export default async function PaginaCampana({
           {!informe ? (
             <EstadoVacio
               titulo="Todavía no hay informe"
-              texto="Prepara el registro del informe. El técnico de prevención subirá el documento generado en la aplicación FPSICO, añadirá sus observaciones y lo firmará."
+              texto="Prepare el registro del informe. El técnico de prevención subirá el documento generado en la aplicación FPSICO, añadirá sus observaciones y lo firmará."
               accion={
                 <Formulario accion={prepararInforme}>
                   <input type="hidden" name="campanaId" value={campana.id} />
@@ -351,12 +356,12 @@ export default async function PaginaCampana({
                     informe.documento_ruta ? (
                       <Formulario accion={firmarInforme}>
                         <input type="hidden" name="informeId" value={informe.id} />
-                        <Campo etiqueta="Tu nombre completo" name="nombre" autoComplete="name" required maxLength={160} />
+                        <Campo etiqueta="Su nombre completo" name="nombre" autoComplete="name" required maxLength={160} />
                         <Casilla etiqueta="He revisado el informe y las observaciones" name="conforme" ayuda="Al firmar, el registro queda cerrado con fecha y ya no se puede modificar." />
                         <Enviar>Firmar informe</Enviar>
                       </Formulario>
                     ) : (
-                      <p className="text-sm text-tinta-suave">Sube antes el informe en PDF.</p>
+                      <p className="text-sm text-tinta-suave">Suba antes el informe en PDF.</p>
                     )
                   ) : (
                     <p className="text-tinta-suave">Pendiente de la firma del técnico de prevención asignado a esta empresa.</p>

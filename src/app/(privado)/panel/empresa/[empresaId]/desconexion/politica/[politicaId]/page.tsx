@@ -70,7 +70,7 @@ export default async function PaginaPolitica({ params }: { params: Promise<{ emp
             <Tarjeta className="flex flex-col gap-4">
               <h2 className="text-lg font-semibold">Aprobar esta versión</h2>
               <p className="text-sm text-tinta-suave">
-                Guarda antes los cambios. Al aprobarla queda cerrada con fecha y ya no se puede modificar. Para cambiarla después, se prepara una nueva versión.
+                Guarde antes los cambios. Al aprobarla queda cerrada con fecha y ya no se puede modificar. Para cambiarla después, se prepara una nueva versión.
               </p>
               <Formulario accion={aprobarPolitica}>
                 <input type="hidden" name="politicaId" value={politica.id} />

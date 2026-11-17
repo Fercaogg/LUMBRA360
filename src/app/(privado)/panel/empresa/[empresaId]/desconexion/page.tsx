@@ -52,7 +52,7 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
       <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`${base}/desconexion`} />
       {!editaPlan ? (
         <p className="rounded-xl border border-linea bg-superficie p-4 text-sm text-tinta-suave">
-          Esta sección la editan la empresa y su técnico de prevención. Tú puedes consultarla.
+          Esta sección la editan la empresa y su técnico de prevención. Usted puede consultarla.
         </p>
       ) : null}
 
@@ -87,7 +87,7 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
               {borrador ? (
                 <>
                   <h3 className="text-lg font-semibold">Borrador en curso</h3>
-                  <p className="text-sm text-tinta-suave">Tienes la versión {borrador.version} en borrador. Complétala y apruébala.</p>
+                  <p className="text-sm text-tinta-suave">Tiene la versión {borrador.version} en borrador. Complétela y apruébela.</p>
                   <EnlaceBoton href={`${base}/desconexion/politica/${borrador.id}`} className="self-start">Seguir editando</EnlaceBoton>
                 </>
               ) : (plantillas.data ?? []).length === 0 ? (
@@ -98,7 +98,7 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
               ) : (
                 <>
                   <h3 className="text-lg font-semibold">{vigente ? "Preparar una nueva versión" : "Redactar la política"}</h3>
-                  <p className="text-sm text-tinta-suave">El asistente parte de una plantilla editable. Adáptala a vuestra organización antes de aprobarla.</p>
+                  <p className="text-sm text-tinta-suave">El asistente parte de una plantilla editable. Adáptela a su organización antes de aprobarla.</p>
                   <Formulario accion={iniciarPolitica}>
                     <input type="hidden" name="empresaId" value={empresa.id} />
                     <Selector etiqueta="Plantilla" name="plantillaId" required>
@@ -166,7 +166,7 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
         <h2 id="t-audiencia" className="text-xl font-semibold">Audiencia a la representación de las personas trabajadoras</h2>
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           <div className="flex flex-col gap-3">
-            {(audiencias.data ?? []).length === 0 ? <EstadoVacio titulo="Sin audiencias registradas" texto="Registra la fecha, quién asistió y adjunta el acta." /> : null}
+            {(audiencias.data ?? []).length === 0 ? <EstadoVacio titulo="Sin audiencias registradas" texto="Registre la fecha, quién asistió y adjunte el acta." /> : null}
             {(audiencias.data ?? []).map((a) => (
               <Tarjeta key={a.id} className="flex flex-col gap-2">
                 <h3 className="font-semibold">
@@ -211,7 +211,7 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
         <h2 id="t-formacion" className="text-xl font-semibold">Formación y sensibilización</h2>
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           <div className="flex flex-col gap-3">
-            {(formaciones.data ?? []).length === 0 ? <EstadoVacio titulo="Sin formaciones registradas" texto="Registra las sesiones de formación o sensibilización." /> : null}
+            {(formaciones.data ?? []).length === 0 ? <EstadoVacio titulo="Sin formaciones registradas" texto="Registre las sesiones de formación o sensibilización." /> : null}
             {(formaciones.data ?? []).map((f) => (
               <Tarjeta key={f.id} className="flex flex-col gap-2">
                 <h3 className="font-semibold">{f.titulo}</h3>

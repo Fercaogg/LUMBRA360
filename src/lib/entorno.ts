@@ -3,7 +3,7 @@
 
 function exigir(nombre: string, valor: string | undefined): string {
   if (!valor) {
-    throw new Error(`Falta la variable de entorno ${nombre}. Revisa .env.example.`);
+    throw new Error(`Falta la variable de entorno ${nombre}. Revise .env.example.`);
   }
   return valor;
 }

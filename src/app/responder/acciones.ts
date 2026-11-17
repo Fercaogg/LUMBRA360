@@ -28,7 +28,7 @@ export async function enviarRespuesta(_p: EstadoFormulario, datos: FormData): Pr
   if (!acceso.success) return { ok: false, mensaje: MENSAJES.no_valido };
 
   const permitido = await consumirIntento("responder:global", 600, 60);
-  if (!permitido) return { ok: false, mensaje: "Hay demasiados envíos a la vez. Prueba dentro de un minuto." };
+  if (!permitido) return { ok: false, mensaje: "Hay demasiados envíos a la vez. Pruebe dentro de un minuto." };
 
   const valores: Record<string, number> = {};
   const grupos: string[] = [];
@@ -49,7 +49,7 @@ export async function enviarRespuesta(_p: EstadoFormulario, datos: FormData): Pr
     p_valores: valores,
     p_grupos: grupos,
   });
-  if (error) return { ok: false, mensaje: "No hemos podido guardar tu respuesta. Inténtalo de nuevo." };
+  if (error) return { ok: false, mensaje: "No hemos podido guardar su respuesta. Inténtelo de nuevo." };
   if (data !== "ok") return { ok: false, mensaje: MENSAJES[data] ?? MENSAJES.no_valido };
   redirect("/responder/gracias");
 }

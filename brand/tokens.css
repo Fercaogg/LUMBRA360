@@ -74,6 +74,13 @@
   --azul-borde: #bed0e4;
   --azul-solido: #33689b;
 
+  /* Datos: niveles en gráficos (barras de resultados). Distintos de los semánticos de texto:
+     validados para daltonismo como marcas de datos. Siempre con etiqueta y porcentaje en texto.
+     Modo oscuro: [PENDIENTE] definir un trío validado contra el fondo oscuro. */
+  --dato-favorable: #2e8a5f;
+  --dato-intermedio: #c98a1b;
+  --dato-desfavorable: #b3382c;
+
   /* ---------- Primitivos: tipografía ---------- */
   --fuente-titular: "Newsreader", "Iowan Old Style", Georgia, serif;
   --fuente-interfaz: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;

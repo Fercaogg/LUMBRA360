@@ -20,7 +20,7 @@ export function Cabecera({
   return (
     <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="flex flex-col gap-1">
-        <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">{titulo}</h1>
+        <h1 className="text-balance font-serif text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{titulo}</h1>
         {descripcion ? <p className="max-w-prose text-pretty text-tinta-suave">{descripcion}</p> : null}
       </div>
       {acciones ? <div className="flex flex-wrap gap-2">{acciones}</div> : null}

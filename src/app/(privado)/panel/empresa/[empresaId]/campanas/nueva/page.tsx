@@ -32,7 +32,7 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
 
   return (
     <>
-      <Cabecera titulo="Preparar una campaña" descripcion={`${empresa.nombre}. Se crea en borrador: nadie puede responder hasta que la abras.`} />
+      <Cabecera titulo="Preparar una campaña" descripcion={`${empresa.nombre}. Se crea en borrador: nadie puede responder hasta que la abra.`} />
       <Tarjeta className="max-w-2xl">
         <Formulario accion={crearCampana}>
           <input type="hidden" name="empresaId" value={empresa.id} />
@@ -83,7 +83,7 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
             </fieldset>
           ) : (
             <p className="text-sm text-tinta-suave">
-              Si quieres resultados por departamento o turno, crea antes los grupos en la pestaña «Grupos».
+              Si quiere resultados por departamento o turno, cree antes los grupos en la pestaña «Grupos».
             </p>
           )}
           <div className="flex flex-wrap gap-2">

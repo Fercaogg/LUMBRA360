@@ -31,7 +31,7 @@ export default async function PaginaAdminPartners() {
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <div className="flex flex-col gap-4">
           {lista.length === 0 ? (
-            <EstadoVacio titulo="Todavía no hay partners" texto="Crea el primero con el formulario." />
+            <EstadoVacio titulo="Todavía no hay partners" texto="Cree el primero con el formulario." />
           ) : (
             <ul className="flex flex-col divide-y divide-linea overflow-hidden rounded-xl border border-linea bg-superficie">
               {lista.map((partner) => (

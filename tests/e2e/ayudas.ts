@@ -30,7 +30,7 @@ export async function entrar(page: Page, correo: string): Promise<void> {
   await page.goto("/acceso");
   await page.getByLabel("Correo").fill(correo);
   await page.getByRole("button", { name: "Enviar enlace" }).click();
-  await expect(page.getByRole("status")).toContainText("recibirás un enlace");
+  await expect(page.getByRole("status")).toContainText("recibirá un enlace");
   await page.goto(await enlaceDeAcceso(correo));
   await expect(page).toHaveURL(/\/(panel|admin)/);
 }

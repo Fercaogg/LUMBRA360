@@ -8,7 +8,7 @@ import type { Database } from "./tipos";
 export function crearClienteAdmin() {
   const clave = process.env.SUPABASE_SECRET_KEY;
   if (!clave) {
-    throw new Error("Falta la variable de entorno SUPABASE_SECRET_KEY. Revisa .env.example.");
+    throw new Error("Falta la variable de entorno SUPABASE_SECRET_KEY. Revise .env.example.");
   }
   return createClient<Database>(urlSupabase(), clave, {
     auth: { persistSession: false, autoRefreshToken: false },

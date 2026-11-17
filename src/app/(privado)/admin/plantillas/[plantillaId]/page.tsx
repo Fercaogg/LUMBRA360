@@ -49,7 +49,7 @@ export default async function PaginaPlantilla({ params }: { params: Promise<{ pl
           <Formulario accion={guardarPlantilla}>
             <input type="hidden" name="id" value={p.id} />
             <Campo etiqueta="Nombre" name="nombre" defaultValue={p.nombre} required maxLength={160} />
-            <Casilla etiqueta="Revisión jurídica hecha" name="revisada" defaultChecked={p.revisada_juridicamente} ayuda="Márcalo solo cuando el texto esté revisado." />
+            <Casilla etiqueta="Revisión jurídica hecha" name="revisada" defaultChecked={p.revisada_juridicamente} ayuda="Márquelo solo cuando el texto esté revisado." />
             <AreaTexto etiqueta="Nota de la revisión" name="nota" defaultValue={p.revision_nota ?? ""} maxLength={1000} ayuda="Quién la revisó y cuándo." />
             <Enviar>Guardar</Enviar>
           </Formulario>

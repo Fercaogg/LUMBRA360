@@ -128,6 +128,18 @@ Todas las parejas de texto cumplen WCAG 2.x nivel AA. Calculado con `brand/scrip
 
 Un ajuste hecho durante la validación: el borde de los controles en modo oscuro (`#5B6B70`) daba 2,93:1. Se aclaró a `#6B7C81` (3,74:1).
 
+### Colores de datos
+
+Para las marcas de los gráficos (barras de niveles en los resultados de seguimiento) se usa un trío propio, validado para daltonismo con el método de visualización de datos:
+
+- Favorable: `--dato-favorable` (`#2E8A5F`).
+- Intermedio: `--dato-intermedio` (`#C98A1B`).
+- Desfavorable: `--dato-desfavorable` (`#B3382C`).
+
+Los verdes, ámbares y rojos de texto son demasiado apagados para servir como marca de datos. El ámbar queda por debajo de 3:1 frente al fondo, así que cada nivel lleva siempre su etiqueta y su porcentaje en texto.
+
+En modo oscuro no se ha encontrado todavía un trío que pase la validación: queda pendiente.
+
 ### Uso del color de estado
 
 - Siempre con **icono y etiqueta**: el color nunca transmite el significado por sí solo.
@@ -378,13 +390,25 @@ En `brand.html`, con datos ficticios marcados:
 
 ## 11. Aplicación al producto
 
-La aplicación todavía usa la paleta y el tono anteriores: verde, Geist y tuteo. Pasos para aplicar esta guía:
+Aplicada en la web el 17 de noviembre de 2026:
 
-1. Importar `brand/tokens.css` y `brand/tailwind.theme.css` en `src/app/globals.css` y sustituir los colores actuales.
-2. Cargar Newsreader, IBM Plex Sans e IBM Plex Mono con `next/font/google`, en lugar de Geist.
-3. Sustituir el favicon y la marca de la cabecera por los SVG de `brand/logo/`.
-4. Pasar los textos de la interfaz de «tú» a «usted».
-5. Añadir GSAP solo para las tres microinteracciones descritas, con `gsap.matchMedia()`.
+- `src/app/globals.css` importa `brand/tokens.css`. Las utilidades de la aplicación apuntan a los tokens semánticos:
+  - `acento` es el petróleo primario.
+  - `lumbre` es el acento cálido.
+  - `marca` es la superficie de petróleo oscuro.
+- Tipografías con `next/font/google`: Newsreader, IBM Plex Sans e IBM Plex Mono. Los títulos de página van en Newsreader 500.
+- Logotipo en `public/marca/` (componente `src/components/marca/logotipo.tsx`) y favicon en `src/app/icon.svg`.
+- Cabecera del panel en petróleo oscuro con el logotipo en negativo. Acceso en dos columnas, como la maqueta.
+- Textos de la interfaz en «usted». Los mensajes que llegan de la base de datos se traducen en `src/lib/mensajes.ts`.
+- GSAP en `src/components/movimiento/movimiento.tsx`, siempre con `gsap.matchMedia()`:
+  - Transición entre secciones del panel.
+  - Cifra de participación que cuenta hasta su valor.
+  - Confirmación con halo de lumbre al guardar.
+
+**Pendiente**
+
+- **Modo oscuro.** La web va fija en claro (`data-theme="light"`) hasta adaptar la interfaz y validar el trío de datos en oscuro.
+- **Navegación lateral.** El panel usa cabecera y pestañas. La navegación lateral de la guía queda para cuando el panel tenga más secciones.
 
 ## 12. Licencias
 

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import type { z } from "zod";
 import { exigirAcceso } from "@/lib/acceso";
 import { consumirIntento } from "@/lib/limites";
+import { mensajeBd } from "@/lib/mensajes";
 import { subirPdf } from "@/lib/documentos";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import {
@@ -45,14 +46,14 @@ async function preparar() {
 function traducir(error: ErrorBd): EstadoFormulario {
   if (!error) return { ok: true };
   // P0001: mensajes escritos por nuestras propias funciones, ya en castellano.
-  if (error.code === "P0001") return { ok: false, mensaje: error.message };
-  if (error.code === "42501") return { ok: false, mensaje: "No tienes permiso para hacer esto." };
+  if (error.code === "P0001") return { ok: false, mensaje: mensajeBd(error.message) };
+  if (error.code === "42501") return { ok: false, mensaje: "No tiene permiso para hacer esto." };
   if (error.code === "23505") return { ok: false, mensaje: "Ya existe uno igual." };
   if (error.code === "23503") return { ok: false, mensaje: "No se puede borrar porque ya se está usando." };
-  return { ok: false, mensaje: "No se ha podido guardar. Inténtalo de nuevo." };
+  return { ok: false, mensaje: "No se ha podido guardar. Inténtelo de nuevo." };
 }
 
-const DEMASIADOS: EstadoFormulario = { ok: false, mensaje: "Demasiados envíos seguidos. Espera unos minutos." };
+const DEMASIADOS: EstadoFormulario = { ok: false, mensaje: "Demasiados envíos seguidos. Espere unos minutos." };
 
 // Valida, ejecuta y devuelve un estado de formulario. Reduce repetición.
 async function ejecutar<E extends z.ZodType>(
@@ -281,7 +282,7 @@ export async function crearCampana(_p: EstadoFormulario, datos: FormData): Promi
     async (d, { supabase, acceso }) => {
       const { data: inst } = await supabase.from("instrumentos").select("tipo").eq("id", d.instrumentoId).maybeSingle();
       if (inst?.tipo === "evaluacion" && d.dimensiones.length > 0) {
-        return { error: { code: "P0001", message: "En las evaluaciones no se pregunta el grupo. Desmarca los grupos." } };
+        return { error: { code: "P0001", message: "En las evaluaciones no se pregunta el grupo. Desmarque los grupos." } };
       }
       const { data, error } = await supabase
         .from("campanas")
@@ -325,7 +326,7 @@ export async function cambiarEstadoCampana(_p: EstadoFormulario, datos: FormData
     : await ctx.supabase.rpc("cerrar_campana", { p_campana: id.data });
   if (error) return traducir(error);
   revalidatePath("/panel", "layout");
-  return { ok: true, mensaje: abrir ? "Campaña abierta." : "Campaña cerrada. Ya puedes ver los resultados." };
+  return { ok: true, mensaje: abrir ? "Campaña abierta." : "Campaña cerrada. Ya puede ver los resultados." };
 }
 
 export async function generarCodigos(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
@@ -334,7 +335,7 @@ export async function generarCodigos(_p: EstadoFormulario, datos: FormData): Pro
     return {
       error,
       lista: data ?? [],
-      exito: "Códigos generados. Cópialos o descárgalos ahora: no se volverán a mostrar.",
+      exito: "Códigos generados. Cópielos o descárguelos ahora: no se volverán a mostrar.",
       revalidar: "/panel",
     };
   });
@@ -394,7 +395,7 @@ export async function subirInforme(_p: EstadoFormulario, datos: FormData): Promi
   if (!informeId.success || !empresaId.success) return { ok: false, mensaje: "Datos no válidos." };
 
   const subida = await subirPdf(ctx.supabase, empresaId.data, datos.get("documento"));
-  if ("vacio" in subida) return { ok: false, errores: { documento: "Elige el PDF del informe." } };
+  if ("vacio" in subida) return { ok: false, errores: { documento: "Elija el PDF del informe." } };
   if ("error" in subida) return { ok: false, errores: { documento: subida.error } };
 
   const { error } = await ctx.supabase.rpc("adjuntar_informe", {
@@ -405,7 +406,7 @@ export async function subirInforme(_p: EstadoFormulario, datos: FormData): Promi
   });
   if (error) return traducir(error);
   revalidatePath("/panel", "layout");
-  return { ok: true, mensaje: "Informe subido. Revísalo y fírmalo para registrarlo." };
+  return { ok: true, mensaje: "Informe subido. Revíselo y fírmelo para registrarlo." };
 }
 
 // --- Plan de acción ----------------------------------------------------------
@@ -444,7 +445,7 @@ export async function cambiarEstadoMedida(_p: EstadoFormulario, datos: FormData)
   if (!id.success || !estado) return { ok: false, mensaje: "Datos no válidos." };
   const { data, error } = await ctx.supabase.from("medidas").update({ estado }).eq("id", id.data).select("id");
   if (error) return traducir(error);
-  if (!data?.length) return { ok: false, mensaje: "No tienes permiso para hacer esto." };
+  if (!data?.length) return { ok: false, mensaje: "No tiene permiso para hacer esto." };
   revalidatePath("/panel", "layout");
   return { ok: true, mensaje: "Estado actualizado." };
 }

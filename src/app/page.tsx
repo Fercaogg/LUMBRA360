@@ -4,6 +4,7 @@ import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { Demostracion } from "@/components/portada/demostracion";
+import { Logotipo } from "@/components/marca/logotipo";
 
 export const metadata: Metadata = {
   title: { absolute: `${NOMBRE} · ${LEMA}` },
@@ -38,24 +39,13 @@ const COLUMNAS = [
   { clave: "tecnico", titulo: "Técnico de prevención" },
 ] as const;
 
-function Marca({ className = "" }: { className?: string }) {
-  return (
-    <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <span aria-hidden className="grid size-7 place-items-center rounded-full border border-acento/30 bg-acento-tenue">
-        <span className="size-2.5 rounded-full bg-acento" />
-      </span>
-      <span className="text-sm font-semibold tracking-[0.18em]">{NOMBRE}</span>
-    </span>
-  );
-}
-
 export default function Portada() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-linea/70 bg-papel/85 backdrop-blur-md">
         <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between gap-4 px-4">
           <Link href="/" aria-label={`${NOMBRE}, inicio`} className="rounded-md py-2 text-tinta">
-            <Marca />
+            <Logotipo alto={26} decorativo />
           </Link>
           <nav aria-label="Principal" className="flex items-center gap-1 sm:gap-2">
             <a href="#como-funciona" className="hidden rounded-md px-3 py-2 text-sm text-tinta-suave transition-colors duration-150 hover:text-tinta md:inline-flex">
@@ -77,7 +67,7 @@ export default function Portada() {
       <main id="contenido" className="flex-1">
         {/* Portada */}
         <section className="relative overflow-hidden">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[radial-gradient(60rem_28rem_at_70%_-10%,var(--color-acento-tenue),transparent_70%)]" />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[radial-gradient(56rem_30rem_at_78%_-12%,color-mix(in_srgb,var(--lumbre)_16%,transparent),transparent_70%)]" />
           <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:pb-28">
             <div className="flex flex-col items-start gap-6">
               <p className="aparecer text-sm font-medium text-acento">Evaluación psicosocial y desconexión digital para pymes</p>
@@ -106,7 +96,7 @@ export default function Portada() {
                     <span className="rounded-full bg-aviso-tenue px-2 py-0.5 text-[0.6rem] font-medium text-aviso">Ejemplo</span>
                   </div>
                   <p className="font-serif text-2xl leading-tight">Empresa de ejemplo</p>
-                  <div className="h-px bg-linea" />
+                  <span className="h-[3px] w-10 rounded-full bg-lumbre" />
                   <ul className="flex flex-col gap-3 text-sm">
                     {["Evaluación cerrada", "Informe firmado", "Plan de acción", "Política aprobada", "Acuses de lectura"].map((linea, i) => (
                       <li key={linea} className="flex items-center gap-3">
@@ -161,7 +151,7 @@ export default function Portada() {
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-20 sm:py-24">
             <div className="revelar flex max-w-2xl flex-col gap-3">
               <p className="text-sm font-medium text-acento">Demostración</p>
-              <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Pruébalo aquí mismo.</h2>
+              <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Pruébelo aquí mismo.</h2>
               <p className="text-pretty text-lg text-tinta-suave">Un recorrido con una empresa de ejemplo. Los datos y los textos son ficticios.</p>
             </div>
             <div className="revelar">
@@ -229,7 +219,7 @@ export default function Portada() {
               <div className="rounded-2xl border border-linea bg-superficie p-6 sm:p-7">
                 <h3 className="text-lg font-semibold">Para servicios de prevención y gestorías</h3>
                 <p className="mt-2 text-pretty leading-relaxed text-tinta-suave">
-                  Gestiona varias empresas desde un panel: altas, estado de cada evaluación y descarga de informes. Con tu marca, si quieres.
+                  Gestiona varias empresas desde un panel: altas, estado de cada evaluación y descarga de informes. Con su marca, si lo desea.
                 </p>
               </div>
             </div>
@@ -237,12 +227,12 @@ export default function Portada() {
         </section>
 
         {/* Cierre */}
-        <section className="border-t border-linea bg-acento text-white">
+        <section className="border-t border-linea bg-marca text-white">
           <div className="revelar mx-auto flex w-full max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:py-20 md:flex-row md:items-center md:justify-between">
             <h2 className="max-w-xl text-balance font-serif text-3xl leading-tight sm:text-4xl">{LEMA}</h2>
             <Link
               href="/acceso"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-white px-5 font-medium text-acento-fuerte transition-transform duration-150 ease-salida hover:bg-acento-tenue active:scale-[0.98]"
+              className="inline-flex min-h-11 items-center justify-center rounded-md bg-lumbre px-5 font-medium text-[var(--petroleo-900)] transition-[background-color,transform] duration-150 ease-salida hover:bg-lumbre-claro active:scale-[0.98]"
             >
               Acceder al panel
             </Link>
@@ -253,7 +243,7 @@ export default function Portada() {
       <footer className="border-t border-linea bg-papel">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-tinta-suave sm:flex-row sm:items-start sm:justify-between">
           <div className="flex flex-col gap-2">
-            <Marca className="text-tinta" />
+            <Logotipo alto={24} />
             <p>{LEMA}</p>
           </div>
           <div className="flex max-w-md flex-col gap-2 sm:text-right">

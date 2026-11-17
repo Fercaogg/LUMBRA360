@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { exigirAcceso } from "@/lib/acceso";
 import { subirPdf } from "@/lib/documentos";
 import { consumirIntento } from "@/lib/limites";
+import { mensajeBd } from "@/lib/mensajes";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import {
   erroresDe,
@@ -23,7 +24,7 @@ import {
 
 type ErrorBd = { code?: string; message: string } | null;
 
-const DEMASIADOS: EstadoFormulario = { ok: false, mensaje: "Demasiados envíos seguidos. Espera unos minutos." };
+const DEMASIADOS: EstadoFormulario = { ok: false, mensaje: "Demasiados envíos seguidos. Espere unos minutos." };
 
 async function preparar() {
   const acceso = await exigirAcceso();
@@ -34,9 +35,9 @@ async function preparar() {
 
 function traducir(error: ErrorBd): EstadoFormulario {
   if (!error) return { ok: true };
-  if (error.code === "P0001") return { ok: false, mensaje: error.message };
-  if (error.code === "42501") return { ok: false, mensaje: "No tienes permiso para hacer esto." };
-  return { ok: false, mensaje: "No se ha podido guardar. Inténtalo de nuevo." };
+  if (error.code === "P0001") return { ok: false, mensaje: mensajeBd(error.message) };
+  if (error.code === "42501") return { ok: false, mensaje: "No tiene permiso para hacer esto." };
+  return { ok: false, mensaje: "No se ha podido guardar. Inténtelo de nuevo." };
 }
 
 const campo = (datos: FormData, nombre: string) => datos.get(nombre) ?? "";
@@ -70,7 +71,7 @@ export async function guardarPlantilla(_p: EstadoFormulario, datos: FormData): P
     .eq("id", d.id)
     .select("id");
   if (error) return traducir(error);
-  if (!data?.length) return { ok: false, mensaje: "No tienes permiso para hacer esto." };
+  if (!data?.length) return { ok: false, mensaje: "No tiene permiso para hacer esto." };
   revalidatePath("/admin/plantillas", "layout");
   return { ok: true, mensaje: "Guardado." };
 }
@@ -131,7 +132,7 @@ export async function iniciarPolitica(_p: EstadoFormulario, datos: FormData): Pr
   const empresa = esquemaUuid.safeParse(datos.get("empresaId"));
   const plantilla = esquemaUuid.safeParse(datos.get("plantillaId"));
   if (!empresa.success) return { ok: false, mensaje: "Datos no válidos." };
-  if (!plantilla.success) return { ok: false, errores: { plantillaId: "Elige una plantilla." } };
+  if (!plantilla.success) return { ok: false, errores: { plantillaId: "Elija una plantilla." } };
   const { data, error } = await supabase.rpc("iniciar_politica", { p_empresa: empresa.data, p_plantilla: plantilla.data });
   if (error || !data) return traducir(error);
   redirect(`/panel/empresa/${empresa.data}/desconexion/politica/${data}`);
@@ -149,11 +150,11 @@ export async function guardarPolitica(_p: EstadoFormulario, datos: FormData): Pr
     ayuda: (datos.get(`ayuda_${i}`) as string | null) || null,
   }));
   const entrada = esquemaSeccionesPolitica.safeParse(secciones);
-  if (!entrada.success) return { ok: false, mensaje: entrada.error.issues[0]?.message ?? "Revisa las secciones." };
+  if (!entrada.success) return { ok: false, mensaje: entrada.error.issues[0]?.message ?? "Revise las secciones." };
 
   const { data, error } = await supabase.from("politicas").update({ secciones: entrada.data }).eq("id", id.data).select("id");
   if (error) return traducir(error);
-  if (!data?.length) return { ok: false, mensaje: "No tienes permiso para hacer esto." };
+  if (!data?.length) return { ok: false, mensaje: "No tiene permiso para hacer esto." };
   revalidatePath("/panel", "layout");
   return { ok: true, mensaje: "Borrador guardado." };
 }
@@ -191,7 +192,7 @@ export async function cambiarAcuse(_p: EstadoFormulario, datos: FormData): Promi
   const { error } = await supabase.rpc("cambiar_acuse", { p_politica: id.data, p_abrir: abrir });
   if (error) return traducir(error);
   revalidatePath("/panel", "layout");
-  return { ok: true, mensaje: abrir ? "Acuse abierto. Comparte el enlace." : "Acuse cerrado. El enlace ya no funciona." };
+  return { ok: true, mensaje: abrir ? "Acuse abierto. Comparta el enlace." : "Acuse cerrado. El enlace ya no funciona." };
 }
 
 // --- Audiencia y formación --------------------------------------------------

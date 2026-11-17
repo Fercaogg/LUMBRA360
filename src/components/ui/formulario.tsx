@@ -4,6 +4,7 @@ import { createContext, useActionState, useContext, useId, type ComponentProps, 
 import { useFormStatus } from "react-dom";
 import { ESTADO_INICIAL, type EstadoFormulario } from "@/lib/validacion";
 import { clasesBoton } from "./boton";
+import { useConfirmacion } from "@/components/movimiento/movimiento";
 
 type Accion = (previo: EstadoFormulario, datos: FormData) => Promise<EstadoFormulario>;
 
@@ -20,16 +21,19 @@ export function Formulario({
   className?: string;
 }) {
   const [estado, enviar] = useActionState(accion, ESTADO_INICIAL);
+  // Confirmación con movimiento solo cuando la acción ha ido bien.
+  const confirmacion = useConfirmacion(Boolean(estado.ok && estado.mensaje), estado);
   return (
     <ContextoEstado value={estado}>
       <form action={enviar} noValidate className={`flex flex-col gap-4 ${className}`}>
         {children}
         <p
+          ref={confirmacion}
           role="status"
           aria-live="polite"
           className={
             estado.mensaje
-              ? `aparecer rounded-lg px-3 py-2 text-sm ${estado.ok ? "bg-acento-tenue text-acento-fuerte" : "bg-error-tenue text-error"}`
+              ? `rounded-md border px-3 py-2 text-sm ${estado.ok ? "border-[var(--correcto-borde)] bg-correcto-tenue text-correcto" : "aparecer border-[var(--error-borde)] bg-error-tenue text-error"}`
               : "sr-only"
           }
         >
@@ -41,8 +45,9 @@ export function Formulario({
 }
 
 const CLASES_CONTROL =
-  "min-h-11 w-full rounded-lg border border-linea bg-superficie px-3 text-base text-tinta " +
-  "placeholder:text-tinta-suave/70 transition-colors duration-150 hover:border-tinta-suave " +
+  "min-h-11 w-full rounded-md border border-control bg-superficie px-3 text-base text-tinta " +
+  "placeholder:text-tinta-suave/70 transition-[border-color,box-shadow] duration-150 hover:border-tinta-suave " +
+  "focus:border-acento focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--foco)_25%,transparent)] focus:outline-none " +
   "aria-[invalid=true]:border-error";
 
 export function Campo({
@@ -119,14 +124,23 @@ export function Casilla({ etiqueta, ayuda, name, ...resto }: ComponentProps<"inp
 export function Enviar({
   children,
   variante = "principal",
+  ancho = false,
 }: {
   children: ReactNode;
-  variante?: "principal" | "secundario" | "peligro";
+  variante?: "principal" | "secundario" | "peligro" | "lumbre";
+  ancho?: boolean;
 }) {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" disabled={pending} aria-busy={pending} className={clasesBoton(variante, "self-start")}>
-      {pending ? "Enviando…" : children}
+    <button type="submit" disabled={pending} aria-busy={pending} className={clasesBoton(variante, ancho ? "w-full" : "self-start")}>
+      {pending ? (
+        <>
+          <span aria-hidden className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" />
+          Enviando…
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }

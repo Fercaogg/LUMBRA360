@@ -18,13 +18,13 @@ export default async function PaginaEstructura({ params }: { params: Promise<{ e
     <>
       <Cabecera
         titulo="Grupos"
-        descripcion="Define cómo quieres ver los resultados: por departamento, por turno o por centro. La persona elige su grupo al responder, si quiere."
+        descripcion="Defina cómo quiere ver los resultados: por departamento, por turno o por centro. La persona elige su grupo al responder, si quiere."
       />
       <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`${base}/estructura`} />
       <p className="max-w-prose text-pretty text-sm text-tinta-suave">
-        Un grupo con menos de 5 respuestas nunca muestra resultados. Evita grupos muy pequeños: no aportan datos y la gente se siente señalada.
+        Un grupo con menos de 5 respuestas nunca muestra resultados. Evite grupos muy pequeños: no aportan datos y la gente se siente señalada.
       </p>
-      {lista.length === 0 ? <EstadoVacio titulo="Todavía no hay grupos" texto="Crea una dimensión, por ejemplo «Departamento», y añade sus grupos." /> : null}
+      {lista.length === 0 ? <EstadoVacio titulo="Todavía no hay grupos" texto="Cree una dimensión, por ejemplo «Departamento», y añada sus grupos." /> : null}
       <div className="grid gap-6 lg:grid-cols-2">
         {lista.map((dimension) => (
           <Tarjeta key={dimension.id} className="flex flex-col gap-3">

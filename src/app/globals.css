@@ -1,43 +1,66 @@
 @import "tailwindcss";
+/* Tokens de marca: única fuente de los colores, tipografías, radios y movimiento. Ver brand/. */
+@import "../../brand/tokens.css";
 
-/* Paleta sobria. Todos los pares texto/fondo usados cumplen contraste AA. */
+/* Los nombres de utilidad de la aplicación se mantienen y apuntan a los tokens semánticos de marca.
+   - acento: el primario (petróleo). lumbre: el acento cálido, con moderación.
+   La web va fija en modo claro (data-theme="light" en <html>) hasta adaptar la interfaz al oscuro. */
 @theme inline {
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
   --font-serif: var(--font-newsreader), Georgia, serif;
 
-  --color-papel: #f6f4ee;
-  --color-superficie: #ffffff;
-  --color-tinta: #17211e;
-  --color-tinta-suave: #4a5753;
-  --color-linea: #d9d5c9;
-  --color-acento: #0f5c4c;
-  --color-acento-fuerte: #0a4337;
-  --color-acento-tenue: #e3efe9;
-  --color-aviso: #7a4b00;
-  --color-aviso-tenue: #fbf0d9;
-  --color-error: #a3271c;
-  --color-error-tenue: #fbe9e6;
+  --color-papel: var(--fondo);
+  --color-hundido: var(--fondo-hundido);
+  --color-superficie: var(--superficie);
+  --color-marca: var(--superficie-marca);
+  --color-tinta: var(--texto);
+  --color-tinta-suave: var(--texto-suave);
+  --color-sobre-marca: var(--texto-sobre-marca);
+  --color-linea: var(--linea);
+  --color-linea-fuerte: var(--linea-fuerte);
+  --color-control: var(--borde-control);
+  --color-acento: var(--primario);
+  --color-acento-fuerte: var(--primario-hover);
+  --color-acento-tenue: var(--primario-suave);
+  --color-lumbre: var(--lumbre);
+  --color-lumbre-claro: var(--lumbre-300);
+  --color-lumbre-tenue: var(--lumbre-suave);
+  --color-lumbre-texto: var(--lumbre-suave-texto);
+  --color-correcto: var(--correcto-texto);
+  --color-correcto-tenue: var(--correcto-fondo);
+  --color-info: var(--info-texto);
+  --color-info-tenue: var(--info-fondo);
+  --color-aviso: var(--aviso-texto);
+  --color-aviso-tenue: var(--aviso-fondo);
+  --color-error: var(--error-texto);
+  --color-error-tenue: var(--error-fondo);
 
-  /* Niveles de los informes. Validados para daltonismo; siempre van con etiqueta y porcentaje en texto. */
-  --color-nivel-favorable: #1f8a70;
-  --color-nivel-intermedio: #c98a1b;
-  --color-nivel-desfavorable: #b3382c;
+  /* Niveles de los resultados (marcas de datos). Validados para daltonismo; siempre con etiqueta y porcentaje. */
+  --color-nivel-favorable: var(--dato-favorable);
+  --color-nivel-intermedio: var(--dato-intermedio);
+  --color-nivel-desfavorable: var(--dato-desfavorable);
 
-  --ease-salida: cubic-bezier(0.23, 1, 0.32, 1);
-}
+  --radius-xs: var(--radio-xs);
+  --radius-sm: var(--radio-sm);
+  --radius-md: var(--radio-md);
+  --radius-lg: var(--radio-lg);
+  --radius-xl: var(--radio-xl);
+  --shadow-1: var(--sombra-1);
+  --shadow-2: var(--sombra-2);
+  --shadow-3: var(--sombra-3);
 
-html {
-  color-scheme: light;
+  --ease-salida: var(--curva-salida);
 }
 
 body {
-  background: var(--color-papel);
-  color: var(--color-tinta);
+  background: var(--fondo);
+  color: var(--texto);
+  font-feature-settings: "kern";
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-acento);
+  outline: 2px solid var(--foco);
   outline-offset: 2px;
   border-radius: 4px;
 }

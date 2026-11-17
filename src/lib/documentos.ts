@@ -23,7 +23,7 @@ export async function subirPdf(
 
   const ruta = `${empresaId}/${randomUUID()}.pdf`;
   const { error } = await supabase.storage.from("documentos").upload(ruta, bytes, { contentType: "application/pdf" });
-  if (error) return { error: "No tienes permiso para subir documentos de esta empresa." };
+  if (error) return { error: "No tiene permiso para subir documentos de esta empresa." };
 
   const nombre = archivo.name.replace(/[^\p{L}\p{N} ._-]/gu, "").slice(0, 150) || "documento.pdf";
   return { documento: { ruta, nombre, sha256: createHash("sha256").update(bytes).digest("hex") } };

@@ -27,7 +27,7 @@ export default async function PaginaEquipo({ params }: { params: Promise<{ partn
 
   return (
     <>
-      <Cabecera titulo="Equipo" descripcion="Personas de tu organización con acceso al panel." />
+      <Cabecera titulo="Equipo" descripcion="Personas de su organización con acceso al panel." />
       <Pestanas enlaces={pestanasPartner(partner.id, esGestor)} actual={`${base}/equipo`} />
       <div className="grid gap-6 lg:grid-cols-2">
         <Tarjeta className="flex flex-col gap-4">

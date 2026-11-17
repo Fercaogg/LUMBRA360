@@ -33,7 +33,7 @@ export default async function PaginaInstrumentos() {
       ) : null}
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {lista.length === 0 ? (
-          <EstadoVacio titulo="Todavía no hay instrumentos" texto="Crea el primero con el formulario. Empieza en borrador." />
+          <EstadoVacio titulo="Todavía no hay instrumentos" texto="Cree el primero con el formulario. Empieza en borrador." />
         ) : (
           <ul className="flex flex-col divide-y divide-linea self-start overflow-hidden rounded-xl border border-linea bg-superficie">
             {lista.map((instrumento) => (

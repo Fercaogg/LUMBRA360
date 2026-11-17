@@ -94,7 +94,7 @@ test("evaluación: respuestas anónimas, sin puntuación, exportación e informe
   await page.getByLabel("Cuestionario").selectOption({ label: evaluacionDemo });
   await page.getByLabel("Área (demo)").check();
   await page.getByRole("button", { name: "Crear en borrador" }).click();
-  await expect(page.getByText("En las evaluaciones no se pregunta el grupo. Desmarca los grupos.")).toBeVisible();
+  await expect(page.getByText("En las evaluaciones no se pregunta el grupo. Desmarque los grupos.")).toBeVisible();
 
   const { ruta, codigos } = await prepararCampana(page, campana, evaluacionDemo, false);
   for (const codigo of codigos.slice(0, 6)) await responder(browser, codigo, "gracias");
@@ -122,7 +122,7 @@ test("evaluación: respuestas anónimas, sin puntuación, exportación e informe
   expect(lineas.length).toBe(7);
   for (const linea of lineas.slice(1)) expect(linea).toBe("4;4;4;4");
 
-  await expect(page.getByText("Sube antes el informe en PDF.")).toBeVisible();
+  await expect(page.getByText("Suba antes el informe en PDF.")).toBeVisible();
   await page.getByLabel("Informe en PDF").setInputFiles(PDF);
   await page.getByRole("button", { name: "Subir informe" }).click();
   await expect(page.getByText("informe-fpsico.pdf")).toBeVisible();
@@ -130,7 +130,7 @@ test("evaluación: respuestas anónimas, sin puntuación, exportación e informe
   await page.getByLabel("Observación").fill("Observación de prueba del técnico.");
   await page.getByRole("button", { name: "Añadir observación" }).click();
   await expect(page.getByText("Observación de prueba del técnico.")).toBeVisible();
-  await page.getByLabel("Tu nombre completo").fill("Técnico de prueba");
+  await page.getByLabel("Su nombre completo").fill("Técnico de prueba");
   await page.getByLabel("He revisado el informe y las observaciones").check();
   await page.getByRole("button", { name: "Firmar informe" }).click();
   await expect(page.getByText("Registrado y firmado por")).toContainText("Técnico de prueba");

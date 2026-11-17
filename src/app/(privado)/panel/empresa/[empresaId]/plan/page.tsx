@@ -42,7 +42,7 @@ export default async function PaginaPlan({ params }: { params: Promise<{ empresa
           {lista.length === 0 ? (
             <EstadoVacio
               titulo="Todavía no hay medidas"
-              texto={editaPlan ? "Añade la primera medida con el formulario." : "Cuando la empresa o su técnico añadan medidas, aparecerán aquí."}
+              texto={editaPlan ? "Añada la primera medida con el formulario." : "Cuando la empresa o su técnico añadan medidas, aparecerán aquí."}
             />
           ) : null}
           {lista.map((medida) => (
@@ -121,7 +121,7 @@ export default async function PaginaPlan({ params }: { params: Promise<{ empresa
           </Tarjeta>
         ) : (
           <p className="self-start rounded-xl border border-linea bg-superficie p-4 text-sm text-tinta-suave">
-            El plan lo editan la empresa y su técnico de prevención. Tú puedes consultarlo.
+            El plan lo editan la empresa y su técnico de prevención. Usted puede consultarlo.
           </p>
         )}
       </div>

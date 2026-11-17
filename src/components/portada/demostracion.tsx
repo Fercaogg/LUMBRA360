@@ -109,7 +109,7 @@ function PanelResponder() {
   return (
     <div className="aparecer grid items-start gap-8 md:grid-cols-[1fr_15rem]">
       <div className="flex flex-col gap-3">
-        <h3 className="font-serif text-2xl leading-tight">Entra con un código. Sin nombre, sin correo.</h3>
+        <h3 className="font-serif text-2xl leading-tight">Se entra con un código. Sin nombre, sin correo.</h3>
         <ul className="flex flex-col gap-2 text-pretty text-tinta-suave">
           <li>La persona recibe un código de un solo uso, repartido al azar.</li>
           <li>Junto a la respuesta no se guarda IP ni hora. Solo el día.</li>
@@ -138,7 +138,7 @@ function PanelResponder() {
             Enviar
           </button>
           <p role="status" className="min-h-4 text-center text-xs text-acento-fuerte">
-            {enviado ? "Guardada sin datos que te identifiquen." : ""}
+            {enviado ? "Guardada sin datos que identifiquen a nadie." : ""}
           </p>
         </div>
       </div>
@@ -168,7 +168,7 @@ function PanelAnonimato() {
       <div className="flex flex-col gap-2">
         <h3 className="font-serif text-2xl leading-tight">Ningún resultado con menos de 5 respuestas.</h3>
         <p className="max-w-prose text-pretty text-tinta-suave">
-          Mueve el control. Cuando un grupo baja de 5, se protege. Y si con el total se pudiera deducir, se protege también el siguiente más pequeño.
+          Mueva el control. Cuando un grupo baja de 5, se protege. Y si con el total se pudiera deducir, se protege también el siguiente más pequeño.
         </p>
       </div>
       <div className="flex flex-col gap-2">

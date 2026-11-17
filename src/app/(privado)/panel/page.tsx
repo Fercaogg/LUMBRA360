@@ -27,15 +27,15 @@ export default async function PaginaPanel() {
   if (!acceso.esAdmin && espacios.length === 0) {
     return (
       <EstadoVacio
-        titulo="Tu cuenta todavía no tiene ningún espacio"
-        texto="Has entrado bien, pero nadie te ha dado acceso a una empresa o a un partner. Pide a quien te invitó que revise el correo que usó."
+        titulo="Su cuenta todavía no tiene ningún espacio"
+        texto="Ha entrado correctamente, pero nadie le ha dado acceso a una empresa o a un partner. Pida a quien le invitó que revise el correo que usó."
       />
     );
   }
 
   return (
     <>
-      <Cabecera titulo="Tus espacios" descripcion="Elige dónde quieres trabajar." />
+      <Cabecera titulo="Sus espacios" descripcion="Elija dónde quiere trabajar." />
       <ul className="grid gap-3 sm:grid-cols-2">
         {acceso.esAdmin ? (
           <li>

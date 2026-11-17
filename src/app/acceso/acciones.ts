@@ -12,7 +12,7 @@ const VENTANA = 15 * 60;
 // La respuesta es la misma exista o no la cuenta: no se revela quién tiene acceso.
 const RESPUESTA: EstadoFormulario = {
   ok: true,
-  mensaje: "Si ese correo tiene acceso, recibirás un enlace en unos minutos. Revisa también el correo no deseado.",
+  mensaje: "Si ese correo tiene acceso, recibirá un enlace en unos minutos. Revise también el correo no deseado.",
 };
 
 export async function solicitarEnlace(
@@ -27,14 +27,14 @@ export async function solicitarEnlace(
   const porIp = await consumirIntento(`acceso:ip:${ip}`, 10, VENTANA);
   const porCorreo = porIp && (await consumirIntento(`acceso:correo:${correo}`, 3, VENTANA));
   if (!porIp || !porCorreo) {
-    return { ok: false, mensaje: "Demasiados intentos. Espera unos minutos y vuelve a probar." };
+    return { ok: false, mensaje: "Demasiados intentos. Espere unos minutos y vuelva a probar." };
   }
 
   const { data: invitado, error } = await crearClienteAdmin().rpc("correo_puede_acceder", {
     p_correo: correo,
   });
   if (error) {
-    return { ok: false, mensaje: "No hemos podido procesar la solicitud. Inténtalo de nuevo." };
+    return { ok: false, mensaje: "No hemos podido procesar la solicitud. Inténtelo de nuevo." };
   }
 
   if (invitado) {

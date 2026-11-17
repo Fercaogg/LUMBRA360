@@ -24,7 +24,7 @@ export default async function PaginaAdminEmpresas() {
       <PestanasAdmin actual="/admin/empresas" />
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {lista.length === 0 ? (
-          <EstadoVacio titulo="Todavía no hay empresas" texto="Da de alta la primera con el formulario." />
+          <EstadoVacio titulo="Todavía no hay empresas" texto="Dé de alta la primera con el formulario." />
         ) : (
           <ListaEmpresas empresas={lista} />
         )}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
-import { NOMBRE } from "@/config/marca";
+import { Logotipo } from "@/components/marca/logotipo";
 import { Campo, Casilla, Enviar, Formulario } from "@/components/ui/formulario";
 import { Aviso, Cargando, Tarjeta } from "@/components/ui/piezas";
 import { crearClienteAdmin } from "@/lib/supabase/admin";
@@ -27,8 +27,8 @@ async function Contenido({ params }: { params: Promise<{ token: string }> }) {
   if (!politica) {
     return (
       <div className="flex flex-col gap-3">
-        <h1 className="text-2xl font-semibold tracking-tight">Este enlace no está disponible</h1>
-        <p className="text-pretty text-tinta-suave">El acuse de lectura se ha cerrado o el enlace no es correcto. Pide uno nuevo a tu empresa.</p>
+        <h1 className="font-serif text-2xl font-medium leading-tight tracking-tight">Este enlace no está disponible</h1>
+        <p className="text-pretty text-tinta-suave">El acuse de lectura se ha cerrado o el enlace no es correcto. Pida uno nuevo a su empresa.</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ async function Contenido({ params }: { params: Promise<{ token: string }> }) {
     <>
       <header className="flex flex-col gap-2">
         <p className="text-sm text-tinta-suave">{politica.empresa}</p>
-        <h1 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">Política de desconexión digital</h1>
+        <h1 className="text-balance font-serif text-2xl font-medium leading-tight tracking-tight sm:text-3xl">Política de desconexión digital</h1>
         <p className="text-sm text-tinta-suave">
           Versión {politica.version}, aprobada el {aprobada}.
         </p>
@@ -60,7 +60,7 @@ async function Contenido({ params }: { params: Promise<{ token: string }> }) {
       <Tarjeta className="flex flex-col gap-4">
         <h2 className="text-lg font-semibold">Confirmar la lectura</h2>
         <p className="text-pretty text-sm text-tinta-suave">
-          Este acuse sí lleva tu nombre, porque sirve para acreditar que has recibido la política. Se guarda con la fecha y nada más. No tiene ninguna
+          Este acuse sí lleva su nombre, porque sirve para acreditar que ha recibido la política. Se guarda con la fecha y nada más. No tiene ninguna
           relación con los cuestionarios anónimos.
         </p>
         <Formulario accion={registrarAcuse}>
@@ -77,7 +77,7 @@ async function Contenido({ params }: { params: Promise<{ token: string }> }) {
 export default function PaginaAcuse({ params }: { params: Promise<{ token: string }> }) {
   return (
     <main id="contenido" className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
-      <p className="text-sm font-semibold tracking-wide text-acento">{NOMBRE}</p>
+      <Logotipo alto={26} />
       <Suspense fallback={<Cargando texto="Cargando la política…" />}>
         <Contenido params={params} />
       </Suspense>

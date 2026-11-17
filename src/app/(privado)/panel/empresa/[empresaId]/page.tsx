@@ -148,7 +148,7 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
       ) : (
         <EstadoVacio
           titulo="Todavía no hay campañas"
-          texto="Cuando se lance la primera evaluación, aquí verás la participación y los resultados agregados. Nunca respuestas individuales."
+          texto="Cuando se lance la primera evaluación, aquí verá la participación y los resultados agregados. Nunca respuestas individuales."
           accion={<EnlaceBoton href={`/panel/empresa/${empresa.id}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
         />
       )}

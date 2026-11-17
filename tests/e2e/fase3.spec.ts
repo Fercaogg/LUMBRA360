@@ -21,7 +21,7 @@ test("política: plantilla, borrador, aprobación, acuse nominal, audiencia y fo
   await page.getByLabel("Nombre y cargo de quien aprueba").fill("Dirección de prueba");
   await page.getByLabel("He revisado el texto completo").check();
   await page.getByRole("button", { name: "Aprobar" }).click();
-  await expect(page.getByText("Completa todas las secciones antes de aprobar.")).toBeVisible();
+  await expect(page.getByText("Complete todas las secciones antes de aprobar.")).toBeVisible();
 
   const cuerpos = page.getByLabel("Texto");
   await cuerpos.nth(1).fill("Texto de prueba de la sección 2.");
@@ -43,10 +43,10 @@ test("política: plantilla, borrador, aprobación, acuse nominal, audiencia y fo
   await p2.goto(ruta);
   await expect(p2.getByRole("heading", { name: "Política de desconexión digital" })).toBeVisible();
   await expect(p2.getByText("Texto de prueba de la sección 2.")).toBeVisible();
-  await expect(p2.getByText("Este acuse sí lleva tu nombre")).toBeVisible();
+  await expect(p2.getByText("Este acuse sí lleva su nombre")).toBeVisible();
   await p2.getByLabel("Nombre y apellidos").fill("Persona de prueba");
   await p2.getByRole("button", { name: "Confirmar lectura" }).click();
-  await expect(p2.getByText("Marca la casilla para confirmar la lectura.")).toBeVisible();
+  await expect(p2.getByText("Marque la casilla para confirmar la lectura.")).toBeVisible();
   await p2.getByLabel("Nombre y apellidos").fill("Persona de prueba");
   await p2.getByLabel("He leído la política de desconexión digital").check();
   await p2.getByRole("button", { name: "Confirmar lectura" }).click();
@@ -83,7 +83,7 @@ test("política: plantilla, borrador, aprobación, acuse nominal, audiencia y fo
   // El partner solo consulta.
   await entrar(page, "gestor-a@demo.invalid");
   await page.goto(base);
-  await expect(page.getByText("Tú puedes consultarla.")).toBeVisible();
+  await expect(page.getByText("Usted puede consultarla.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Registrar audiencia" })).toHaveCount(0);
   await expect(page.getByText("Sesión de sensibilización de prueba")).toBeVisible();
 });

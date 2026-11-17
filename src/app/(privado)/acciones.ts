@@ -20,11 +20,11 @@ import {
 // Acciones del panel. Todas usan la sesión de quien navega: quien decide es RLS.
 // Aquí se valida la entrada y se traduce el resultado a un mensaje claro.
 
-const SIN_PERMISO: EstadoFormulario = { ok: false, mensaje: "No tienes permiso para hacer esto." };
-const FALLO: EstadoFormulario = { ok: false, mensaje: "No se ha podido guardar. Inténtalo de nuevo." };
+const SIN_PERMISO: EstadoFormulario = { ok: false, mensaje: "No tiene permiso para hacer esto." };
+const FALLO: EstadoFormulario = { ok: false, mensaje: "No se ha podido guardar. Inténtelo de nuevo." };
 const DEMASIADOS: EstadoFormulario = {
   ok: false,
-  mensaje: "Demasiados envíos seguidos. Espera unos minutos.",
+  mensaje: "Demasiados envíos seguidos. Espere unos minutos.",
 };
 
 async function preparar() {
@@ -102,7 +102,7 @@ export async function invitar(_previo: EstadoFormulario, datos: FormData): Promi
   revalidatePath("/admin", "layout");
   return {
     ok: true,
-    mensaje: "Acceso concedido. Avisa a la persona: entra desde la página de acceso con ese correo.",
+    mensaje: "Acceso concedido. Avise a la persona: entrará desde la página de acceso con ese correo.",
   };
 }
 
@@ -148,7 +148,7 @@ export async function guardarMarca(_previo: EstadoFormulario, datos: FormData): 
   const logo = datos.get("logo");
   if (logo instanceof File && logo.size > 0) {
     const tipo = TIPOS_LOGO.find((t) => t === logo.type);
-    if (!tipo) return { ok: false, errores: { logo: "Usa una imagen PNG, JPG o WebP." } };
+    if (!tipo) return { ok: false, errores: { logo: "Use una imagen PNG, JPG o WebP." } };
     if (logo.size > TAMANO_MAXIMO_LOGO) return { ok: false, errores: { logo: "El logo no puede pasar de 512 KB." } };
     const bytes = new Uint8Array(await logo.arrayBuffer());
     if (!esImagenReal(bytes, tipo)) return { ok: false, errores: { logo: "El archivo no es una imagen válida." } };

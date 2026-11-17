@@ -103,7 +103,7 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
                   etiqueta="Autorización escrita del INSST recibida"
                   name="licenciaConfirmada"
                   defaultChecked={inst.licencia_confirmada}
-                  ayuda="Márcalo solo cuando tengas la autorización por escrito."
+                  ayuda="Márquelo solo cuando tenga la autorización por escrito."
                 />
                 <AreaTexto etiqueta="Referencia de la autorización" name="licenciaNota" defaultValue={inst.licencia_nota ?? ""} maxLength={1000} ayuda="Fecha, referencia y condiciones de uso." />
               </>
@@ -195,7 +195,7 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
                     <Campo etiqueta="Valor" name="valor" type="number" step="any" required />
                   </div>
                   {inst.tipo === "evaluacion" ? (
-                    <Campo etiqueta="Código en la exportación (opcional)" name="codigo" maxLength={10} ayuda="Lo que se escribe en el .txt para esta opción. Si lo dejas vacío, se escribe el valor." />
+                    <Campo etiqueta="Código en la exportación (opcional)" name="codigo" maxLength={10} ayuda="Lo que se escribe en el .txt para esta opción. Si lo deja vacío, se escribe el valor." />
                   ) : null}
                   <Enviar variante="secundario">Añadir opción</Enviar>
                 </Formulario>
@@ -262,7 +262,7 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
                   </Formulario>
                 ) : null}
                 {editable && listaEscalas.length === 0 ? (
-                  <p className="text-sm text-tinta-suave">Crea antes una escala de respuesta.</p>
+                  <p className="text-sm text-tinta-suave">Cree antes una escala de respuesta.</p>
                 ) : null}
               </div>
 

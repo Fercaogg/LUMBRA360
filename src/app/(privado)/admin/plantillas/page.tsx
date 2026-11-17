@@ -28,7 +28,7 @@ export default async function PaginaPlantillas() {
       {!hayRevisada ? <Aviso>[PENDIENTE: revisión jurídica]. Ninguna plantilla real está revisada. No se publica ninguna sin revisión.</Aviso> : null}
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {lista.length === 0 ? (
-          <EstadoVacio titulo="Todavía no hay plantillas" texto="Crea la primera con el formulario." />
+          <EstadoVacio titulo="Todavía no hay plantillas" texto="Cree la primera con el formulario." />
         ) : (
           <ul className="flex flex-col divide-y divide-linea self-start overflow-hidden rounded-xl border border-linea bg-superficie">
             {lista.map((p) => (

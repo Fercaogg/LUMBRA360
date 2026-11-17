@@ -27,8 +27,8 @@ export default async function PaginaPartner({ params }: { params: Promise<{ part
         titulo={partner.nombre}
         descripcion={
           esGestor
-            ? "Estas son las empresas que gestionas. Solo verás datos agregados de cada una."
-            : "Estas son las empresas que tienes asignadas."
+            ? "Estas son las empresas que gestiona. Solo verá datos agregados de cada una."
+            : "Estas son las empresas que tiene asignadas."
         }
         acciones={esGestor ? <EnlaceBoton href={`${base}/empresas/nueva`}>Dar de alta una empresa</EnlaceBoton> : undefined}
       />
@@ -40,8 +40,8 @@ export default async function PaginaPartner({ params }: { params: Promise<{ part
           titulo="Todavía no hay empresas"
           texto={
             esGestor
-              ? "Da de alta la primera empresa para preparar su evaluación."
-              : "Cuando te asignen una empresa, aparecerá aquí."
+              ? "Dé de alta la primera empresa para preparar su evaluación."
+              : "Cuando le asignen una empresa, aparecerá aquí."
           }
           accion={esGestor ? <EnlaceBoton href={`${base}/empresas/nueva`}>Dar de alta una empresa</EnlaceBoton> : undefined}
         />

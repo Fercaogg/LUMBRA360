@@ -10,20 +10,20 @@ export const esquemaCorreo = z
   .trim()
   .toLowerCase()
   .max(254, "El correo es demasiado largo.")
-  .pipe(z.email("Escribe un correo válido."));
+  .pipe(z.email("Escriba un correo válido."));
 
 export const esquemaUuid = z.uuid("Identificador no válido.");
 
 export const esquemaAcceso = z.object({ correo: esquemaCorreo });
 
 export const esquemaPartner = z.object({
-  nombre: texto(2, 120, "Escribe el nombre del partner."),
+  nombre: texto(2, 120, "Escriba el nombre del partner."),
 });
 
 export const esquemaEmpresa = z.object({
-  nombre: texto(2, 160, "Escribe el nombre de la empresa."),
+  nombre: texto(2, 160, "Escriba el nombre de la empresa."),
   plantilla: z
-    .union([z.literal(""), z.coerce.number().int("Usa un número entero.").min(1, "Mínimo 1.").max(100000, "Máximo 100000.")])
+    .union([z.literal(""), z.coerce.number().int("Use un número entero.").min(1, "Mínimo 1.").max(100000, "Máximo 100000.")])
     .transform((v) => (v === "" ? null : v)),
   partnerId: z.union([z.literal(""), esquemaUuid]).transform((v) => (v === "" ? null : v)),
 });
@@ -76,13 +76,13 @@ const opcional = (max: number) =>
   z.string().trim().max(max, `Máximo ${max} caracteres.`).transform((v) => (v === "" ? null : v));
 const enteroOpcional = (min: number, max: number) =>
   z
-    .union([z.literal(""), z.coerce.number().int("Usa un número entero.").min(min, `Mínimo ${min}.`).max(max, `Máximo ${max}.`)])
+    .union([z.literal(""), z.coerce.number().int("Use un número entero.").min(min, `Mínimo ${min}.`).max(max, `Máximo ${max}.`)])
     .transform((v) => (v === "" ? null : v));
 const uuidOpcional = z.union([z.literal(""), esquemaUuid]).transform((v) => (v === "" ? null : v));
-const numero = z.coerce.number("Escribe un número.").min(-1000, "Valor demasiado bajo.").max(1000, "Valor demasiado alto.");
+const numero = z.coerce.number("Escriba un número.").min(-1000, "Valor demasiado bajo.").max(1000, "Valor demasiado alto.");
 
 export const esquemaInstrumento = z.object({
-  nombre: texto(2, 160, "Escribe el nombre del instrumento."),
+  nombre: texto(2, 160, "Escriba el nombre del instrumento."),
   tipo: z.enum(["evaluacion", "pulso"]),
   descripcion: opcional(1000),
   minutos: enteroOpcional(1, 120),
@@ -90,17 +90,17 @@ export const esquemaInstrumento = z.object({
 
 export const esquemaInstrumentoDatos = z.object({
   id: esquemaUuid,
-  nombre: texto(2, 160, "Escribe el nombre del instrumento."),
+  nombre: texto(2, 160, "Escriba el nombre del instrumento."),
   descripcion: opcional(1000),
   minutos: enteroOpcional(1, 120),
   licenciaConfirmada: z.boolean(),
   licenciaNota: opcional(1000),
 });
 
-export const esquemaEscala = z.object({ instrumentoId: esquemaUuid, nombre: texto(1, 120, "Escribe un nombre.") });
+export const esquemaEscala = z.object({ instrumentoId: esquemaUuid, nombre: texto(1, 120, "Escriba un nombre.") });
 export const esquemaOpcion = z.object({
   escalaId: esquemaUuid,
-  etiqueta: texto(1, 120, "Escribe la etiqueta."),
+  etiqueta: texto(1, 120, "Escriba la etiqueta."),
   valor: numero,
   codigo: opcional(10),
 });
@@ -114,12 +114,12 @@ export const esquemaExportacion = z.object({
 });
 export const esquemaFactor = z.object({
   instrumentoId: esquemaUuid,
-  nombre: texto(1, 160, "Escribe el nombre del factor."),
+  nombre: texto(1, 160, "Escriba el nombre del factor."),
   metodo: z.enum(["media", "suma"]),
 });
 export const esquemaNivel = z.object({
   factorId: esquemaUuid,
-  etiqueta: texto(1, 80, "Escribe la etiqueta."),
+  etiqueta: texto(1, 80, "Escriba la etiqueta."),
   desde: numero,
   tono: z.enum(["favorable", "intermedio", "desfavorable"]),
 });
@@ -127,45 +127,45 @@ export const esquemaItem = z.object({
   instrumentoId: esquemaUuid,
   factorId: esquemaUuid,
   escalaId: esquemaUuid,
-  enunciado: texto(1, 600, "Escribe el enunciado."),
+  enunciado: texto(1, 600, "Escriba el enunciado."),
   invertido: z.boolean(),
 });
 
 export const TABLAS_INSTRUMENTO = ["escalas", "escala_opciones", "factores", "niveles", "items"] as const;
 
-export const esquemaDimension = z.object({ empresaId: esquemaUuid, nombre: texto(1, 80, "Escribe un nombre.") });
-export const esquemaGrupo = z.object({ dimensionId: esquemaUuid, nombre: texto(1, 80, "Escribe un nombre.") });
+export const esquemaDimension = z.object({ empresaId: esquemaUuid, nombre: texto(1, 80, "Escriba un nombre.") });
+export const esquemaGrupo = z.object({ dimensionId: esquemaUuid, nombre: texto(1, 80, "Escriba un nombre.") });
 
 export const esquemaCampana = z.object({
   empresaId: esquemaUuid,
-  instrumentoId: z.uuid("Elige un instrumento."),
-  nombre: texto(2, 160, "Escribe el nombre de la campaña."),
+  instrumentoId: z.uuid("Elija un instrumento."),
+  nombre: texto(2, 160, "Escriba el nombre de la campaña."),
   modo: z.enum(["codigos", "enlace"]),
   plantilla: enteroOpcional(1, 100000),
-  minimo: z.coerce.number().int("Usa un número entero.").min(5, "El mínimo no puede bajar de 5.").max(50, "Máximo 50."),
+  minimo: z.coerce.number().int("Use un número entero.").min(5, "El mínimo no puede bajar de 5.").max(50, "Máximo 50."),
   dimensiones: z.array(esquemaUuid).max(5, "Máximo 5 dimensiones."),
 });
 
 export const esquemaCodigos = z.object({
   campanaId: esquemaUuid,
-  cantidad: z.coerce.number().int("Usa un número entero.").min(1, "Mínimo 1.").max(500, "Máximo 500 por tanda."),
+  cantidad: z.coerce.number().int("Use un número entero.").min(1, "Mínimo 1.").max(500, "Máximo 500 por tanda."),
 });
 
 export const esquemaObservacion = z.object({
   informeId: esquemaUuid,
-  texto: texto(1, 4000, "Escribe la observación."),
+  texto: texto(1, 4000, "Escriba la observación."),
 });
 
 export const esquemaFirma = z.object({
   informeId: esquemaUuid,
-  nombre: texto(3, 160, "Escribe tu nombre completo."),
-  conforme: z.literal(true, "Marca la casilla para firmar."),
+  nombre: texto(3, 160, "Escriba su nombre completo."),
+  conforme: z.literal(true, "Marque la casilla para firmar."),
 });
 
 export const esquemaMedida = z.object({
   empresaId: esquemaUuid,
   campanaId: uuidOpcional,
-  titulo: texto(2, 200, "Escribe la medida."),
+  titulo: texto(2, 200, "Escriba la medida."),
   descripcion: opcional(4000),
   responsable: opcional(160),
   fecha: z
@@ -181,18 +181,18 @@ export const esquemaAccesoRespuesta = z.string().trim().min(8, "El código es de
 // Fase 3: desconexión digital
 // ---------------------------------------------------------------------------
 
-const fechaObligatoria = z.iso.date("Escribe una fecha válida.");
+const fechaObligatoria = z.iso.date("Escriba una fecha válida.");
 
-export const esquemaPlantilla = z.object({ nombre: texto(2, 160, "Escribe el nombre de la plantilla.") });
+export const esquemaPlantilla = z.object({ nombre: texto(2, 160, "Escriba el nombre de la plantilla.") });
 export const esquemaPlantillaDatos = z.object({
   id: esquemaUuid,
-  nombre: texto(2, 160, "Escribe el nombre de la plantilla."),
+  nombre: texto(2, 160, "Escriba el nombre de la plantilla."),
   revisada: z.boolean(),
   nota: opcional(1000),
 });
 export const esquemaSeccionPlantilla = z.object({
   plantillaId: esquemaUuid,
-  titulo: texto(1, 200, "Escribe el título de la sección."),
+  titulo: texto(1, 200, "Escriba el título de la sección."),
   cuerpo: z.string().trim().max(20000, "Máximo 20000 caracteres."),
   ayuda: opcional(1000),
 });
@@ -210,21 +210,21 @@ export const esquemaSeccionesPolitica = z
 
 export const esquemaAprobacion = z.object({
   politicaId: esquemaUuid,
-  nombre: texto(3, 160, "Escribe el nombre de quien aprueba."),
-  conforme: z.literal(true, "Marca la casilla para aprobar."),
+  nombre: texto(3, 160, "Escriba el nombre de quien aprueba."),
+  conforme: z.literal(true, "Marque la casilla para aprobar."),
 });
 
 export const esquemaAudiencia = z.object({
   empresaId: esquemaUuid,
   politicaId: uuidOpcional,
   fecha: fechaObligatoria,
-  asistentes: texto(3, 4000, "Escribe quién asistió."),
+  asistentes: texto(3, 4000, "Escriba quién asistió."),
   notas: opcional(4000),
 });
 
 export const esquemaFormacion = z.object({
   empresaId: esquemaUuid,
-  titulo: texto(2, 200, "Escribe el título."),
+  titulo: texto(2, 200, "Escriba el título."),
   fecha: fechaObligatoria,
   descripcion: opcional(4000),
   participantes: enteroOpcional(1, 100000),
@@ -232,6 +232,6 @@ export const esquemaFormacion = z.object({
 
 export const esquemaAcuse = z.object({
   token: z.string().min(20).max(80),
-  nombre: texto(3, 160, "Escribe tu nombre y apellidos."),
-  conforme: z.literal(true, "Marca la casilla para confirmar la lectura."),
+  nombre: texto(3, 160, "Escriba su nombre y apellidos."),
+  conforme: z.literal(true, "Marque la casilla para confirmar la lectura."),
 });
