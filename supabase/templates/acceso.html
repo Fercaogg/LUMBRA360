@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="es">
+  <body style="font-family: system-ui, sans-serif; color: #17211e; line-height: 1.5;">
+    <h1 style="font-size: 20px;">Tu enlace de acceso</h1>
+    <p>Has pedido entrar en tu panel. El enlace caduca en una hora y solo sirve una vez.</p>
+    <p>
+      <a href="{{ .SiteURL }}/auth/confirmar?token_hash={{ .TokenHash }}&type=email">Entrar en el panel</a>
+    </p>
+    <p>Si no lo has pedido tú, ignora este correo. Nadie entrará sin este enlace.</p>
+  </body>
+</html>
