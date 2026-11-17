@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
-import { EnlaceBoton } from "@/components/ui/boton";
 import { Demostracion } from "@/components/portada/demostracion";
+import { Orbita } from "@/components/portada/orbita";
+import { Recorrido } from "@/components/portada/recorrido";
+import { Lente } from "@/components/portada/lente";
+import { EfectosPortada } from "@/components/portada/efectos";
 import { Logotipo } from "@/components/marca/logotipo";
 
 export const metadata: Metadata = {
@@ -11,239 +14,201 @@ export const metadata: Metadata = {
   description: "Evaluación psicosocial continua y desconexión digital para pymes, con un dossier de evidencias fechadas.",
 };
 
-const PASOS = [
+const PROBLEMA = `Evaluar los riesgos psicosociales y ordenar la desconexión digital pide participación real, un plan con responsables y pruebas de lo que se hace. En una pyme, todo eso acaba repartido entre correos, hojas sueltas y carpetas. ${NOMBRE} lo reúne en un solo sitio. Sin vigilar a nadie.`;
+
+const PRINCIPIOS = [
   {
-    titulo: "La plantilla responde",
-    texto: "Cuestionarios breves, voluntarios y anónimos. Se entra con un código, sin cuenta. Ningún resultado se muestra con menos de 5 respuestas.",
+    titulo: "Nada de vigilancia",
+    texto: "No medimos actividad, conexiones, horarios ni correos. Solo cuestionarios voluntarios y documentos.",
   },
   {
-    titulo: "El técnico de prevención decide",
-    texto: "Trata las respuestas de la evaluación con FPSICO, registra y firma su informe, y acompaña el plan de acción con responsables y fechas.",
+    titulo: "El técnico, al mando",
+    texto: "La plataforma ordena y registra. El criterio profesional y la firma son del técnico de prevención.",
   },
   {
-    titulo: "Queda la evidencia",
-    texto: "Campañas, informes, medidas, política, audiencia, acuses y formación se ordenan en una línea de tiempo y en un dossier en PDF.",
+    titulo: "Para servicios de prevención y gestorías",
+    texto: "Varias empresas desde un panel: altas, estado de cada evaluación y descarga de informes. Con su marca, si lo desea.",
   },
 ];
 
-const QUIEN_VE = [
-  { dato: "Respuestas individuales", plantilla: "Solo envía la suya", empresa: "No", partner: "No", tecnico: "No" },
-  { dato: "Resultados de grupo (5 o más)", plantilla: "No", empresa: "Sí", partner: "Sí", tecnico: "Sí" },
-  { dato: "Plan de acción", plantilla: "No", empresa: "Edita", partner: "Consulta", tecnico: "Edita" },
-  { dato: "Dossier de evidencias", plantilla: "No", empresa: "Sí", partner: "Sí", tecnico: "Sí" },
-];
-const COLUMNAS = [
-  { clave: "plantilla", titulo: "Persona trabajadora" },
-  { clave: "empresa", titulo: "Empresa" },
-  { clave: "partner", titulo: "Partner" },
-  { clave: "tecnico", titulo: "Técnico de prevención" },
-] as const;
+const pastilla =
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-[0.95rem] font-medium transition-[background-color,border-color,transform] duration-200 ease-salida active:scale-[0.97]";
+
+function Indice({ n, texto, claro = false }: { n: string; texto: string; claro?: boolean }) {
+  return (
+    <p className={`flex items-center gap-3 font-mono text-xs tracking-[0.14em] ${claro ? "text-[var(--tinta-200)]" : "text-tinta-suave"}`}>
+      <span>{n}</span>
+      <span aria-hidden className={`h-px w-10 ${claro ? "bg-white/30" : "bg-linea-fuerte"}`} />
+      <span>{texto.toUpperCase()}</span>
+    </p>
+  );
+}
 
 export default function Portada() {
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-linea/70 bg-papel/85 backdrop-blur-md">
-        <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between gap-4 px-4">
-          <Link href="/" aria-label={`${NOMBRE}, inicio`} className="rounded-md py-2 text-tinta">
-            <Logotipo alto={30} decorativo />
+      <EfectosPortada />
+
+      <header data-cabecera className="cabecera fixed inset-x-0 top-0 z-40">
+        <div className="mx-auto flex h-16 w-full max-w-[84rem] items-center justify-between gap-4 px-4 sm:px-8">
+          <Link href="/" aria-label={`${NOMBRE}, inicio`} className="rounded-md py-2">
+            <Logotipo alto={26} decorativo />
           </Link>
-          <nav aria-label="Principal" className="flex items-center gap-1 sm:gap-2">
-            <a href="#como-funciona" className="hidden rounded-md px-3 py-2 text-sm text-tinta-suave transition-colors duration-150 hover:text-tinta md:inline-flex">
-              Cómo funciona
+          <nav aria-label="Principal" className="flex items-center gap-1 sm:gap-6">
+            <a href="#metodo" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta md:inline-flex">
+              Método
             </a>
-            <a href="#demostracion" className="hidden rounded-md px-3 py-2 text-sm text-tinta-suave transition-colors duration-150 hover:text-tinta sm:inline-flex">
+            <a href="#demostracion" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta sm:inline-flex">
               Demostración
             </a>
-            <a href="#quien-ve-que" className="hidden rounded-md px-3 py-2 text-sm text-tinta-suave transition-colors duration-150 hover:text-tinta md:inline-flex">
+            <a href="#quien-ve-que" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta md:inline-flex">
               Quién ve qué
             </a>
-            <EnlaceBoton href="/acceso" variante="secundario">
+            <Link href="/acceso" className={`${pastilla} min-h-10 bg-tinta px-5 text-sm text-[var(--texto-sobre-marca)] hover:bg-[var(--tinta-800)]`}>
               Acceder
-            </EnlaceBoton>
+            </Link>
           </nav>
         </div>
       </header>
 
-      <main id="contenido" className="flex-1">
-        {/* Portada */}
-        <section className="relative overflow-hidden">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[radial-gradient(56rem_30rem_at_78%_-12%,color-mix(in_srgb,var(--lumbre)_16%,transparent),transparent_70%)]" />
-          <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:pb-28">
-            <div className="flex flex-col items-start gap-6">
-              <p className="aparecer text-sm font-medium text-acento">Evaluación psicosocial y desconexión digital para pymes</p>
-              <h1 className="aparecer text-balance font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">{LEMA}</h1>
-              <p className="aparecer max-w-xl text-pretty text-lg leading-relaxed text-tinta-suave">
-                {NOMBRE} reúne cuestionarios anónimos, plan de acción y un dossier de evidencias fechadas. Todo ordenado por si llega un requerimiento de la Inspección de Trabajo.
+      <main id="contenido" className="flex-1 overflow-x-clip">
+        {/* 00 · Portada */}
+        <section className="relative min-h-[100svh] pt-16">
+          <div className="mx-auto grid w-full max-w-[84rem] items-center gap-6 px-4 pb-16 pt-6 sm:px-8 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:pb-10">
+            <div className="order-2 flex flex-col gap-8 lg:order-1">
+              <p className="aparecer font-mono text-xs tracking-[0.14em] text-tinta-suave">EVALUACIÓN PSICOSOCIAL · DESCONEXIÓN DIGITAL · PYMES</p>
+              <h1 className="aparecer text-balance font-serif text-[clamp(3.1rem,8.4vw,7.6rem)] font-light leading-[0.92] tracking-[-0.035em]">
+                Cumplir y cuidar
+                <br />
+                <span className="text-[var(--tinta-500)]">sin vigilar.</span>
+              </h1>
+              <p className="aparecer max-w-lg text-pretty text-lg leading-relaxed text-tinta-suave">
+                Cuestionarios anónimos, plan de acción y un dossier de evidencias fechadas. Todo ordenado por si llega un requerimiento de la Inspección de Trabajo.
               </p>
-              <div className="aparecer flex flex-wrap gap-3">
-                <EnlaceBoton href="#demostracion">Ver la demostración</EnlaceBoton>
-                <EnlaceBoton href="/acceso" variante="secundario">
-                  Acceder al panel
-                </EnlaceBoton>
+              <div className="aparecer flex flex-wrap items-center gap-3">
+                <a href="#demostracion" className={`${pastilla} bg-tinta text-[var(--texto-sobre-marca)] hover:bg-[var(--tinta-800)]`}>
+                  Ver la demostración
+                </a>
+                <a href="#metodo" className={`${pastilla} border border-linea-fuerte text-tinta hover:border-tinta`}>
+                  Cómo funciona
+                </a>
               </div>
-              <p className="aparecer max-w-xl text-sm text-tinta-suave">
+              <p className="max-w-md text-xs leading-relaxed text-tinta-suave">
                 Herramienta de apoyo para el técnico de prevención. Independiente: no es un servicio de la Inspección de Trabajo ni del INSST.
               </p>
             </div>
-
-            {/* Documento de ejemplo: se eleva al hacer scroll */}
-            <div aria-hidden className="relative mx-auto hidden w-full max-w-sm sm:block">
-              <div className="flotar relative">
-                <div className="absolute inset-0 translate-x-4 translate-y-4 rotate-2 rounded-xl border border-linea bg-superficie/60" />
-                <div className="relative flex flex-col gap-5 rounded-xl border border-linea bg-superficie p-7 shadow-[0_32px_64px_-32px_rgba(23,33,30,0.35)]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[0.65rem] font-semibold tracking-[0.22em] text-acento">DOSSIER DE EVIDENCIAS</span>
-                    <span className="rounded-full bg-aviso-tenue px-2 py-0.5 text-[0.6rem] font-medium text-aviso">Ejemplo</span>
-                  </div>
-                  <p className="font-serif text-2xl leading-tight">Empresa de ejemplo</p>
-                  <span className="h-[3px] w-10 rounded-full bg-lumbre" />
-                  <ul className="flex flex-col gap-3 text-sm">
-                    {["Evaluación cerrada", "Informe firmado", "Plan de acción", "Política aprobada", "Acuses de lectura"].map((linea, i) => (
-                      <li key={linea} className="flex items-center gap-3">
-                        <span className="grid size-5 place-items-center rounded-full bg-acento-tenue text-[0.6rem] font-semibold text-acento-fuerte">{i + 1}</span>
-                        <span className="text-tinta">{linea}</span>
-                        <span className="ml-auto h-1.5 w-12 rounded-full bg-papel" />
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-xs text-tinta-suave">Generado con fecha. Sin respuestas individuales.</p>
-                </div>
-              </div>
+            <div className="order-1 lg:order-2">
+              <Orbita />
             </div>
+          </div>
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center lg:flex">
+            <span className="indicador-scroll" />
           </div>
         </section>
 
-        {/* Problema */}
-        <section className="border-y border-linea bg-superficie">
-          <div className="revelar mx-auto grid w-full max-w-6xl gap-8 px-4 py-16 sm:py-20 lg:grid-cols-[1fr_1.4fr]">
-            <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Cuidar a las personas exige método. Y demostrarlo, pruebas fechadas.</h2>
-            <div className="flex flex-col gap-4 text-pretty text-lg leading-relaxed text-tinta-suave">
-              <p>
-                Evaluar los riesgos psicosociales y ordenar la desconexión digital pide participación real, un plan con responsables y un registro de lo que se hace.
-              </p>
-              <p>En una pyme, todo eso suele acabar repartido entre correos, hojas sueltas y carpetas. {NOMBRE} lo reúne en un solo sitio, sin vigilar a nadie.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Cómo funciona */}
-        <section id="como-funciona" className="scroll-mt-20">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-20 sm:py-24">
-            <div className="revelar flex max-w-2xl flex-col gap-3">
-              <p className="text-sm font-medium text-acento">Cómo funciona</p>
-              <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Tres pasos. Cada uno deja huella.</h2>
-            </div>
-            <ol className="grid gap-5 md:grid-cols-3">
-              {PASOS.map((paso, i) => (
-                <li key={paso.titulo} className="revelar flex flex-col gap-4 rounded-2xl border border-linea bg-superficie p-6 sm:p-7">
-                  <span className="font-serif text-4xl italic text-acento">{i + 1}</span>
-                  <h3 className="text-lg font-semibold">{paso.titulo}</h3>
-                  <p className="text-pretty leading-relaxed text-tinta-suave">{paso.texto}</p>
-                </li>
+        {/* 01 · El problema */}
+        <section className="border-t border-linea">
+          <div className="mx-auto grid w-full max-w-[84rem] gap-10 px-4 py-24 sm:px-8 sm:py-32 lg:grid-cols-[14rem_1fr]">
+            <Indice n="01" texto="El problema" />
+            <p data-palabras className="max-w-5xl text-pretty font-serif text-[clamp(1.75rem,3.6vw,3.25rem)] font-light leading-[1.18] tracking-[-0.015em]">
+              {PROBLEMA.split(" ").map((palabra, i) => (
+                <span key={i} data-palabra>
+                  {palabra}{" "}
+                </span>
               ))}
-            </ol>
-            <p className="revelar text-sm text-tinta-suave">{ORIGEN_INSST}.</p>
+            </p>
           </div>
         </section>
 
-        {/* Demostración */}
-        <section id="demostracion" className="scroll-mt-20 border-y border-linea bg-[linear-gradient(180deg,var(--color-superficie),var(--color-papel))]">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-20 sm:py-24">
-            <div className="revelar flex max-w-2xl flex-col gap-3">
-              <p className="text-sm font-medium text-acento">Demostración</p>
-              <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Pruébelo aquí mismo.</h2>
-              <p className="text-pretty text-lg text-tinta-suave">Un recorrido con una empresa de ejemplo. Los datos y los textos son ficticios.</p>
+        {/* 02 · Método */}
+        <section id="metodo" className="scroll-mt-16 border-t border-linea bg-superficie">
+          <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-8 px-4 pt-24 sm:px-8 sm:pt-32">
+            <Indice n="02" texto="Método" />
+            <h2 className="max-w-3xl text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-light leading-[0.98] tracking-[-0.03em]">
+              Cuatro pasos. Cada uno deja huella.
+            </h2>
+          </div>
+          <div className="mx-auto w-full max-w-[84rem] px-4 pb-24 sm:px-8">
+            <Recorrido />
+          </div>
+        </section>
+
+        {/* 03 · Demostración */}
+        <section id="demostracion" className="scroll-mt-16 bg-marca text-[var(--texto-sobre-marca)]">
+          <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-14 px-4 py-24 sm:px-8 sm:py-32">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
+              <div className="flex flex-col gap-8">
+                <Indice n="03" texto="Demostración" claro />
+                <h2 className="text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-light leading-[0.98] tracking-[-0.03em]">Pruébelo aquí mismo.</h2>
+              </div>
+              <p className="max-w-md text-pretty text-lg leading-relaxed text-[var(--tinta-200)] lg:justify-self-end">
+                Un recorrido con una empresa de ejemplo: responder, anonimato, evidencias y dossier. Los datos y los textos son ficticios.
+              </p>
             </div>
-            <div className="revelar">
+            <div data-inclinar className="text-tinta will-change-transform">
               <Demostracion />
             </div>
           </div>
         </section>
 
-        {/* Quién ve qué */}
-        <section id="quien-ve-que" className="scroll-mt-20">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-20 sm:py-24">
-            <div className="revelar flex max-w-2xl flex-col gap-3">
-              <p className="text-sm font-medium text-acento">Privacidad por diseño</p>
-              <h2 className="text-balance font-serif text-3xl leading-tight sm:text-4xl">Quién ve qué.</h2>
-              <p className="text-pretty text-lg text-tinta-suave">Los permisos se aplican en la base de datos, no solo en la pantalla.</p>
+        {/* 04 · Quién ve qué */}
+        <section id="quien-ve-que" className="scroll-mt-16">
+          <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-14 px-4 py-24 sm:px-8 sm:py-32">
+            <div className="flex flex-col gap-8">
+              <Indice n="04" texto="Privacidad por diseño" />
+              <h2 className="max-w-3xl text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-light leading-[0.98] tracking-[-0.03em]">Quién ve qué.</h2>
             </div>
-
-            {/* Escritorio: tabla. Móvil: tarjetas. Sin desplazamiento lateral. */}
-            <div className="revelar hidden overflow-hidden rounded-2xl border border-linea bg-superficie md:block">
-              <table className="w-full text-left text-sm">
-                <caption className="sr-only">Qué dato ve cada perfil</caption>
-                <thead className="bg-papel/70">
-                  <tr>
-                    <th scope="col" className="px-5 py-4 font-semibold">Dato</th>
-                    {COLUMNAS.map((c) => (
-                      <th key={c.clave} scope="col" className="px-5 py-4 font-semibold">{c.titulo}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-linea">
-                  {QUIEN_VE.map((fila) => (
-                    <tr key={fila.dato}>
-                      <th scope="row" className="px-5 py-4 font-medium">{fila.dato}</th>
-                      {COLUMNAS.map((c) => (
-                        <td key={c.clave} className={`px-5 py-4 ${fila[c.clave] === "No" ? "text-tinta-suave" : ""}`}>{fila[c.clave]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <ul className="revelar flex flex-col gap-4 md:hidden">
-              {QUIEN_VE.map((fila) => (
-                <li key={fila.dato} className="rounded-2xl border border-linea bg-superficie p-5">
-                  <h3 className="font-semibold">{fila.dato}</h3>
-                  <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                    {COLUMNAS.map((c) => (
-                      <div key={c.clave} className="flex flex-col">
-                        <dt className="text-tinta-suave">{c.titulo}</dt>
-                        <dd className="font-medium">{fila[c.clave]}</dd>
-                      </div>
-                    ))}
-                  </dl>
+            <Lente />
+            <ol className="grid border-t border-linea md:grid-cols-3">
+              {PRINCIPIOS.map((p, i) => (
+                <li key={p.titulo} data-subir className="flex flex-col gap-3 border-b border-linea py-8 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
+                  <span className="font-serif text-4xl font-light text-[var(--tinta-500)]">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="text-lg font-semibold">{p.titulo}</h3>
+                  <p className="text-pretty leading-relaxed text-tinta-suave">{p.texto}</p>
                 </li>
               ))}
-            </ul>
-
-            <div className="revelar grid gap-5 md:grid-cols-2">
-              <div className="rounded-2xl border border-linea bg-superficie p-6 sm:p-7">
-                <h3 className="text-lg font-semibold">Nada de vigilancia</h3>
-                <p className="mt-2 text-pretty leading-relaxed text-tinta-suave">
-                  No medimos actividad, conexiones, horarios ni correos. Solo cuestionarios voluntarios y documentos.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-linea bg-superficie p-6 sm:p-7">
-                <h3 className="text-lg font-semibold">Para servicios de prevención y gestorías</h3>
-                <p className="mt-2 text-pretty leading-relaxed text-tinta-suave">
-                  Gestiona varias empresas desde un panel: altas, estado de cada evaluación y descarga de informes. Con su marca, si lo desea.
-                </p>
-              </div>
-            </div>
+            </ol>
           </div>
         </section>
 
         {/* Cierre */}
-        <section className="border-t border-linea bg-marca text-white">
-          <div className="revelar mx-auto flex w-full max-w-6xl flex-col items-start gap-6 px-4 py-16 sm:py-20 md:flex-row md:items-center md:justify-between">
-            <h2 className="max-w-xl text-balance font-serif text-3xl leading-tight sm:text-4xl">{LEMA}</h2>
-            <Link
-              href="/acceso"
-              className="inline-flex min-h-11 items-center justify-center rounded-md bg-lumbre px-5 font-medium text-[var(--petroleo-900)] transition-[background-color,transform] duration-150 ease-salida hover:bg-lumbre-claro active:scale-[0.98]"
-            >
-              Acceder al panel
-            </Link>
+        <section className="relative overflow-hidden bg-marca text-[var(--texto-sobre-marca)]">
+          <svg aria-hidden viewBox="0 0 200 200" className="pointer-events-none absolute -right-[18vw] top-1/2 w-[min(90vw,62rem)] -translate-y-1/2 sm:-right-[8vw] lg:-right-[16vw]">
+            <circle
+              data-trazo
+              cx="100"
+              cy="100"
+              r="84"
+              pathLength={100}
+              fill="none"
+              stroke="var(--tinta-400)"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+              strokeDasharray="88 12"
+              transform="rotate(-62 100 100)"
+              opacity="0.55"
+            />
+            <circle data-chispa cx="100" cy="100" r="5" fill="var(--lumbre)" />
+            <circle cx="100" cy="100" r="16" fill="var(--lumbre)" opacity="0.08" />
+          </svg>
+          <div className="relative mx-auto flex min-h-[80svh] w-full max-w-[84rem] flex-col justify-center gap-10 px-4 py-24 sm:px-8">
+            <h2 className="max-w-4xl text-balance font-serif text-[clamp(3rem,8vw,7rem)] font-light leading-[0.92] tracking-[-0.035em]">{LEMA}</h2>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/acceso" className={`${pastilla} bg-lumbre text-[var(--tinta-950)] hover:bg-lumbre-claro`}>
+                Acceder al panel
+              </Link>
+              <a href="#demostracion" className={`${pastilla} border border-white/30 hover:border-white/70`}>
+                Ver la demostración
+              </a>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-linea bg-papel">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-tinta-suave sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col gap-2">
-            <Logotipo alto={28} />
+      <footer className="bg-marca text-[var(--tinta-200)]">
+        <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-6 border-t border-white/10 px-4 py-10 text-sm sm:flex-row sm:items-start sm:justify-between sm:px-8">
+          <div className="flex flex-col gap-3">
+            <Logotipo alto={24} variante="negativo" />
             <p>{LEMA}</p>
           </div>
           <div className="flex max-w-md flex-col gap-2 sm:text-right">
