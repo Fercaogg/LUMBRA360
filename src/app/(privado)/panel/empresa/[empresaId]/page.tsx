@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { invitar, quitarCuentaEmpresa } from "@/app/(privado)/acciones";
-import { ListaInvitaciones } from "@/components/panel/listas";
+import { ListaInvitaciones, Pestanas } from "@/components/panel/listas";
 import { Boton, EnlaceBoton } from "@/components/ui/boton";
 import { Campo, Enviar, Formulario } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Etiqueta, Tarjeta } from "@/components/ui/piezas";
 import { exigirAcceso } from "@/lib/acceso";
+import Link from "next/link";
+import { ESTADOS_CAMPANA, pestanasEmpresa } from "@/lib/empresa";
 import { urlSupabase } from "@/lib/entorno";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { esquemaUuid } from "@/lib/validacion";
@@ -69,8 +71,9 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
     acceso.esAdmin ||
     acceso.partners.some((p) => p.id === empresa.partner_id && p.rol === "gestor");
 
-  const [marca, cuentas, tecnicos, invitaciones] = await Promise.all([
+  const [marca, ultimas, cuentas, tecnicos, invitaciones] = await Promise.all([
     supabase.rpc("marca_de_empresa", { p_empresa: empresa.id }),
+    supabase.from("campanas").select("id, nombre, tipo, estado").eq("empresa_id", empresa.id).order("creada_el", { ascending: false }).limit(5),
     gestiona
       ? supabase.from("empresa_miembros").select("usuario_id, perfiles(correo)").eq("empresa_id", empresa.id)
       : null,
@@ -126,11 +129,29 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
           <Etiqueta tono="aviso">Empresa de demostración. Sus datos son ficticios.</Etiqueta>
         </p>
       ) : null}
+      <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`/panel/empresa/${empresa.id}`} />
 
-      <EstadoVacio
-        titulo="Todavía no hay campañas"
-        texto="Cuando se lance la primera evaluación, aquí verás la participación y los resultados agregados. Nunca respuestas individuales."
-      />
+      {ultimas.data && ultimas.data.length > 0 ? (
+        <ul className="flex flex-col divide-y divide-linea overflow-hidden rounded-xl border border-linea bg-superficie">
+          {ultimas.data.map((campana) => (
+            <li key={campana.id}>
+              <Link href={`/panel/empresa/${empresa.id}/campanas/${campana.id}`} className="flex flex-col gap-2 p-4 transition-colors duration-150 hover:bg-papel sm:flex-row sm:items-center sm:justify-between">
+                <span className="font-medium">{campana.nombre}</span>
+                <span className="flex flex-wrap gap-2">
+                  <Etiqueta>{campana.tipo === "pulso" ? "Pulso" : "Evaluación"}</Etiqueta>
+                  <Etiqueta tono={campana.estado === "abierta" ? "acento" : "neutro"}>{ESTADOS_CAMPANA[campana.estado]}</Etiqueta>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <EstadoVacio
+          titulo="Todavía no hay campañas"
+          texto="Cuando se lance la primera evaluación, aquí verás la participación y los resultados agregados. Nunca respuestas individuales."
+          accion={<EnlaceBoton href={`/panel/empresa/${empresa.id}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
+        />
+      )}
 
       {gestiona ? (
         <div className="grid gap-6 lg:grid-cols-2">

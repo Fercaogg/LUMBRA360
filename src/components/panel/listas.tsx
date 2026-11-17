@@ -9,6 +9,8 @@ export type EmpresaListada = {
   plantilla_declarada: number | null;
   es_demo: boolean;
   partner?: string | null;
+  // Estado de su evaluación más reciente.
+  estado?: string;
 };
 
 // Lista de empresas. En móvil se apila; no hay tablas con desplazamiento lateral.
@@ -32,7 +34,7 @@ export function ListaEmpresas({ empresas }: { empresas: EmpresaListada[] }) {
             </span>
             <span className="flex flex-wrap items-center gap-2">
               {empresa.es_demo ? <Etiqueta tono="aviso">Demo</Etiqueta> : null}
-              <Etiqueta>Sin campañas</Etiqueta>
+              <Etiqueta tono={empresa.estado === "Campaña abierta" ? "acento" : "neutro"}>{empresa.estado ?? "Sin campañas"}</Etiqueta>
             </span>
           </Link>
         </li>

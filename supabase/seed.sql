@@ -20,3 +20,78 @@ insert into public.invitaciones (correo, rol, partner_id, empresa_id) values
   ('tecnico-a@demo.invalid', 'tecnico', '00000000-0000-4000-a000-000000000001', '00000000-0000-4000-b000-000000000001'),
   ('empresa-1@demo.invalid', 'empresa', null, '00000000-0000-4000-b000-000000000001'),
   ('empresa-3@demo.invalid', 'empresa', null, '00000000-0000-4000-b000-000000000003');
+
+-- ---------------------------------------------------------------------------
+-- Fase 2. Instrumento, grupos, campañas y respuestas de DEMOSTRACIÓN.
+-- Los textos del cuestionario son marcadores sin contenido real: no proceden de ningún instrumento.
+-- ---------------------------------------------------------------------------
+
+insert into public.instrumentos (id, nombre, descripcion, tipo, minutos_estimados, es_demo) values
+  ('00000000-0000-4000-8c00-000000000001', 'Cuestionario de demostración (ficticio)', 'Sirve para probar la plataforma. No es un instrumento de evaluación.', 'evaluacion', 2, true),
+  ('00000000-0000-4000-8c00-000000000002', 'Pulso de demostración (ficticio)', 'Sirve para probar los pulsos. No es un instrumento de evaluación.', 'pulso', 1, true);
+
+insert into public.escalas (id, instrumento_id, nombre) values
+  ('00000000-0000-4000-8c10-000000000001', '00000000-0000-4000-8c00-000000000001', 'Escala de demostración'),
+  ('00000000-0000-4000-8c10-000000000002', '00000000-0000-4000-8c00-000000000002', 'Escala de demostración');
+insert into public.escala_opciones (escala_id, etiqueta, valor, orden)
+select e.id, 'Valor ' || v || ' (demo)', v, v
+from public.escalas e cross join generate_series(1, 5) as v
+where e.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+
+insert into public.factores (id, instrumento_id, nombre, orden) values
+  ('00000000-0000-4000-8c20-000000000001', '00000000-0000-4000-8c00-000000000001', 'Factor de demostración A', 1),
+  ('00000000-0000-4000-8c20-000000000002', '00000000-0000-4000-8c00-000000000001', 'Factor de demostración B', 2),
+  ('00000000-0000-4000-8c20-000000000003', '00000000-0000-4000-8c00-000000000002', 'Factor de demostración del pulso', 1);
+insert into public.niveles (factor_id, etiqueta, desde, tono)
+select f.id, n.etiqueta, n.desde, n.tono::public.tono_nivel
+from public.factores f
+cross join (values ('Nivel demo 1', 1, 'desfavorable'), ('Nivel demo 2', 2.5, 'intermedio'), ('Nivel demo 3', 3.5, 'favorable')) as n (etiqueta, desde, tono)
+where f.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+insert into public.items (instrumento_id, factor_id, escala_id, enunciado, orden)
+select f.instrumento_id, f.id, e.id, 'Enunciado de demostración ' || n || ' de «' || f.nombre || '» (texto ficticio)', n
+from public.factores f
+join public.escalas e on e.instrumento_id = f.instrumento_id
+cross join generate_series(1, 2) as n
+where f.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+
+update public.instrumentos set estado = 'publicado'
+where id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+
+-- Grupos de la empresa demo 1
+insert into public.dimensiones (id, empresa_id, nombre) values
+  ('00000000-0000-4000-8d00-000000000001', '00000000-0000-4000-b000-000000000001', 'Área (demo)');
+insert into public.grupos (id, dimension_id, nombre, orden) values
+  ('00000000-0000-4000-8d10-000000000001', '00000000-0000-4000-8d00-000000000001', 'Área demo 1', 1),
+  ('00000000-0000-4000-8d10-000000000002', '00000000-0000-4000-8d00-000000000001', 'Área demo 2', 2),
+  ('00000000-0000-4000-8d10-000000000003', '00000000-0000-4000-8d00-000000000001', 'Área demo 3', 3);
+
+-- Campaña demo ya cerrada, con 18 respuestas ficticias: 9 + 6 + 3 (el grupo de 3 queda protegido).
+insert into public.campanas (id, empresa_id, instrumento_id, nombre, modo_acceso, plantilla_invitada)
+values ('00000000-0000-4000-8e00-000000000001', '00000000-0000-4000-b000-000000000001', '00000000-0000-4000-8c00-000000000001', 'Campaña de demostración (ficticia)', 'codigos', 24);
+insert into public.campana_dimensiones (campana_id, dimension_id)
+values ('00000000-0000-4000-8e00-000000000001', '00000000-0000-4000-8d00-000000000001');
+
+with nuevas as (
+  insert into public.respuestas (id, campana_id, dia)
+  select ('00000000-0000-4000-8f00-' || lpad(n::text, 12, '0'))::uuid, '00000000-0000-4000-8e00-000000000001', current_date - 30
+  from generate_series(1, 18) as n
+  returning id
+), numeradas as (
+  select id, row_number() over (order by id) as n from nuevas
+), grupos as (
+  insert into public.respuesta_grupos (respuesta_id, grupo_id)
+  select id, case when n <= 9 then '00000000-0000-4000-8d10-000000000001'::uuid
+                  when n <= 15 then '00000000-0000-4000-8d10-000000000002'::uuid
+                  else '00000000-0000-4000-8d10-000000000003'::uuid end
+  from numeradas
+  returning 1
+)
+insert into public.respuesta_items (respuesta_id, item_id, valor)
+select r.id, i.id, 1 + ((r.n * 7 + i.orden * 3 + length(i.enunciado)) % 5)
+from numeradas r
+cross join public.items i
+where i.instrumento_id = '00000000-0000-4000-8c00-000000000001';
+
+update public.campanas
+set estado = 'cerrada', abierta_el = now() - interval '45 days', cerrada_el = now() - interval '30 days'
+where id = '00000000-0000-4000-8e00-000000000001';

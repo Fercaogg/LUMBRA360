@@ -43,6 +43,104 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"campana_dimensiones": {
+                  Row: {
+                    "campana_id": string,"dimension_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campana_id": string,"dimension_id": string
+                  }
+                  Update: {
+                    "campana_id"?: string,"dimension_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "campana_dimensiones_campana_id_fkey"
+      columns: ["campana_id"]
+isOneToOne: false
+      referencedRelation: "campanas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "campana_dimensiones_dimension_id_fkey"
+      columns: ["dimension_id"]
+isOneToOne: false
+      referencedRelation: "dimensiones"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"campanas": {
+                  Row: {
+                    "abierta_el": string | null,"cerrada_el": string | null,"creada_el": string,"creada_por": string | null,"empresa_id": string,"estado": Database["public"]['Enums']["estado_campana"],"id": string,"instrumento_id": string,"minimo_grupo": number,"modo_acceso": Database["public"]['Enums']["modo_acceso"],"nombre": string,"plantilla_invitada": number | null,"tipo": Database["public"]['Enums']["tipo_instrumento"],"token_enlace": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "abierta_el"?: string | null,"cerrada_el"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"empresa_id": string,"estado"?: Database["public"]['Enums']["estado_campana"],"id"?: string,"instrumento_id": string,"minimo_grupo"?: number,"modo_acceso"?: Database["public"]['Enums']["modo_acceso"],"nombre": string,"plantilla_invitada"?: number | null,"tipo"?: Database["public"]['Enums']["tipo_instrumento"],"token_enlace"?: string | null
+                  }
+                  Update: {
+                    "abierta_el"?: string | null,"cerrada_el"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"empresa_id"?: string,"estado"?: Database["public"]['Enums']["estado_campana"],"id"?: string,"instrumento_id"?: string,"minimo_grupo"?: number,"modo_acceso"?: Database["public"]['Enums']["modo_acceso"],"nombre"?: string,"plantilla_invitada"?: number | null,"tipo"?: Database["public"]['Enums']["tipo_instrumento"],"token_enlace"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "campanas_creada_por_fkey"
+      columns: ["creada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "campanas_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "campanas_instrumento_id_fkey"
+      columns: ["instrumento_id"]
+isOneToOne: false
+      referencedRelation: "instrumentos"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"codigos_acceso": {
+                  Row: {
+                    "campana_id": string,"codigo_hash": string,"id": string,"usado": boolean
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campana_id": string,"codigo_hash": string,"id"?: string,"usado"?: boolean
+                  }
+                  Update: {
+                    "campana_id"?: string,"codigo_hash"?: string,"id"?: string,"usado"?: boolean
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "codigos_acceso_campana_id_fkey"
+      columns: ["campana_id"]
+isOneToOne: false
+      referencedRelation: "campanas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"dimensiones": {
+                  Row: {
+                    "empresa_id": string,"id": string,"nombre": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "empresa_id": string,"id"?: string,"nombre": string
+                  }
+                  Update: {
+                    "empresa_id"?: string,"id"?: string,"nombre"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "dimensiones_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"empresa_miembros": {
                   Row: {
                     "creado_el": string,"empresa_id": string,"usuario_id": string
@@ -95,6 +193,190 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"escala_opciones": {
+                  Row: {
+                    "escala_id": string,"etiqueta": string,"id": string,"orden": number,"valor": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "escala_id": string,"etiqueta": string,"id"?: string,"orden"?: number,"valor": number
+                  }
+                  Update: {
+                    "escala_id"?: string,"etiqueta"?: string,"id"?: string,"orden"?: number,"valor"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "escala_opciones_escala_id_fkey"
+      columns: ["escala_id"]
+isOneToOne: false
+      referencedRelation: "escalas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"escalas": {
+                  Row: {
+                    "id": string,"instrumento_id": string,"nombre": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "id"?: string,"instrumento_id": string,"nombre": string
+                  }
+                  Update: {
+                    "id"?: string,"instrumento_id"?: string,"nombre"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "escalas_instrumento_id_fkey"
+      columns: ["instrumento_id"]
+isOneToOne: false
+      referencedRelation: "instrumentos"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"evidencias": {
+                  Row: {
+                    "autor": string | null,"detalle": NonNullable<Json>,"empresa_id": string,"id": string,"ocurrido_el": string,"tipo": string,"titulo": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "autor"?: string | null,"detalle"?: NonNullable<Json>,"empresa_id": string,"id"?: string,"ocurrido_el"?: string,"tipo": string,"titulo": string
+                  }
+                  Update: {
+                    "autor"?: string | null,"detalle"?: NonNullable<Json>,"empresa_id"?: string,"id"?: string,"ocurrido_el"?: string,"tipo"?: string,"titulo"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "evidencias_autor_fkey"
+      columns: ["autor"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "evidencias_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"factores": {
+                  Row: {
+                    "descripcion": string | null,"id": string,"instrumento_id": string,"metodo": Database["public"]['Enums']["metodo_puntuacion"],"nombre": string,"orden": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "descripcion"?: string | null,"id"?: string,"instrumento_id": string,"metodo"?: Database["public"]['Enums']["metodo_puntuacion"],"nombre": string,"orden"?: number
+                  }
+                  Update: {
+                    "descripcion"?: string | null,"id"?: string,"instrumento_id"?: string,"metodo"?: Database["public"]['Enums']["metodo_puntuacion"],"nombre"?: string,"orden"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "factores_instrumento_id_fkey"
+      columns: ["instrumento_id"]
+isOneToOne: false
+      referencedRelation: "instrumentos"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"grupos": {
+                  Row: {
+                    "dimension_id": string,"id": string,"nombre": string,"orden": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "dimension_id": string,"id"?: string,"nombre": string,"orden"?: number
+                  }
+                  Update: {
+                    "dimension_id"?: string,"id"?: string,"nombre"?: string,"orden"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "grupos_dimension_id_fkey"
+      columns: ["dimension_id"]
+isOneToOne: false
+      referencedRelation: "dimensiones"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"informe_observaciones": {
+                  Row: {
+                    "autor": string | null,"creado_el": string,"factor_id": string | null,"id": string,"informe_id": string,"texto": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "autor"?: string | null,"creado_el"?: string,"factor_id"?: string | null,"id"?: string,"informe_id": string,"texto": string
+                  }
+                  Update: {
+                    "autor"?: string | null,"creado_el"?: string,"factor_id"?: string | null,"id"?: string,"informe_id"?: string,"texto"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "informe_observaciones_autor_fkey"
+      columns: ["autor"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "informe_observaciones_factor_id_fkey"
+      columns: ["factor_id"]
+isOneToOne: false
+      referencedRelation: "factores"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "informe_observaciones_informe_id_fkey"
+      columns: ["informe_id"]
+isOneToOne: false
+      referencedRelation: "informes"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"informes": {
+                  Row: {
+                    "campana_id": string,"creado_el": string,"creado_por": string | null,"datos": Json | null,"estado": Database["public"]['Enums']["estado_informe"],"firmado_el": string | null,"firmado_por": string | null,"firmante_nombre": string | null,"id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campana_id": string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
+                  }
+                  Update: {
+                    "campana_id"?: string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "informes_campana_id_fkey"
+      columns: ["campana_id"]
+isOneToOne: true
+      referencedRelation: "campanas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "informes_creado_por_fkey"
+      columns: ["creado_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "informes_firmado_por_fkey"
+      columns: ["firmado_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"instrumentos": {
+                  Row: {
+                    "creado_el": string,"descripcion": string | null,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"id": string,"licencia_confirmada": boolean,"licencia_nota": string | null,"minutos_estimados": number | null,"nombre": string,"tipo": Database["public"]['Enums']["tipo_instrumento"]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre": string,"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                  }
+                  Update: {
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre"?: string,"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"invitaciones": {
                   Row: {
                     "aceptada_el": string | null,"correo": string,"creada_el": string,"creada_por": string | null,"empresa_id": string | null,"id": string,"partner_id": string | null,"rol": Database["public"]['Enums']["rol_invitacion"]
@@ -124,6 +406,122 @@ isOneToOne: false
       columns: ["partner_id"]
 isOneToOne: false
       referencedRelation: "partners"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"items": {
+                  Row: {
+                    "enunciado": string,"escala_id": string,"factor_id": string,"id": string,"instrumento_id": string,"invertido": boolean,"orden": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "enunciado": string,"escala_id": string,"factor_id": string,"id"?: string,"instrumento_id": string,"invertido"?: boolean,"orden"?: number
+                  }
+                  Update: {
+                    "enunciado"?: string,"escala_id"?: string,"factor_id"?: string,"id"?: string,"instrumento_id"?: string,"invertido"?: boolean,"orden"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "items_escala_id_fkey"
+      columns: ["escala_id"]
+isOneToOne: false
+      referencedRelation: "escalas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "items_factor_id_fkey"
+      columns: ["factor_id"]
+isOneToOne: false
+      referencedRelation: "factores"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "items_instrumento_id_fkey"
+      columns: ["instrumento_id"]
+isOneToOne: false
+      referencedRelation: "instrumentos"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"medida_historial": {
+                  Row: {
+                    "antes": string | null,"autor": string | null,"campo": string,"cuando": string,"despues": string | null,"id": string,"medida_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "antes"?: string | null,"autor"?: string | null,"campo": string,"cuando"?: string,"despues"?: string | null,"id"?: string,"medida_id": string
+                  }
+                  Update: {
+                    "antes"?: string | null,"autor"?: string | null,"campo"?: string,"cuando"?: string,"despues"?: string | null,"id"?: string,"medida_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "medida_historial_autor_fkey"
+      columns: ["autor"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "medida_historial_medida_id_fkey"
+      columns: ["medida_id"]
+isOneToOne: false
+      referencedRelation: "medidas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"medidas": {
+                  Row: {
+                    "campana_id": string | null,"creada_el": string,"creada_por": string | null,"descripcion": string | null,"empresa_id": string,"estado": Database["public"]['Enums']["estado_medida"],"factor_id": string | null,"fecha_prevista": string | null,"id": string,"responsable": string | null,"titulo": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campana_id"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"descripcion"?: string | null,"empresa_id": string,"estado"?: Database["public"]['Enums']["estado_medida"],"factor_id"?: string | null,"fecha_prevista"?: string | null,"id"?: string,"responsable"?: string | null,"titulo": string
+                  }
+                  Update: {
+                    "campana_id"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"descripcion"?: string | null,"empresa_id"?: string,"estado"?: Database["public"]['Enums']["estado_medida"],"factor_id"?: string | null,"fecha_prevista"?: string | null,"id"?: string,"responsable"?: string | null,"titulo"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "medidas_campana_id_fkey"
+      columns: ["campana_id"]
+isOneToOne: false
+      referencedRelation: "campanas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "medidas_creada_por_fkey"
+      columns: ["creada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "medidas_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "medidas_factor_id_fkey"
+      columns: ["factor_id"]
+isOneToOne: false
+      referencedRelation: "factores"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"niveles": {
+                  Row: {
+                    "desde": number,"etiqueta": string,"factor_id": string,"id": string,"tono": Database["public"]['Enums']["tono_nivel"]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "desde": number,"etiqueta": string,"factor_id": string,"id"?: string,"tono"?: Database["public"]['Enums']["tono_nivel"]
+                  }
+                  Update: {
+                    "desde"?: number,"etiqueta"?: string,"factor_id"?: string,"id"?: string,"tono"?: Database["public"]['Enums']["tono_nivel"]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "niveles_factor_id_fkey"
+      columns: ["factor_id"]
+isOneToOne: false
+      referencedRelation: "factores"
       referencedColumns: ["id"]
     }
                   ]
@@ -201,6 +599,78 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"respuesta_grupos": {
+                  Row: {
+                    "grupo_id": string,"respuesta_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "grupo_id": string,"respuesta_id": string
+                  }
+                  Update: {
+                    "grupo_id"?: string,"respuesta_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "respuesta_grupos_grupo_id_fkey"
+      columns: ["grupo_id"]
+isOneToOne: false
+      referencedRelation: "grupos"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "respuesta_grupos_respuesta_id_fkey"
+      columns: ["respuesta_id"]
+isOneToOne: false
+      referencedRelation: "respuestas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"respuesta_items": {
+                  Row: {
+                    "item_id": string,"respuesta_id": string,"valor": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "item_id": string,"respuesta_id": string,"valor": number
+                  }
+                  Update: {
+                    "item_id"?: string,"respuesta_id"?: string,"valor"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "respuesta_items_item_id_fkey"
+      columns: ["item_id"]
+isOneToOne: false
+      referencedRelation: "items"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "respuesta_items_respuesta_id_fkey"
+      columns: ["respuesta_id"]
+isOneToOne: false
+      referencedRelation: "respuestas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"respuestas": {
+                  Row: {
+                    "campana_id": string,"dia": string,"id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campana_id": string,"dia"?: string,"id"?: string
+                  }
+                  Update: {
+                    "campana_id"?: string,"dia"?: string,"id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "respuestas_campana_id_fkey"
+      columns: ["campana_id"]
+isOneToOne: false
+      referencedRelation: "campanas"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"tecnico_empresas": {
                   Row: {
                     "creado_el": string,"empresa_id": string,"usuario_id": string
@@ -233,20 +703,61 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "consumir_intento":
+            "abrir_campana":
+{ Args: { "p_campana": string }; Returns: undefined
+                           },
+"borrar_empresa_completa":
+{ Args: { "p_empresa": string }; Returns: undefined
+                           },
+"cerrar_campana":
+{ Args: { "p_campana": string }; Returns: undefined
+                           },
+"consumir_intento":
 { Args: { "p_clave": string,"p_max": number,"p_ventana_segundos": number }; Returns: boolean
                            },
 "correo_puede_acceder":
 { Args: { "p_correo": string }; Returns: boolean
                            },
+"enviar_respuesta":
+{ Args: { "p_acceso": string,"p_grupos": (string)[],"p_valores": Json }; Returns: string
+                           },
+"firmar_informe":
+{ Args: { "p_informe": string,"p_nombre": string }; Returns: undefined
+                           },
+"generar_codigos":
+{ Args: { "p_campana": string,"p_cantidad": number }; Returns: string[]
+                           },
+"grupos_de_campana":
+{ Args: { "p_campana": string }; Returns: {
+              "dimension": string,"dimension_id": string,"grupo": string,"grupo_id": string,"visible": boolean
+            }[]
+                           },
 "marca_de_empresa":
 { Args: { "p_empresa": string }; Returns: {
               "logo_ruta": string,"nombre": string
             }[]
+                           },
+"obtener_cuestionario":
+{ Args: { "p_acceso": string }; Returns: Json
+                           },
+"participacion_campana":
+{ Args: { "p_campana": string }; Returns: Json
+                           },
+"preparar_informe":
+{ Args: { "p_campana": string }; Returns: string
+                           },
+"publicar_instrumento":
+{ Args: { "p_instrumento": string }; Returns: undefined
+                           },
+"resultados_campana":
+{ Args: { "p_campana": string,"p_grupos"?: (string)[] }; Returns: Json
+                           },
+"retirar_instrumento":
+{ Args: { "p_instrumento": string }; Returns: undefined
                            }
           }
           Enums: {
-            "rol_invitacion": "admin"|"partner"|"tecnico"|"empresa","rol_partner": "gestor"|"tecnico"
+            "estado_campana": "borrador"|"abierta"|"cerrada","estado_informe": "borrador"|"firmado","estado_instrumento": "borrador"|"publicado"|"retirado","estado_medida": "pendiente"|"en_curso"|"hecha"|"descartada","metodo_puntuacion": "media"|"suma","modo_acceso": "codigos"|"enlace","rol_invitacion": "admin"|"partner"|"tecnico"|"empresa","rol_partner": "gestor"|"tecnico","tipo_instrumento": "evaluacion"|"pulso","tono_nivel": "favorable"|"intermedio"|"desfavorable"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -366,7 +877,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "rol_invitacion": ["admin", "partner", "tecnico", "empresa"],"rol_partner": ["gestor", "tecnico"]
+            "estado_campana": ["borrador", "abierta", "cerrada"],"estado_informe": ["borrador", "firmado"],"estado_instrumento": ["borrador", "publicado", "retirado"],"estado_medida": ["pendiente", "en_curso", "hecha", "descartada"],"metodo_puntuacion": ["media", "suma"],"modo_acceso": ["codigos", "enlace"],"rol_invitacion": ["admin", "partner", "tecnico", "empresa"],"rol_partner": ["gestor", "tecnico"],"tipo_instrumento": ["evaluacion", "pulso"],"tono_nivel": ["favorable", "intermedio", "desfavorable"]
           }
         }
 } as const

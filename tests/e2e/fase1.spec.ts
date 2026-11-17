@@ -1,8 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
-import { DEMO, entrar, salir } from "./ayudas";
+import { DEMO, entrar, reiniciarLimites, salir } from "./ayudas";
 
 // Cada proyecto (móvil y escritorio) usa sus propios nombres para no chocar.
 test.describe.configure({ mode: "serial" });
+test.beforeAll(() => reiniciarLimites());
 
 // Un espacio ajeno se comporta como si no existiera: ni nombre ni datos.
 async function noExiste(page: Page, ruta: string) {
@@ -89,9 +90,7 @@ test("recorrido: administración crea partner, el gestor da de alta una empresa 
   await noExiste(page, `/panel/empresa/${DEMO.empresa3}`);
 });
 
-test("datos demo: cada rol ve solo lo suyo y la marca blanca aparece", async ({ page }, info) => {
-  test.skip(info.project.name !== "movil", "Las cuentas demo tienen un límite de enlaces por correo.");
-
+test("datos demo: cada rol ve solo lo suyo y la marca blanca aparece", async ({ page }) => {
   await entrar(page, "gestor-a@demo.invalid");
   await expect(page.getByText("Empresa demo 1 (ficticia)")).toBeVisible();
   await expect(page.getByText("Empresa demo 2 (ficticia)")).toBeVisible();

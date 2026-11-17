@@ -84,13 +84,16 @@ export function Campo({
 
 export function Casilla({ etiqueta, ayuda, name, ...resto }: ComponentProps<"input"> & { etiqueta: string; ayuda?: string; name: string }) {
   const id = useId();
+  const error = useContext(ContextoEstado).errores?.[name];
+  const descripciones = [ayuda ? `${id}-ayuda` : null, error ? `${id}-error` : null].filter(Boolean).join(" ");
   return (
     <div className="flex items-start gap-3">
       <input
         id={id}
         name={name}
         type="checkbox"
-        aria-describedby={ayuda ? `${id}-ayuda` : undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={descripciones || undefined}
         className="mt-1 size-5 shrink-0 accent-acento"
         {...resto}
       />
@@ -101,6 +104,11 @@ export function Casilla({ etiqueta, ayuda, name, ...resto }: ComponentProps<"inp
         {ayuda ? (
           <p id={`${id}-ayuda`} className="text-sm text-tinta-suave">
             {ayuda}
+          </p>
+        ) : null}
+        {error ? (
+          <p id={`${id}-error`} className="text-sm text-error">
+            {error}
           </p>
         ) : null}
       </div>
@@ -152,6 +160,73 @@ export function Selector({
           {error}
         </p>
       ) : null}
+    </div>
+  );
+}
+
+export function AreaTexto({
+  etiqueta,
+  ayuda,
+  name,
+  ...resto
+}: ComponentProps<"textarea"> & { etiqueta: string; ayuda?: string; name: string }) {
+  const estado = useContext(ContextoEstado);
+  const id = useId();
+  const error = estado.errores?.[name];
+  const descripciones = [ayuda ? `${id}-ayuda` : null, error ? `${id}-error` : null].filter(Boolean).join(" ");
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={id} className="text-sm font-medium text-tinta">
+        {etiqueta}
+      </label>
+      <textarea
+        id={id}
+        name={name}
+        rows={3}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={descripciones || undefined}
+        className={`${CLASES_CONTROL} py-2`}
+        {...resto}
+      />
+      {ayuda ? (
+        <p id={`${id}-ayuda`} className="text-sm text-tinta-suave">
+          {ayuda}
+        </p>
+      ) : null}
+      {error ? (
+        <p id={`${id}-error`} className="text-sm text-error">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+// Error de un campo que no es un control simple (por ejemplo, un grupo de casillas).
+export function ErrorDeCampo({ name }: { name: string }) {
+  const error = useContext(ContextoEstado).errores?.[name];
+  return error ? <p className="text-sm text-error">{error}</p> : null;
+}
+
+// Lista que la acción devuelve una sola vez, como los códigos recién generados.
+export function ListaDevuelta({ nombreArchivo }: { nombreArchivo: string }) {
+  const lista = useContext(ContextoEstado).lista;
+  if (!lista || lista.length === 0) return null;
+  const texto = lista.join("\n");
+  return (
+    <div className="aparecer flex flex-col gap-3 rounded-lg border border-linea bg-papel p-3">
+      <ul aria-label="Códigos generados" className="grid max-h-64 grid-cols-2 gap-x-4 gap-y-1 overflow-y-auto font-mono text-sm sm:grid-cols-3">
+        {lista.map((linea) => (
+          <li key={linea}>{linea}</li>
+        ))}
+      </ul>
+      <a
+        href={`data:text/plain;charset=utf-8,${encodeURIComponent(texto)}`}
+        download={nombreArchivo}
+        className={clasesBoton("secundario", "self-start")}
+      >
+        Descargar lista
+      </a>
     </div>
   );
 }

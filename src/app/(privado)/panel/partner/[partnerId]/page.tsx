@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { ListaEmpresas, Pestanas } from "@/components/panel/listas";
 import { Cabecera, EstadoVacio } from "@/components/ui/piezas";
+import { estadosDeEvaluacion } from "@/lib/estado-evaluacion";
 import { cargarPartner, pestanasPartner } from "@/lib/partner";
 
 export const metadata: Metadata = { title: "Empresas" };
@@ -16,6 +17,9 @@ export default async function PaginaPartner({ params }: { params: Promise<{ part
     .eq("partner_id", partner.id)
     .order("nombre");
 
+  const estados = await estadosDeEvaluacion(supabase, (empresas ?? []).map((e) => e.id));
+  const lista = (empresas ?? []).map((e) => ({ ...e, estado: estados[e.id] }));
+
   const base = `/panel/partner/${partner.id}`;
   return (
     <>
@@ -29,8 +33,8 @@ export default async function PaginaPartner({ params }: { params: Promise<{ part
         acciones={esGestor ? <EnlaceBoton href={`${base}/empresas/nueva`}>Dar de alta una empresa</EnlaceBoton> : undefined}
       />
       <Pestanas enlaces={pestanasPartner(partner.id, esGestor)} actual={base} />
-      {empresas && empresas.length > 0 ? (
-        <ListaEmpresas empresas={empresas} />
+      {lista.length > 0 ? (
+        <ListaEmpresas empresas={lista} />
       ) : (
         <EstadoVacio
           titulo="Todavía no hay empresas"

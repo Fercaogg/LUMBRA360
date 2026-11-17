@@ -11,7 +11,7 @@ Lema de diseño: cumplir y cuidar sin vigilar.
 | Fase | Contenido | Estado |
 |---|---|---|
 | 1 | Base, roles y multiempresa | Hecha |
-| 2 | Evaluación psicosocial | Pendiente |
+| 2 | Evaluación psicosocial | Hecha |
 | 3 | Desconexión digital | Pendiente |
 | 4 | Registro de evidencias | Pendiente |
 | 5 | Precios y cobro | Pendiente |
@@ -70,6 +70,27 @@ npm run dev
 
 Cada correo admite 3 enlaces cada 15 minutos. Es el límite de intentos, no un fallo.
 
+## Probar la fase 2
+
+Los datos de demostración traen un cuestionario ficticio publicado y una campaña ya cerrada con 18 respuestas ficticias.
+
+1. Entra como `empresa-1@demo.invalid` y abre «Campañas y pulsos». La campaña de demostración muestra resultados por factores. El grupo de 3 respuestas aparece protegido.
+2. Prepara una campaña nueva, genera códigos y ábrela.
+3. En una ventana privada, abre `http://localhost:3000/responder` y responde con un código. Hacen falta 5 respuestas para ver resultados.
+4. Cierra la campaña. Los resultados solo se ven con la campaña cerrada.
+5. Prepara el informe. Entra como `tecnico-a@demo.invalid` para añadir observaciones, firmarlo y descargar el PDF.
+6. En «Plan de acción», añade una medida y cambia su estado. El historial guarda cada cambio.
+7. Como `admin@demo.invalid`, en Administración, Instrumentos, puedes crear un cuestionario. No se publica sin confirmar la licencia.
+
+## Anonimato: qué garantiza la base de datos
+
+- Las respuestas no llevan usuario, correo, IP ni hora. Solo el día.
+- Ningún rol lee las tablas de respuestas ni de códigos. Tampoco administración.
+- Los resultados solo salen de funciones agregadas, con la campaña cerrada.
+- Mínimo de 5 respuestas por grupo, también en filtros combinados. Si un grupo oculto pudiera deducirse por resta, se oculta además el grupo visible más pequeño.
+- Un código de un solo uso no guarda relación con la respuesta ni la fecha de uso.
+- Informes firmados y evidencias no se pueden modificar ni borrar.
+
 ## Tests
 
 ```bash
@@ -80,7 +101,7 @@ npm run test:rls
 npm run test:e2e
 ```
 
-- `test:rls` demuestra contra la base de datos local que una empresa no lee datos de otra y que un partner no ve empresas ajenas.
+- `test:rls` demuestra contra la base de datos local el aislamiento entre empresas y partners y las reglas de anonimato.
 - `test:e2e` recorre la aplicación en móvil y escritorio. Reinicia la base de datos local antes de empezar.
 
 ## Usar el proyecto de Supabase en la nube

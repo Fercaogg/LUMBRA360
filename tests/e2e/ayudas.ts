@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import { expect, type Page } from "@playwright/test";
 
 const MAILPIT = "http://127.0.0.1:54324";
@@ -46,3 +47,8 @@ export const DEMO = {
   empresa2: "00000000-0000-4000-b000-000000000002",
   empresa3: "00000000-0000-4000-b000-000000000003",
 };
+
+// Vacía el contador de intentos del Supabase local para que los tests no se frenen entre sí.
+export function reiniciarLimites(): void {
+  execSync('docker exec supabase_db_lumbra360 psql -U postgres -c "truncate privado.limites_intentos"', { stdio: "ignore" });
+}
