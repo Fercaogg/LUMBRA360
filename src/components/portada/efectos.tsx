@@ -11,6 +11,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 // - data-inclinar: el bloque llega inclinado en 3D y se endereza.
 // - data-trazo: la onda de la marca se dibuja y se rellena de lumbre.
 // - data-subir: entrada suave del bloque.
+// - data-girar: pantalla del producto que llega girada en 3D. data-arco: arcos del 360.
 // Sin JavaScript o con «reducir movimiento», todo se ve en su estado final.
 export function EfectosPortada() {
   useGSAP(() => {
@@ -31,6 +32,27 @@ export function EfectosPortada() {
           { rotationX: 0, scale: 1, y: 0, ease: "none", scrollTrigger: { trigger: bloque, start: "top 95%", end: "top 25%", scrub: true } },
         );
       });
+
+      // Pantallas del producto: llegan giradas en 3D y se colocan de frente.
+      gsap.utils.toArray<HTMLElement>("[data-girar]").forEach((pantalla) => {
+        const lado = pantalla.dataset.girar === "izquierda" ? 1 : -1;
+        gsap.fromTo(
+          pantalla,
+          { rotationY: 22 * lado, rotationX: 10, scale: 0.88, transformPerspective: 1600, transformOrigin: lado > 0 ? "0% 50%" : "100% 50%" },
+          { rotationY: 0, rotationX: 0, scale: 1, ease: "none", scrollTrigger: { trigger: pantalla, start: "top 95%", end: "center 55%", scrub: true } },
+        );
+      });
+
+      // 360: los cuatro arcos se dibujan uno detrás de otro.
+      const arcos = gsap.utils.toArray<SVGPathElement>("[data-arco]");
+      const flechas = gsap.utils.toArray<SVGPathElement>("[data-flecha]");
+      if (arcos.length) {
+        const tl = gsap.timeline({ scrollTrigger: { trigger: arcos[0].ownerSVGElement, start: "top 80%", end: "bottom 55%", scrub: true } });
+        arcos.forEach((arco, i) => {
+          tl.fromTo(arco, { strokeDasharray: "0 100" }, { strokeDasharray: "100 0", ease: "none", duration: 1 });
+          if (flechas[i]) tl.fromTo(flechas[i], { opacity: 0 }, { opacity: 1, duration: 0.15 });
+        });
+      }
 
       gsap.utils.toArray<HTMLElement>("[data-subir]").forEach((bloque) => {
         gsap.from(bloque, { opacity: 0, y: 40, duration: 1, ease: "expo.out", scrollTrigger: { trigger: bloque, start: "top 85%", once: true } });

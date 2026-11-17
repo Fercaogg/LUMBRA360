@@ -353,3 +353,15 @@ body {
 @media (max-width: 640px) {
   .lente-pila { transform: rotateX(8deg) rotateY(-4deg); }
 }
+
+/* Pantallas del producto en la portada */
+.pantalla {
+  overflow: hidden;
+  border-radius: var(--radio-lg);
+  background: var(--superficie);
+  box-shadow:
+    0 0 0 1px var(--linea),
+    0 2px 4px color-mix(in srgb, var(--tinta-950) 4%, transparent),
+    0 40px 80px -40px color-mix(in srgb, var(--tinta-950) 35%, transparent);
+  will-change: transform;
+}

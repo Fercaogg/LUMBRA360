@@ -6,6 +6,8 @@ import { Demostracion } from "@/components/portada/demostracion";
 import { Orbita } from "@/components/portada/orbita";
 import { Recorrido } from "@/components/portada/recorrido";
 import { Lente } from "@/components/portada/lente";
+import { Vuelta } from "@/components/portada/vuelta";
+import { Usos } from "@/components/portada/usos";
 import { EfectosPortada } from "@/components/portada/efectos";
 import { Logotipo } from "@/components/marca/logotipo";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
@@ -56,6 +58,12 @@ export default function Portada() {
             <Logotipo alto={22} decorativo />
           </Link>
           <nav aria-label="Principal" className="flex items-center gap-1 sm:gap-6">
+            <a href="#que-es-360" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta lg:inline-flex">
+              Qué es 360
+            </a>
+            <a href="#para-que-sirve" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta md:inline-flex">
+              Para qué sirve
+            </a>
             <a href="#metodo" className="hidden py-2 text-sm text-tinta-suave transition-colors hover:text-tinta md:inline-flex">
               Método
             </a>
@@ -121,10 +129,46 @@ export default function Portada() {
           </div>
         </section>
 
-        {/* 02 · Método */}
+        {/* 02 · Qué es 360 */}
+        <section id="que-es-360" className="scroll-mt-16 border-t border-linea bg-papel">
+          <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-14 px-4 py-24 sm:px-8 sm:py-32">
+            <div className="flex flex-col gap-8">
+              <Indice n="02" texto="Por qué 360" />
+              <h2 className="max-w-4xl text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] leading-[0.98] tracking-[-0.03em]">La vuelta completa, no solo el cuestionario.</h2>
+            </div>
+            <Vuelta />
+          </div>
+        </section>
+
+        {/* 03 · Para qué sirve */}
+        <section id="para-que-sirve" className="scroll-mt-16 border-t border-linea">
+          <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-16 px-4 py-24 sm:px-8 sm:py-32">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
+              <div className="flex flex-col gap-8">
+                <Indice n="03" texto="Para qué sirve" />
+                <h2 className="text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] leading-[0.98] tracking-[-0.03em]">Lo psicosocial, en orden.</h2>
+              </div>
+              <div className="flex flex-col gap-4 lg:justify-self-end">
+                <p className="max-w-md text-pretty text-lg leading-relaxed text-tinta-suave">
+                  Para que una pyme cuide a su plantilla y tenga ordenado lo que hace, sin vigilar a nadie y sin montar un departamento.
+                </p>
+                <ul aria-label="Para quién" className="flex flex-wrap gap-2">
+                  {["Pymes", "Servicios de prevención", "Gestorías y asesorías"].map((q) => (
+                    <li key={q} className="rounded-full border border-linea-fuerte px-3.5 py-1.5 text-sm">
+                      {q}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <Usos />
+          </div>
+        </section>
+
+        {/* 04 · Método */}
         <section id="metodo" className="scroll-mt-16 border-t border-linea bg-superficie">
           <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-8 px-4 pt-24 sm:px-8 sm:pt-32">
-            <Indice n="02" texto="Método" />
+            <Indice n="04" texto="Método" />
             <h2 className="max-w-3xl text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-normal leading-[0.98] tracking-[-0.03em]">
               Cuatro pasos. Cada uno deja huella.
             </h2>
@@ -134,12 +178,12 @@ export default function Portada() {
           </div>
         </section>
 
-        {/* 03 · Demostración */}
+        {/* 05 · Demostración */}
         <section id="demostracion" className="scroll-mt-16 bg-marca text-[var(--texto-sobre-marca)]">
           <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-14 px-4 py-24 sm:px-8 sm:py-32">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
               <div className="flex flex-col gap-8">
-                <Indice n="03" texto="Demostración" claro />
+                <Indice n="05" texto="Demostración" claro />
                 <h2 className="text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-normal leading-[0.98] tracking-[-0.03em]">Pruébelo aquí mismo.</h2>
               </div>
               <p className="max-w-md text-pretty text-lg leading-relaxed text-[var(--tinta-200)] lg:justify-self-end">
@@ -152,11 +196,11 @@ export default function Portada() {
           </div>
         </section>
 
-        {/* 04 · Quién ve qué */}
+        {/* 06 · Quién ve qué */}
         <section id="quien-ve-que" className="scroll-mt-16">
           <div className="mx-auto flex w-full max-w-[84rem] flex-col gap-14 px-4 py-24 sm:px-8 sm:py-32">
             <div className="flex flex-col gap-8">
-              <Indice n="04" texto="Privacidad por diseño" />
+              <Indice n="06" texto="Privacidad por diseño" />
               <h2 className="max-w-3xl text-balance font-serif text-[clamp(2.4rem,5.4vw,4.75rem)] font-normal leading-[0.98] tracking-[-0.03em]">Quién ve qué.</h2>
             </div>
             <Lente />
