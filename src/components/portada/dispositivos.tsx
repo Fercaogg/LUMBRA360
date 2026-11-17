@@ -18,7 +18,7 @@ export function Portatil({ src, alt, prioridad = false }: { src: string; alt: st
             </div>
           </div>
           <div aria-hidden className="portatil-cara portatil-dorso">
-            <Simbolo tamano={96} color="var(--tinta-600)" />
+            <Simbolo tamano={96} color="var(--piedra-400)" />
           </div>
         </div>
         <div aria-hidden className="portatil-base">

@@ -31,10 +31,10 @@ const BENEFICIOS = [
 ];
 
 const PASOS = [
-  { titulo: "Alta de la empresa", texto: "Su servicio de prevención o asesoría da de alta la empresa e invita a sus responsables.", imagen: "/portada/paso-partner.webp", alt: "Panel de un partner de demostración con su empresa asignada." },
-  { titulo: "Cuestionario anónimo", texto: "La plantilla responde desde el móvil con un código. Sin cuenta y sin nombre.", imagen: "/portada/paso-campanas.webp", alt: "Lista de campañas de demostración con su tipo y su estado." },
-  { titulo: "Resultados y medidas", texto: "Con la campaña cerrada, se revisan los resultados y se acuerdan medidas.", imagen: "/portada/paso-resultados.webp", alt: "Participación del 75 % en un seguimiento de demostración." },
-  { titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor, listo para consultarlo.", imagen: "/portada/paso-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor." },
+  { titulo: "Alta de la empresa", texto: "Su servicio de prevención o asesoría da de alta la empresa e invita a sus responsables.", imagen: "/portada/app-partner.webp", alt: "Panel de un partner de demostración con su empresa asignada." },
+  { titulo: "Cuestionario anónimo", texto: "La plantilla responde desde el móvil con un código. Sin cuenta y sin nombre.", imagen: "/portada/app-campanas.webp", alt: "Lista de campañas de demostración con su tipo y su estado." },
+  { titulo: "Resultados y medidas", texto: "Con la campaña cerrada, se revisan los resultados y se acuerdan medidas.", imagen: "/portada/app-resultados.webp", alt: "Participación del 75 % en un seguimiento de demostración." },
+  { titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor, listo para consultarlo.", imagen: "/portada/app-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor." },
 ];
 
 // Capítulos de la «película» de la aplicación. `cursor`: dónde señala, en % de la pantalla.
@@ -58,7 +58,7 @@ const PERFILES = [
 const BOTON = "inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base font-medium transition-colors duration-200";
 const BOTON_PRINCIPAL = `${BOTON} bg-tinta text-[var(--texto-sobre-marca)] hover:bg-[var(--tinta-800)]`;
 const BOTON_SECUNDARIO = `${BOTON} border border-linea-fuerte text-tinta hover:border-tinta`;
-const TARJETA = "h-full rounded-[20px] border border-linea bg-superficie p-6 lg:p-8";
+const TARJETA = "h-full rounded-[20px] border border-linea bg-superficie p-8 transition-shadow duration-300 hover:shadow-[var(--sombra-2)] lg:p-10";
 
 function Contenedor({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[1264px] px-6 sm:px-8 ${className}`}>{children}</div>;
@@ -66,7 +66,7 @@ function Contenedor({ children, className = "" }: { children: ReactNode; classNa
 
 function Seccion({ id, alterna = false, children }: { id?: string; alterna?: boolean; children: ReactNode }) {
   return (
-    <section id={id} className={`scroll-mt-16 py-20 lg:py-28 ${alterna ? "bg-papel" : "bg-superficie"}`}>
+    <section id={id} className={`scroll-mt-16 py-24 lg:py-40 ${alterna ? "bg-papel" : "bg-superficie"}`}>
       <Contenedor>{children}</Contenedor>
     </section>
   );
@@ -74,7 +74,7 @@ function Seccion({ id, alterna = false, children }: { id?: string; alterna?: boo
 
 function Encabezado({ etiqueta, titulo, entradilla }: { etiqueta: string; titulo: string; entradilla?: string }) {
   return (
-    <div data-titular className="mx-auto mb-12 flex max-w-[44rem] flex-col items-center gap-4 text-center lg:mb-16">
+    <div data-titular className="mx-auto mb-14 flex max-w-[44rem] flex-col items-center gap-5 text-center lg:mb-20">
       <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{etiqueta}</p>
       <h2 className="text-balance text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] lg:text-[2.5rem]">{titulo}</h2>
       {entradilla ? <p className="text-pretty text-lg text-tinta-suave">{entradilla}</p> : null}
@@ -122,7 +122,7 @@ export default function Portada() {
 
       <main id="contenido" className="flex-1">
         {/* 2. Hero */}
-        <section className="bg-[linear-gradient(to_bottom,var(--superficie)_62%,var(--fondo-alterno)_62%)] pt-32 lg:pt-40">
+        <section className="bg-[linear-gradient(to_bottom,var(--superficie)_62%,var(--fondo-alterno)_62%)] pt-36 lg:pt-48">
           <Contenedor>
             <div data-hero-texto className="mx-auto flex max-w-[52rem] flex-col items-center gap-6 text-center">
               <h1 className="aparecer text-balance text-[2rem] font-medium leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]">
@@ -140,7 +140,7 @@ export default function Portada() {
                 </a>
               </div>
             </div>
-            <div data-hero-dispositivo className="relative mx-auto mt-16 max-w-[1040px] pb-8 lg:mt-20">
+            <div data-hero-dispositivo className="relative mx-auto mt-20 w-full max-w-[min(1040px,calc((100svh-9rem)*1.45))] pb-10 lg:mt-24">
               <Portatil src="/portada/app-resultados.webp" alt="Resultados de un seguimiento de demostración: participación del 75 % y niveles de un factor." prioridad />
               <Movil
                 src="/portada/app-responder-movil.webp"
@@ -154,7 +154,7 @@ export default function Portada() {
         {/* 3. Para qué sirve */}
         <Seccion id="para-que-sirve" alterna>
           <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo." />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3">
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3 lg:gap-8">
             {BENEFICIOS.map((b) => (
               <li key={b.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
                 <Icono icono={b.icono} />
@@ -168,11 +168,11 @@ export default function Portada() {
         {/* 4. Cómo se utiliza */}
         <Seccion id="como-se-utiliza">
           <Encabezado etiqueta="Cómo se utiliza" titulo="De la primera respuesta a la última evidencia." />
-          <ol data-pasos className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          <ol data-pasos className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {PASOS.map((p, i) => (
               <li key={p.titulo} data-paso className="flex flex-col gap-4">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[12px] border border-linea bg-papel">
-                  <Image data-miniatura src={p.imagen} alt={p.alt} fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 92vw" className="object-cover object-top" />
+                <div className="relative aspect-[1600/1013] overflow-hidden rounded-[12px] border border-linea bg-superficie shadow-[var(--sombra-1)]">
+                  <Image data-miniatura src={p.imagen} alt={p.alt} fill sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw" className="object-contain" />
                 </div>
                 <div className="flex items-center gap-3">
                   <span data-numero className="grid size-8 shrink-0 place-items-center rounded-full bg-tinta font-mono text-xs text-[var(--texto-sobre-marca)]">{i + 1}</span>
@@ -190,8 +190,8 @@ export default function Portada() {
         {/* 5. La aplicación por dentro */}
         <Seccion id="aplicacion" alterna>
           <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro." entradilla="Pantallas reales con datos de demostración." />
-          <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            <ol className="hidden flex-col gap-6 lg:col-span-4 lg:flex">
+          <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+            <ol className="hidden flex-col gap-7 lg:col-span-4 lg:flex">
               {CAPITULOS.map((c, i) => (
                 <li key={c.titulo} data-capitulo data-activo={i === 0} className="flex flex-col gap-2">
                   <span aria-hidden className="relative h-0.5 overflow-hidden rounded-full bg-linea-fuerte">
@@ -203,7 +203,7 @@ export default function Portada() {
                 </li>
               ))}
             </ol>
-            <div className="lg:col-span-8">
+            <div className="mx-auto w-full max-w-[calc((100svh-10rem)*1.5)] lg:col-span-8">
               <PortatilPelicula pantallas={CAPITULOS.map((c) => ({ src: c.imagen, alt: c.alt }))} />
             </div>
             {/* Móvil: un solo texto que cambia con la pantalla */}
@@ -224,7 +224,7 @@ export default function Portada() {
         {/* 6. Para quién es */}
         <Seccion id="para-quien">
           <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención." />
-          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {PERFILES.map((p) => (
               <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4`}>
                 <Icono icono={p.icono} />
@@ -252,7 +252,7 @@ export default function Portada() {
 
       {/* 8. Pie */}
       <footer className="bg-superficie">
-        <Contenedor className="grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-12">
+        <Contenedor className="grid gap-12 py-20 sm:grid-cols-2 lg:grid-cols-12">
           <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-6">
             <Logotipo alto={22} />
             <p className="max-w-[22rem] text-sm text-tinta-suave">Herramienta independiente de apoyo al técnico de prevención. No es un servicio de la Inspección de Trabajo ni del INSST.</p>

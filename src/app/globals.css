@@ -143,7 +143,8 @@ body {
   inset: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(160deg, var(--tinta-700), var(--tinta-900) 60%);
+  background: linear-gradient(170deg, var(--piedra-50), var(--piedra-200) 55%, var(--piedra-300));
+  box-shadow: inset 0 0 0 1px var(--piedra-300);
   transform: rotateX(180deg);
 }
 .portatil-base {
@@ -203,4 +204,19 @@ body {
 }
 [data-capitulo][data-activo="false"] {
   opacity: 0.4;
+}
+
+/* Lenis (desplazamiento suave) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
