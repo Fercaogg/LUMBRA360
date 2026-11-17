@@ -1,4 +1,4 @@
-"""Genera los SVG del logotipo de LUMBRA360 (versión 1.1, «Fino»).
+"""Genera los SVG del logotipo de LUMBRA360 (versión 2.0: dibujo «Fino» con la tinta de «Galería de luz»).
 
 - Símbolo: anillo fino de 360° con una apertura arriba a la derecha y el punto de lumbre en el centro.
   Hay dos dibujos: el fino (32 px o más) y el pequeño, de trazo grueso (favicon y 16 a 32 px).
@@ -23,8 +23,8 @@ FUENTE = MARCA / "fonts" / "newsreader-latin-400-normal.woff2"
 
 COLORES = {
     # variante: (anillo y LUMBRA, 360, lumbre, fondo)
-    "positivo": ("#0C2B30", "#2E727A", "#E6A23A", None),
-    "negativo": ("#F7F5F0", "#ADCFD2", "#EFB95A", "#0C2B30"),
+    "positivo": ("#0D262B", "#356C74", "#E6A23A", None),  # tinta 900, tinta 500, lumbre 400
+    "negativo": ("#EEEBE5", "#B0CACD", "#EFB95A", None),  # marfil, tinta 200, lumbre 300 (fondo transparente)
 }
 TRACKING_LUMBRA = 0.22  # em
 TRACKING_360 = 0.12
@@ -101,10 +101,10 @@ def main() -> None:
         )
 
     # Favicon: dibujo pequeño; cambia a la versión clara con el modo oscuro del sistema.
-    pequeno = simbolo("#0C2B30", "#E6A23A", True).replace('fill="none"', 'class="a" fill="none"').replace("<circle", '<circle class="p"')
+    pequeno = simbolo("#0D262B", "#E6A23A", True).replace('fill="none"', 'class="a" fill="none"').replace("<circle", '<circle class="p"')
     (SALIDA / "favicon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">'
-        "<style>@media (prefers-color-scheme: dark){.a{stroke:#F7F5F0}.p{fill:#EFB95A}}</style>" + pequeno + "</svg>\n"
+        "<style>@media (prefers-color-scheme: dark){.a{stroke:#EEEBE5}.p{fill:#EFB95A}}</style>" + pequeno + "</svg>\n"
     )
     print("Logos generados en", SALIDA)
 

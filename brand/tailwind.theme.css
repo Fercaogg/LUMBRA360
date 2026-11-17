@@ -1,4 +1,4 @@
-/* LUMBRA360 · Tema para Tailwind 4 (sin archivo de configuración)
+/* LUMBRA360 · Tema para Tailwind 4 · versión 2.0 «Galería de luz»
    Uso en globals.css:
      @import "tailwindcss";
      @import "../../brand/tokens.css";
@@ -12,12 +12,14 @@
   --color-white: #ffffff;
 
   --color-fondo: var(--fondo);
+  --color-fondo-alterno: var(--fondo-alterno);
   --color-fondo-hundido: var(--fondo-hundido);
   --color-superficie: var(--superficie);
   --color-superficie-elevada: var(--superficie-elevada);
   --color-superficie-marca: var(--superficie-marca);
   --color-texto: var(--texto);
   --color-texto-suave: var(--texto-suave);
+  --color-texto-terciario: var(--texto-terciario);
   --color-texto-sobre-marca: var(--texto-sobre-marca);
   --color-texto-desactivado: var(--texto-desactivado);
   --color-linea: var(--linea);
@@ -59,12 +61,14 @@
   --text-mini: var(--texto-mini);
   --text-pequeno: var(--texto-pequeno);
   --text-base: var(--texto-base);
-  --text-grande: var(--texto-grande);
+  --text-cuerpo: var(--texto-cuerpo);
+  --text-entrada: var(--texto-entrada);
   --text-h4: var(--texto-h4);
   --text-h3: var(--texto-h3);
   --text-h2: var(--texto-h2);
   --text-h1: var(--texto-h1);
   --text-display: var(--texto-display);
+  --text-heroe: var(--texto-heroe);
 
   --spacing: 0.25rem; /* rejilla de 4 px: p-1 = 4 px, p-2 = 8 px... */
 

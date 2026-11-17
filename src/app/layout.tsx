@@ -5,7 +5,7 @@ import "./globals.css";
 
 // Tipografías de marca (ver brand/brand-guidelines.md): Newsreader para titulares,
 // IBM Plex Sans para interfaz y datos, IBM Plex Mono para valores literales.
-const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["400", "500", "600"], style: ["normal", "italic"] });
+const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["300", "400", "500", "600"], style: ["normal", "italic"] });
 const plex = IBM_Plex_Sans({ variable: "--font-plex", subsets: ["latin"], weight: ["400", "500", "600"] });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 

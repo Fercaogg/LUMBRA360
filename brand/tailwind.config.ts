@@ -1,5 +1,5 @@
 /**
- * LUMBRA360 · Tema de Tailwind
+ * LUMBRA360 · Tema de Tailwind · versión 2.0 «Galería de luz»
  *
  * Formato de configuración (Tailwind 3, o Tailwind 4 con `@config "./brand/tailwind.config.ts";`).
  * Todos los colores apuntan a las variables de brand/tokens.css, así el modo oscuro
@@ -19,14 +19,14 @@ const config = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      petroleo: escala("petroleo", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]),
+      tinta: escala("tinta", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]),
       lumbre: escala("lumbre", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]),
       piedra: escala("piedra", [0, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]),
 
       // Semánticos: los que usan los componentes
-      fondo: { DEFAULT: "var(--fondo)", hundido: "var(--fondo-hundido)" },
+      fondo: { DEFAULT: "var(--fondo)", alterno: "var(--fondo-alterno)", hundido: "var(--fondo-hundido)" },
       superficie: { DEFAULT: "var(--superficie)", elevada: "var(--superficie-elevada)", marca: "var(--superficie-marca)" },
-      texto: { DEFAULT: "var(--texto)", suave: "var(--texto-suave)", "sobre-marca": "var(--texto-sobre-marca)", desactivado: "var(--texto-desactivado)" },
+      texto: { DEFAULT: "var(--texto)", suave: "var(--texto-suave)", terciario: "var(--texto-terciario)", "sobre-marca": "var(--texto-sobre-marca)", desactivado: "var(--texto-desactivado)" },
       linea: { DEFAULT: "var(--linea)", fuerte: "var(--linea-fuerte)", control: "var(--borde-control)" },
       primario: {
         DEFAULT: "var(--primario)",
@@ -57,13 +57,15 @@ const config = {
     fontSize: {
       mini: ["var(--texto-mini)", { lineHeight: "1.4", letterSpacing: "0.02em" }],
       pequeno: ["var(--texto-pequeno)", { lineHeight: "var(--interlineado-interfaz)" }],
-      base: ["var(--texto-base)", { lineHeight: "var(--interlineado-interfaz)" }],
-      grande: ["var(--texto-grande)", { lineHeight: "var(--interlineado-texto)" }],
+      base: ["var(--texto-base)", { lineHeight: "var(--interlineado-interfaz)", letterSpacing: "var(--tracking-interfaz)" }],
+      cuerpo: ["var(--texto-cuerpo)", { lineHeight: "var(--interlineado-texto)", letterSpacing: "var(--tracking-interfaz)" }],
+      entrada: ["var(--texto-entrada)", { lineHeight: "var(--interlineado-texto)" }],
       h4: ["var(--texto-h4)", { lineHeight: "var(--interlineado-compacto)", fontWeight: "600" }],
-      h3: ["var(--texto-h3)", { lineHeight: "var(--interlineado-compacto)" }],
+      h3: ["var(--texto-h3)", { lineHeight: "var(--interlineado-compacto)", letterSpacing: "var(--tracking-titular)" }],
       h2: ["var(--texto-h2)", { lineHeight: "var(--interlineado-titular)", letterSpacing: "var(--tracking-titular)" }],
       h1: ["var(--texto-h1)", { lineHeight: "var(--interlineado-titular)", letterSpacing: "var(--tracking-titular)" }],
-      display: ["var(--texto-display)", { lineHeight: "1.04", letterSpacing: "var(--tracking-titular)" }],
+      display: ["var(--texto-display)", { lineHeight: "1.05", letterSpacing: "var(--tracking-heroe)" }],
+      heroe: ["var(--texto-heroe)", { lineHeight: "var(--interlineado-heroe)", letterSpacing: "var(--tracking-heroe)" }],
     },
     spacing: {
       px: "1px",
@@ -81,6 +83,8 @@ const config = {
       16: "var(--espacio-16)",
       20: "var(--espacio-20)",
       24: "var(--espacio-24)",
+      32: "var(--espacio-32)",
+      seccion: "var(--espacio-seccion)",
     },
     borderRadius: {
       none: "0",
@@ -94,12 +98,13 @@ const config = {
     },
     boxShadow: {
       none: "none",
+      0: "var(--sombra-0)",
       1: "var(--sombra-1)",
       2: "var(--sombra-2)",
       3: "var(--sombra-3)",
     },
     extend: {
-      maxWidth: { lectura: "var(--ancho-lectura)" },
+      maxWidth: { lectura: "var(--ancho-lectura)", contenido: "var(--ancho-contenido)", texto: "var(--ancho-texto)" },
       transitionDuration: {
         rapida: "var(--duracion-rapida)",
         base: "var(--duracion-base)",

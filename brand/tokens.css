@@ -1,35 +1,48 @@
 /* ==========================================================================
-   LUMBRA360 · Tokens de marca
-   Versión 1.0 · Dirección «Lumbre institucional»
+   LUMBRA360 · Tokens de marca · versión 2.0 · Dirección «Galería de luz»
+
+   Base blanca y cálida con mucho aire, una sola tinta profunda para texto e interfaz
+   y un único acento cálido (lumbre) usado con moderación. Ver brand/DESIGN.md.
 
    Dos capas:
-   1. Primitivos: escalas de color, tipografía, espacio, radios, sombras y movimiento.
-      No se usan directamente en componentes.
-   2. Semánticos: lo que usan los componentes (--fondo, --texto, --primario...).
-      Cambian entre modo claro y oscuro.
+   1. Primitivos: escalas y valores. No se usan directamente en componentes.
+   2. Semánticos: lo que usan los componentes. Cambian entre modo claro y oscuro.
 
-   Modo oscuro: sigue la preferencia del sistema salvo que la página fije
-   data-theme="light" o data-theme="dark" en <html>.
+   Modo oscuro: sigue la preferencia del sistema salvo que <html> fije
+   data-theme="light" o data-theme="dark".
    Contraste comprobado con brand/scripts/contraste.py (WCAG 2.x, nivel AA).
    ========================================================================== */
 
 :root {
   /* ---------- Primitivos: color ---------- */
 
-  /* Petróleo: el color de marca. Profundo, sereno, con un punto de tinta. */
-  --petroleo-50: #eef5f5;
-  --petroleo-100: #d6e7e8;
-  --petroleo-200: #adcfd2;
-  --petroleo-300: #7fb1b6;
-  --petroleo-400: #4f8f96;
-  --petroleo-500: #2e727a;
-  --petroleo-600: #1f5d65;
-  --petroleo-700: #174b52;
-  --petroleo-800: #113a40;
-  --petroleo-900: #0c2b30;
-  --petroleo-950: #071c20;
+  /* Tinta: azul petróleo casi negro. Es el color del texto y de la interfaz. */
+  --tinta-50: #eff4f4;
+  --tinta-100: #d8e5e6;
+  --tinta-200: #b0cacd;
+  --tinta-300: #82aaaf;
+  --tinta-400: #548890;
+  --tinta-500: #356c74;
+  --tinta-600: #24555d;
+  --tinta-700: #1a434a;
+  --tinta-800: #13343a;
+  --tinta-900: #0d262b;
+  --tinta-950: #0b1a1d;
 
-  /* Lumbre: el acento cálido. Se usa poco: el punto del símbolo, un dato clave, una acción destacada. */
+  /* Alias de la versión 1 (la aplicación los usa): petróleo = tinta. */
+  --petroleo-50: var(--tinta-50);
+  --petroleo-100: var(--tinta-100);
+  --petroleo-200: var(--tinta-200);
+  --petroleo-300: var(--tinta-300);
+  --petroleo-400: var(--tinta-400);
+  --petroleo-500: var(--tinta-500);
+  --petroleo-600: var(--tinta-600);
+  --petroleo-700: var(--tinta-700);
+  --petroleo-800: var(--tinta-800);
+  --petroleo-900: var(--tinta-900);
+  --petroleo-950: var(--tinta-950);
+
+  /* Lumbre: el único acento. El punto del símbolo, la acción de mayor valor y poco más. */
   --lumbre-50: #fdf6e9;
   --lumbre-100: #fae8c4;
   --lumbre-200: #f5d28f;
@@ -41,22 +54,22 @@
   --lumbre-800: #5c3a14;
   --lumbre-900: #3d2710;
 
-  /* Piedra: neutros cálidos, de papel, no grises fríos. */
+  /* Piedra: neutros cálidos. Blanco y pergamino para el aire; grises cálidos para el texto secundario. */
   --piedra-0: #ffffff;
-  --piedra-25: #fcfbf8;
-  --piedra-50: #f7f5f0;
-  --piedra-100: #efece4;
-  --piedra-200: #e2ddd2;
-  --piedra-300: #cbc5b8;
-  --piedra-400: #a39c8e;
-  --piedra-500: #8c8579;
-  --piedra-600: #5e584c;
-  --piedra-700: #474238;
-  --piedra-800: #2f2c26;
-  --piedra-900: #1e1c18;
-  --piedra-950: #12110e;
+  --piedra-25: #fcfbf9;
+  --piedra-50: #f7f5f1;
+  --piedra-100: #efece6;
+  --piedra-200: #e6e2da;
+  --piedra-300: #d3cdc2;
+  --piedra-400: #a8a196;
+  --piedra-500: #8a8378;
+  --piedra-600: #706a61;
+  --piedra-700: #5c5850;
+  --piedra-800: #312e29;
+  --piedra-900: #1f1d1a;
+  --piedra-950: #121110;
 
-  /* Semánticos base (claro). Cada uno: texto, fondo y borde. Siempre con icono y etiqueta. */
+  /* Semánticos base (claro). Texto, fondo, borde y sólido. Siempre con icono y etiqueta. */
   --verde-texto: #2b6339;
   --verde-fondo: #e8f2ea;
   --verde-borde: #b9d6bf;
@@ -74,40 +87,48 @@
   --azul-borde: #bed0e4;
   --azul-solido: #33689b;
 
-  /* Datos: niveles en gráficos (barras de resultados). Distintos de los semánticos de texto:
-     validados para daltonismo como marcas de datos. Siempre con etiqueta y porcentaje en texto.
-     Modo oscuro: [PENDIENTE] definir un trío validado contra el fondo oscuro. */
+  /* Datos: niveles en gráficos. Validados para daltonismo como marcas de datos;
+     siempre con etiqueta y porcentaje en texto. Modo oscuro: pendiente de validar. */
   --dato-favorable: #2e8a5f;
   --dato-intermedio: #c98a1b;
   --dato-desfavorable: #b3382c;
 
   /* ---------- Primitivos: tipografía ---------- */
   --fuente-titular: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --fuente-interfaz: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-interfaz: "IBM Plex Sans", system-ui, "Segoe UI", sans-serif;
   --fuente-datos: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* Escala 1,25 (tercera mayor) sobre 16 px. Los titulares grandes se adaptan al ancho. */
-  --texto-display: clamp(2.75rem, 1.9rem + 3.6vw, 3.815rem); /* 44 → 61 px */
-  --texto-h1: clamp(2.25rem, 1.7rem + 2.4vw, 3.052rem); /* 36 → 49 px */
-  --texto-h2: clamp(1.75rem, 1.45rem + 1.3vw, 2.441rem); /* 28 → 39 px */
-  --texto-h3: 1.563rem; /* 25 px */
-  --texto-h4: 1.25rem; /* 20 px */
-  --texto-grande: 1.125rem; /* 18 px */
-  --texto-base: 1rem; /* 16 px */
-  --texto-pequeno: 0.875rem; /* 14 px */
-  --texto-mini: 0.75rem; /* 12 px, solo etiquetas cortas */
+  /* Escala editorial. Los tamaños grandes se adaptan al ancho de la pantalla. */
+  --texto-heroe: clamp(2.75rem, 1.6rem + 4.8vw, 5rem); /* 44 → 80 px */
+  --texto-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem); /* 36 → 56 px */
+  --texto-h1: clamp(2rem, 1.55rem + 1.8vw, 2.75rem); /* 32 → 44 px */
+  --texto-h2: clamp(1.625rem, 1.4rem + 0.9vw, 2.125rem); /* 26 → 34 px */
+  --texto-h3: 1.5rem; /* 24 px */
+  --texto-h4: 1.1875rem; /* 19 px */
+  --texto-entrada: clamp(1.1875rem, 1.05rem + 0.5vw, 1.375rem); /* 19 → 22 px, entradilla */
+  --texto-cuerpo: 1.0625rem; /* 17 px, lectura */
+  --texto-base: 1rem; /* 16 px, interfaz */
+  --texto-pequeno: 0.875rem; /* 14 px, tablas y ayudas */
+  --texto-mini: 0.75rem; /* 12 px, etiquetas */
 
+  --interlineado-heroe: 1.02;
   --interlineado-titular: 1.1;
   --interlineado-compacto: 1.3;
-  --interlineado-texto: 1.6;
+  --interlineado-texto: 1.55;
   --interlineado-interfaz: 1.45;
 
+  --peso-ligero: 300; /* solo Newsreader en tamaños grandes */
   --peso-regular: 400;
-  --peso-medio: 500;
-  --peso-semi: 600;
+  --peso-semi: 600; /* énfasis en interfaz; no se usa 500 ni 700 */
 
-  --tracking-titular: -0.015em;
-  --tracking-mayusculas: 0.12em;
+  --tracking-heroe: -0.03em;
+  --tracking-titular: -0.02em;
+  --tracking-interfaz: -0.005em;
+  --tracking-mayusculas: 0.14em;
+
+  /* Compatibilidad con la versión 1 */
+  --texto-grande: var(--texto-entrada);
+  --peso-medio: 500;
 
   /* ---------- Primitivos: espacio (rejilla de 4 px) ---------- */
   --espacio-0: 0;
@@ -123,30 +144,36 @@
   --espacio-16: 4rem; /* 64 */
   --espacio-20: 5rem; /* 80 */
   --espacio-24: 6rem; /* 96 */
+  --espacio-32: 8rem; /* 128 */
+  --espacio-seccion: clamp(5rem, 3.5rem + 6vw, 8rem); /* 80 → 128 px entre secciones */
 
   --control-alto: 2.75rem; /* 44 px: objetivo táctil mínimo */
-  --control-alto-compacto: 2.25rem; /* 36 px, solo en tablas de escritorio */
-  --ancho-lectura: 68ch;
+  --control-alto-compacto: 2.25rem; /* 36 px, solo en tablas densas de escritorio */
+  --ancho-lectura: 64ch;
+  --ancho-contenido: 72rem; /* 1152 px */
+  --ancho-texto: 46rem; /* 736 px, bloques de texto centrados */
 
   /* ---------- Primitivos: radios ---------- */
-  --radio-xs: 4px; /* barras de datos, etiquetas de código */
-  --radio-sm: 6px; /* badges */
-  --radio-md: 8px; /* botones, campos */
-  --radio-lg: 12px; /* tarjetas */
-  --radio-xl: 16px; /* paneles, modales */
-  --radio-total: 999px;
+  --radio-xs: 4px; /* barras de datos, código */
+  --radio-sm: 8px; /* campos, badges cuadrados */
+  --radio-md: 12px; /* tarjetas de datos, menús */
+  --radio-lg: 20px; /* tarjetas de presentación, paneles */
+  --radio-xl: 28px; /* modales, bloques destacados */
+  --radio-total: 999px; /* botones y badges: forma de cápsula */
 
-  /* ---------- Primitivos: sombras (tono petróleo, nunca negro puro) ---------- */
-  --sombra-1: 0 1px 2px rgb(12 43 48 / 0.06);
-  --sombra-2: 0 1px 2px rgb(12 43 48 / 0.05), 0 8px 24px -12px rgb(12 43 48 / 0.18);
-  --sombra-3: 0 2px 4px rgb(12 43 48 / 0.06), 0 24px 48px -20px rgb(12 43 48 / 0.28);
+  /* ---------- Primitivos: elevación (mínima) ---------- */
+  /* La jerarquía se hace con aire, filetes y cambio de fondo. La sombra solo para lo que flota. */
+  --sombra-0: none;
+  --sombra-1: 0 0 0 1px rgb(11 26 29 / 0.06); /* filete como sombra, sin difuminado */
+  --sombra-2: 0 1px 2px rgb(11 26 29 / 0.04), 0 12px 32px -16px rgb(11 26 29 / 0.16); /* menús */
+  --sombra-3: 0 2px 6px rgb(11 26 29 / 0.05), 0 32px 64px -24px rgb(11 26 29 / 0.24); /* modales */
 
   /* ---------- Primitivos: movimiento ---------- */
-  --duracion-rapida: 120ms; /* hover, pulsación */
-  --duracion-base: 200ms; /* cambios de estado, menús */
-  --duracion-lenta: 320ms; /* modales, transición entre secciones */
-  --duracion-enfasis: 640ms; /* carga de indicadores, confirmación de evidencia */
-  --curva-salida: cubic-bezier(0.23, 1, 0.32, 1); /* entra rápido, se posa suave */
+  --duracion-rapida: 120ms;
+  --duracion-base: 200ms;
+  --duracion-lenta: 360ms;
+  --duracion-enfasis: 720ms;
+  --curva-salida: cubic-bezier(0.23, 1, 0.32, 1);
   --curva-entrada-salida: cubic-bezier(0.65, 0, 0.35, 1);
   --curva-estandar: cubic-bezier(0.2, 0, 0, 1);
 
@@ -160,31 +187,33 @@
 :root {
   color-scheme: light;
 
-  --fondo: var(--piedra-50);
+  --fondo: var(--piedra-0); /* blanco: el lienzo dominante */
+  --fondo-alterno: var(--piedra-50); /* pergamino: alterna secciones y agrupa */
   --fondo-hundido: var(--piedra-100);
   --superficie: var(--piedra-0);
   --superficie-elevada: var(--piedra-0);
-  --superficie-marca: var(--petroleo-900);
+  --superficie-marca: var(--tinta-900); /* bloques oscuros puntuales */
 
-  --texto: var(--piedra-900);
-  --texto-suave: var(--piedra-600);
-  --texto-sobre-marca: var(--piedra-50);
+  --texto: var(--tinta-950);
+  --texto-suave: var(--piedra-700);
+  --texto-terciario: var(--piedra-600);
+  --texto-sobre-marca: #eeebe5;
   --texto-desactivado: var(--piedra-400);
 
-  --linea: var(--piedra-200);
+  --linea: var(--piedra-200); /* filete decorativo */
   --linea-fuerte: var(--piedra-300);
-  --borde-control: var(--piedra-500);
+  --borde-control: var(--piedra-500); /* bordes de campos: 3:1 */
 
-  --primario: var(--petroleo-700);
-  --primario-hover: var(--petroleo-800);
+  --primario: var(--tinta-900); /* la tinta también es la acción */
+  --primario-hover: var(--tinta-800);
   --primario-texto: #ffffff;
-  --primario-suave: var(--petroleo-50);
-  --primario-suave-texto: var(--petroleo-800);
-  --enlace: var(--petroleo-600);
-  --foco: var(--petroleo-500);
+  --primario-suave: var(--tinta-50);
+  --primario-suave-texto: var(--tinta-800);
+  --enlace: var(--tinta-600);
+  --foco: var(--tinta-500);
 
   --lumbre: var(--lumbre-400);
-  --lumbre-texto: var(--petroleo-900);
+  --lumbre-texto: var(--tinta-900);
   --lumbre-suave: var(--lumbre-100);
   --lumbre-suave-texto: var(--lumbre-700);
 
@@ -205,35 +234,37 @@
   --info-borde: var(--azul-borde);
   --info-solido: var(--azul-solido);
 
-  --velo: rgb(7 28 32 / 0.48); /* fondo de los modales */
+  --velo: rgb(11 26 29 / 0.4);
 }
 
 /* ---------- Semánticos: modo oscuro ---------- */
-/* No es una inversión automática: cada valor está elegido y comprobado contra el fondo oscuro. */
+/* Elegido valor a valor: fondo de tinta casi negra, texto marfil y la acción en marfil. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --fondo: #0d1517;
-    --fondo-hundido: #091012;
-    --superficie: #152226;
-    --superficie-elevada: #1b2a2f;
-    --superficie-marca: #071c20;
-    --texto: #ece8df;
-    --texto-suave: #b3ac9e;
-    --texto-sobre-marca: #ece8df;
-    --texto-desactivado: #6f7a7b;
-    --linea: #24343a;
-    --linea-fuerte: #31454c;
-    --borde-control: #6b7c81;
-    --primario: var(--petroleo-300);
-    --primario-hover: var(--petroleo-200);
-    --primario-texto: var(--petroleo-950);
-    --primario-suave: #1a3238;
-    --primario-suave-texto: var(--petroleo-200);
-    --enlace: var(--petroleo-300);
-    --foco: var(--petroleo-300);
+    --fondo: #0b1214;
+    --fondo-alterno: #10191c;
+    --fondo-hundido: #070c0e;
+    --superficie: #121c1f;
+    --superficie-elevada: #182428;
+    --superficie-marca: #08181b;
+    --texto: #eeebe5;
+    --texto-suave: #b4aea3;
+    --texto-terciario: #968f84;
+    --texto-sobre-marca: #eeebe5;
+    --texto-desactivado: #5d6a6c;
+    --linea: #223035;
+    --linea-fuerte: #2e3f45;
+    --borde-control: #6e7f84;
+    --primario: #eeebe5;
+    --primario-hover: #ffffff;
+    --primario-texto: var(--tinta-950);
+    --primario-suave: #1a2b30;
+    --primario-suave-texto: #cfe0e2;
+    --enlace: var(--tinta-300);
+    --foco: var(--tinta-300);
     --lumbre: var(--lumbre-300);
-    --lumbre-texto: var(--petroleo-900);
+    --lumbre-texto: var(--tinta-900);
     --lumbre-suave: #2e2412;
     --lumbre-suave-texto: #f2c46e;
     --correcto-texto: #8fcb9c;
@@ -253,36 +284,37 @@
     --info-borde: #2b4263;
     --info-solido: #79a9da;
     --velo: rgb(0 0 0 / 0.6);
-    --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4);
-    --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
-    --sombra-3: 0 2px 4px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.7);
+    --sombra-1: 0 0 0 1px rgb(255 255 255 / 0.06);
+    --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+    --sombra-3: 0 2px 6px rgb(0 0 0 / 0.4), 0 32px 64px -24px rgb(0 0 0 / 0.7);
   }
 }
 
-/* Misma paleta oscura cuando la página la fija a mano. */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --fondo: #0d1517;
-  --fondo-hundido: #091012;
-  --superficie: #152226;
-  --superficie-elevada: #1b2a2f;
-  --superficie-marca: #071c20;
-  --texto: #ece8df;
-  --texto-suave: #b3ac9e;
-  --texto-sobre-marca: #ece8df;
-  --texto-desactivado: #6f7a7b;
-  --linea: #24343a;
-  --linea-fuerte: #31454c;
-  --borde-control: #6b7c81;
-  --primario: var(--petroleo-300);
-  --primario-hover: var(--petroleo-200);
-  --primario-texto: var(--petroleo-950);
-  --primario-suave: #1a3238;
-  --primario-suave-texto: var(--petroleo-200);
-  --enlace: var(--petroleo-300);
-  --foco: var(--petroleo-300);
+  --fondo: #0b1214;
+  --fondo-alterno: #10191c;
+  --fondo-hundido: #070c0e;
+  --superficie: #121c1f;
+  --superficie-elevada: #182428;
+  --superficie-marca: #08181b;
+  --texto: #eeebe5;
+  --texto-suave: #b4aea3;
+  --texto-terciario: #968f84;
+  --texto-sobre-marca: #eeebe5;
+  --texto-desactivado: #5d6a6c;
+  --linea: #223035;
+  --linea-fuerte: #2e3f45;
+  --borde-control: #6e7f84;
+  --primario: #eeebe5;
+  --primario-hover: #ffffff;
+  --primario-texto: var(--tinta-950);
+  --primario-suave: #1a2b30;
+  --primario-suave-texto: #cfe0e2;
+  --enlace: var(--tinta-300);
+  --foco: var(--tinta-300);
   --lumbre: var(--lumbre-300);
-  --lumbre-texto: var(--petroleo-900);
+  --lumbre-texto: var(--tinta-900);
   --lumbre-suave: #2e2412;
   --lumbre-suave-texto: #f2c46e;
   --correcto-texto: #8fcb9c;
@@ -302,13 +334,12 @@
   --info-borde: #2b4263;
   --info-solido: #79a9da;
   --velo: rgb(0 0 0 / 0.6);
-  --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4);
-  --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
-  --sombra-3: 0 2px 4px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.7);
+  --sombra-1: 0 0 0 1px rgb(255 255 255 / 0.06);
+  --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  --sombra-3: 0 2px 6px rgb(0 0 0 / 0.4), 0 32px 64px -24px rgb(0 0 0 / 0.7);
 }
 
 /* ---------- Movimiento reducido ---------- */
-/* Con menos movimiento, las duraciones caen a casi cero: los cambios ocurren sin desplazamientos. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duracion-rapida: 1ms;

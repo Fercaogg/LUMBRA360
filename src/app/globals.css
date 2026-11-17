@@ -10,7 +10,7 @@
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
   --font-serif: var(--font-newsreader), Georgia, serif;
 
-  --color-papel: var(--fondo);
+  --color-papel: var(--fondo-alterno);
   --color-hundido: var(--fondo-hundido);
   --color-superficie: var(--superficie);
   --color-marca: var(--superficie-marca);
