@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, FlaskConical, GraduationCap, HardHat, Landmark, ListChecks, MapPin, Users, Waves } from "lucide-react";
+import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
@@ -53,17 +53,17 @@ const PILARES = [
   { icono: FileCheck2, titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor." },
 ];
 
-const AVALES = [
-  { icono: GraduationCap, tipo: "Aval", nombre: "Universidad de Salamanca" },
-  { icono: Landmark, tipo: "Aval", nombre: "Fundación General de la Universidad de Salamanca" },
-  { icono: FlaskConical, tipo: "Programa", nombre: "Prototipos 2026/2027" },
-  { icono: MapPin, tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León" },
+const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: number; alto: number } }[] = [
+  { tipo: "Aval", nombre: "Universidad de Salamanca", logo: { src: "/marca/terceros/usal.svg", ancho: 2552, alto: 693 } },
+  { tipo: "Aval", nombre: "Fundación General de la Universidad de Salamanca", logo: { src: "/marca/terceros/fundacion-general-usal.webp", ancho: 198, alto: 283 } },
+  { tipo: "Programa", nombre: "Prototipos 2026/2027", logo: { src: "/marca/terceros/prototipos-tcue.webp", ancho: 427, alto: 239 } },
+  { tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León" },
 ];
 
-const DIRECCION = [
-  { nombre: "Fernando Martín Vaquero", iniciales: "FM" },
-  { nombre: "Ana María Pinto Llorente", iniciales: "AP" },
-  { nombre: "Luis Eduardo Andrade Silva", iniciales: "LA" },
+const EQUIPO = [
+  { nombre: "Fernando Martín Vaquero", foto: "/equipo/fernando-martin-vaquero.webp" },
+  { nombre: "Ana María Pinto Llorente", foto: "/equipo/ana-maria-pinto-llorente.webp" },
+  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva.webp" },
 ];
 
 const PERFILES = [
@@ -287,50 +287,61 @@ export default function Portada() {
           </ul>
         </Seccion>
 
-        {/* 8. Respaldo */}
-        <Seccion id="respaldo">
-          <Encabezado etiqueta="Respaldo" titulo="Un proyecto con respaldo institucional." />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-            {AVALES.map((a) => (
-              <li key={a.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
-                <Icono icono={a.icono} />
-                <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{a.tipo}</p>
-                <h3 className="text-lg font-semibold leading-snug">{a.nombre}</h3>
+        {/* 8. Quiénes somos */}
+        <Seccion id="equipo">
+          <Encabezado etiqueta="Quiénes somos" titulo="Las personas detrás del proyecto." />
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {EQUIPO.map((m) => (
+              <li key={m.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-6`}>
+                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={480} height={480} sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw" className="aspect-square w-full rounded-[14px] object-cover" />
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-lg font-semibold">{m.nombre}</h3>
+                  <p className="text-tinta-suave">Dirección del proyecto</p>
+                </div>
               </li>
             ))}
           </ul>
-          <ul data-tarjetas className="mt-6 grid gap-6 [perspective:1400px] md:grid-cols-2 lg:mt-8 lg:gap-8">
-            <li data-tarjeta className={`${TARJETA} flex flex-col gap-5`}>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Origen</p>
-              <h3 className="text-lg font-semibold">La evolución de WORKWELL360</h3>
-              <p className="max-w-[60ch] text-pretty text-tinta-suave">
-                {NOMBRE} nace del prototipo WORKWELL360, que monitorizamos previamente en YMCA Salamanca con resultados satisfactorios.
-              </p>
-              <div className="mt-auto flex items-center gap-4 border-t border-linea pt-5">
-                <span className="text-sm text-tinta-suave">Pilotaje previo en</span>
-                <Image src="/marca/terceros/ymca.svg" alt="YMCA" width={98} height={28} className="h-7 w-auto" />
-                <span className="text-sm font-medium">Salamanca</span>
-              </div>
-            </li>
-            <li data-tarjeta className={`${TARJETA} flex flex-col gap-5`}>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Equipo</p>
-              <h3 className="text-lg font-semibold">Dirección del proyecto</h3>
-              <ul className="flex flex-col gap-4">
-                {DIRECCION.map((d) => (
-                  <li key={d.nombre} className="flex items-center gap-4">
-                    <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full bg-tinta text-sm font-semibold text-[var(--texto-sobre-marca)]">
-                      {d.iniciales}
-                    </span>
-                    <span className="font-medium">{d.nombre}</span>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          </ul>
         </Seccion>
 
-        {/* 9. Llamada final */}
-        <Seccion alterna>
+        {/* 9. Respaldo */}
+        <Seccion id="respaldo" alterna>
+          <Encabezado etiqueta="Respaldo" titulo="Un proyecto con respaldo institucional." />
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            {AVALES.map((a) => (
+              <li key={a.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-6`}>
+                <div className="flex h-24 items-center justify-center">
+                  {a.logo ? (
+                    <Image src={a.logo.src} alt={a.nombre} width={a.logo.ancho} height={a.logo.alto} className="h-auto max-h-24 w-auto max-w-full object-contain" />
+                  ) : (
+                    <span className="text-center text-xl font-semibold leading-tight tracking-[-0.02em]">{a.nombre}</span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 border-t border-linea pt-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{a.tipo}</p>
+                  <h3 className="font-semibold leading-snug">{a.nombre}</h3>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div data-tarjetas className="mt-6 [perspective:1400px] lg:mt-8">
+            <div data-tarjeta className={`${TARJETA} grid items-center gap-8 md:grid-cols-[1fr_auto]`}>
+              <div className="flex flex-col gap-3">
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Origen</p>
+                <h3 className="text-lg font-semibold">La evolución de WORKWELL360</h3>
+                <p className="max-w-[60ch] text-pretty text-tinta-suave">
+                  {NOMBRE} nace del prototipo WORKWELL360, que monitorizamos previamente en YMCA Salamanca con resultados satisfactorios.
+                </p>
+              </div>
+              <div className="flex flex-col items-start gap-2 md:items-center">
+                <span className="text-sm text-tinta-suave">Pilotaje previo en</span>
+                <Image src="/marca/terceros/ymca.svg" alt="YMCA Salamanca" width={140} height={40} className="h-10 w-auto" />
+              </div>
+            </div>
+          </div>
+        </Seccion>
+
+        {/* 10. Llamada final */}
+        <Seccion>
           <div data-cierre className="relative mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
             <svg aria-hidden viewBox={ONDA_CAJA} className="pointer-events-none absolute left-1/2 top-1/2 -z-0 w-[min(120vw,46rem)] -translate-x-1/2 -translate-y-1/2 overflow-visible opacity-[0.14]">
               <path data-onda d={ONDA_TRAZADO} transform={ONDA_TRANSFORMACION} pathLength={100} fill="none" stroke="var(--lumbre)" strokeWidth="2" />
@@ -344,8 +355,8 @@ export default function Portada() {
         </Seccion>
       </main>
 
-      {/* 10. Pie */}
-      <footer className="bg-superficie">
+      {/* 11. Pie */}
+      <footer className="border-t border-linea bg-superficie">
         <Contenedor className="grid gap-12 py-20 sm:grid-cols-2 lg:grid-cols-12">
           <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-6">
             <Logotipo alto={22} />

@@ -31,3 +31,10 @@ la ficha de cada una (autor, enlace y licencia). Por cada foto, anotar aquí:
 | Archivo | Origen | Uso |
 |---|---|---|
 | public/marca/terceros/ymca.svg | Vectorizado con potrace del logotipo facilitado por el cliente (`brand/terceros/ymca-original.png`) | Sección «Respaldo», pilotaje previo de WORKWELL360. Requiere autorización de YMCA Salamanca. |
+| public/marca/terceros/usal.svg | Vectorizado con potrace del logotipo facilitado por el cliente (`brand/terceros/usal-original.png`) | Sección «Respaldo». Requiere autorización de la Universidad de Salamanca. |
+| public/marca/terceros/fundacion-general-usal.webp | Logotipo facilitado por el cliente (`brand/terceros/fundacion-general-usal-original.png`), recortado | Sección «Respaldo». Requiere autorización. |
+| public/marca/terceros/prototipos-tcue.webp | Imagen facilitada por el cliente (`brand/terceros/prototipos-tcue-original.png`), recortada | Sección «Respaldo». Requiere autorización. |
+
+## Retratos del equipo
+Fotos facilitadas por el cliente, recortadas en cuadrado y pasadas a blanco y negro cálido para unificarlas.
+Archivos en `public/equipo/`. Usar solo con el consentimiento de cada persona.
