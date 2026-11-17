@@ -13,7 +13,7 @@ python3 brand/scripts/construir_brand.py <carpeta icons de lucide-static 0.460.0
 ```
 
 ```bash
-python3 brand/scripts/generar_logos.py <carpeta files de @fontsource/newsreader>
+python3 brand/scripts/generar_logos.py
 ```
 
 Los scripts necesitan `fonttools` y `brotli` (`pip install fonttools brotli`). Las carpetas de iconos y fuentes se obtienen con `npm pack lucide-static@0.460.0 @fontsource/newsreader`.

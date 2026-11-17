@@ -1,116 +1,110 @@
-"""Genera los SVG del logotipo de LUMBRA360.
+"""Genera los SVG del logotipo de LUMBRA360 (versión 1.1, «Fino»).
 
-El logotipo tipográfico se convierte a trazados, así que los SVG no dependen de
-ninguna fuente instalada. Fuente: Newsreader 500 (licencia SIL OFL), del paquete
-@fontsource/newsreader. Uso:
+- Símbolo: anillo fino de 360° con una apertura arriba a la derecha y el punto de lumbre en el centro.
+  Hay dos dibujos: el fino (32 px o más) y el pequeño, de trazo grueso (favicon y 16 a 32 px).
+- Logotipo tipográfico: «LUMBRA» en Newsreader 400 muy espaciada y «360» en petróleo medio.
+  Convertido a trazados: no depende de fuentes instaladas.
 
-    python3 brand/scripts/generar_logos.py <carpeta con newsreader-latin-500-normal.woff2>
+Uso:
+    python3 brand/scripts/generar_logos.py
+(lee las fuentes de brand/fonts; licencia SIL OFL)
 """
 
 import math
-import sys
 from pathlib import Path
 
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.ttLib import TTFont
 
-SALIDA = Path(__file__).resolve().parent.parent / "logo"
+MARCA = Path(__file__).resolve().parent.parent
+SALIDA = MARCA / "logo"
+FUENTE = MARCA / "fonts" / "newsreader-latin-400-normal.woff2"
 
-# Colores de marca (ver tokens.css)
-PETROLEO = "#0C2B30"   # petroleo-900
-LUMBRE = "#E6A23A"     # ambar-400
-MARFIL = "#F7F5F0"     # neutro-50, para fondo oscuro
-LUMBRE_OSCURO = "#EFB95A"  # ambar-300, para fondo oscuro
+COLORES = {
+    # variante: (anillo y LUMBRA, 360, lumbre, fondo)
+    "positivo": ("#0C2B30", "#2E727A", "#E6A23A", None),
+    "negativo": ("#F7F5F0", "#ADCFD2", "#EFB95A", "#0C2B30"),
+}
+TRACKING_LUMBRA = 0.22  # em
+TRACKING_360 = 0.12
+CUERPO = 26
 
-TEXTO = "LUMBRA360"
-TRACKING = 0.075  # en em
 
-
-def simbolo(color_anillo: str, color_punto: str, x: float = 0, y: float = 0, escala: float = 1) -> str:
-    """Anillo de 360° con una apertura arriba a la derecha y un punto de lumbre en el centro.
-    Rejilla de 48 x 48. Trazo de 6 para que siga legible a 16 px."""
+def simbolo(color: str, lumbre: str, pequeno: bool = False, x: float = 0, y: float = 0, escala: float = 1) -> str:
+    """Rejilla de 48 × 48. Fino: trazo 3, punto 4. Pequeño: trazo 6, punto 5."""
     cx = cy = 24
-    r = 16.5
-    inicio, fin = -42, -78  # grados; la apertura queda entre ambos
-    def punto(a: float) -> tuple[float, float]:
+    r, trazo, punto = (16.5, 6, 5) if pequeno else (17, 3, 4)
+    inicio, fin = -38, -82  # grados; la apertura queda entre ambos
+
+    def p(a: float) -> tuple[float, float]:
         rad = math.radians(a)
         return cx + r * math.cos(rad), cy + r * math.sin(rad)
-    x1, y1 = punto(inicio)
-    x2, y2 = punto(fin)
-    anillo = (
-        f'<path d="M{x1:.2f} {y1:.2f} A{r} {r} 0 1 1 {x2:.2f} {y2:.2f}" fill="none" '
-        f'stroke="{color_anillo}" stroke-width="6" stroke-linecap="round"/>'
+
+    x1, y1 = p(inicio)
+    x2, y2 = p(fin)
+    return (
+        f'<g transform="translate({x:.2f} {y:.2f}) scale({escala})">'
+        f'<path d="M{x1:.2f} {y1:.2f} A{r} {r} 0 1 1 {x2:.2f} {y2:.2f}" fill="none" stroke="{color}" '
+        f'stroke-width="{trazo}" stroke-linecap="round"/>'
+        f'<circle cx="{cx}" cy="{cy}" r="{punto}" fill="{lumbre}"/></g>'
     )
-    centro = f'<circle cx="{cx}" cy="{cy}" r="5.25" fill="{color_punto}"/>'
-    return f'<g transform="translate({x} {y}) scale({escala})">{anillo}{centro}</g>'
 
 
-def palabra(fuente: TTFont, color: str, x: float, y_base: float, cuerpo: float) -> tuple[str, float]:
-    """Devuelve el trazado del texto y su anchura, con el tracking aplicado."""
+def palabra(fuente: TTFont, texto: str, x: float, y: float, cuerpo: float, tracking: float, color: str) -> tuple[str, float]:
     glifos = fuente.getGlyphSet()
     cmap = fuente.getBestCmap()
-    upm = fuente["head"].unitsPerEm
-    escala = cuerpo / upm
-    caminos = []
-    cursor = 0.0
-    for i, letra in enumerate(TEXTO):
+    esc = cuerpo / fuente["head"].unitsPerEm
+    caminos, cursor = [], 0.0
+    for i, letra in enumerate(texto):
         nombre = cmap[ord(letra)]
         pluma = SVGPathPen(glifos)
-        transformada = TransformPen(pluma, (escala, 0, 0, -escala, x + cursor, y_base))
-        glifos[nombre].draw(transformada)
+        glifos[nombre].draw(TransformPen(pluma, (esc, 0, 0, -esc, x + cursor, y)))
         caminos.append(pluma.getCommands())
-        cursor += glifos[nombre].width * escala
-        if i < len(TEXTO) - 1:
-            cursor += TRACKING * cuerpo
+        cursor += glifos[nombre].width * esc + (tracking * cuerpo if i < len(texto) - 1 else 0)
     return f'<path fill="{color}" d="{" ".join(caminos)}"/>', cursor
 
 
-def svg(ancho: float, alto: float, contenido: str, titulo: str, fondo: str | None = None) -> str:
+def logotipo(fuente: TTFont, x: float, y: float, c1: str, c2: str, cuerpo: float = CUERPO) -> tuple[str, float]:
+    t1, a1 = palabra(fuente, "LUMBRA", x, y, cuerpo, TRACKING_LUMBRA, c1)
+    sep = TRACKING_LUMBRA * cuerpo + cuerpo * 0.22
+    t2, a2 = palabra(fuente, "360", x + a1 + sep, y, cuerpo, TRACKING_360, c2)
+    return t1 + t2, a1 + sep + a2
+
+
+def svg(ancho: float, alto: float, contenido: str, fondo: str | None) -> str:
     rect = f'<rect width="100%" height="100%" fill="{fondo}"/>' if fondo else ""
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {ancho:.0f} {alto:.0f}" '
-        f'width="{ancho:.0f}" height="{alto:.0f}" role="img" aria-labelledby="t">'
-        f'<title id="t">{titulo}</title>{rect}{contenido}</svg>\n'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {ancho:.0f} {alto:.0f}" width="{ancho:.0f}" '
+        f'height="{alto:.0f}" role="img" aria-labelledby="t"><title id="t">LUMBRA360</title>{rect}{contenido}</svg>\n'
     )
 
 
 def main() -> None:
-    carpeta = Path(sys.argv[1])
-    fuente = TTFont(carpeta / "newsreader-latin-500-normal.woff2")
+    fuente = TTFont(FUENTE)
     SALIDA.mkdir(parents=True, exist_ok=True)
+    for variante, (c1, c2, lumbre, fondo) in COLORES.items():
+        (SALIDA / f"lumbra360-simbolo-{variante}.svg").write_text(svg(48, 48, simbolo(c1, lumbre), fondo))
+        (SALIDA / f"lumbra360-simbolo-pequeno-{variante}.svg").write_text(svg(48, 48, simbolo(c1, lumbre, True), fondo))
 
-    for variante, anillo, punto, texto, fondo in [
-        ("positivo", PETROLEO, LUMBRE, PETROLEO, None),
-        ("negativo", MARFIL, LUMBRE_OSCURO, MARFIL, PETROLEO),
-    ]:
-        # Solo símbolo
-        (SALIDA / f"lumbra360-simbolo-{variante}.svg").write_text(
-            svg(48, 48, simbolo(anillo, punto), "LUMBRA360", fondo)
-        )
-
-        # Horizontal: símbolo de 48 y texto de 30 de cuerpo, alineado al centro óptico
-        trazo, ancho_texto = palabra(fuente, texto, 0, 0, 30)
-        sep = 16
+        texto, ancho_texto = logotipo(fuente, 0, 0, c1, c2)
+        sep = 18
         ancho = 48 + sep + ancho_texto + 2
-        contenido = simbolo(anillo, punto) + f'<g transform="translate({48 + sep} 34.5)">{trazo}</g>'
-        (SALIDA / f"lumbra360-horizontal-{variante}.svg").write_text(svg(ancho, 48, contenido, "LUMBRA360", fondo))
-
-        # Vertical: símbolo de 72 centrado sobre el texto
-        trazo_v, ancho_v = palabra(fuente, texto, 0, 0, 28)
-        ancho = max(ancho_v, 72) + 8
-        contenido = (
-            simbolo(anillo, punto, (ancho - 72) / 2, 0, 1.5)
-            + f'<g transform="translate({(ancho - ancho_v) / 2:.2f} 112)">{trazo_v}</g>'
+        (SALIDA / f"lumbra360-horizontal-{variante}.svg").write_text(
+            svg(ancho, 48, simbolo(c1, lumbre) + f'<g transform="translate({48 + sep} 33.5)">{texto}</g>', fondo)
         )
-        (SALIDA / f"lumbra360-vertical-{variante}.svg").write_text(svg(ancho, 122, contenido, "LUMBRA360", fondo))
 
-    # Favicon: símbolo con margen, pensado para 16 y 32 px
+        texto_v, ancho_v = logotipo(fuente, 0, 0, c1, c2, 24)
+        ancho = max(ancho_v, 72) + 8
+        (SALIDA / f"lumbra360-vertical-{variante}.svg").write_text(
+            svg(ancho, 120, simbolo(c1, lumbre, False, (ancho - 72) / 2, 0, 1.5) + f'<g transform="translate({(ancho - ancho_v) / 2:.2f} 110)">{texto_v}</g>', fondo)
+        )
+
+    # Favicon: dibujo pequeño; cambia a la versión clara con el modo oscuro del sistema.
+    pequeno = simbolo("#0C2B30", "#E6A23A", True).replace('fill="none"', 'class="a" fill="none"').replace("<circle", '<circle class="p"')
     (SALIDA / "favicon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">'
-        '<style>@media (prefers-color-scheme: dark){.a{stroke:#F7F5F0}.p{fill:#EFB95A}}</style>'
-        + simbolo(PETROLEO, LUMBRE).replace('fill="none"', 'class="a" fill="none"').replace('<circle', '<circle class="p"')
-        + "</svg>\n"
+        "<style>@media (prefers-color-scheme: dark){.a{stroke:#F7F5F0}.p{fill:#EFB95A}}</style>" + pequeno + "</svg>\n"
     )
     print("Logos generados en", SALIDA)
 

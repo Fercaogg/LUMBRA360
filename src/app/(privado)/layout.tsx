@@ -37,7 +37,7 @@ export default function DisposicionPrivada({ children }: { children: React.React
       <header className="bg-marca text-sobre-marca">
         <div className="mx-auto flex min-h-16 w-full max-w-5xl items-center justify-between gap-4 px-4">
           <Link href="/panel" aria-label={`${NOMBRE}, panel`} className="rounded-md py-2">
-            <Logotipo variante="negativo" alto={24} decorativo />
+            <Logotipo variante="negativo" alto={28} decorativo />
           </Link>
           <Suspense fallback={null}>
             <Sesion />

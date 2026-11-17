@@ -13,8 +13,8 @@ export function Logotipo({
   className?: string;
   decorativo?: boolean;
 }) {
-  // Proporción del SVG horizontal: 271 × 48.
-  const ancho = Math.round((alto * 271) / 48);
+  // Proporción del SVG horizontal: 272 × 48.
+  const ancho = Math.round((alto * 272) / 48);
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -28,9 +28,11 @@ export function Logotipo({
   );
 }
 
+// A 32 px o menos se usa el dibujo pequeño, de trazo grueso, para que siga legible.
 export function Simbolo({ tamano = 32, className = "" }: { tamano?: number; className?: string }) {
+  const archivo = tamano <= 32 ? "lumbra360-simbolo-pequeno-positivo.svg" : "lumbra360-simbolo-positivo.svg";
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src="/marca/lumbra360-simbolo-positivo.svg" alt="" width={tamano} height={tamano} className={className} />
+    <img src={`/marca/${archivo}`} alt="" width={tamano} height={tamano} className={className} />
   );
 }

@@ -1,6 +1,6 @@
 # LUMBRA360 · Guía de marca
 
-Versión 1.0 · Dirección «Lumbre institucional»
+Versión 1.1 · Dirección «Lumbre institucional»
 
 LUMBRA360 une «lumbre» y visión de 360°. La idea central es la claridad: iluminar lo que antes estaba en zona gris (riesgos, cumplimiento y pruebas) para que la empresa sienta que **tiene todo en orden y lo puede demostrar**.
 
@@ -42,14 +42,22 @@ Se exploraron tres direcciones:
 
 ## 2. Logotipo
 
-### Construcción
+### Construcción (versión 1.1, «Fino»)
 
-- **Anillo:** circunferencia de radio 16,5 con trazo de 6 sobre una rejilla de 48 × 48, con extremos redondeados. Representa la visión completa, los 360°.
-- **Apertura:** entre −42° y −78°, arriba a la derecha. Indica transparencia: nada queda cerrado ni oculto. Además evita que el símbolo parezca un botón de encendido o un objetivo.
-- **Lumbre:** círculo central de radio 5,25 en ámbar. Es la luz que permite ver con claridad, y el único punto cálido del símbolo.
-- **Logotipo tipográfico:** «LUMBRA360» en Newsreader 500, con espaciado de 0,075 em, convertido a trazados. Va en mayúsculas para dar presencia institucional. El espaciado abierto evita que se lea apretado a tamaños pequeños.
+- **Anillo:** circunferencia de radio 17 con trazo de 3 sobre una rejilla de 48 × 48, con extremos redondeados. Representa la visión completa, los 360°. El trazo fino da un aire más preciso y sereno que el de la versión 1.0.
+- **Apertura:** entre −38° y −82°, arriba a la derecha. Indica transparencia: nada queda cerrado ni oculto.
+- **Lumbre:** punto central de radio 4 en ámbar. Es la luz que permite ver con claridad, y el único punto cálido.
+- **Logotipo tipográfico:**
+  - «LUMBRA» en Newsreader 400 con espaciado de 0,22 em, en mayúsculas espaciadas de carácter editorial.
+  - «360» en petróleo medio (`#2E727A`) y mismo cuerpo, separado por un espacio. Lee como un segundo tono de voz, sin competir con el nombre.
+  - Convertido a trazados.
+- **Dos dibujos del símbolo:**
+  - **Fino**, desde 32 px.
+  - **Pequeño**, con trazo de 6 y punto de radio 5, para el favicon y de 16 a 32 px. Un trazo fino desaparece a esos tamaños; el pequeño mantiene la lectura.
 
-**Por qué funciona a 16 px:** el trazo del anillo ocupa un octavo de la rejilla y el punto central es grande. A 16 px se distinguen anillo, apertura y punto, como se ve en `brand.html`.
+**Versión 1.0.** Tenía trazo grueso, nombre en Newsreader 500 y «LUMBRA360» de un solo color. Se sustituyó por una versión más elegante. Se valoraron otras dos alternativas:
+- **«Lumbra» en caja baja con «360» pequeño:** el número parecía un número de versión.
+- **Lumbre en la apertura:** a tamaños pequeños el punto parecía una notificación.
 
 ### Versiones
 
@@ -58,17 +66,18 @@ Se exploraron tres direcciones:
 | `lumbra360-horizontal-positivo.svg` | Uso principal sobre fondos claros: cabeceras, documentos y correos. |
 | `lumbra360-horizontal-negativo.svg` | Sobre petróleo o fondos oscuros. |
 | `lumbra360-vertical-*.svg` | Espacios cuadrados: portadas, presentaciones y redes. |
-| `lumbra360-simbolo-*.svg` | Avatares, iconos de aplicación y sellos pequeños. |
-| `favicon.svg` | Pestaña del navegador. Cambia a la versión clara si el sistema está en modo oscuro. |
+| `lumbra360-simbolo-*.svg` | Símbolo fino, desde 32 px: avatares, iconos de aplicación y sellos. |
+| `lumbra360-simbolo-pequeno-*.svg` | Símbolo pequeño, de 16 a 32 px. |
+| `favicon.svg` | Pestaña del navegador, con el dibujo pequeño. Cambia a la versión clara si el sistema está en modo oscuro. |
 
 Colores del logotipo:
-- Positivo: anillo y texto en petróleo 900 (`#0C2B30`), punto en lumbre 400 (`#E6A23A`).
-- Negativo: anillo y texto en piedra 50 (`#F7F5F0`), punto en lumbre 300 (`#EFB95A`).
+- Positivo: anillo y «LUMBRA» en petróleo 900 (`#0C2B30`), «360» en petróleo 500 (`#2E727A`), punto en lumbre 400 (`#E6A23A`).
+- Negativo: anillo y «LUMBRA» en piedra 50 (`#F7F5F0`), «360» en petróleo 200 (`#ADCFD2`), punto en lumbre 300 (`#EFB95A`).
 
 ### Normas
 
 - **Área de protección:** la mitad de la altura del símbolo en todo el contorno.
-- **Tamaño mínimo:** símbolo a 16 px; logotipo horizontal a 120 px de ancho en pantalla y 30 mm en papel.
+- **Tamaño mínimo:** símbolo pequeño a 16 px; logotipo horizontal a 140 px de ancho en pantalla y 35 mm en papel.
 - **No:** deformar, cambiar colores, girar, añadir sombras o contornos, ni colocarlo sobre fotografías o fondos con poco contraste.
 - **No:** separar el punto del anillo, cambiar la tipografía ni escribir «Lumbra 360» con espacio.
 - **En texto corrido:** «LUMBRA360», en mayúsculas y sin espacio.
@@ -76,7 +85,7 @@ Colores del logotipo:
 Para regenerar los SVG:
 
 ```bash
-python3 brand/scripts/generar_logos.py <carpeta con newsreader-latin-500-normal.woff2>
+python3 brand/scripts/generar_logos.py
 ```
 
 ---
