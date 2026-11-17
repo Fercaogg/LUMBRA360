@@ -132,6 +132,13 @@ insert into public.invitaciones (correo, rol) values ('tu-correo', 'admin');
 
 5. Pon la clave secreta del proyecto en `SUPABASE_SECRET_KEY`. Nunca en el repositorio ni con prefijo `NEXT_PUBLIC_`.
 
+## Despliegue en Vercel
+
+- Proyecto `lumbra360`, vinculado a este repositorio. Cada push a `main` despliega en producción (`https://lumbra360.vercel.app`). Las demás ramas generan vistas previas.
+- Variables en Vercel: las tres `NEXT_PUBLIC_*` (públicas por diseño) y `SUPABASE_SECRET_KEY`, marcada como sensible y solo para servidor.
+- En las vistas previas, los enlaces de acceso usan la URL de la propia rama (`VERCEL_BRANCH_URL`). `NEXT_PUBLIC_SITE_URL` solo se usa en producción.
+- En Supabase, en Authentication, URL Configuration: URL del sitio `https://lumbra360.vercel.app` y, en redirecciones, `https://lumbra360.vercel.app/auth/confirmar` y `https://*-fercaogg.vercel.app/auth/confirmar` para las vistas previas.
+
 ## Reglas del producto que el código respeta
 
 - Las personas trabajadoras no tienen cuenta. No se guarda su nombre, su correo ni su actividad.

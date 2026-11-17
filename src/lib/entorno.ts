@@ -19,6 +19,10 @@ export function clavePublicaSupabase(): string {
   );
 }
 
+// En producción manda NEXT_PUBLIC_SITE_URL. En las vistas previas de Vercel se usa la URL
+// de la rama, que Vercel pone en el entorno: así los enlaces de acceso vuelven a la misma vista previa.
 export function urlSitio(): string {
+  const vistaPrevia = process.env.VERCEL_ENV === "preview" ? process.env.VERCEL_BRANCH_URL ?? process.env.VERCEL_URL : undefined;
+  if (vistaPrevia) return `https://${vistaPrevia}`.replace(/\/+$/, "");
   return exigir("NEXT_PUBLIC_SITE_URL", process.env.NEXT_PUBLIC_SITE_URL).replace(/\/+$/, "");
 }
