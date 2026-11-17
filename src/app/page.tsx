@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users } from "lucide-react";
+import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, GraduationCap, HardHat, ListChecks, Users, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
@@ -45,6 +45,18 @@ const CAPITULOS = [
   { titulo: "Resultados por grupos", texto: "Solo con 5 respuestas o más, al cerrar la campaña.", imagen: "/portada/app-resultados.webp", alt: "Resultados de un seguimiento de demostración con la participación.", cursor: [16, 46] },
   { titulo: "Plan de acción", texto: "Medidas con responsable, fecha y estado.", imagen: "/portada/app-plan.webp", alt: "Plan de acción de demostración con medidas de ejemplo.", cursor: [29, 59] },
   { titulo: "Evidencias fechadas", texto: "Política aprobada, acuses y formación, con fecha y autor.", imagen: "/portada/app-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor.", cursor: [40, 63] },
+];
+
+const PILARES = [
+  { icono: Waves, titulo: "Evaluación psicosocial continua", texto: "Seguimientos breves y apoyo a la evaluación con FPSICO, siempre anónimos." },
+  { icono: BellOff, titulo: "Desconexión digital", texto: "Política, audiencia a la representación, acuses de lectura y formación." },
+  { icono: FileCheck2, titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor." },
+];
+
+const DIRECCION = [
+  { nombre: "Fernando Martín Vaquero", iniciales: "FM" },
+  { nombre: "Ana María Pinto Llorente", iniciales: "AP" },
+  { nombre: "Luis Eduardo Andrade Silva", iniciales: "LA" },
 ];
 
 const PERFILES = [
@@ -121,7 +133,7 @@ export default function Portada() {
         </Contenedor>
       </header>
 
-      <main id="contenido" className="flex-1">
+      <main id="contenido" className="flex-1 overflow-x-clip">
         {/* 2. Hero */}
         <section data-heroe className="relative overflow-hidden bg-superficie pb-16 pt-28 lg:pt-32">
           <Contenedor>
@@ -141,7 +153,7 @@ export default function Portada() {
                 </a>
               </div>
             </div>
-            <div data-hero-dispositivo className="relative mx-auto mt-12 w-full max-w-[min(1040px,max(420px,calc((100svh-29rem)*1.47)))] pb-6 lg:mt-14">
+            <div data-hero-dispositivo className="relative mx-auto mt-12 w-full max-w-[min(1200px,max(480px,calc((100svh-24rem)*1.7)))] pb-6 lg:mt-14">
               <Portatil>
                 <VideoLumbra />
               </Portatil>
@@ -154,8 +166,38 @@ export default function Portada() {
           </Contenedor>
         </section>
 
-        {/* 3. Para qué sirve */}
-        <Seccion id="para-que-sirve" alterna>
+        {/* 3. Qué es */}
+        <Seccion id="que-es" alterna>
+          <Encabezado etiqueta="Qué es" titulo={`${NOMBRE}, en pocas palabras.`} />
+          <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
+            <div data-tarjetas className="flex flex-col gap-6 lg:col-span-5">
+              <p data-tarjeta className="max-w-[60ch] text-pretty text-xl leading-relaxed lg:text-[1.375rem]">
+                Una plataforma web para evaluar los riesgos psicosociales de forma continua, ordenar la desconexión digital y guardar cada paso con fecha.
+              </p>
+              <p data-tarjeta className="max-w-[60ch] text-pretty text-lg leading-relaxed text-tinta-suave">
+                Acompaña al técnico de prevención: la plantilla responde de forma anónima, la empresa actúa y todo queda documentado.
+              </p>
+              <p data-tarjeta className="flex items-center gap-3 text-sm font-medium">
+                <span aria-hidden className="size-2 rounded-full bg-lumbre" />
+                Sin vigilancia: no mide actividad, conexiones ni correos.
+              </p>
+            </div>
+            <ul data-tarjetas className="grid gap-6 [perspective:1400px] lg:col-span-7">
+              {PILARES.map((p) => (
+                <li key={p.titulo} data-tarjeta className={`${TARJETA} flex items-start gap-6`}>
+                  <Icono icono={p.icono} />
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-lg font-semibold">{p.titulo}</h3>
+                    <p className="text-pretty text-tinta-suave">{p.texto}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Seccion>
+
+        {/* 4. Para qué sirve */}
+        <Seccion id="para-que-sirve">
           <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo." />
           <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3 lg:gap-8">
             {BENEFICIOS.map((b) => (
@@ -168,8 +210,8 @@ export default function Portada() {
           </ul>
         </Seccion>
 
-        {/* 4. Cómo se utiliza */}
-        <Seccion id="como-se-utiliza">
+        {/* 5. Cómo se utiliza */}
+        <Seccion id="como-se-utiliza" alterna>
           <Encabezado etiqueta="Cómo se utiliza" titulo="De la primera respuesta a la última evidencia." />
           <ol data-pasos className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {PASOS.map((p, i) => (
@@ -190,8 +232,8 @@ export default function Portada() {
           </ol>
         </Seccion>
 
-        {/* 5. La aplicación por dentro */}
-        <Seccion id="aplicacion" alterna>
+        {/* 6. La aplicación por dentro */}
+        <Seccion id="aplicacion">
           <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro." entradilla="Pantallas reales con datos de demostración." />
           <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
             <ol className="hidden flex-col gap-7 lg:col-span-4 lg:flex">
@@ -224,8 +266,8 @@ export default function Portada() {
           </div>
         </Seccion>
 
-        {/* 6. Para quién es */}
-        <Seccion id="para-quien">
+        {/* 7. Para quién es */}
+        <Seccion id="para-quien" alterna>
           <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención." />
           <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {PERFILES.map((p) => (
@@ -238,7 +280,32 @@ export default function Portada() {
           </ul>
         </Seccion>
 
-        {/* 7. Llamada final */}
+        {/* 8. Respaldo */}
+        <Seccion id="respaldo">
+          <Encabezado etiqueta="Respaldo" titulo="Avalado por la Universidad de Salamanca." />
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-2 lg:gap-8">
+            <li data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
+              <Icono icono={GraduationCap} />
+              <h3 className="text-lg font-semibold">Pilotaje en IMCA, Salamanca</h3>
+              <p className="max-w-[60ch] text-pretty text-tinta-suave">Una plataforma anterior, precursora de {NOMBRE}, completó un pilotaje en IMCA (Salamanca) con resultados satisfactorios.</p>
+            </li>
+            <li data-tarjeta className={`${TARJETA} flex flex-col gap-5`}>
+              <h3 className="text-lg font-semibold">Dirección del proyecto</h3>
+              <ul className="flex flex-col gap-4">
+                {DIRECCION.map((d) => (
+                  <li key={d.nombre} className="flex items-center gap-4">
+                    <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full bg-tinta text-sm font-semibold text-[var(--texto-sobre-marca)]">
+                      {d.iniciales}
+                    </span>
+                    <span className="font-medium">{d.nombre}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ul>
+        </Seccion>
+
+        {/* 9. Llamada final */}
         <Seccion alterna>
           <div data-cierre className="relative mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
             <svg aria-hidden viewBox={ONDA_CAJA} className="pointer-events-none absolute left-1/2 top-1/2 -z-0 w-[min(120vw,46rem)] -translate-x-1/2 -translate-y-1/2 overflow-visible opacity-[0.14]">
@@ -253,7 +320,7 @@ export default function Portada() {
         </Seccion>
       </main>
 
-      {/* 8. Pie */}
+      {/* 10. Pie */}
       <footer className="bg-superficie">
         <Contenedor className="grid gap-12 py-20 sm:grid-cols-2 lg:grid-cols-12">
           <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-6">

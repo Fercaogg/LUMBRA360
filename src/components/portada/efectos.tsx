@@ -70,11 +70,11 @@ function heroe() {
 
   // Destino del zoom: centrado bajo la cabecera y lo más grande que quepa.
   const cabecera = 72;
-  const margen = 32;
+  const margen = 20;
   const escala = () => {
     const disponibleAlto = window.innerHeight - cabecera - margen * 2;
     const disponibleAncho = window.innerWidth - margen * 2;
-    return Math.max(1, Math.min(disponibleAlto / dispositivo.offsetHeight, disponibleAncho / dispositivo.offsetWidth, 1.75));
+    return Math.max(1, Math.min(disponibleAlto / dispositivo.offsetHeight, disponibleAncho / dispositivo.offsetWidth, 2));
   };
   const desplazamiento = () => {
     const centroDestino = cabecera + (window.innerHeight - cabecera) / 2;
