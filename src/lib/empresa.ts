@@ -29,8 +29,9 @@ export function pestanasEmpresa(empresaId: string) {
   const base = `/panel/empresa/${empresaId}`;
   return [
     { href: base, texto: "Resumen" },
-    { href: `${base}/campanas`, texto: "Campañas y pulsos" },
+    { href: `${base}/campanas`, texto: "Campañas y seguimientos" },
     { href: `${base}/plan`, texto: "Plan de acción" },
+    { href: `${base}/desconexion`, texto: "Desconexión digital" },
     { href: `${base}/estructura`, texto: "Grupos" },
   ];
 }

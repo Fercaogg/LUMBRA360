@@ -7,7 +7,12 @@ type Cliente = Awaited<ReturnType<typeof crearClienteServidor>>;
 export async function estadosDeEvaluacion(supabase: Cliente, empresaIds: string[]): Promise<Record<string, string>> {
   if (empresaIds.length === 0) return {};
   const [campanas, informes] = await Promise.all([
-    supabase.from("campanas").select("id, empresa_id, estado, creada_el").in("empresa_id", empresaIds).order("creada_el", { ascending: false }),
+    supabase
+      .from("campanas")
+      .select("id, empresa_id, estado, creada_el")
+      .in("empresa_id", empresaIds)
+      .eq("tipo", "evaluacion")
+      .order("creada_el", { ascending: false }),
     supabase.from("informes").select("campana_id, estado"),
   ]);
   const firmados = new Set((informes.data ?? []).filter((i) => i.estado === "firmado").map((i) => i.campana_id));
@@ -16,12 +21,12 @@ export async function estadosDeEvaluacion(supabase: Cliente, empresaIds: string[
     if (salida[campana.empresa_id]) continue;
     salida[campana.empresa_id] =
       campana.estado === "abierta"
-        ? "Campaña abierta"
+        ? "Evaluación abierta"
         : campana.estado === "borrador"
-          ? "Campaña en preparación"
+          ? "Evaluación en preparación"
           : firmados.has(campana.id)
             ? "Informe firmado"
-            : "Campaña cerrada";
+            : "Evaluación cerrada";
   }
   return salida;
 }

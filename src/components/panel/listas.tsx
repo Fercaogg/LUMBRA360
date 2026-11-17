@@ -34,7 +34,7 @@ export function ListaEmpresas({ empresas }: { empresas: EmpresaListada[] }) {
             </span>
             <span className="flex flex-wrap items-center gap-2">
               {empresa.es_demo ? <Etiqueta tono="aviso">Demo</Etiqueta> : null}
-              <Etiqueta tono={empresa.estado === "Campaña abierta" ? "acento" : "neutro"}>{empresa.estado ?? "Sin campañas"}</Etiqueta>
+              <Etiqueta tono={empresa.estado === "Evaluación abierta" ? "acento" : "neutro"}>{empresa.estado ?? "Sin evaluaciones"}</Etiqueta>
             </span>
           </Link>
         </li>

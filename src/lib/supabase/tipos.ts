@@ -23,7 +23,27 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "administradores": {
+            "acuses": {
+                  Row: {
+                    "id": string,"nombre": string,"politica_id": string,"registrado_el": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "id"?: string,"nombre": string,"politica_id": string,"registrado_el"?: string
+                  }
+                  Update: {
+                    "id"?: string,"nombre"?: string,"politica_id"?: string,"registrado_el"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "acuses_politica_id_fkey"
+      columns: ["politica_id"]
+isOneToOne: false
+      referencedRelation: "politicas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"administradores": {
                   Row: {
                     "creado_el": string,"usuario_id": string
                   }
@@ -40,6 +60,38 @@ export type Database = {
       columns: ["usuario_id"]
 isOneToOne: true
       referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"audiencias": {
+                  Row: {
+                    "acta_nombre": string | null,"acta_ruta": string | null,"acta_sha256": string | null,"asistentes": string,"creada_el": string,"creada_por": string | null,"empresa_id": string,"fecha": string,"id": string,"notas": string | null,"politica_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "acta_nombre"?: string | null,"acta_ruta"?: string | null,"acta_sha256"?: string | null,"asistentes": string,"creada_el"?: string,"creada_por"?: string | null,"empresa_id": string,"fecha": string,"id"?: string,"notas"?: string | null,"politica_id"?: string | null
+                  }
+                  Update: {
+                    "acta_nombre"?: string | null,"acta_ruta"?: string | null,"acta_sha256"?: string | null,"asistentes"?: string,"creada_el"?: string,"creada_por"?: string | null,"empresa_id"?: string,"fecha"?: string,"id"?: string,"notas"?: string | null,"politica_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "audiencias_creada_por_fkey"
+      columns: ["creada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "audiencias_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "audiencias_politica_id_fkey"
+      columns: ["politica_id"]
+isOneToOne: false
+      referencedRelation: "politicas"
       referencedColumns: ["id"]
     }
                   ]
@@ -195,14 +247,14 @@ isOneToOne: false
                   ]
                 },"escala_opciones": {
                   Row: {
-                    "escala_id": string,"etiqueta": string,"id": string,"orden": number,"valor": number
+                    "codigo_export": string | null,"escala_id": string,"etiqueta": string,"id": string,"orden": number,"valor": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "escala_id": string,"etiqueta": string,"id"?: string,"orden"?: number,"valor": number
+                    "codigo_export"?: string | null,"escala_id": string,"etiqueta": string,"id"?: string,"orden"?: number,"valor": number
                   }
                   Update: {
-                    "escala_id"?: string,"etiqueta"?: string,"id"?: string,"orden"?: number,"valor"?: number
+                    "codigo_export"?: string | null,"escala_id"?: string,"etiqueta"?: string,"id"?: string,"orden"?: number,"valor"?: number
                   }
                   Relationships: [
                     {
@@ -279,6 +331,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"formaciones": {
+                  Row: {
+                    "creada_el": string,"creada_por": string | null,"descripcion": string | null,"documento_nombre": string | null,"documento_ruta": string | null,"documento_sha256": string | null,"empresa_id": string,"fecha": string,"id": string,"participantes": number | null,"titulo": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "creada_el"?: string,"creada_por"?: string | null,"descripcion"?: string | null,"documento_nombre"?: string | null,"documento_ruta"?: string | null,"documento_sha256"?: string | null,"empresa_id": string,"fecha": string,"id"?: string,"participantes"?: number | null,"titulo": string
+                  }
+                  Update: {
+                    "creada_el"?: string,"creada_por"?: string | null,"descripcion"?: string | null,"documento_nombre"?: string | null,"documento_ruta"?: string | null,"documento_sha256"?: string | null,"empresa_id"?: string,"fecha"?: string,"id"?: string,"participantes"?: number | null,"titulo"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "formaciones_creada_por_fkey"
+      columns: ["creada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "formaciones_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"grupos": {
                   Row: {
                     "dimension_id": string,"id": string,"nombre": string,"orden": number
@@ -333,14 +411,14 @@ isOneToOne: false
                   ]
                 },"informes": {
                   Row: {
-                    "campana_id": string,"creado_el": string,"creado_por": string | null,"datos": Json | null,"estado": Database["public"]['Enums']["estado_informe"],"firmado_el": string | null,"firmado_por": string | null,"firmante_nombre": string | null,"id": string
+                    "campana_id": string,"creado_el": string,"creado_por": string | null,"datos": Json | null,"documento_nombre": string | null,"documento_ruta": string | null,"documento_sha256": string | null,"documento_subido_el": string | null,"estado": Database["public"]['Enums']["estado_informe"],"firmado_el": string | null,"firmado_por": string | null,"firmante_nombre": string | null,"id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "campana_id": string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
+                    "campana_id": string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"documento_nombre"?: string | null,"documento_ruta"?: string | null,"documento_sha256"?: string | null,"documento_subido_el"?: string | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
                   }
                   Update: {
-                    "campana_id"?: string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
+                    "campana_id"?: string,"creado_el"?: string,"creado_por"?: string | null,"datos"?: Json | null,"documento_nombre"?: string | null,"documento_ruta"?: string | null,"documento_sha256"?: string | null,"documento_subido_el"?: string | null,"estado"?: Database["public"]['Enums']["estado_informe"],"firmado_el"?: string | null,"firmado_por"?: string | null,"firmante_nombre"?: string | null,"id"?: string
                   }
                   Relationships: [
                     {
@@ -365,14 +443,14 @@ isOneToOne: false
                   ]
                 },"instrumentos": {
                   Row: {
-                    "creado_el": string,"descripcion": string | null,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"id": string,"licencia_confirmada": boolean,"licencia_nota": string | null,"minutos_estimados": number | null,"nombre": string,"tipo": Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el": string,"descripcion": string | null,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"export_cabecera": string | null,"export_confirmado": boolean,"export_fin_linea": string,"export_separador": string,"id": string,"licencia_confirmada": boolean,"licencia_nota": string | null,"minutos_estimados": number | null,"nombre": string,"origen": Database["public"]['Enums']["origen_instrumento"],"tipo": Database["public"]['Enums']["tipo_instrumento"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre": string,"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre": string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
                   }
                   Update: {
-                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre"?: string,"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre"?: string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
                   }
                   Relationships: [
                     
@@ -599,6 +677,78 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"politica_plantilla_secciones": {
+                  Row: {
+                    "ayuda": string | null,"cuerpo": string,"id": string,"orden": number,"plantilla_id": string,"titulo": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "ayuda"?: string | null,"cuerpo"?: string,"id"?: string,"orden"?: number,"plantilla_id": string,"titulo": string
+                  }
+                  Update: {
+                    "ayuda"?: string | null,"cuerpo"?: string,"id"?: string,"orden"?: number,"plantilla_id"?: string,"titulo"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "politica_plantilla_secciones_plantilla_id_fkey"
+      columns: ["plantilla_id"]
+isOneToOne: false
+      referencedRelation: "politica_plantillas"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"politica_plantillas": {
+                  Row: {
+                    "creado_el": string,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"id": string,"nombre": string,"revisada_juridicamente": boolean,"revision_nota": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "creado_el"?: string,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"nombre": string,"revisada_juridicamente"?: boolean,"revision_nota"?: string | null
+                  }
+                  Update: {
+                    "creado_el"?: string,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"id"?: string,"nombre"?: string,"revisada_juridicamente"?: boolean,"revision_nota"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"politicas": {
+                  Row: {
+                    "aprobada_el": string | null,"aprobada_nombre": string | null,"aprobada_por": string | null,"creada_el": string,"creada_por": string | null,"empresa_id": string,"estado": Database["public"]['Enums']["estado_politica"],"id": string,"plantilla_id": string | null,"secciones": NonNullable<Json>,"token_acuse": string | null,"version": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "aprobada_el"?: string | null,"aprobada_nombre"?: string | null,"aprobada_por"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"empresa_id": string,"estado"?: Database["public"]['Enums']["estado_politica"],"id"?: string,"plantilla_id"?: string | null,"secciones"?: NonNullable<Json>,"token_acuse"?: string | null,"version": number
+                  }
+                  Update: {
+                    "aprobada_el"?: string | null,"aprobada_nombre"?: string | null,"aprobada_por"?: string | null,"creada_el"?: string,"creada_por"?: string | null,"empresa_id"?: string,"estado"?: Database["public"]['Enums']["estado_politica"],"id"?: string,"plantilla_id"?: string | null,"secciones"?: NonNullable<Json>,"token_acuse"?: string | null,"version"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "politicas_aprobada_por_fkey"
+      columns: ["aprobada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "politicas_creada_por_fkey"
+      columns: ["creada_por"]
+isOneToOne: false
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "politicas_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "politicas_plantilla_id_fkey"
+      columns: ["plantilla_id"]
+isOneToOne: false
+      referencedRelation: "politica_plantillas"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"respuesta_grupos": {
                   Row: {
                     "grupo_id": string,"respuesta_id": string
@@ -706,8 +856,17 @@ isOneToOne: false
             "abrir_campana":
 { Args: { "p_campana": string }; Returns: undefined
                            },
+"adjuntar_informe":
+{ Args: { "p_informe": string,"p_nombre": string,"p_ruta": string,"p_sha256": string }; Returns: undefined
+                           },
+"aprobar_politica":
+{ Args: { "p_nombre": string,"p_politica": string }; Returns: undefined
+                           },
 "borrar_empresa_completa":
 { Args: { "p_empresa": string }; Returns: undefined
+                           },
+"cambiar_acuse":
+{ Args: { "p_abrir": boolean,"p_politica": string }; Returns: undefined
                            },
 "cerrar_campana":
 { Args: { "p_campana": string }; Returns: undefined
@@ -721,6 +880,9 @@ isOneToOne: false
 "enviar_respuesta":
 { Args: { "p_acceso": string,"p_grupos": (string)[],"p_valores": Json }; Returns: string
                            },
+"exportar_respuestas":
+{ Args: { "p_campana": string }; Returns: Json
+                           },
 "firmar_informe":
 { Args: { "p_informe": string,"p_nombre": string }; Returns: undefined
                            },
@@ -732,6 +894,9 @@ isOneToOne: false
               "dimension": string,"dimension_id": string,"grupo": string,"grupo_id": string,"visible": boolean
             }[]
                            },
+"iniciar_politica":
+{ Args: { "p_empresa": string,"p_plantilla": string }; Returns: string
+                           },
 "marca_de_empresa":
 { Args: { "p_empresa": string }; Returns: {
               "logo_ruta": string,"nombre": string
@@ -739,6 +904,9 @@ isOneToOne: false
                            },
 "obtener_cuestionario":
 { Args: { "p_acceso": string }; Returns: Json
+                           },
+"obtener_politica_acuse":
+{ Args: { "p_token": string }; Returns: Json
                            },
 "participacion_campana":
 { Args: { "p_campana": string }; Returns: Json
@@ -749,15 +917,24 @@ isOneToOne: false
 "publicar_instrumento":
 { Args: { "p_instrumento": string }; Returns: undefined
                            },
+"publicar_plantilla_politica":
+{ Args: { "p_plantilla": string }; Returns: undefined
+                           },
+"registrar_acuse":
+{ Args: { "p_nombre": string,"p_token": string }; Returns: string
+                           },
 "resultados_campana":
 { Args: { "p_campana": string,"p_grupos"?: (string)[] }; Returns: Json
                            },
 "retirar_instrumento":
 { Args: { "p_instrumento": string }; Returns: undefined
+                           },
+"retirar_plantilla_politica":
+{ Args: { "p_plantilla": string }; Returns: undefined
                            }
           }
           Enums: {
-            "estado_campana": "borrador"|"abierta"|"cerrada","estado_informe": "borrador"|"firmado","estado_instrumento": "borrador"|"publicado"|"retirado","estado_medida": "pendiente"|"en_curso"|"hecha"|"descartada","metodo_puntuacion": "media"|"suma","modo_acceso": "codigos"|"enlace","rol_invitacion": "admin"|"partner"|"tecnico"|"empresa","rol_partner": "gestor"|"tecnico","tipo_instrumento": "evaluacion"|"pulso","tono_nivel": "favorable"|"intermedio"|"desfavorable"
+            "estado_campana": "borrador"|"abierta"|"cerrada","estado_informe": "borrador"|"firmado","estado_instrumento": "borrador"|"publicado"|"retirado","estado_medida": "pendiente"|"en_curso"|"hecha"|"descartada","estado_politica": "borrador"|"aprobada","metodo_puntuacion": "media"|"suma","modo_acceso": "codigos"|"enlace","origen_instrumento": "propio"|"insst_fpsico","rol_invitacion": "admin"|"partner"|"tecnico"|"empresa","rol_partner": "gestor"|"tecnico","tipo_instrumento": "evaluacion"|"pulso","tono_nivel": "favorable"|"intermedio"|"desfavorable"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -877,7 +1054,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "estado_campana": ["borrador", "abierta", "cerrada"],"estado_informe": ["borrador", "firmado"],"estado_instrumento": ["borrador", "publicado", "retirado"],"estado_medida": ["pendiente", "en_curso", "hecha", "descartada"],"metodo_puntuacion": ["media", "suma"],"modo_acceso": ["codigos", "enlace"],"rol_invitacion": ["admin", "partner", "tecnico", "empresa"],"rol_partner": ["gestor", "tecnico"],"tipo_instrumento": ["evaluacion", "pulso"],"tono_nivel": ["favorable", "intermedio", "desfavorable"]
+            "estado_campana": ["borrador", "abierta", "cerrada"],"estado_informe": ["borrador", "firmado"],"estado_instrumento": ["borrador", "publicado", "retirado"],"estado_medida": ["pendiente", "en_curso", "hecha", "descartada"],"estado_politica": ["borrador", "aprobada"],"metodo_puntuacion": ["media", "suma"],"modo_acceso": ["codigos", "enlace"],"origen_instrumento": ["propio", "insst_fpsico"],"rol_invitacion": ["admin", "partner", "tecnico", "empresa"],"rol_partner": ["gestor", "tecnico"],"tipo_instrumento": ["evaluacion", "pulso"],"tono_nivel": ["favorable", "intermedio", "desfavorable"]
           }
         }
 } as const

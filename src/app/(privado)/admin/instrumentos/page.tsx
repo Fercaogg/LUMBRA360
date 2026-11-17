@@ -16,20 +16,20 @@ export default async function PaginaInstrumentos() {
   const supabase = await crearClienteServidor();
   const { data } = await supabase
     .from("instrumentos")
-    .select("id, nombre, tipo, estado, es_demo, licencia_confirmada, items(count)")
+    .select("id, nombre, tipo, estado, origen, es_demo, licencia_confirmada, items(count)")
     .order("creado_el");
   const lista = data ?? [];
-  const hayReal = lista.some((i) => !i.es_demo);
+  const hayAutorizado = lista.some((i) => i.origen === "insst_fpsico" && i.licencia_confirmada);
 
   return (
     <>
       <Cabecera
         titulo="Instrumentos"
-        descripcion="Cuestionarios de evaluación y de pulso. Factores, ítems, escalas y niveles se configuran aquí."
+        descripcion="Evaluación con FPSICO (sin puntuar aquí) y seguimientos con ítems propios. Todo se configura aquí, nada en el código."
       />
       <PestanasAdmin actual="/admin/instrumentos" />
-      {!hayReal ? (
-        <Aviso>[PENDIENTE: instrumento y licencia por confirmar]. El banco de ítems reales está vacío. No copies ítems de ningún instrumento sin su licencia.</Aviso>
+      {!hayAutorizado ? (
+        <Aviso>[PENDIENTE: autorización escrita del INSST]. El banco de ítems de FPSICO está vacío. No se copia ningún ítem hasta tenerla.</Aviso>
       ) : null}
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {lista.length === 0 ? (
@@ -42,7 +42,7 @@ export default async function PaginaInstrumentos() {
                   <span className="flex flex-col gap-0.5">
                     <span className="font-medium">{instrumento.nombre}</span>
                     <span className="text-sm text-tinta-suave">
-                      {instrumento.tipo === "pulso" ? "Pulso" : "Evaluación"} · {instrumento.items[0]?.count ?? 0} ítems
+                      {instrumento.tipo === "pulso" ? "Seguimiento" : "Evaluación"} · {instrumento.items[0]?.count ?? 0} ítems
                     </span>
                   </span>
                   <span className="flex flex-wrap gap-2">
@@ -59,8 +59,8 @@ export default async function PaginaInstrumentos() {
           <Formulario accion={crearInstrumento}>
             <Campo etiqueta="Nombre" name="nombre" autoComplete="off" required maxLength={160} />
             <Selector etiqueta="Tipo" name="tipo" defaultValue="evaluacion">
-              <option value="evaluacion">Evaluación</option>
-              <option value="pulso">Pulso breve</option>
+              <option value="evaluacion">Evaluación (FPSICO, INSST)</option>
+              <option value="pulso">Seguimiento (ítems propios)</option>
             </Selector>
             <AreaTexto etiqueta="Descripción (opcional)" name="descripcion" maxLength={1000} />
             <Campo etiqueta="Minutos estimados (opcional)" name="minutos" type="number" inputMode="numeric" min={1} max={120} />

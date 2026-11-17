@@ -11,7 +11,7 @@
     "db:iniciar": "supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,supavisor,postgres-meta",
     "db:parar": "supabase stop",
     "db:reiniciar": "supabase db reset",
-    "db:tipos": "supabase gen types typescript --local > src/lib/supabase/tipos.ts",
+    "db:tipos": "supabase gen types typescript --local > src/lib/supabase/tipos.tmp && mv src/lib/supabase/tipos.tmp src/lib/supabase/tipos.ts",
     "test": "vitest run",
     "test:rls": "vitest run tests/rls",
     "test:e2e": "playwright test"

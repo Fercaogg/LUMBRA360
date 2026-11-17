@@ -138,7 +138,7 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
               <Link href={`/panel/empresa/${empresa.id}/campanas/${campana.id}`} className="flex flex-col gap-2 p-4 transition-colors duration-150 hover:bg-papel sm:flex-row sm:items-center sm:justify-between">
                 <span className="font-medium">{campana.nombre}</span>
                 <span className="flex flex-wrap gap-2">
-                  <Etiqueta>{campana.tipo === "pulso" ? "Pulso" : "Evaluación"}</Etiqueta>
+                  <Etiqueta>{campana.tipo === "pulso" ? "Seguimiento" : "Evaluación"}</Etiqueta>
                   <Etiqueta tono={campana.estado === "abierta" ? "acento" : "neutro"}>{ESTADOS_CAMPANA[campana.estado]}</Etiqueta>
                 </span>
               </Link>

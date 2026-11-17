@@ -23,6 +23,9 @@ let dimTurno = "";
 let campana = "";
 let codigos: string[] = [];
 let informe = "";
+let evaluacion = "";
+const itemsEval: string[] = [];
+const evals: Record<string, string> = {};
 
 async function alta(cliente: SupabaseClient, tabla: string, fila: Record<string, unknown>): Promise<string> {
   const { data, error } = await cliente.from(tabla).insert(fila).select("id").single();
@@ -75,7 +78,7 @@ beforeAll(async () => {
   }
 
   // Instrumento de prueba, creado por administración con su sesión. Textos ficticios.
-  instrumento = await alta(s["an-admin"], "instrumentos", { nombre: `Instrumento de prueba ${tanda}`, tipo: "evaluacion" });
+  instrumento = await alta(s["an-admin"], "instrumentos", { nombre: `Seguimiento de prueba ${tanda}`, tipo: "pulso" });
   await servicio.from("instrumentos").update({ es_demo: true }).eq("id", instrumento);
   const escala = await alta(s["an-admin"], "escalas", { instrumento_id: instrumento, nombre: "Escala de prueba" });
   await s["an-admin"].from("escala_opciones").insert(
@@ -106,7 +109,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await servicio.rpc("borrar_empresa_completa", { p_empresa: empresa });
   await servicio.rpc("borrar_empresa_completa", { p_empresa: empresaAjena });
-  await servicio.from("instrumentos").delete().eq("id", instrumento);
+  await servicio.from("instrumentos").delete().in("id", [instrumento, evaluacion]);
   await servicio.from("partners").delete().eq("id", partner);
   await borrarUsuarios(Object.values(u).map((x) => x.id));
 });
@@ -114,8 +117,11 @@ afterAll(async () => {
 describe("instrumentos", () => {
   it("no se publica sin confirmar instrumento y licencia, salvo que sea de demostración", async () => {
     const real = await alta(s["an-admin"], "instrumentos", { nombre: `Sin licencia ${tanda}` });
+    // Una evaluación real siempre es FPSICO (INSST) y exige la autorización escrita.
+    const { data: fila } = await s["an-admin"].from("instrumentos").select("origen").eq("id", real).single();
+    expect(fila?.origen).toBe("insst_fpsico");
     const { error } = await s["an-admin"].rpc("publicar_instrumento", { p_instrumento: real });
-    expect(error?.message).toContain("licencia");
+    expect(error?.message).toContain("INSST");
     await s["an-admin"].from("instrumentos").delete().eq("id", real);
   });
 
@@ -314,29 +320,122 @@ describe("resultados agregados con mínimo de 5", () => {
 });
 
 describe("informe, plan de acción y evidencias", () => {
-  it("solo el técnico asignado añade observaciones y firma", async () => {
-    const preparado = await s["an-cuenta"].rpc("preparar_informe", { p_campana: campana });
+  it("una evaluación nunca se puntúa en la plataforma, para ningún rol", async () => {
+    // Instrumento de evaluación de prueba (demo): escala con códigos de exportación.
+    evaluacion = await alta(s["an-admin"], "instrumentos", { nombre: `Evaluación de prueba ${tanda}`, tipo: "evaluacion" });
+    await servicio.from("instrumentos").update({ es_demo: true }).eq("id", evaluacion);
+    const escala = await alta(s["an-admin"], "escalas", { instrumento_id: evaluacion, nombre: "Escala" });
+    await s["an-admin"].from("escala_opciones").insert([1, 2, 3].map((v) => ({ escala_id: escala, etiqueta: `Opción ${v}`, valor: v, orden: v, codigo_export: "ABC"[v - 1] })));
+    const bloque = await alta(s["an-admin"], "factores", { instrumento_id: evaluacion, nombre: "Bloque" });
+    for (const n of [1, 2]) {
+      itemsEval.push(await alta(s["an-admin"], "items", { instrumento_id: evaluacion, factor_id: bloque, escala_id: escala, enunciado: `Ítem ${n}`, orden: n }));
+    }
+    // Sin niveles: una evaluación no los necesita porque no se puntúa aquí.
+    expect((await s["an-admin"].rpc("publicar_instrumento", { p_instrumento: evaluacion })).error).toBeNull();
+
+    for (const [clave, cuantas] of [["grande", 6], ["chica", 4]] as const) {
+      const id = await alta(s["an-cuenta"], "campanas", {
+        empresa_id: empresa, instrumento_id: evaluacion, nombre: `Evaluación ${clave} ${tanda}`, modo_acceso: "enlace", creada_por: u["an-cuenta"].id,
+      });
+      evals[clave] = id;
+      await s["an-cuenta"].rpc("abrir_campana", { p_campana: id });
+      const { data: fila } = await s["an-cuenta"].from("campanas").select("token_enlace, tipo").eq("id", id).single();
+      expect(fila?.tipo).toBe("evaluacion");
+      for (let i = 0; i < cuantas; i++) {
+        const { data } = await servicio.rpc("enviar_respuesta", {
+          p_acceso: fila!.token_enlace, p_valores: { [itemsEval[0]]: 1 + (i % 3), [itemsEval[1]]: 3 }, p_grupos: [],
+        });
+        expect(data).toBe("ok");
+      }
+      await s["an-cuenta"].rpc("cerrar_campana", { p_campana: id });
+    }
+
+    for (const rol of ["an-admin", "an-gestor", "an-tecnico", "an-cuenta"]) {
+      expect(await resultados(s[rol], evals.grande), rol).toEqual({ disponible: false, externa: true });
+    }
+  });
+
+  it("la exportación es solo del técnico, con formato confirmado y mínimo de respuestas", async () => {
+    for (const rol of ["an-admin", "an-gestor", "an-cuenta", "an-intruso"]) {
+      const { error } = await s[rol].rpc("exportar_respuestas", { p_campana: evals.grande });
+      expect(error, rol).not.toBeNull();
+    }
+    const sinFormato = await s["an-tecnico"].rpc("exportar_respuestas", { p_campana: evals.grande });
+    expect(sinFormato.error?.message).toContain("todavía no está disponible");
+
+    // Solo administración configura y confirma el formato.
+    const ajeno = await s["an-tecnico"].from("instrumentos").update({ export_confirmado: true }).eq("id", evaluacion).select("id");
+    expect(ajeno.data ?? []).toEqual([]);
+    const conf = await s["an-admin"].from("instrumentos").update({ export_confirmado: true, export_separador: ";", export_cabecera: "CABECERA" }).eq("id", evaluacion).select("id");
+    expect(conf.data?.length).toBe(1);
+
+    const pocas = await s["an-tecnico"].rpc("exportar_respuestas", { p_campana: evals.chica });
+    expect(pocas.error?.message).toContain("suficientes");
+    const pulso = await s["an-tecnico"].rpc("exportar_respuestas", { p_campana: campana });
+    expect(pulso.error?.message).toContain("evaluaciones");
+
+    const { data, error } = await s["an-tecnico"].rpc("exportar_respuestas", { p_campana: evals.grande });
+    expect(error).toBeNull();
+    const exp = data as { cabecera: string; fin_linea: string; lineas: string[] };
+    expect(exp.cabecera).toBe("CABECERA");
+    expect(exp.lineas.length).toBe(6);
+    // Solo códigos de respuesta: ni identificador, ni fecha, ni grupo.
+    for (const linea of exp.lineas) expect(linea).toMatch(/^[ABC];C$/);
+    expect([...exp.lineas].sort()).toEqual(["A;C", "A;C", "B;C", "B;C", "C;C", "C;C"]);
+  });
+
+  it("el informe es el documento que sube el técnico; solo él lo adjunta y lo firma", async () => {
+    expect((await s["an-cuenta"].rpc("preparar_informe", { p_campana: campana })).error?.message).toContain("seguimientos");
+    const preparado = await s["an-cuenta"].rpc("preparar_informe", { p_campana: evals.grande });
     expect(preparado.error).toBeNull();
     informe = preparado.data as string;
 
-    const obsEmpresa = await s["an-cuenta"].from("informe_observaciones").insert({ informe_id: informe, texto: "No debería", autor: u["an-cuenta"].id });
-    expect(obsEmpresa.error).not.toBeNull();
-    const obsTecnico = await s["an-tecnico"].from("informe_observaciones").insert({ informe_id: informe, factor_id: factorA, texto: "Observación de prueba", autor: u["an-tecnico"].id });
-    expect(obsTecnico.error).toBeNull();
+    const sinDocumento = await s["an-tecnico"].rpc("firmar_informe", { p_informe: informe, p_nombre: "Técnico de prueba" });
+    expect(sinDocumento.error?.message).toContain("Sube antes");
+
+    const pdf = Buffer.from("%PDF-1.4\n% documento de prueba\n%%EOF\n");
+    const ruta = `${empresa}/informe-${tanda}.pdf`;
+    const intruso = await s["an-intruso"].storage.from("documentos").upload(ruta, pdf, { contentType: "application/pdf" });
+    expect(intruso.error).not.toBeNull();
+    const gestor = await s["an-gestor"].storage.from("documentos").upload(`${empresa}/gestor-${tanda}.pdf`, pdf, { contentType: "application/pdf" });
+    expect(gestor.error).not.toBeNull();
+    const noPdf = await s["an-tecnico"].storage.from("documentos").upload(`${empresa}/no-${tanda}.txt`, Buffer.from("hola"), { contentType: "text/plain" });
+    expect(noPdf.error).not.toBeNull();
+    const subida = await s["an-tecnico"].storage.from("documentos").upload(ruta, pdf, { contentType: "application/pdf" });
+    expect(subida.error).toBeNull();
+
+    const sha = "a".repeat(64);
+    const porEmpresa = await s["an-cuenta"].rpc("adjuntar_informe", { p_informe: informe, p_ruta: ruta, p_nombre: "informe.pdf", p_sha256: sha });
+    expect(porEmpresa.error).not.toBeNull();
+    const rutaAjena = await s["an-tecnico"].rpc("adjuntar_informe", { p_informe: informe, p_ruta: `${empresaAjena}/x.pdf`, p_nombre: "x.pdf", p_sha256: sha });
+    expect(rutaAjena.error).not.toBeNull();
+    expect((await s["an-tecnico"].rpc("adjuntar_informe", { p_informe: informe, p_ruta: ruta, p_nombre: "informe.pdf", p_sha256: sha })).error).toBeNull();
+
+    const obs = await s["an-cuenta"].from("informe_observaciones").insert({ informe_id: informe, texto: "No debería", autor: u["an-cuenta"].id });
+    expect(obs.error).not.toBeNull();
+    expect((await s["an-tecnico"].from("informe_observaciones").insert({ informe_id: informe, texto: "Observación de prueba", autor: u["an-tecnico"].id })).error).toBeNull();
 
     for (const rol of ["an-admin", "an-gestor", "an-cuenta"]) {
-      const { error } = await s[rol].rpc("firmar_informe", { p_informe: informe, p_nombre: "Nombre de prueba" });
-      expect(error, rol).not.toBeNull();
+      expect((await s[rol].rpc("firmar_informe", { p_informe: informe, p_nombre: "Nombre de prueba" })).error, rol).not.toBeNull();
     }
-    const firma = await s["an-tecnico"].rpc("firmar_informe", { p_informe: informe, p_nombre: "Técnico de prueba" });
-    expect(firma.error).toBeNull();
+    expect((await s["an-tecnico"].rpc("firmar_informe", { p_informe: informe, p_nombre: "Técnico de prueba" })).error).toBeNull();
+
+    // El documento lo leen quienes ven la empresa. Nadie lo borra ni lo sustituye.
+    expect((await s["an-gestor"].storage.from("documentos").download(ruta)).error).toBeNull();
+    expect((await s["an-intruso"].storage.from("documentos").download(ruta)).error).not.toBeNull();
+    await s["an-tecnico"].storage.from("documentos").remove([ruta]);
+    const reemplazo = await s["an-tecnico"].storage.from("documentos").upload(ruta, pdf, { contentType: "application/pdf", upsert: true });
+    expect(reemplazo.error).not.toBeNull();
+    expect((await s["an-cuenta"].storage.from("documentos").download(ruta)).error).toBeNull();
   });
 
-  it("el informe firmado guarda la foto de los agregados y ya no cambia", async () => {
+  it("el informe firmado no contiene puntuaciones y ya no cambia", async () => {
     const { data } = await s["an-gestor"].from("informes").select("estado, firmante_nombre, datos").eq("id", informe).single();
     expect(data?.estado).toBe("firmado");
     expect(data?.firmante_nombre).toBe("Técnico de prueba");
-    expect((data?.datos as { resultados: { n: number } }).resultados.n).toBe(20);
+    const datos = data?.datos as Record<string, unknown>;
+    expect(Object.keys(datos).sort()).toEqual(["campana", "documento", "instrumento", "observaciones"]);
+    expect((datos.campana as { respuestas: number }).respuestas).toBe(6);
 
     const tarde = await s["an-tecnico"].from("informe_observaciones").insert({ informe_id: informe, texto: "Tarde", autor: u["an-tecnico"].id });
     expect(tarde.error).not.toBeNull();
@@ -366,7 +465,7 @@ describe("informe, plan de acción y evidencias", () => {
   it("las evidencias se registran solas y nadie las modifica ni borra", async () => {
     const { data } = await s["an-gestor"].from("evidencias").select("id, tipo").eq("empresa_id", empresa);
     const tipos = (data ?? []).map((e) => e.tipo);
-    for (const tipo of ["campana_abierta", "campana_cerrada", "informe_firmado", "medida_creada", "medida_estado"]) {
+    for (const tipo of ["campana_abierta", "campana_cerrada", "respuestas_exportadas", "informe_firmado", "medida_creada", "medida_estado"]) {
       expect(tipos).toContain(tipo);
     }
     expect((await s["an-intruso"].from("evidencias").select("id").eq("empresa_id", empresa)).data).toEqual([]);

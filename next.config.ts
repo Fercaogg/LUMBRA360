@@ -37,7 +37,8 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   poweredByHeader: false,
   experimental: {
-    serverActions: { bodySizeLimit: "1mb" },
+    // Los informes y actas en PDF pueden pesar hasta 10 MB.
+    serverActions: { bodySizeLimit: "11mb" },
   },
   turbopack: {
     rules: {

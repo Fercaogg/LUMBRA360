@@ -7,10 +7,12 @@ import {
   firmarInforme,
   generarCodigos,
   prepararInforme,
+  subirInforme,
 } from "@/app/(privado)/acciones-evaluacion";
+import { ORIGEN_INSST } from "@/config/atribucion";
 import { AvisoSuprimido, ResultadosPorFactor, type BloqueResultados } from "@/components/panel/resultados";
 import { Boton, clasesBoton, EnlaceBoton } from "@/components/ui/boton";
-import { AreaTexto, Campo, Casilla, Enviar, Formulario, ListaDevuelta, Selector } from "@/components/ui/formulario";
+import { AreaTexto, Campo, Casilla, Enviar, Formulario, ListaDevuelta } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Etiqueta, Tarjeta } from "@/components/ui/piezas";
 import { cargarEmpresa, ESTADOS_CAMPANA, fecha } from "@/lib/empresa";
 import { urlSitio } from "@/lib/entorno";
@@ -40,7 +42,7 @@ export default async function PaginaCampana({
 
   const { data: campana } = await supabase
     .from("campanas")
-    .select("*, instrumentos(nombre, es_demo)")
+    .select("*, instrumentos(nombre, es_demo, origen, export_confirmado)")
     .eq("id", id.data)
     .eq("empresa_id", empresa.id)
     .maybeSingle();
@@ -49,6 +51,9 @@ export default async function PaginaCampana({
   const base = `/panel/empresa/${empresa.id}`;
   const ruta = `${base}/campanas/${campana.id}`;
   const cerrada = campana.estado === "cerrada";
+  // Una evaluación (FPSICO) no se puntúa aquí: se exporta y se registra el informe que llega de fuera.
+  const esEvaluacion = campana.tipo === "evaluacion";
+  const esFpsico = campana.instrumentos?.origen === "insst_fpsico";
 
   const pedido = (await searchParams).g;
   const filtroBruto = (Array.isArray(pedido) ? pedido : pedido ? [pedido] : []).filter((v) => esquemaUuid.safeParse(v).success);
@@ -56,7 +61,11 @@ export default async function PaginaCampana({
   const [participacionRpc, gruposRpc, informeFila] = await Promise.all([
     supabase.rpc("participacion_campana", { p_campana: campana.id }),
     supabase.rpc("grupos_de_campana", { p_campana: campana.id }),
-    supabase.from("informes").select("id, estado, firmante_nombre, firmado_el").eq("campana_id", campana.id).maybeSingle(),
+    supabase
+      .from("informes")
+      .select("id, estado, firmante_nombre, firmado_el, documento_ruta, documento_nombre, documento_sha256, documento_subido_el")
+      .eq("campana_id", campana.id)
+      .maybeSingle(),
   ]);
   const participacion = participacionRpc.data as Participacion | null;
   const grupos = (gruposRpc.data ?? []) as Grupo[];
@@ -64,18 +73,15 @@ export default async function PaginaCampana({
   const informe = informeFila.data;
 
   let resultados: Resultados | null = null;
-  if (cerrada) {
+  if (cerrada && !esEvaluacion) {
     const { data } = await supabase.rpc("resultados_campana", { p_campana: campana.id, p_grupos: filtro });
     resultados = data as Resultados | null;
   }
 
-  const [observaciones, factores] = informe
-    ? await Promise.all([
-        supabase.from("informe_observaciones").select("id, texto, factor_id, creado_el").eq("informe_id", informe.id).order("creado_el"),
-        supabase.from("factores").select("id, nombre").eq("instrumento_id", campana.instrumento_id).order("orden"),
-      ])
-    : [null, null];
-  const nombreFactor = (factorId: string | null) => factores?.data?.find((f) => f.id === factorId)?.nombre ?? "General";
+  const observaciones = informe
+    ? await supabase.from("informe_observaciones").select("id, texto, creado_el").eq("informe_id", informe.id).order("creado_el")
+    : null;
+  const suficientes = (participacion?.respuestas ?? 0) >= campana.minimo_grupo;
 
   const dimensiones = [...new Map(grupos.map((g) => [g.dimension_id, g.dimension])).entries()];
   const enlaceGeneral = campana.token_enlace ? `${urlSitio()}/responder/${campana.token_enlace}` : null;
@@ -91,9 +97,10 @@ export default async function PaginaCampana({
         acciones={<EnlaceBoton variante="secundario" href={`${base}/campanas`}>Volver a campañas</EnlaceBoton>}
       />
       <div className="flex flex-wrap items-center gap-2">
-        <Etiqueta>{campana.tipo === "pulso" ? "Pulso" : "Evaluación"}</Etiqueta>
+        <Etiqueta>{campana.tipo === "pulso" ? "Seguimiento" : "Evaluación"}</Etiqueta>
         <Etiqueta tono={campana.estado === "abierta" ? "acento" : "neutro"}>{ESTADOS_CAMPANA[campana.estado]}</Etiqueta>
         {campana.instrumentos?.es_demo ? <Etiqueta tono="aviso">Cuestionario de demostración</Etiqueta> : null}
+        {esFpsico ? <span className="text-sm text-tinta-suave">{ORIGEN_INSST}</span> : null}
         <span className="text-sm text-tinta-suave">
           {cerrada ? `Cerrada el ${fecha(campana.cerrada_el)}` : campana.abierta_el ? `Abierta el ${fecha(campana.abierta_el)}` : `Creada el ${fecha(campana.creada_el)}`}
         </span>
@@ -123,7 +130,9 @@ export default async function PaginaCampana({
             <p className="text-sm text-tinta-suave">
               {campana.estado === "borrador"
                 ? "Al abrirla, la plantilla podrá responder. Queda registrada la fecha de apertura."
-                : "Los resultados solo se ven con la campaña cerrada. Así nadie puede seguir cómo cambian con cada respuesta. Al cerrarla no admite más respuestas."}
+                : esEvaluacion
+                  ? "Al cerrarla no admite más respuestas. Después, el técnico de prevención exporta las respuestas para tratarlas en la aplicación FPSICO."
+                  : "Los resultados solo se ven con la campaña cerrada. Así nadie puede seguir cómo cambian con cada respuesta. Al cerrarla no admite más respuestas."}
             </p>
             <Formulario accion={cambiarEstadoCampana}>
               <input type="hidden" name="id" value={campana.id} />
@@ -175,7 +184,7 @@ export default async function PaginaCampana({
         </div>
       ) : null}
 
-      {cerrada ? (
+      {cerrada && !esEvaluacion ? (
         <section aria-labelledby="t-resultados" className="flex flex-col gap-4">
           <h2 id="t-resultados" className="text-xl font-semibold">Resultados por factores</h2>
           {dimensiones.length > 0 ? (
@@ -220,13 +229,44 @@ export default async function PaginaCampana({
         </section>
       ) : null}
 
-      {cerrada ? (
+      {cerrada && esEvaluacion ? (
+        <section aria-labelledby="t-puntuacion" className="flex flex-col gap-4">
+          <h2 id="t-puntuacion" className="text-xl font-semibold">Resultados</h2>
+          <Tarjeta className="flex flex-col gap-3">
+            <p className="max-w-prose text-pretty">
+              Esta plataforma no puntúa la evaluación. El técnico de prevención exporta las respuestas, las trata en la aplicación FPSICO y sube aquí el informe que genera.
+            </p>
+            {esTecnico ? (
+              campana.instrumentos?.export_confirmado && suficientes ? (
+                <div className="flex flex-col gap-2">
+                  <a href={`/api/exportar/${campana.id}`} className={clasesBoton("principal", "self-start")}>
+                    Exportar respuestas (.txt)
+                  </a>
+                  <p className="text-sm text-tinta-suave">
+                    Una línea por respuesta, en orden aleatorio, sin identificador, fecha ni grupo. Cada exportación queda registrada como evidencia.
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-tinta-suave">
+                  {suficientes
+                    ? "La exportación de este cuestionario todavía no está disponible."
+                    : `Hacen falta al menos ${campana.minimo_grupo} respuestas para exportar.`}
+                </p>
+              )
+            ) : (
+              <p className="text-sm text-tinta-suave">Solo el técnico de prevención asignado puede exportar las respuestas.</p>
+            )}
+          </Tarjeta>
+        </section>
+      ) : null}
+
+      {cerrada && esEvaluacion ? (
         <section aria-labelledby="t-informe" className="flex flex-col gap-4">
           <h2 id="t-informe" className="text-xl font-semibold">Informe</h2>
           {!informe ? (
             <EstadoVacio
               titulo="Todavía no hay informe"
-              texto="El informe recoge los resultados por factores, las observaciones del técnico de prevención y su firma."
+              texto="Prepara el registro del informe. El técnico de prevención subirá el documento generado en la aplicación FPSICO, añadirá sus observaciones y lo firmará."
               accion={
                 <Formulario accion={prepararInforme}>
                   <input type="hidden" name="campanaId" value={campana.id} />
@@ -238,60 +278,91 @@ export default async function PaginaCampana({
             <div className="grid gap-6 lg:grid-cols-2">
               <Tarjeta className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-lg font-semibold">Observaciones del técnico</h3>
+                  <h3 className="text-lg font-semibold">Documento</h3>
                   <Etiqueta tono={informe.estado === "firmado" ? "acento" : "aviso"}>{informe.estado === "firmado" ? "Firmado" : "Pendiente de firma"}</Etiqueta>
                 </div>
-                {(observaciones?.data ?? []).length === 0 ? <p className="text-sm text-tinta-suave">Sin observaciones todavía.</p> : null}
-                <ul className="flex flex-col divide-y divide-linea">
-                  {(observaciones?.data ?? []).map((o) => (
-                    <li key={o.id} className="flex flex-col gap-2 py-3">
-                      <span className="text-sm font-medium text-tinta-suave">{nombreFactor(o.factor_id)}</span>
-                      <p className="whitespace-pre-line text-pretty">{o.texto}</p>
-                      {esTecnico && informe.estado === "borrador" ? (
-                        <form action={borrarObservacion}>
-                          <input type="hidden" name="id" value={o.id} />
-                          <Boton variante="peligro" type="submit">Borrar observación</Boton>
-                        </form>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
+                {informe.documento_ruta ? (
+                  <div className="flex flex-col gap-2">
+                    <p className="break-all font-medium">{informe.documento_nombre}</p>
+                    <p className="text-sm text-tinta-suave">Subido el {fecha(informe.documento_subido_el)}.</p>
+                    <p className="break-all font-mono text-xs text-tinta-suave">SHA-256: {informe.documento_sha256}</p>
+                    <a href={`/api/documentos?ruta=${encodeURIComponent(informe.documento_ruta)}`} className={clasesBoton("secundario", "self-start")}>
+                      Descargar el informe
+                    </a>
+                  </div>
+                ) : (
+                  <p className="text-sm text-tinta-suave">Todavía no se ha subido el informe.</p>
+                )}
+                {esFpsico ? <p className="text-sm text-tinta-suave">{ORIGEN_INSST}</p> : null}
                 {esTecnico && informe.estado === "borrador" ? (
-                  <Formulario accion={anadirObservacion}>
+                  <Formulario accion={subirInforme}>
                     <input type="hidden" name="informeId" value={informe.id} />
-                    <Selector etiqueta="Sobre" name="factorId" defaultValue="">
-                      <option value="">General</option>
-                      {(factores?.data ?? []).map((f) => (
-                        <option key={f.id} value={f.id}>{f.nombre}</option>
-                      ))}
-                    </Selector>
-                    <AreaTexto etiqueta="Observación" name="texto" required maxLength={4000} rows={4} />
-                    <Enviar variante="secundario">Añadir observación</Enviar>
+                    <input type="hidden" name="empresaId" value={empresa.id} />
+                    <Campo
+                      etiqueta={informe.documento_ruta ? "Sustituir por otro PDF" : "Informe en PDF"}
+                      name="documento"
+                      type="file"
+                      accept="application/pdf"
+                      required
+                      ayuda="El informe generado en la aplicación FPSICO. Máximo 10 MB."
+                      className="min-h-11 w-full rounded-lg border border-linea bg-superficie p-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-acento-tenue file:px-3 file:py-1.5 file:text-acento-fuerte"
+                    />
+                    <Enviar variante="secundario">Subir informe</Enviar>
                   </Formulario>
                 ) : null}
               </Tarjeta>
 
-              <Tarjeta className="flex flex-col gap-4 self-start">
-                <h3 className="text-lg font-semibold">Firma</h3>
-                {informe.estado === "firmado" ? (
-                  <>
-                    <p>
-                      Firmado por <strong className="font-semibold">{informe.firmante_nombre}</strong>, técnico de prevención, el {fecha(informe.firmado_el)}.
-                    </p>
-                    <p className="text-sm text-tinta-suave">El informe guarda los resultados tal como estaban al firmar. Ya no se puede modificar.</p>
-                    <a href={`/api/informe/${informe.id}`} className={clasesBoton("principal", "self-start")}>Descargar informe en PDF</a>
-                  </>
-                ) : esTecnico ? (
-                  <Formulario accion={firmarInforme}>
-                    <input type="hidden" name="informeId" value={informe.id} />
-                    <Campo etiqueta="Tu nombre completo" name="nombre" autoComplete="name" required maxLength={160} />
-                    <Casilla etiqueta="He revisado los resultados y las observaciones" name="conforme" ayuda="Al firmar, el informe queda cerrado con fecha y ya no se puede modificar." />
-                    <Enviar>Firmar informe</Enviar>
-                  </Formulario>
-                ) : (
-                  <p className="text-tinta-suave">Pendiente de la firma del técnico de prevención asignado a esta empresa.</p>
-                )}
-              </Tarjeta>
+              <div className="flex flex-col gap-6">
+                <Tarjeta className="flex flex-col gap-4">
+                  <h3 className="text-lg font-semibold">Observaciones del técnico</h3>
+                  {(observaciones?.data ?? []).length === 0 ? <p className="text-sm text-tinta-suave">Sin observaciones todavía.</p> : null}
+                  <ul className="flex flex-col divide-y divide-linea">
+                    {(observaciones?.data ?? []).map((o) => (
+                      <li key={o.id} className="flex flex-col gap-2 py-3">
+                        <p className="whitespace-pre-line text-pretty">{o.texto}</p>
+                        {esTecnico && informe.estado === "borrador" ? (
+                          <form action={borrarObservacion}>
+                            <input type="hidden" name="id" value={o.id} />
+                            <Boton variante="peligro" type="submit">Borrar observación</Boton>
+                          </form>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                  {esTecnico && informe.estado === "borrador" ? (
+                    <Formulario accion={anadirObservacion}>
+                      <input type="hidden" name="informeId" value={informe.id} />
+                      <AreaTexto etiqueta="Observación" name="texto" required maxLength={4000} rows={4} />
+                      <Enviar variante="secundario">Añadir observación</Enviar>
+                    </Formulario>
+                  ) : null}
+                </Tarjeta>
+
+                <Tarjeta className="flex flex-col gap-4">
+                  <h3 className="text-lg font-semibold">Firma</h3>
+                  {informe.estado === "firmado" ? (
+                    <>
+                      <p>
+                        Registrado y firmado por <strong className="font-semibold">{informe.firmante_nombre}</strong>, técnico de prevención, el {fecha(informe.firmado_el)}.
+                      </p>
+                      <p className="text-sm text-tinta-suave">El documento y sus observaciones ya no se pueden modificar.</p>
+                    </>
+                  ) : esTecnico ? (
+                    informe.documento_ruta ? (
+                      <Formulario accion={firmarInforme}>
+                        <input type="hidden" name="informeId" value={informe.id} />
+                        <Campo etiqueta="Tu nombre completo" name="nombre" autoComplete="name" required maxLength={160} />
+                        <Casilla etiqueta="He revisado el informe y las observaciones" name="conforme" ayuda="Al firmar, el registro queda cerrado con fecha y ya no se puede modificar." />
+                        <Enviar>Firmar informe</Enviar>
+                      </Formulario>
+                    ) : (
+                      <p className="text-sm text-tinta-suave">Sube antes el informe en PDF.</p>
+                    )
+                  ) : (
+                    <p className="text-tinta-suave">Pendiente de la firma del técnico de prevención asignado a esta empresa.</p>
+                  )}
+                </Tarjeta>
+              </div>
             </div>
           )}
         </section>

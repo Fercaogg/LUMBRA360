@@ -21,7 +21,7 @@ export default async function PaginaCampanas({ params }: { params: Promise<{ emp
   return (
     <>
       <Cabecera
-        titulo="Campañas y pulsos"
+        titulo="Campañas y seguimientos"
         descripcion={empresa.nombre}
         acciones={<EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
       />
@@ -29,7 +29,7 @@ export default async function PaginaCampanas({ params }: { params: Promise<{ emp
       {lista.length === 0 ? (
         <EstadoVacio
           titulo="Todavía no hay campañas"
-          texto="Una campaña invita a la plantilla a responder un cuestionario anónimo. Los pulsos son cuestionarios breves entre campañas."
+          texto="Una campaña invita a la plantilla a responder un cuestionario anónimo. Los seguimientos son cuestionarios breves entre evaluaciones."
           accion={<EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
         />
       ) : (
@@ -48,7 +48,7 @@ export default async function PaginaCampanas({ params }: { params: Promise<{ emp
                   </span>
                 </span>
                 <span className="flex flex-wrap gap-2">
-                  <Etiqueta>{campana.tipo === "pulso" ? "Pulso" : "Evaluación"}</Etiqueta>
+                  <Etiqueta>{campana.tipo === "pulso" ? "Seguimiento" : "Evaluación"}</Etiqueta>
                   <Etiqueta tono={campana.estado === "abierta" ? "acento" : "neutro"}>{ESTADOS_CAMPANA[campana.estado]}</Etiqueta>
                 </span>
               </Link>

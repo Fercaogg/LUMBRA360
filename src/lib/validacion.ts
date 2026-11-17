@@ -102,6 +102,15 @@ export const esquemaOpcion = z.object({
   escalaId: esquemaUuid,
   etiqueta: texto(1, 120, "Escribe la etiqueta."),
   valor: numero,
+  codigo: opcional(10),
+});
+
+export const esquemaExportacion = z.object({
+  id: esquemaUuid,
+  separador: z.string().max(3, "Máximo 3 caracteres."),
+  cabecera: opcional(500),
+  finLinea: z.enum(["crlf", "lf"]),
+  confirmado: z.boolean(),
 });
 export const esquemaFactor = z.object({
   instrumentoId: esquemaUuid,
@@ -144,7 +153,6 @@ export const esquemaCodigos = z.object({
 
 export const esquemaObservacion = z.object({
   informeId: esquemaUuid,
-  factorId: uuidOpcional,
   texto: texto(1, 4000, "Escribe la observación."),
 });
 
@@ -168,3 +176,62 @@ export const esquemaMedida = z.object({
 export const ESTADOS_MEDIDA = ["pendiente", "en_curso", "hecha", "descartada"] as const;
 
 export const esquemaAccesoRespuesta = z.string().trim().min(8, "El código es demasiado corto.").max(80, "El código es demasiado largo.");
+
+// ---------------------------------------------------------------------------
+// Fase 3: desconexión digital
+// ---------------------------------------------------------------------------
+
+const fechaObligatoria = z.iso.date("Escribe una fecha válida.");
+
+export const esquemaPlantilla = z.object({ nombre: texto(2, 160, "Escribe el nombre de la plantilla.") });
+export const esquemaPlantillaDatos = z.object({
+  id: esquemaUuid,
+  nombre: texto(2, 160, "Escribe el nombre de la plantilla."),
+  revisada: z.boolean(),
+  nota: opcional(1000),
+});
+export const esquemaSeccionPlantilla = z.object({
+  plantillaId: esquemaUuid,
+  titulo: texto(1, 200, "Escribe el título de la sección."),
+  cuerpo: z.string().trim().max(20000, "Máximo 20000 caracteres."),
+  ayuda: opcional(1000),
+});
+
+export const esquemaSeccionesPolitica = z
+  .array(
+    z.object({
+      titulo: texto(1, 200, "Falta un título."),
+      cuerpo: z.string().trim().max(20000, "Máximo 20000 caracteres por sección."),
+      ayuda: z.string().max(1000).nullable(),
+    }),
+  )
+  .min(1, "La política necesita al menos una sección.")
+  .max(40, "Máximo 40 secciones.");
+
+export const esquemaAprobacion = z.object({
+  politicaId: esquemaUuid,
+  nombre: texto(3, 160, "Escribe el nombre de quien aprueba."),
+  conforme: z.literal(true, "Marca la casilla para aprobar."),
+});
+
+export const esquemaAudiencia = z.object({
+  empresaId: esquemaUuid,
+  politicaId: uuidOpcional,
+  fecha: fechaObligatoria,
+  asistentes: texto(3, 4000, "Escribe quién asistió."),
+  notas: opcional(4000),
+});
+
+export const esquemaFormacion = z.object({
+  empresaId: esquemaUuid,
+  titulo: texto(2, 200, "Escribe el título."),
+  fecha: fechaObligatoria,
+  descripcion: opcional(4000),
+  participantes: enteroOpcional(1, 100000),
+});
+
+export const esquemaAcuse = z.object({
+  token: z.string().min(20).max(80),
+  nombre: texto(3, 160, "Escribe tu nombre y apellidos."),
+  conforme: z.literal(true, "Marca la casilla para confirmar la lectura."),
+});

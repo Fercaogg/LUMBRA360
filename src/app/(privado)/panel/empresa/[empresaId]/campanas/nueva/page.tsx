@@ -40,7 +40,7 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
           <Selector etiqueta="Cuestionario" name="instrumentoId" required>
             {lista.map((i) => (
               <option key={i.id} value={i.id}>
-                {i.nombre} ({i.tipo === "pulso" ? "pulso" : "evaluación"}){i.es_demo ? " · demo" : ""}
+                {i.nombre} ({i.tipo === "pulso" ? "seguimiento" : "evaluación"}){i.es_demo ? " · demo" : ""}
               </option>
             ))}
           </Selector>
@@ -74,7 +74,8 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
           />
           {(dimensiones.data ?? []).length > 0 ? (
             <fieldset className="flex flex-col gap-2">
-              <legend className="text-sm font-medium">Preguntar el grupo (opcional)</legend>
+              <legend className="text-sm font-medium">Preguntar el grupo (solo seguimientos)</legend>
+              <p className="text-sm text-tinta-suave">En las evaluaciones no se pregunta el grupo: la exportación no lo usa.</p>
               {(dimensiones.data ?? []).map((d) => (
                 <Casilla key={d.id} etiqueta={d.nombre} name="dimensiones" value={d.id} ayuda={`${d.grupos[0]?.count ?? 0} grupos`} />
               ))}

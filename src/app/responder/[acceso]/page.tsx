@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { ORIGEN_INSST } from "@/config/atribucion";
 import { NOMBRE } from "@/config/marca";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { Enviar, Formulario } from "@/components/ui/formulario";
@@ -15,7 +16,7 @@ type Cuestionario = {
   estado: string;
   campana?: { nombre: string; tipo: "evaluacion" | "pulso"; minimo_grupo: number };
   empresa?: string;
-  instrumento?: { nombre: string; descripcion: string | null; minutos: number | null; es_demo: boolean };
+  instrumento?: { nombre: string; descripcion: string | null; minutos: number | null; es_demo: boolean; origen: "propio" | "insst_fpsico" };
   items?: { id: string; enunciado: string; opciones: { valor: number; etiqueta: string }[] }[];
   dimensiones?: { id: string; nombre: string; grupos: { id: string; nombre: string }[] | null }[];
 };
@@ -53,6 +54,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
 
   const { campana, empresa, instrumento, items = [], dimensiones = [] } = cuestionario;
   const conGrupos = dimensiones.filter((d) => d.grupos && d.grupos.length > 0);
+  const esEvaluacion = campana?.tipo === "evaluacion";
 
   return (
     <>
@@ -63,6 +65,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
           <span>{items.length} preguntas</span>
           {instrumento?.minutos ? <span>· unos {instrumento.minutos} minutos</span> : null}
           {instrumento?.es_demo ? <Etiqueta tono="aviso">Cuestionario de demostración</Etiqueta> : null}
+          {!esEvaluacion ? <Etiqueta>Seguimiento</Etiqueta> : null}
         </p>
       </header>
 
@@ -71,7 +74,14 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
         <ul className="flex list-disc flex-col gap-1 pl-5 text-sm">
           <li>No pedimos tu nombre ni tu correo.</li>
           <li>Junto a tu respuesta no se guarda tu dirección IP ni la hora. Solo el día.</li>
-          <li>Tu empresa nunca ve respuestas individuales. Solo resultados de grupos de {campana?.minimo_grupo} personas o más.</li>
+          {esEvaluacion ? (
+            <li>
+              Tu empresa nunca ve respuestas individuales. El técnico de prevención trata las respuestas, sin ningún dato que te identifique, y solo
+              comunica resultados de conjunto.
+            </li>
+          ) : (
+            <li>Tu empresa nunca ve respuestas individuales. Solo resultados de grupos de {campana?.minimo_grupo} personas o más.</li>
+          )}
         </ul>
       </section>
 
@@ -120,6 +130,7 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
 
         <Enviar>Enviar respuestas</Enviar>
       </Formulario>
+      {instrumento?.origen === "insst_fpsico" ? <p className="text-sm text-tinta-suave">{ORIGEN_INSST}</p> : null}
     </>
   );
 }

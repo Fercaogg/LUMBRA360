@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import type { z } from "zod";
 import { exigirAcceso } from "@/lib/acceso";
 import { consumirIntento } from "@/lib/limites";
+import { subirPdf } from "@/lib/documentos";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import {
   erroresDe,
@@ -12,6 +13,7 @@ import {
   esquemaCodigos,
   esquemaDimension,
   esquemaEscala,
+  esquemaExportacion,
   esquemaFactor,
   esquemaFirma,
   esquemaGrupo,
@@ -131,9 +133,9 @@ export async function crearEscala(_p: EstadoFormulario, datos: FormData): Promis
 export async function crearOpcion(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
   return ejecutar(
     esquemaOpcion,
-    { escalaId: campo(datos, "escalaId"), etiqueta: campo(datos, "etiqueta"), valor: campo(datos, "valor") },
+    { escalaId: campo(datos, "escalaId"), etiqueta: campo(datos, "etiqueta"), valor: campo(datos, "valor"), codigo: campo(datos, "codigo") },
     async (d, { supabase }) => {
-      const { error } = await supabase.from("escala_opciones").insert({ escala_id: d.escalaId, etiqueta: d.etiqueta, valor: d.valor, orden: Math.round(d.valor) });
+      const { error } = await supabase.from("escala_opciones").insert({ escala_id: d.escalaId, etiqueta: d.etiqueta, valor: d.valor, orden: Math.round(d.valor), codigo_export: d.codigo });
       return { error, exito: "Opción añadida.", revalidar: "/admin/instrumentos" };
     },
   );
@@ -212,6 +214,26 @@ export async function cambiarEstadoInstrumento(_p: EstadoFormulario, datos: Form
   return { ok: true, mensaje: accion === "retirar" ? "Instrumento retirado." : "Instrumento publicado." };
 }
 
+export async function guardarExportacion(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
+  return ejecutar(
+    esquemaExportacion,
+    {
+      id: campo(datos, "id"),
+      separador: String(datos.get("separador") ?? ""),
+      cabecera: campo(datos, "cabecera"),
+      finLinea: campo(datos, "finLinea"),
+      confirmado: datos.get("confirmado") === "on",
+    },
+    async (d, { supabase }) => {
+      const { error } = await supabase
+        .from("instrumentos")
+        .update({ export_separador: d.separador, export_cabecera: d.cabecera, export_fin_linea: d.finLinea, export_confirmado: d.confirmado })
+        .eq("id", d.id);
+      return { error, exito: "Formato guardado.", revalidar: `/admin/instrumentos/${d.id}` };
+    },
+  );
+}
+
 // --- Estructura de la empresa ----------------------------------------------
 
 export async function crearDimension(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
@@ -257,6 +279,10 @@ export async function crearCampana(_p: EstadoFormulario, datos: FormData): Promi
       dimensiones: datos.getAll("dimensiones"),
     },
     async (d, { supabase, acceso }) => {
+      const { data: inst } = await supabase.from("instrumentos").select("tipo").eq("id", d.instrumentoId).maybeSingle();
+      if (inst?.tipo === "evaluacion" && d.dimensiones.length > 0) {
+        return { error: { code: "P0001", message: "En las evaluaciones no se pregunta el grupo. Desmarca los grupos." } };
+      }
       const { data, error } = await supabase
         .from("campanas")
         .insert({
@@ -330,11 +356,11 @@ export async function prepararInforme(_p: EstadoFormulario, datos: FormData): Pr
 export async function anadirObservacion(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
   return ejecutar(
     esquemaObservacion,
-    { informeId: campo(datos, "informeId"), factorId: campo(datos, "factorId"), texto: campo(datos, "texto") },
+    { informeId: campo(datos, "informeId"), texto: campo(datos, "texto") },
     async (d, { supabase, acceso }) => {
       const { error } = await supabase
         .from("informe_observaciones")
-        .insert({ informe_id: d.informeId, factor_id: d.factorId, texto: d.texto, autor: acceso.usuario.id });
+        .insert({ informe_id: d.informeId, texto: d.texto, autor: acceso.usuario.id });
       return { error, exito: "Observación añadida.", revalidar: "/panel" };
     },
   );
@@ -357,6 +383,29 @@ export async function firmarInforme(_p: EstadoFormulario, datos: FormData): Prom
       return { error, exito: "Informe firmado.", revalidar: "/panel" };
     },
   );
+}
+
+// El técnico sube el informe que ha generado en la aplicación externa.
+export async function subirInforme(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {
+  const ctx = await preparar();
+  if (!ctx.permitido) return DEMASIADOS;
+  const informeId = esquemaUuid.safeParse(datos.get("informeId"));
+  const empresaId = esquemaUuid.safeParse(datos.get("empresaId"));
+  if (!informeId.success || !empresaId.success) return { ok: false, mensaje: "Datos no válidos." };
+
+  const subida = await subirPdf(ctx.supabase, empresaId.data, datos.get("documento"));
+  if ("vacio" in subida) return { ok: false, errores: { documento: "Elige el PDF del informe." } };
+  if ("error" in subida) return { ok: false, errores: { documento: subida.error } };
+
+  const { error } = await ctx.supabase.rpc("adjuntar_informe", {
+    p_informe: informeId.data,
+    p_ruta: subida.documento.ruta,
+    p_nombre: subida.documento.nombre,
+    p_sha256: subida.documento.sha256,
+  });
+  if (error) return traducir(error);
+  revalidatePath("/panel", "layout");
+  return { ok: true, mensaje: "Informe subido. Revísalo y fírmalo para registrarlo." };
 }
 
 // --- Plan de acción ----------------------------------------------------------

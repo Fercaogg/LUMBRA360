@@ -11,8 +11,8 @@ Lema de diseño: cumplir y cuidar sin vigilar.
 | Fase | Contenido | Estado |
 |---|---|---|
 | 1 | Base, roles y multiempresa | Hecha |
-| 2 | Evaluación psicosocial | Hecha |
-| 3 | Desconexión digital | Pendiente |
+| 2 | Evaluación psicosocial (adaptada a FPSICO en la fase 3) | Hecha |
+| 3 | Desconexión digital | Hecha |
 | 4 | Registro de evidencias | Pendiente |
 | 5 | Precios y cobro | Pendiente |
 | 6 | Web pública | Pendiente |
@@ -70,26 +70,41 @@ npm run dev
 
 Cada correo admite 3 enlaces cada 15 minutos. Es el límite de intentos, no un fallo.
 
-## Probar la fase 2
+## Evaluación psicosocial: FPSICO, sin puntuar en la plataforma
 
-Los datos de demostración traen un cuestionario ficticio publicado y una campaña ya cerrada con 18 respuestas ficticias.
+La evaluación se apoya en FPSICO 4.1 del INSST. Los pesos y baremos son información reservada del INSST, así que la plataforma no calcula ninguna puntuación de evaluación. Solo:
 
-1. Entra como `empresa-1@demo.invalid` y abre «Campañas y pulsos». La campaña de demostración muestra resultados por factores. El grupo de 3 respuestas aparece protegido.
-2. Prepara una campaña nueva, genera códigos y ábrela.
-3. En una ventana privada, abre `http://localhost:3000/responder` y responde con un código. Hacen falta 5 respuestas para ver resultados.
-4. Cierra la campaña. Los resultados solo se ven con la campaña cerrada.
-5. Prepara el informe. Entra como `tecnico-a@demo.invalid` para añadir observaciones, firmarlo y descargar el PDF.
-6. En «Plan de acción», añade una medida y cambia su estado. El historial guarda cada cambio.
-7. Como `admin@demo.invalid`, en Administración, Instrumentos, puedes crear un cuestionario. No se publica sin confirmar la licencia.
+1. Presenta el cuestionario anónimo.
+2. Exporta las respuestas en un `.txt` para importarlas en la aplicación FPSICO. Solo lo hace el técnico de prevención asignado, con la campaña cerrada y al menos 5 respuestas. Una línea por respuesta, en orden aleatorio, sin identificador, fecha ni grupo.
+3. Registra el informe que el técnico genera en la aplicación FPSICO: lo sube en PDF, añade observaciones y lo firma. Queda su huella SHA-256.
 
-## Anonimato: qué garantiza la base de datos
+Estado actual:
+
+- Banco de ítems de FPSICO vacío. Falta la autorización escrita del INSST.
+- El formato exacto del `.txt` está por comprobar en el manual técnico y de uso de FPSICO 4.1. Se configura desde administración y la exportación queda bloqueada hasta confirmarlo.
+- Mención obligatoria en informes y web: «Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo». Está en `src/config/atribucion.ts`. Nunca se sugiere aval ni colaboración del INSST.
+
+Los **seguimientos** usan ítems propios y sí se puntúan en la plataforma, con mínimo de 5 por grupo. Nunca se llaman evaluación.
+
+## Probar las fases 2 y 3
+
+Los datos de demostración traen un cuestionario de evaluación ficticio, un seguimiento ficticio ya cerrado con 18 respuestas y una plantilla de política ficticia.
+
+1. Entra como `empresa-1@demo.invalid`. En «Campañas y seguimientos», el seguimiento de demostración muestra resultados por factores. Dos grupos aparecen protegidos.
+2. Prepara una evaluación, genera códigos y ábrela. En una ventana privada, responde en `http://localhost:3000/responder`.
+3. Cierra la campaña y prepara el informe.
+4. Entra como `tecnico-a@demo.invalid`: exporta el `.txt`, sube un PDF como informe, añade una observación y firma.
+5. En «Desconexión digital», como empresa o técnico: empieza la política desde la plantilla, complétala, apruébala, abre el acuse y confírmalo desde una ventana privada. Registra una audiencia con su acta y una formación.
+6. Como `admin@demo.invalid`, en Instrumentos y Plantillas: una evaluación no se publica sin la autorización del INSST y una plantilla no se publica sin revisión jurídica.
+
+## Anonimato y datos nominales
 
 - Las respuestas no llevan usuario, correo, IP ni hora. Solo el día.
-- Ningún rol lee las tablas de respuestas ni de códigos. Tampoco administración.
-- Los resultados solo salen de funciones agregadas, con la campaña cerrada.
-- Mínimo de 5 respuestas por grupo, también en filtros combinados. Si un grupo oculto pudiera deducirse por resta, se oculta además el grupo visible más pequeño.
-- Un código de un solo uso no guarda relación con la respuesta ni la fecha de uso.
-- Informes firmados y evidencias no se pueden modificar ni borrar.
+- Ningún rol lee las tablas de respuestas ni de códigos. La única salida individual es la exportación para FPSICO, sin ningún dato identificativo.
+- Los resultados de seguimiento salen solo de funciones agregadas, con la campaña cerrada y mínimo de 5, también en filtros combinados y frente a la deducción por resta.
+- Las evaluaciones no preguntan el grupo.
+- El acuse de lectura de la política sí es nominal (nombre y fecha). Va en tablas separadas, sin relación con los cuestionarios.
+- Informes firmados, políticas aprobadas, acuses, audiencias, formaciones y evidencias no se pueden modificar ni borrar.
 
 ## Tests
 
@@ -101,7 +116,7 @@ npm run test:rls
 npm run test:e2e
 ```
 
-- `test:rls` demuestra contra la base de datos local el aislamiento entre empresas y partners y las reglas de anonimato.
+- `test:rls` demuestra contra la base de datos local el aislamiento entre empresas y partners, las reglas de anonimato, la exportación y la desconexión digital.
 - `test:e2e` recorre la aplicación en móvil y escritorio. Reinicia la base de datos local antes de empezar.
 
 ## Usar el proyecto de Supabase en la nube
