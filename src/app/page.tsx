@@ -63,7 +63,7 @@ const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: numbe
 const EQUIPO = [
   { nombre: "Fernando Martín Vaquero", foto: "/equipo/fernando-martin-vaquero.webp" },
   { nombre: "Ana María Pinto Llorente", foto: "/equipo/ana-maria-pinto-llorente.webp" },
-  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva.webp" },
+  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva-v2.webp" },
 ];
 
 const PERFILES = [
