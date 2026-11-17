@@ -48,3 +48,6 @@ supabase/.branches
 # tests
 /test-results
 /playwright-report
+
+# python
+__pycache__/
