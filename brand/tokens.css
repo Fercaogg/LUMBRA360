@@ -1,0 +1,312 @@
+/* ==========================================================================
+   LUMBRA360 · Tokens de marca
+   Versión 1.0 · Dirección «Lumbre institucional»
+
+   Dos capas:
+   1. Primitivos: escalas de color, tipografía, espacio, radios, sombras y movimiento.
+      No se usan directamente en componentes.
+   2. Semánticos: lo que usan los componentes (--fondo, --texto, --primario...).
+      Cambian entre modo claro y oscuro.
+
+   Modo oscuro: sigue la preferencia del sistema salvo que la página fije
+   data-theme="light" o data-theme="dark" en <html>.
+   Contraste comprobado con brand/scripts/contraste.py (WCAG 2.x, nivel AA).
+   ========================================================================== */
+
+:root {
+  /* ---------- Primitivos: color ---------- */
+
+  /* Petróleo: el color de marca. Profundo, sereno, con un punto de tinta. */
+  --petroleo-50: #eef5f5;
+  --petroleo-100: #d6e7e8;
+  --petroleo-200: #adcfd2;
+  --petroleo-300: #7fb1b6;
+  --petroleo-400: #4f8f96;
+  --petroleo-500: #2e727a;
+  --petroleo-600: #1f5d65;
+  --petroleo-700: #174b52;
+  --petroleo-800: #113a40;
+  --petroleo-900: #0c2b30;
+  --petroleo-950: #071c20;
+
+  /* Lumbre: el acento cálido. Se usa poco: el punto del símbolo, un dato clave, una acción destacada. */
+  --lumbre-50: #fdf6e9;
+  --lumbre-100: #fae8c4;
+  --lumbre-200: #f5d28f;
+  --lumbre-300: #efb95a;
+  --lumbre-400: #e6a23a;
+  --lumbre-500: #cc8424;
+  --lumbre-600: #a7671a;
+  --lumbre-700: #7f4e16;
+  --lumbre-800: #5c3a14;
+  --lumbre-900: #3d2710;
+
+  /* Piedra: neutros cálidos, de papel, no grises fríos. */
+  --piedra-0: #ffffff;
+  --piedra-25: #fcfbf8;
+  --piedra-50: #f7f5f0;
+  --piedra-100: #efece4;
+  --piedra-200: #e2ddd2;
+  --piedra-300: #cbc5b8;
+  --piedra-400: #a39c8e;
+  --piedra-500: #8c8579;
+  --piedra-600: #5e584c;
+  --piedra-700: #474238;
+  --piedra-800: #2f2c26;
+  --piedra-900: #1e1c18;
+  --piedra-950: #12110e;
+
+  /* Semánticos base (claro). Cada uno: texto, fondo y borde. Siempre con icono y etiqueta. */
+  --verde-texto: #2b6339;
+  --verde-fondo: #e8f2ea;
+  --verde-borde: #b9d6bf;
+  --verde-solido: #3d7a4c;
+  --ambar-texto: #7f4e16;
+  --ambar-fondo: #fbf0d9;
+  --ambar-borde: #ecd09a;
+  --ambar-solido: #b97a1c;
+  --rojo-texto: #9c2f27;
+  --rojo-fondo: #fbe9e6;
+  --rojo-borde: #efc2bc;
+  --rojo-solido: #b23b31;
+  --azul-texto: #285682;
+  --azul-fondo: #e6eef6;
+  --azul-borde: #bed0e4;
+  --azul-solido: #33689b;
+
+  /* ---------- Primitivos: tipografía ---------- */
+  --fuente-titular: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --fuente-interfaz: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-datos: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Escala 1,25 (tercera mayor) sobre 16 px. Los titulares grandes se adaptan al ancho. */
+  --texto-display: clamp(2.75rem, 1.9rem + 3.6vw, 3.815rem); /* 44 → 61 px */
+  --texto-h1: clamp(2.25rem, 1.7rem + 2.4vw, 3.052rem); /* 36 → 49 px */
+  --texto-h2: clamp(1.75rem, 1.45rem + 1.3vw, 2.441rem); /* 28 → 39 px */
+  --texto-h3: 1.563rem; /* 25 px */
+  --texto-h4: 1.25rem; /* 20 px */
+  --texto-grande: 1.125rem; /* 18 px */
+  --texto-base: 1rem; /* 16 px */
+  --texto-pequeno: 0.875rem; /* 14 px */
+  --texto-mini: 0.75rem; /* 12 px, solo etiquetas cortas */
+
+  --interlineado-titular: 1.1;
+  --interlineado-compacto: 1.3;
+  --interlineado-texto: 1.6;
+  --interlineado-interfaz: 1.45;
+
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-semi: 600;
+
+  --tracking-titular: -0.015em;
+  --tracking-mayusculas: 0.12em;
+
+  /* ---------- Primitivos: espacio (rejilla de 4 px) ---------- */
+  --espacio-0: 0;
+  --espacio-1: 0.25rem; /* 4 */
+  --espacio-2: 0.5rem; /* 8 */
+  --espacio-3: 0.75rem; /* 12 */
+  --espacio-4: 1rem; /* 16 */
+  --espacio-5: 1.25rem; /* 20 */
+  --espacio-6: 1.5rem; /* 24 */
+  --espacio-8: 2rem; /* 32 */
+  --espacio-10: 2.5rem; /* 40 */
+  --espacio-12: 3rem; /* 48 */
+  --espacio-16: 4rem; /* 64 */
+  --espacio-20: 5rem; /* 80 */
+  --espacio-24: 6rem; /* 96 */
+
+  --control-alto: 2.75rem; /* 44 px: objetivo táctil mínimo */
+  --control-alto-compacto: 2.25rem; /* 36 px, solo en tablas de escritorio */
+  --ancho-lectura: 68ch;
+
+  /* ---------- Primitivos: radios ---------- */
+  --radio-xs: 4px; /* barras de datos, etiquetas de código */
+  --radio-sm: 6px; /* badges */
+  --radio-md: 8px; /* botones, campos */
+  --radio-lg: 12px; /* tarjetas */
+  --radio-xl: 16px; /* paneles, modales */
+  --radio-total: 999px;
+
+  /* ---------- Primitivos: sombras (tono petróleo, nunca negro puro) ---------- */
+  --sombra-1: 0 1px 2px rgb(12 43 48 / 0.06);
+  --sombra-2: 0 1px 2px rgb(12 43 48 / 0.05), 0 8px 24px -12px rgb(12 43 48 / 0.18);
+  --sombra-3: 0 2px 4px rgb(12 43 48 / 0.06), 0 24px 48px -20px rgb(12 43 48 / 0.28);
+
+  /* ---------- Primitivos: movimiento ---------- */
+  --duracion-rapida: 120ms; /* hover, pulsación */
+  --duracion-base: 200ms; /* cambios de estado, menús */
+  --duracion-lenta: 320ms; /* modales, transición entre secciones */
+  --duracion-enfasis: 640ms; /* carga de indicadores, confirmación de evidencia */
+  --curva-salida: cubic-bezier(0.23, 1, 0.32, 1); /* entra rápido, se posa suave */
+  --curva-entrada-salida: cubic-bezier(0.65, 0, 0.35, 1);
+  --curva-estandar: cubic-bezier(0.2, 0, 0, 1);
+
+  --z-cabecera: 30;
+  --z-menu: 40;
+  --z-modal: 50;
+  --z-aviso: 60;
+}
+
+/* ---------- Semánticos: modo claro (por defecto) ---------- */
+:root {
+  color-scheme: light;
+
+  --fondo: var(--piedra-50);
+  --fondo-hundido: var(--piedra-100);
+  --superficie: var(--piedra-0);
+  --superficie-elevada: var(--piedra-0);
+  --superficie-marca: var(--petroleo-900);
+
+  --texto: var(--piedra-900);
+  --texto-suave: var(--piedra-600);
+  --texto-sobre-marca: var(--piedra-50);
+  --texto-desactivado: var(--piedra-400);
+
+  --linea: var(--piedra-200);
+  --linea-fuerte: var(--piedra-300);
+  --borde-control: var(--piedra-500);
+
+  --primario: var(--petroleo-700);
+  --primario-hover: var(--petroleo-800);
+  --primario-texto: #ffffff;
+  --primario-suave: var(--petroleo-50);
+  --primario-suave-texto: var(--petroleo-800);
+  --enlace: var(--petroleo-600);
+  --foco: var(--petroleo-500);
+
+  --lumbre: var(--lumbre-400);
+  --lumbre-texto: var(--petroleo-900);
+  --lumbre-suave: var(--lumbre-100);
+  --lumbre-suave-texto: var(--lumbre-700);
+
+  --correcto-texto: var(--verde-texto);
+  --correcto-fondo: var(--verde-fondo);
+  --correcto-borde: var(--verde-borde);
+  --correcto-solido: var(--verde-solido);
+  --aviso-texto: var(--ambar-texto);
+  --aviso-fondo: var(--ambar-fondo);
+  --aviso-borde: var(--ambar-borde);
+  --aviso-solido: var(--ambar-solido);
+  --error-texto: var(--rojo-texto);
+  --error-fondo: var(--rojo-fondo);
+  --error-borde: var(--rojo-borde);
+  --error-solido: var(--rojo-solido);
+  --info-texto: var(--azul-texto);
+  --info-fondo: var(--azul-fondo);
+  --info-borde: var(--azul-borde);
+  --info-solido: var(--azul-solido);
+
+  --velo: rgb(7 28 32 / 0.48); /* fondo de los modales */
+}
+
+/* ---------- Semánticos: modo oscuro ---------- */
+/* No es una inversión automática: cada valor está elegido y comprobado contra el fondo oscuro. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fondo: #0d1517;
+    --fondo-hundido: #091012;
+    --superficie: #152226;
+    --superficie-elevada: #1b2a2f;
+    --superficie-marca: #071c20;
+    --texto: #ece8df;
+    --texto-suave: #b3ac9e;
+    --texto-sobre-marca: #ece8df;
+    --texto-desactivado: #6f7a7b;
+    --linea: #24343a;
+    --linea-fuerte: #31454c;
+    --borde-control: #6b7c81;
+    --primario: var(--petroleo-300);
+    --primario-hover: var(--petroleo-200);
+    --primario-texto: var(--petroleo-950);
+    --primario-suave: #1a3238;
+    --primario-suave-texto: var(--petroleo-200);
+    --enlace: var(--petroleo-300);
+    --foco: var(--petroleo-300);
+    --lumbre: var(--lumbre-300);
+    --lumbre-texto: var(--petroleo-900);
+    --lumbre-suave: #2e2412;
+    --lumbre-suave-texto: #f2c46e;
+    --correcto-texto: #8fcb9c;
+    --correcto-fondo: #16291d;
+    --correcto-borde: #2c4a34;
+    --correcto-solido: #6fb281;
+    --aviso-texto: #f2c46e;
+    --aviso-fondo: #2e2412;
+    --aviso-borde: #4f3d1c;
+    --aviso-solido: #e0a94a;
+    --error-texto: #f2a49b;
+    --error-fondo: #33191a;
+    --error-borde: #5a2c2a;
+    --error-solido: #e2786c;
+    --info-texto: #9cc2e8;
+    --info-fondo: #16243a;
+    --info-borde: #2b4263;
+    --info-solido: #79a9da;
+    --velo: rgb(0 0 0 / 0.6);
+    --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+    --sombra-3: 0 2px 4px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.7);
+  }
+}
+
+/* Misma paleta oscura cuando la página la fija a mano. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fondo: #0d1517;
+  --fondo-hundido: #091012;
+  --superficie: #152226;
+  --superficie-elevada: #1b2a2f;
+  --superficie-marca: #071c20;
+  --texto: #ece8df;
+  --texto-suave: #b3ac9e;
+  --texto-sobre-marca: #ece8df;
+  --texto-desactivado: #6f7a7b;
+  --linea: #24343a;
+  --linea-fuerte: #31454c;
+  --borde-control: #6b7c81;
+  --primario: var(--petroleo-300);
+  --primario-hover: var(--petroleo-200);
+  --primario-texto: var(--petroleo-950);
+  --primario-suave: #1a3238;
+  --primario-suave-texto: var(--petroleo-200);
+  --enlace: var(--petroleo-300);
+  --foco: var(--petroleo-300);
+  --lumbre: var(--lumbre-300);
+  --lumbre-texto: var(--petroleo-900);
+  --lumbre-suave: #2e2412;
+  --lumbre-suave-texto: #f2c46e;
+  --correcto-texto: #8fcb9c;
+  --correcto-fondo: #16291d;
+  --correcto-borde: #2c4a34;
+  --correcto-solido: #6fb281;
+  --aviso-texto: #f2c46e;
+  --aviso-fondo: #2e2412;
+  --aviso-borde: #4f3d1c;
+  --aviso-solido: #e0a94a;
+  --error-texto: #f2a49b;
+  --error-fondo: #33191a;
+  --error-borde: #5a2c2a;
+  --error-solido: #e2786c;
+  --info-texto: #9cc2e8;
+  --info-fondo: #16243a;
+  --info-borde: #2b4263;
+  --info-solido: #79a9da;
+  --velo: rgb(0 0 0 / 0.6);
+  --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --sombra-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --sombra-3: 0 2px 4px rgb(0 0 0 / 0.4), 0 24px 48px -20px rgb(0 0 0 / 0.7);
+}
+
+/* ---------- Movimiento reducido ---------- */
+/* Con menos movimiento, las duraciones caen a casi cero: los cambios ocurren sin desplazamientos. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracion-rapida: 1ms;
+    --duracion-base: 1ms;
+    --duracion-lenta: 1ms;
+    --duracion-enfasis: 1ms;
+  }
+}

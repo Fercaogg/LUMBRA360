@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Librerías de terceros incluidas para que brand/brand.html funcione sin conexión.
+    "brand/vendor/**",
   ]),
 ]);
 

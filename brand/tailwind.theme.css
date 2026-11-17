@@ -1,0 +1,84 @@
+/* LUMBRA360 · Tema para Tailwind 4 (sin archivo de configuración)
+   Uso en globals.css:
+     @import "tailwindcss";
+     @import "../../brand/tokens.css";
+     @import "../../brand/tailwind.theme.css";
+   Las utilidades apuntan a los tokens semánticos: el modo oscuro no necesita clases dark:. */
+
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+
+  --color-fondo: var(--fondo);
+  --color-fondo-hundido: var(--fondo-hundido);
+  --color-superficie: var(--superficie);
+  --color-superficie-elevada: var(--superficie-elevada);
+  --color-superficie-marca: var(--superficie-marca);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-texto-sobre-marca: var(--texto-sobre-marca);
+  --color-texto-desactivado: var(--texto-desactivado);
+  --color-linea: var(--linea);
+  --color-linea-fuerte: var(--linea-fuerte);
+  --color-linea-control: var(--borde-control);
+  --color-primario: var(--primario);
+  --color-primario-hover: var(--primario-hover);
+  --color-primario-texto: var(--primario-texto);
+  --color-primario-suave: var(--primario-suave);
+  --color-primario-suave-texto: var(--primario-suave-texto);
+  --color-enlace: var(--enlace);
+  --color-foco: var(--foco);
+  --color-acento: var(--lumbre);
+  --color-acento-texto: var(--lumbre-texto);
+  --color-acento-suave: var(--lumbre-suave);
+  --color-acento-suave-texto: var(--lumbre-suave-texto);
+  --color-correcto-texto: var(--correcto-texto);
+  --color-correcto-fondo: var(--correcto-fondo);
+  --color-correcto-borde: var(--correcto-borde);
+  --color-correcto-solido: var(--correcto-solido);
+  --color-aviso-texto: var(--aviso-texto);
+  --color-aviso-fondo: var(--aviso-fondo);
+  --color-aviso-borde: var(--aviso-borde);
+  --color-aviso-solido: var(--aviso-solido);
+  --color-error-texto: var(--error-texto);
+  --color-error-fondo: var(--error-fondo);
+  --color-error-borde: var(--error-borde);
+  --color-error-solido: var(--error-solido);
+  --color-info-texto: var(--info-texto);
+  --color-info-fondo: var(--info-fondo);
+  --color-info-borde: var(--info-borde);
+  --color-info-solido: var(--info-solido);
+  --color-velo: var(--velo);
+
+  --font-titular: var(--fuente-titular);
+  --font-sans: var(--fuente-interfaz);
+  --font-mono: var(--fuente-datos);
+
+  --text-mini: var(--texto-mini);
+  --text-pequeno: var(--texto-pequeno);
+  --text-base: var(--texto-base);
+  --text-grande: var(--texto-grande);
+  --text-h4: var(--texto-h4);
+  --text-h3: var(--texto-h3);
+  --text-h2: var(--texto-h2);
+  --text-h1: var(--texto-h1);
+  --text-display: var(--texto-display);
+
+  --spacing: 0.25rem; /* rejilla de 4 px: p-1 = 4 px, p-2 = 8 px... */
+
+  --radius-xs: var(--radio-xs);
+  --radius-sm: var(--radio-sm);
+  --radius-md: var(--radio-md);
+  --radius-lg: var(--radio-lg);
+  --radius-xl: var(--radio-xl);
+
+  --shadow-1: var(--sombra-1);
+  --shadow-2: var(--sombra-2);
+  --shadow-3: var(--sombra-3);
+
+  --ease-salida: var(--curva-salida);
+  --ease-entrada-salida: var(--curva-entrada-salida);
+  --ease-estandar: var(--curva-estandar);
+}
