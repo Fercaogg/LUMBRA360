@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, GraduationCap, HardHat, ListChecks, Users, Waves } from "lucide-react";
+import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, FlaskConical, GraduationCap, HardHat, Landmark, ListChecks, MapPin, Users, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
@@ -51,6 +51,13 @@ const PILARES = [
   { icono: Waves, titulo: "Evaluación psicosocial continua", texto: "Seguimientos breves y apoyo a la evaluación con FPSICO, siempre anónimos." },
   { icono: BellOff, titulo: "Desconexión digital", texto: "Política, audiencia a la representación, acuses de lectura y formación." },
   { icono: FileCheck2, titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor." },
+];
+
+const AVALES = [
+  { icono: GraduationCap, tipo: "Aval", nombre: "Universidad de Salamanca" },
+  { icono: Landmark, tipo: "Aval", nombre: "Fundación General de la Universidad de Salamanca" },
+  { icono: FlaskConical, tipo: "Programa", nombre: "Prototipos 2026/2027" },
+  { icono: MapPin, tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León" },
 ];
 
 const DIRECCION = [
@@ -282,14 +289,31 @@ export default function Portada() {
 
         {/* 8. Respaldo */}
         <Seccion id="respaldo">
-          <Encabezado etiqueta="Respaldo" titulo="Avalado por la Universidad de Salamanca." />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-2 lg:gap-8">
-            <li data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
-              <Icono icono={GraduationCap} />
-              <h3 className="text-lg font-semibold">Pilotaje en IMCA, Salamanca</h3>
-              <p className="max-w-[60ch] text-pretty text-tinta-suave">Una plataforma anterior, precursora de {NOMBRE}, completó un pilotaje en IMCA (Salamanca) con resultados satisfactorios.</p>
+          <Encabezado etiqueta="Respaldo" titulo="Un proyecto con respaldo institucional." />
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            {AVALES.map((a) => (
+              <li key={a.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
+                <Icono icono={a.icono} />
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{a.tipo}</p>
+                <h3 className="text-lg font-semibold leading-snug">{a.nombre}</h3>
+              </li>
+            ))}
+          </ul>
+          <ul data-tarjetas className="mt-6 grid gap-6 [perspective:1400px] md:grid-cols-2 lg:mt-8 lg:gap-8">
+            <li data-tarjeta className={`${TARJETA} flex flex-col gap-5`}>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Origen</p>
+              <h3 className="text-lg font-semibold">La evolución de WORKWELL360</h3>
+              <p className="max-w-[60ch] text-pretty text-tinta-suave">
+                {NOMBRE} nace del prototipo WORKWELL360, que monitorizamos previamente en YMCA Salamanca con resultados satisfactorios.
+              </p>
+              <div className="mt-auto flex items-center gap-4 border-t border-linea pt-5">
+                <span className="text-sm text-tinta-suave">Pilotaje previo en</span>
+                <Image src="/marca/terceros/ymca.svg" alt="YMCA" width={98} height={28} className="h-7 w-auto" />
+                <span className="text-sm font-medium">Salamanca</span>
+              </div>
             </li>
             <li data-tarjeta className={`${TARJETA} flex flex-col gap-5`}>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Equipo</p>
               <h3 className="text-lg font-semibold">Dirección del proyecto</h3>
               <ul className="flex flex-col gap-4">
                 {DIRECCION.map((d) => (

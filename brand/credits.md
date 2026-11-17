@@ -26,3 +26,8 @@ la ficha de cada una (autor, enlace y licencia). Por cada foto, anotar aquí:
 - Iconos: Lucide (licencia ISC), paquete `lucide-react`.
 - Tipografías: Instrument Sans e IBM Plex Mono (SIL Open Font License).
 - Logotipo: original del cliente, `brand/logo/fuente/lumbra-original.svg`.
+
+## Logotipos de terceros
+| Archivo | Origen | Uso |
+|---|---|---|
+| public/marca/terceros/ymca.svg | Vectorizado con potrace del logotipo facilitado por el cliente (`brand/terceros/ymca-original.png`) | Sección «Respaldo», pilotaje previo de WORKWELL360. Requiere autorización de YMCA Salamanca. |
