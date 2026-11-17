@@ -5,7 +5,8 @@ import { Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Use
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
-import { Movil, Portatil, Ventana } from "@/components/portada/dispositivos";
+import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
+import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { Logotipo } from "@/components/marca/logotipo";
 import Image from "next/image";
 
@@ -36,10 +37,13 @@ const PASOS = [
   { titulo: "Evidencias fechadas", texto: "Cada paso queda registrado con fecha y autor, listo para consultarlo.", imagen: "/portada/paso-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor." },
 ];
 
-const PANTALLAS = [
-  { titulo: "Panel de la empresa", texto: "El estado de cada campaña de un vistazo.", imagen: "/portada/app-empresa.webp", alt: "Resumen de una empresa de demostración con sus campañas cerradas." },
-  { titulo: "Evaluaciones y seguimientos", texto: "Campañas anónimas, con su tipo y su estado.", imagen: "/portada/app-campanas.webp", alt: "Lista de campañas y seguimientos de una empresa de demostración." },
-  { titulo: "Registro de evidencias", texto: "Política aprobada, acuses y formación, con fecha y autor.", imagen: "/portada/app-desconexion.webp", alt: "Pantalla de desconexión digital con la versión 1 de la política aprobada." },
+// Capítulos de la «película» de la aplicación. `cursor`: dónde señala, en % de la pantalla.
+const CAPITULOS = [
+  { titulo: "Panel de la empresa", texto: "El estado de cada campaña, de un vistazo.", imagen: "/portada/app-empresa.webp", alt: "Resumen de una empresa de demostración con sus campañas cerradas.", cursor: [24, 44] },
+  { titulo: "Campañas anónimas", texto: "Evaluaciones y seguimientos, con su tipo y su estado.", imagen: "/portada/app-campanas.webp", alt: "Lista de campañas y seguimientos de una empresa de demostración.", cursor: [26, 56] },
+  { titulo: "Resultados por grupos", texto: "Solo con 5 respuestas o más, al cerrar la campaña.", imagen: "/portada/app-resultados.webp", alt: "Resultados de un seguimiento de demostración con la participación.", cursor: [16, 46] },
+  { titulo: "Plan de acción", texto: "Medidas con responsable, fecha y estado.", imagen: "/portada/app-plan.webp", alt: "Plan de acción de demostración con medidas de ejemplo.", cursor: [29, 59] },
+  { titulo: "Evidencias fechadas", texto: "Política aprobada, acuses y formación, con fecha y autor.", imagen: "/portada/app-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor.", cursor: [40, 63] },
 ];
 
 const PERFILES = [
@@ -70,7 +74,7 @@ function Seccion({ id, alterna = false, children }: { id?: string; alterna?: boo
 
 function Encabezado({ etiqueta, titulo, entradilla }: { etiqueta: string; titulo: string; entradilla?: string }) {
   return (
-    <div data-entrar className="mx-auto mb-12 flex max-w-[44rem] flex-col items-center gap-4 text-center lg:mb-16">
+    <div data-titular className="mx-auto mb-12 flex max-w-[44rem] flex-col items-center gap-4 text-center lg:mb-16">
       <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{etiqueta}</p>
       <h2 className="text-balance text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] lg:text-[2.5rem]">{titulo}</h2>
       {entradilla ? <p className="text-pretty text-lg text-tinta-suave">{entradilla}</p> : null}
@@ -80,7 +84,7 @@ function Encabezado({ etiqueta, titulo, entradilla }: { etiqueta: string; titulo
 
 function Icono({ icono: I }: { icono: typeof EyeOff }) {
   return (
-    <span aria-hidden className="grid size-11 place-items-center rounded-xl bg-[var(--lumbre-50)] text-[var(--lumbre-600)]">
+    <span aria-hidden data-trazar className="grid size-11 place-items-center rounded-xl bg-[var(--lumbre-50)] text-[var(--lumbre-600)]">
       <I size={20} strokeWidth={1.75} />
     </span>
   );
@@ -120,7 +124,7 @@ export default function Portada() {
         {/* 2. Hero */}
         <section className="bg-[linear-gradient(to_bottom,var(--superficie)_62%,var(--fondo-alterno)_62%)] pt-32 lg:pt-40">
           <Contenedor>
-            <div className="mx-auto flex max-w-[52rem] flex-col items-center gap-6 text-center">
+            <div data-hero-texto className="mx-auto flex max-w-[52rem] flex-col items-center gap-6 text-center">
               <h1 className="aparecer text-balance text-[2rem] font-medium leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]">
                 Evaluación psicosocial y desconexión digital, en orden.
               </h1>
@@ -136,7 +140,7 @@ export default function Portada() {
                 </a>
               </div>
             </div>
-            <div data-entrar className="relative mx-auto mt-16 max-w-[1040px] pb-8 lg:mt-20">
+            <div data-hero-dispositivo className="relative mx-auto mt-16 max-w-[1040px] pb-8 lg:mt-20">
               <Portatil src="/portada/app-resultados.webp" alt="Resultados de un seguimiento de demostración: participación del 75 % y niveles de un factor." prioridad />
               <Movil
                 src="/portada/app-responder-movil.webp"
@@ -150,9 +154,9 @@ export default function Portada() {
         {/* 3. Para qué sirve */}
         <Seccion id="para-que-sirve" alterna>
           <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo." />
-          <ul data-entrar="grupo" className="grid gap-6 md:grid-cols-3">
+          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3">
             {BENEFICIOS.map((b) => (
-              <li key={b.titulo} className={`${TARJETA} flex flex-col gap-4`}>
+              <li key={b.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
                 <Icono icono={b.icono} />
                 <h3 className="text-lg font-semibold">{b.titulo}</h3>
                 <p className="text-pretty text-tinta-suave">{b.texto}</p>
@@ -168,11 +172,13 @@ export default function Portada() {
             {PASOS.map((p, i) => (
               <li key={p.titulo} data-paso className="flex flex-col gap-4">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[12px] border border-linea bg-papel">
-                  <Image src={p.imagen} alt={p.alt} fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 92vw" className="object-cover object-top" />
+                  <Image data-miniatura src={p.imagen} alt={p.alt} fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 92vw" className="object-cover object-top" />
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-tinta font-mono text-xs text-[var(--texto-sobre-marca)]">{i + 1}</span>
-                  <span data-linea aria-hidden className={`hidden h-px flex-1 bg-linea-fuerte lg:block ${i === PASOS.length - 1 ? "lg:invisible" : ""}`} />
+                  <span data-numero className="grid size-8 shrink-0 place-items-center rounded-full bg-tinta font-mono text-xs text-[var(--texto-sobre-marca)]">{i + 1}</span>
+                  <span aria-hidden className={`relative hidden h-0.5 flex-1 overflow-hidden rounded-full bg-linea lg:block ${i === PASOS.length - 1 ? "lg:invisible" : ""}`}>
+                    <span data-relleno className="absolute inset-0 origin-left bg-lumbre" />
+                  </span>
                 </div>
                 <h3 className="text-lg font-semibold">{p.titulo}</h3>
                 <p className="text-pretty text-tinta-suave">{p.texto}</p>
@@ -184,25 +190,43 @@ export default function Portada() {
         {/* 5. La aplicación por dentro */}
         <Seccion id="aplicacion" alterna>
           <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro." entradilla="Pantallas reales con datos de demostración." />
-          <ul data-entrar="grupo" className="grid gap-6 md:grid-cols-3">
-            {PANTALLAS.map((p) => (
-              <li key={p.titulo} className={`${TARJETA} flex flex-col gap-5`}>
-                <Ventana src={p.imagen} alt={p.alt} />
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold">{p.titulo}</h3>
-                  <p className="text-pretty text-tinta-suave">{p.texto}</p>
+          <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+            <ol className="hidden flex-col gap-6 lg:col-span-4 lg:flex">
+              {CAPITULOS.map((c, i) => (
+                <li key={c.titulo} data-capitulo data-activo={i === 0} className="flex flex-col gap-2">
+                  <span aria-hidden className="relative h-0.5 overflow-hidden rounded-full bg-linea-fuerte">
+                    <span data-barra className="absolute inset-0 origin-left bg-tinta" />
+                  </span>
+                  <span className="mt-2 font-mono text-xs text-tinta-suave">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="text-lg font-semibold">{c.titulo}</h3>
+                  <p className="text-pretty text-tinta-suave">{c.texto}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="lg:col-span-8">
+              <PortatilPelicula pantallas={CAPITULOS.map((c) => ({ src: c.imagen, alt: c.alt }))} />
+            </div>
+            {/* Móvil: un solo texto que cambia con la pantalla */}
+            <div className="relative min-h-[6.5rem] text-center lg:hidden">
+              {CAPITULOS.map((c, i) => (
+                <div key={c.titulo} data-capitulo-movil className="absolute inset-x-0 top-0 flex flex-col gap-2" style={i === 0 ? undefined : { opacity: 0 }}>
+                  <span className="font-mono text-xs text-tinta-suave">
+                    {String(i + 1).padStart(2, "0")} / {String(CAPITULOS.length).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-lg font-semibold">{c.titulo}</h3>
+                  <p className="text-pretty text-tinta-suave">{c.texto}</p>
                 </div>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          </div>
         </Seccion>
 
         {/* 6. Para quién es */}
         <Seccion id="para-quien">
           <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención." />
-          <ul data-entrar="grupo" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PERFILES.map((p) => (
-              <li key={p.titulo} className={`${TARJETA} flex flex-col gap-4`}>
+              <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4`}>
                 <Icono icono={p.icono} />
                 <h3 className="text-lg font-semibold">{p.titulo}</h3>
                 <p className="text-pretty text-tinta-suave">{p.texto}</p>
@@ -213,10 +237,13 @@ export default function Portada() {
 
         {/* 7. Llamada final */}
         <Seccion alterna>
-          <div data-entrar className="mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
-            <h2 className="text-balance text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] lg:text-[2.5rem]">¿Quiere verlo con su empresa?</h2>
-            <p className="text-pretty text-lg text-tinta-suave">Le enseñamos la aplicación y resolvemos sus dudas, sin compromiso.</p>
-            <Link href="/contacto" className={BOTON_PRINCIPAL}>
+          <div data-cierre className="relative mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
+            <svg aria-hidden viewBox={ONDA_CAJA} className="pointer-events-none absolute left-1/2 top-1/2 -z-0 w-[min(120vw,46rem)] -translate-x-1/2 -translate-y-1/2 overflow-visible opacity-[0.14]">
+              <path data-onda d={ONDA_TRAZADO} transform={ONDA_TRANSFORMACION} pathLength={100} fill="none" stroke="var(--lumbre)" strokeWidth="2" />
+            </svg>
+            <h2 data-revelar className="relative text-balance text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] lg:text-[2.5rem]">¿Quiere verlo con su empresa?</h2>
+            <p data-revelar className="relative text-pretty text-lg text-tinta-suave">Le enseñamos la aplicación y resolvemos sus dudas, sin compromiso.</p>
+            <Link data-revelar href="/contacto" className={`${BOTON_PRINCIPAL} relative`}>
               Solicitar una demostración
             </Link>
           </div>
