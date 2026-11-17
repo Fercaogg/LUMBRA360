@@ -50,23 +50,46 @@ export function EfectosPortada() {
   return null;
 }
 
-// 1. El portátil llega cerrado y se abre al bajar; la pantalla se enciende y el móvil sube.
+// 1. Hero: el portátil se abre solo al cargar (sin esperar al scroll) y se enciende el vídeo.
+//    Al bajar, la portada se fija: el texto se aparta, el portátil crece hasta el centro
+//    y se mantiene un tramo para que el vídeo se siga viendo.
 function heroe() {
+  const seccion = document.querySelector<HTMLElement>("[data-heroe]");
   const dispositivo = document.querySelector<HTMLElement>("[data-hero-dispositivo]");
-  if (!dispositivo) return;
+  if (!seccion || !dispositivo) return;
   const tapa = dispositivo.querySelector("[data-tapa]");
   const pantalla = dispositivo.querySelector("[data-encender]");
   const movil = dispositivo.querySelector("[data-movil]");
-  // Cerrado, el portátil ocupa poco: se sube para que se vea bajo los botones y baja a su sitio al abrirse.
-  const alturaTapa = () => (tapa instanceof HTMLElement ? tapa.offsetHeight : 0);
-  const tl = gsap.timeline({ scrollTrigger: { trigger: dispositivo, start: 0, end: "+=640", scrub: 1.2, invalidateOnRefresh: true } });
-  tl.fromTo(dispositivo, { scale: 0.9, y: () => -alturaTapa() * 0.95 }, { scale: 1, y: 0, ease: "power1.inOut", duration: 0.8 }, 0)
-    .fromTo(tapa, { rotationX: -86 }, { rotationX: 0, ease: "power2.inOut", duration: 0.85 }, 0)
-    .fromTo(pantalla, { opacity: 0, filter: "brightness(2.4) blur(8px)" }, { opacity: 1, filter: "brightness(1) blur(0px)", ease: "power2.out", duration: 0.35 }, 0.55)
-    .fromTo(movil, { yPercent: 40, opacity: 0, rotation: 4 }, { yPercent: 0, opacity: 1, rotation: 0, ease: "power3.out", duration: 0.45 }, 0.55);
+  const texto = seccion.querySelector("[data-hero-texto]");
 
-  const texto = document.querySelector("[data-hero-texto]");
-  if (texto) gsap.to(texto, { y: -32, opacity: 0.5, ease: "none", scrollTrigger: { start: 0, end: "+=640", scrub: 1.2 } });
+  gsap
+    .timeline({ delay: 0.35 })
+    .fromTo(tapa, { rotationX: -86 }, { rotationX: 0, duration: 1.5, ease: "power3.inOut" })
+    .fromTo(pantalla, { opacity: 0, filter: "brightness(2.2) blur(8px)" }, { opacity: 1, filter: "brightness(1) blur(0px)", duration: 0.7, ease: "power2.out" }, "-=0.45")
+    .fromTo(movil, { yPercent: 30, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.5");
+
+  // Destino del zoom: centrado bajo la cabecera y lo más grande que quepa.
+  const cabecera = 72;
+  const margen = 32;
+  const escala = () => {
+    const disponibleAlto = window.innerHeight - cabecera - margen * 2;
+    const disponibleAncho = window.innerWidth - margen * 2;
+    return Math.max(1, Math.min(disponibleAlto / dispositivo.offsetHeight, disponibleAncho / dispositivo.offsetWidth, 1.75));
+  };
+  const desplazamiento = () => {
+    const centroDestino = cabecera + (window.innerHeight - cabecera) / 2;
+    return centroDestino - (dispositivo.offsetTop + dispositivo.offsetHeight / 2);
+  };
+
+  gsap
+    .timeline({
+      defaults: { ease: "power2.inOut" },
+      scrollTrigger: { trigger: seccion, start: "top top", end: "+=140%", pin: true, scrub: 1, invalidateOnRefresh: true },
+    })
+    .to(texto, { y: -60, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0)
+    .to(movil, { x: 40, autoAlpha: 0, duration: 0.25 }, 0)
+    .to(dispositivo, { y: desplazamiento, scale: escala, transformOrigin: "50% 50%", duration: 0.5 }, 0.05)
+    .to({}, { duration: 0.6 });
 }
 
 // 2. Títulos de sección: se revelan cada vez que entran en pantalla.

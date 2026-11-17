@@ -1,11 +1,12 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { Simbolo } from "@/components/marca/logotipo";
 
 // Maquetas de dispositivo para las capturas reales de la aplicación.
 // Mismo tratamiento en todas: pantalla con radio de 6 px dentro de un marco de tinta.
 // Sin JavaScript o con «reducir movimiento», el portátil se ve abierto y encendido.
 
-export function Portatil({ src, alt, prioridad = false }: { src: string; alt: string; prioridad?: boolean }) {
+export function Portatil({ src, alt, prioridad = false, children }: { src?: string; alt?: string; prioridad?: boolean; children?: ReactNode }) {
   return (
     <div data-portatil className="portatil">
       <div className="portatil-escena">
@@ -13,7 +14,7 @@ export function Portatil({ src, alt, prioridad = false }: { src: string; alt: st
           <div className="portatil-cara portatil-frente">
             <div className="relative aspect-[1600/1013] overflow-hidden rounded-[6px] bg-[var(--tinta-950)]">
               <div data-encender className="absolute inset-0">
-                <Image src={src} alt={alt} fill priority={prioridad} sizes="(min-width: 1200px) 1000px, 92vw" className="object-cover object-top" />
+                {children ?? (src ? <Image src={src} alt={alt ?? ""} fill priority={prioridad} sizes="(min-width: 1200px) 1000px, 92vw" className="object-cover object-top" /> : null)}
               </div>
             </div>
           </div>

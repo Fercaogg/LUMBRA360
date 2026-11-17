@@ -5,6 +5,7 @@ import { Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Use
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
+import { VideoLumbra } from "@/components/portada/video-lumbra";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { Logotipo } from "@/components/marca/logotipo";
@@ -122,7 +123,7 @@ export default function Portada() {
 
       <main id="contenido" className="flex-1">
         {/* 2. Hero */}
-        <section className="bg-[linear-gradient(to_bottom,var(--superficie)_62%,var(--fondo-alterno)_62%)] pt-36 lg:pt-48">
+        <section data-heroe className="relative overflow-hidden bg-superficie pb-16 pt-28 lg:pt-32">
           <Contenedor>
             <div data-hero-texto className="mx-auto flex max-w-[52rem] flex-col items-center gap-6 text-center">
               <h1 className="aparecer text-balance text-[2rem] font-medium leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]">
@@ -140,12 +141,14 @@ export default function Portada() {
                 </a>
               </div>
             </div>
-            <div data-hero-dispositivo className="relative mx-auto mt-20 w-full max-w-[min(1040px,calc((100svh-9rem)*1.45))] pb-10 lg:mt-24">
-              <Portatil src="/portada/app-resultados.webp" alt="Resultados de un seguimiento de demostración: participación del 75 % y niveles de un factor." prioridad />
+            <div data-hero-dispositivo className="relative mx-auto mt-12 w-full max-w-[min(1040px,max(420px,calc((100svh-29rem)*1.47)))] pb-6 lg:mt-14">
+              <Portatil>
+                <VideoLumbra />
+              </Portatil>
               <Movil
                 src="/portada/app-responder-movil.webp"
                 alt="Pantalla para responder el cuestionario en el móvil con un código."
-                className="absolute bottom-0 right-[2%] w-[22%] max-w-[200px] sm:right-[4%]"
+                className="absolute -right-[3%] bottom-0 w-[20%] max-w-[180px]"
               />
             </div>
           </Contenedor>
