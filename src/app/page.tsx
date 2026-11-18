@@ -91,8 +91,8 @@ const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: numbe
 ];
 
 const HITOS: { etiqueta: string; titulo: string; texto: string; logo: "workwell" | "ymca" | "onda"; destacado?: boolean }[] = [
-  { etiqueta: "Prototipo", titulo: "WORKWELL360", texto: "La primera versión de la idea.", logo: "workwell" },
-  { etiqueta: "Pilotaje", titulo: "YMCA Salamanca", texto: "Monitorizado con resultados satisfactorios.", logo: "ymca" },
+  { etiqueta: "Prototipo", titulo: "WORKWELL360", texto: "Nació como TFG y fue premiado por la Junta de Castilla y León y la USAL.", logo: "workwell" },
+  { etiqueta: "Pilotaje", titulo: "YMCA Salamanca", texto: "Pilotado dentro del programa TCUE, con resultados satisfactorios.", logo: "ymca" },
   { etiqueta: "Evolución", titulo: "LUMBRA360", texto: "Más completo, con evidencias fechadas.", logo: "onda", destacado: true },
 ];
 
@@ -101,8 +101,13 @@ const EQUIPO: Miembro[] = [
   {
     nombre: "Fernando Martín Vaquero",
     foto: "/equipo/fernando-martin-vaquero.webp",
-    cargo: "Dirección del proyecto",
-    detalle: [],
+    cargo: "Pedagogo y gestor de proyectos",
+    detalle: [
+      "Graduado en Pedagogía (Formación y Gestión de Calidad) por la Universidad de Salamanca",
+      "Cursa el Máster en Estudios de la Ciencia, la Tecnología y la Innovación (MECTI)",
+      "Técnico Gestor de Proyectos Académicos en DIDOSEG",
+      "Creador de WORKWELL360, premio a la excelencia de la Junta de Castilla y León y la USAL",
+    ],
     enlaces: [{ texto: "LinkedIn", href: "https://www.linkedin.com/in/fermartvaq/" }],
   },
   {
@@ -487,18 +492,11 @@ export default function Portada() {
       {/* 10. Pie */}
       <footer className="border-t border-linea bg-superficie">
         <Contenedor className="grid grid-cols-2 gap-x-8 gap-y-12 py-20 lg:grid-cols-12">
-          <div className="col-span-2 flex flex-col gap-4 lg:col-span-6">
+          <div className="col-span-2 flex flex-col gap-4 lg:col-span-8">
             <Logotipo alto={22} />
             <p className="max-w-[22rem] text-sm text-tinta-suave">Herramienta independiente de apoyo al técnico de prevención. No es un servicio de la Inspección de Trabajo ni del INSST.</p>
           </div>
           <ColumnaPie titulo="Producto" enlaces={NAVEGACION.map((n) => ({ href: `/${n.href}`, texto: n.texto }))} />
-          <ColumnaPie
-            titulo="Legal"
-            enlaces={[
-              { href: "/legal/privacidad", texto: "Privacidad" },
-              { href: "/legal/cookies", texto: "Cookies" },
-            ]}
-          />
           <ColumnaPie
             titulo="Contacto"
             enlaces={[
