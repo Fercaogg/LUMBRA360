@@ -11,6 +11,8 @@ export const metadata: Metadata = { title: "Acceso" };
 
 async function AvisoEnlace({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const { error } = await searchParams;
+  if (error === "demo") return <Aviso>La demostración no está disponible en este momento. Inténtelo más tarde.</Aviso>;
+  if (error === "demo-limite") return <Aviso>Ha abierto la demostración muchas veces seguidas. Espere un rato e inténtelo de nuevo.</Aviso>;
   if (error !== "enlace") return null;
   return <Aviso tono="error">El enlace no es válido o ha caducado. Pida uno nuevo.</Aviso>;
 }

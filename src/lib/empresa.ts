@@ -22,7 +22,7 @@ export async function cargarEmpresa(empresaIdBruto: string) {
   const gestiona = acceso.esAdmin || acceso.partners.some((p) => p.id === empresa.partner_id && p.rol === "gestor");
   const esTecnico = via === "tecnico";
   const esCuenta = via === "empresa";
-  return { acceso, supabase, empresa, gestiona, esTecnico, esCuenta, editaPlan: esTecnico || esCuenta };
+  return { acceso, supabase, empresa, gestiona, esTecnico, esCuenta, editaPlan: esTecnico || esCuenta, soloLectura: acceso.esVisor };
 }
 
 export function pestanasEmpresa(empresaId: string) {

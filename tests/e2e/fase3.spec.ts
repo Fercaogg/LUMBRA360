@@ -8,9 +8,9 @@ const PDF = { name: "acta.pdf", mimeType: "application/pdf", buffer: Buffer.from
 
 test("política: plantilla, borrador, aprobación, acuse nominal, audiencia y formación", async ({ page, browser }, info) => {
   test.skip(info.project.name !== "movil", "La empresa demo solo admite un borrador a la vez: el recorrido se hace una vez.");
-  const base = `/panel/empresa/${DEMO.empresa1}/desconexion`;
+  const base = `/panel/empresa/${DEMO.empresa3}/desconexion`;
 
-  await entrar(page, "empresa-1@demo.invalid");
+  await entrar(page, "empresa-3@demo.invalid");
   await page.goto(base);
   await page.getByLabel("Plantilla").selectOption({ index: 0 });
   await page.getByRole("button", { name: "Empezar" }).click();
@@ -81,7 +81,7 @@ test("política: plantilla, borrador, aprobación, acuse nominal, audiencia y fo
   await salir(page);
 
   // El partner solo consulta.
-  await entrar(page, "gestor-a@demo.invalid");
+  await entrar(page, "gestor-b@demo.invalid");
   await page.goto(base);
   await expect(page.getByText("Usted puede consultarla.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Registrar audiencia" })).toHaveCount(0);
@@ -111,4 +111,18 @@ test("un acuse con enlace inventado no se puede registrar", async ({ browser }) 
   await page.goto(`/acuse/${"x".repeat(32)}`);
   await expect(page.getByRole("heading", { name: "Este enlace no está disponible" })).toBeVisible();
   await contexto.close();
+});
+
+test("el botón «Demo» abre la empresa de demostración en solo lectura", async ({ browser }) => {
+  const visitante = await browser.newContext({ baseURL: "http://localhost:3000" });
+  const p = await visitante.newPage();
+  await p.goto("/");
+  await p.getByRole("link", { name: "Demo", exact: true }).click();
+  await expect(p).toHaveURL(new RegExp(`/panel/empresa/${DEMO.empresa1}$`));
+  await expect(p.getByText("Está viendo una demostración con datos ficticios")).toBeVisible();
+  await p.goto(`/panel/empresa/${DEMO.empresa1}/plan`);
+  await expect(p.getByRole("button", { name: "Añadir medida" })).toHaveCount(0);
+  await p.goto(`/panel/empresa/${DEMO.empresa3}`);
+  await expect(p.getByRole("heading", { name: "Esta página no existe" })).toBeVisible();
+  await visitante.close();
 });

@@ -19,14 +19,33 @@ async function Sesion() {
           Administración
         </Link>
       ) : null}
-      <span className="hidden max-w-56 truncate text-sm text-sobre-marca/75 sm:inline" title={acceso.usuario.correo}>
-        {acceso.usuario.correo}
-      </span>
+      {acceso.esVisor ? (
+        <span className="rounded-full bg-lumbre px-3 py-1 text-xs font-semibold text-[var(--tinta-950)]">Demostración</span>
+      ) : (
+        <span className="hidden max-w-56 truncate text-sm text-sobre-marca/75 sm:inline" title={acceso.usuario.correo}>
+          {acceso.usuario.correo}
+        </span>
+      )}
       <form action={salir}>
         <Boton variante="sobreMarca" type="submit">
           Salir
         </Boton>
       </form>
+    </div>
+  );
+}
+
+async function AvisoDemo() {
+  const acceso = await obtenerAcceso();
+  if (!acceso?.esVisor) return null;
+  return (
+    <div className="border-b border-[var(--lumbre-200)] bg-[var(--lumbre-50)]">
+      <p className="mx-auto w-full max-w-5xl px-4 py-2.5 text-sm text-[var(--lumbre-800)]">
+        Está viendo una demostración con datos ficticios. Puede recorrer todo, pero no guardar cambios.{" "}
+        <Link href="/contacto" className="font-semibold underline underline-offset-4">
+          Pedir una demostración guiada
+        </Link>
+      </p>
     </div>
   );
 }
@@ -44,6 +63,9 @@ export default function DisposicionPrivada({ children }: { children: React.React
           </Suspense>
         </div>
       </header>
+      <Suspense fallback={null}>
+        <AvisoDemo />
+      </Suspense>
       <main id="contenido" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8 sm:py-10">
         <Suspense fallback={<Cargando />}>{children}</Suspense>
       </main>

@@ -9,7 +9,9 @@ export type Acceso = {
   usuario: { id: string; correo: string };
   esAdmin: boolean;
   partners: { id: string; nombre: string; rol: RolPartner }[];
-  empresas: { id: string; nombre: string; via: "empresa" | "tecnico" }[];
+  empresas: { id: string; nombre: string; via: "empresa" | "tecnico" | "visor" }[];
+  // Cuenta de la demostración pública: solo consulta una empresa ficticia.
+  esVisor: boolean;
 };
 
 // Qué puede abrir la cuenta que navega. Se calcula una vez por petición.
@@ -19,11 +21,12 @@ export const obtenerAcceso = cache(async (): Promise<Acceso | null> => {
   const usuario = sesion.user;
   if (!usuario?.email) return null;
 
-  const [admin, partners, cuentas, asignadas] = await Promise.all([
+  const [admin, partners, cuentas, asignadas, visor] = await Promise.all([
     supabase.from("administradores").select("usuario_id").eq("usuario_id", usuario.id).maybeSingle(),
     supabase.from("partner_miembros").select("rol, partners(id, nombre)").eq("usuario_id", usuario.id),
     supabase.from("empresa_miembros").select("empresas(id, nombre)").eq("usuario_id", usuario.id),
     supabase.from("tecnico_empresas").select("empresas(id, nombre)").eq("usuario_id", usuario.id),
+    supabase.from("visores_demo").select("empresas(id, nombre)").eq("usuario_id", usuario.id).maybeSingle(),
   ]);
 
   const empresas: Acceso["empresas"] = [];
@@ -36,7 +39,12 @@ export const obtenerAcceso = cache(async (): Promise<Acceso | null> => {
     }
   }
 
+  if (visor.data?.empresas && !empresas.some((e) => e.id === visor.data!.empresas!.id)) {
+    empresas.push({ ...visor.data.empresas, via: "visor" });
+  }
+
   return {
+    esVisor: Boolean(visor.data),
     usuario: { id: usuario.id, correo: usuario.email },
     esAdmin: Boolean(admin.data),
     partners: (partners.data ?? []).flatMap((fila) =>

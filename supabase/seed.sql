@@ -133,3 +133,29 @@ insert into public.politica_plantilla_secciones (plantilla_id, titulo, cuerpo, a
   ('00000000-0000-4000-9a00-000000000001', 'Sección de demostración 1', 'Texto de demostración de la sección 1 (ficticio). No es texto legal.', 'Ayuda de demostración.', 1),
   ('00000000-0000-4000-9a00-000000000001', 'Sección de demostración 2', '', 'Esta sección empieza vacía para probar el asistente.', 2);
 update public.politica_plantillas set estado = 'publicado' where id = '00000000-0000-4000-9a00-000000000001';
+
+-- ---------------------------------------------------------------------------
+-- Contenido para la demostración pública (botón «Demo»). Empresa demo 1. Todo ficticio.
+-- ---------------------------------------------------------------------------
+insert into public.medidas (empresa_id, campana_id, titulo, descripcion, responsable, fecha_prevista, estado) values
+  ('00000000-0000-4000-b000-000000000001', '00000000-0000-4000-8e00-000000000001', 'Redistribuir los picos de trabajo en atención al cliente (ejemplo)', 'Medida de demostración.', 'Dirección de operaciones (ejemplo)', current_date + 28, 'en_curso'),
+  ('00000000-0000-4000-b000-000000000001', '00000000-0000-4000-8e00-000000000001', 'Formación en desconexión digital para mandos (ejemplo)', 'Medida de demostración.', 'Recursos humanos (ejemplo)', current_date + 60, 'pendiente'),
+  ('00000000-0000-4000-b000-000000000001', null, 'Revisar los avisos fuera de horario (ejemplo)', 'Medida de demostración.', 'Comité de seguridad y salud (ejemplo)', current_date - 10, 'hecha');
+
+insert into public.politicas (id, empresa_id, plantilla_id, version, estado, secciones, aprobada_nombre, aprobada_el) values
+  ('00000000-0000-4000-9b00-000000000001', '00000000-0000-4000-b000-000000000001', '00000000-0000-4000-9a00-000000000001', 1, 'borrador',
+   '[{"titulo": "Sección de demostración 1", "cuerpo": "Texto de demostración de la sección 1 (ficticio). No es texto legal."}, {"titulo": "Sección de demostración 2", "cuerpo": "Texto de ejemplo adaptado por la empresa (ficticio)."}]'::jsonb,
+   null, null);
+update public.politicas set estado = 'aprobada', aprobada_nombre = 'Dirección general (ejemplo)', aprobada_el = now() - interval '6 days'
+where id = '00000000-0000-4000-9b00-000000000001';
+
+insert into public.acuses (politica_id, nombre, registrado_el) values
+  ('00000000-0000-4000-9b00-000000000001', 'Persona de ejemplo 1', now() - interval '5 days'),
+  ('00000000-0000-4000-9b00-000000000001', 'Persona de ejemplo 2', now() - interval '4 days'),
+  ('00000000-0000-4000-9b00-000000000001', 'Persona de ejemplo 3', now() - interval '2 days');
+
+insert into public.audiencias (empresa_id, politica_id, fecha, asistentes, notas) values
+  ('00000000-0000-4000-b000-000000000001', '00000000-0000-4000-9b00-000000000001', current_date - 9, 'Representación de la plantilla (ejemplo) y Dirección (ejemplo)', 'Audiencia de demostración.');
+
+insert into public.formaciones (empresa_id, titulo, fecha, descripcion, participantes) values
+  ('00000000-0000-4000-b000-000000000001', 'Sesión sobre desconexión digital (ejemplo)', current_date - 3, 'Formación de demostración.', 18);

@@ -190,7 +190,7 @@ export default function Portada() {
           <Link href="/" aria-label={`${NOMBRE}, inicio`} className="rounded-md py-2">
             <Logotipo alto={22} decorativo />
           </Link>
-          <nav aria-label="Principal" className="flex items-center gap-8">
+          <nav aria-label="Principal" className="flex items-center gap-3 md:gap-8">
             <ul className="hidden items-center gap-8 md:flex">
               {NAVEGACION.map((n) => (
                 <li key={n.href}>
@@ -200,9 +200,15 @@ export default function Portada() {
                 </li>
               ))}
             </ul>
-            <Link href="/acceso" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
-              Acceder
-            </Link>
+            <div className="flex items-center gap-2">
+              {/* Enlace normal, sin precarga: /demo abre una sesión al visitarlo. */}
+              <a href="/demo" className={`${BOTON_SECUNDARIO} min-h-10 px-5 text-sm`}>
+                Demo
+              </a>
+              <Link href="/acceso" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
+                Acceder
+              </Link>
+            </div>
           </nav>
         </Contenedor>
       </header>

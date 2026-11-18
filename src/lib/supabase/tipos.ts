@@ -847,6 +847,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"visores_demo": {
+                  Row: {
+                    "creado_el": string,"empresa_id": string,"usuario_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "creado_el"?: string,"empresa_id": string,"usuario_id": string
+                  }
+                  Update: {
+                    "creado_el"?: string,"empresa_id"?: string,"usuario_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "visores_demo_empresa_id_fkey"
+      columns: ["empresa_id"]
+isOneToOne: false
+      referencedRelation: "empresas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "visores_demo_usuario_id_fkey"
+      columns: ["usuario_id"]
+isOneToOne: true
+      referencedRelation: "perfiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 }
           }
           Views: {
