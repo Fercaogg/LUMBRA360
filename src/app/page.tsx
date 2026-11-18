@@ -10,6 +10,7 @@ import { CaosOrden } from "@/components/portada/caos-orden";
 import { PerfilesBento } from "@/components/portada/perfiles-bento";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
+import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo, Simbolo } from "@/components/marca/logotipo";
 import Image from "next/image";
 
@@ -187,9 +188,9 @@ export default function Portada() {
       {/* 1. Cabecera */}
       <header data-cabecera className="cabecera fixed inset-x-0 top-0 z-40">
         <Contenedor className="flex h-16 items-center justify-between gap-6">
-          <Link href="/" aria-label={`${NOMBRE}, inicio`} className="rounded-md py-2">
+          <EnlaceInicio className="rounded-md py-2">
             <Logotipo alto={22} decorativo />
-          </Link>
+          </EnlaceInicio>
           <nav aria-label="Principal" className="flex items-center gap-3 md:gap-8">
             <ul className="hidden items-center gap-8 md:flex">
               {NAVEGACION.map((n) => (
@@ -499,7 +500,9 @@ export default function Portada() {
       <footer className="border-t border-linea bg-superficie">
         <Contenedor className="grid grid-cols-2 gap-x-8 gap-y-12 py-20 lg:grid-cols-12">
           <div className="col-span-2 flex flex-col gap-4 lg:col-span-8">
-            <Logotipo alto={22} />
+            <EnlaceInicio className="self-start rounded-md">
+              <Logotipo alto={22} decorativo />
+            </EnlaceInicio>
             <p className="max-w-[22rem] text-sm text-tinta-suave">Herramienta independiente de apoyo al técnico de prevención. No es un servicio de la Inspección de Trabajo ni del INSST.</p>
           </div>
           <ColumnaPie titulo="Producto" enlaces={NAVEGACION.map((n) => ({ href: `/${n.href}`, texto: n.texto }))} />

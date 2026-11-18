@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { NOMBRE } from "@/config/marca";
+import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo } from "@/components/marca/logotipo";
 import { Boton } from "@/components/ui/boton";
 import { Cargando } from "@/components/ui/piezas";
@@ -14,6 +14,9 @@ async function Sesion() {
   if (!acceso) return null;
   return (
     <div className="flex items-center gap-3">
+      <Link href="/panel" className="rounded-md px-2 py-2 text-sm font-medium text-white underline-offset-4 hover:underline">
+        Panel
+      </Link>
       {acceso.esAdmin ? (
         <Link href="/admin" className="rounded-md px-2 py-2 text-sm font-medium text-white underline-offset-4 hover:underline">
           Administración
@@ -55,9 +58,9 @@ export default function DisposicionPrivada({ children }: { children: React.React
     <>
       <header className="bg-marca text-sobre-marca">
         <div className="mx-auto flex min-h-16 w-full max-w-5xl items-center justify-between gap-4 px-4">
-          <Link href="/panel" aria-label={`${NOMBRE}, panel`} className="rounded-md py-2">
+          <EnlaceInicio className="rounded-md py-2">
             <Logotipo variante="negativo" alto={28} decorativo />
-          </Link>
+          </EnlaceInicio>
           <Suspense fallback={null}>
             <Sesion />
           </Suspense>

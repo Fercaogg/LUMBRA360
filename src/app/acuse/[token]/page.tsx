@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo } from "@/components/marca/logotipo";
 import { Campo, Casilla, Enviar, Formulario } from "@/components/ui/formulario";
 import { Aviso, Cargando, Tarjeta } from "@/components/ui/piezas";
@@ -77,7 +78,9 @@ async function Contenido({ params }: { params: Promise<{ token: string }> }) {
 export default function PaginaAcuse({ params }: { params: Promise<{ token: string }> }) {
   return (
     <main id="contenido" className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
-      <Logotipo alto={26} />
+      <EnlaceInicio className="self-start rounded-md">
+        <Logotipo alto={26} decorativo />
+      </EnlaceInicio>
       <Suspense fallback={<Cargando texto="Cargando la política…" />}>
         <Contenido params={params} />
       </Suspense>

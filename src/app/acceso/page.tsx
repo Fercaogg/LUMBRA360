@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import { LEMA, NOMBRE } from "@/config/marca";
+import { LEMA } from "@/config/marca";
+import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo, Simbolo } from "@/components/marca/logotipo";
 import { Campo, Enviar, Formulario } from "@/components/ui/formulario";
 import { Aviso } from "@/components/ui/piezas";
@@ -22,7 +22,9 @@ export default function PaginaAcceso({ searchParams }: { searchParams: Promise<{
     <main id="contenido" className="grid flex-1 lg:grid-cols-[1.05fr_1fr]">
       {/* Lado de marca: solo en pantallas anchas */}
       <section aria-hidden className="relative hidden flex-col justify-between overflow-hidden bg-marca p-12 text-sobre-marca lg:flex">
-        <Logotipo variante="negativo" alto={28} decorativo className="self-start" />
+        <EnlaceInicio className="self-start rounded-md" tabIndex={-1}>
+          <Logotipo variante="negativo" alto={28} decorativo />
+        </EnlaceInicio>
         <div className="relative z-10 flex flex-col gap-4">
           <p className="max-w-[12ch] text-balance font-serif text-5xl leading-[1.05] tracking-tight text-white">{LEMA}</p>
           <p className="max-w-[40ch] text-pretty text-sobre-marca/75">
@@ -35,9 +37,9 @@ export default function PaginaAcceso({ searchParams }: { searchParams: Promise<{
 
       <section className="flex items-center justify-center px-4 py-12">
         <div className="aparecer flex w-full max-w-sm flex-col gap-6">
-          <Link href="/" aria-label={`${NOMBRE}, inicio`} className="self-start rounded-md">
+          <EnlaceInicio className="self-start rounded-md">
             <Simbolo tamano={44} color="var(--lumbre)" />
-          </Link>
+          </EnlaceInicio>
           <div className="flex flex-col gap-2">
             <h1 className="font-serif text-4xl leading-tight tracking-tight">Acceda a su panel</h1>
             <p className="text-pretty text-tinta-suave">Escriba su correo y le enviaremos un enlace de acceso. No necesita contraseña.</p>

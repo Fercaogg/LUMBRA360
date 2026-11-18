@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { ORIGEN_INSST } from "@/config/atribucion";
+import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo } from "@/components/marca/logotipo";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { Enviar, Formulario } from "@/components/ui/formulario";
@@ -138,7 +139,9 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
 export default function PaginaCuestionario({ params }: { params: Promise<{ acceso: string }> }) {
   return (
     <main id="contenido" className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
-      <Logotipo alto={26} />
+      <EnlaceInicio className="self-start rounded-md">
+        <Logotipo alto={26} decorativo />
+      </EnlaceInicio>
       <Suspense fallback={<Cargando texto="Cargando el cuestionario…" />}>
         <Contenido params={params} />
       </Suspense>
