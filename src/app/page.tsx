@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowUpRight, BellOff, Check, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
+import { ArrowUpRight, BellOff, Check, EyeOff, FileCheck2, ListChecks, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
 import { VideoLumbra } from "@/components/portada/video-lumbra";
 import { CaosOrden } from "@/components/portada/caos-orden";
+import { PerfilesBento } from "@/components/portada/perfiles-bento";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { Logotipo, Simbolo } from "@/components/marca/logotipo";
@@ -101,13 +102,6 @@ const EQUIPO: { nombre: string; foto: string; perfil?: string }[] = [
   { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva-v2.webp", perfil: "https://produccioncientifica.usal.es/investigadores/148334/detalle" },
 ];
 
-const PERFILES = [
-  { icono: Building2, titulo: "Gerencia de pymes", texto: "Una visión clara de lo hecho y lo pendiente." },
-  { icono: Users, titulo: "Recursos humanos", texto: "Campañas, política de desconexión y acuses en un sitio." },
-  { icono: HardHat, titulo: "Técnicos de PRL", texto: "Respuestas para FPSICO, informe firmado y plan de acción." },
-  { icono: ClipboardCheck, titulo: "Asesorías y gestorías", texto: "Varias empresas desde un panel, con su marca." },
-];
-
 // ---------- Piezas de maquetación ----------
 
 const BOTON = "inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base font-medium transition-colors duration-200";
@@ -127,12 +121,12 @@ function Seccion({ id, alterna = false, children }: { id?: string; alterna?: boo
   );
 }
 
-function Encabezado({ etiqueta, titulo, entradilla }: { etiqueta: string; titulo: string; entradilla?: string }) {
+function Encabezado({ etiqueta, titulo, entradilla, oscuro = false }: { etiqueta: string; titulo: string; entradilla?: string; oscuro?: boolean }) {
   return (
     <div data-titular className="mx-auto mb-14 flex max-w-[44rem] flex-col items-center gap-5 text-center lg:mb-20">
-      <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{etiqueta}</p>
+      <p className={`font-mono text-xs uppercase tracking-[0.14em] ${oscuro ? "text-[var(--lumbre-300)]" : "text-tinta-suave"}`}>{etiqueta}</p>
       <h2 className="text-balance text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] lg:text-[2.5rem]">{titulo}</h2>
-      {entradilla ? <p className="text-pretty text-lg text-tinta-suave">{entradilla}</p> : null}
+      {entradilla ? <p className={`text-pretty text-lg ${oscuro ? "text-[var(--tinta-200)]" : "text-tinta-suave"}`}>{entradilla}</p> : null}
     </div>
   );
 }
@@ -334,19 +328,14 @@ export default function Portada() {
           </div>
         </Seccion>
 
-        {/* 7. Para quién es */}
-        <Seccion id="para-quien" alterna>
-          <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención" />
-          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
-            {PERFILES.map((p) => (
-              <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4 lg:p-8`}>
-                <Icono icono={p.icono} />
-                <h3 className="text-lg font-semibold">{p.titulo}</h3>
-                <p className="text-pretty text-tinta-suave">{p.texto}</p>
-              </li>
-            ))}
-          </ul>
-        </Seccion>
+        {/* 7. Para quién es: bento oscuro */}
+        <section id="para-quien" className="relative scroll-mt-16 overflow-hidden bg-[var(--tinta-950)] py-24 text-white lg:py-40">
+          <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-[36rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--lumbre)_22%,transparent),transparent)] blur-2xl" />
+          <Contenedor className="relative">
+            <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención" entradilla="Cada perfil ve lo que necesita. Nadie ve lo que no le corresponde." oscuro />
+            <PerfilesBento />
+          </Contenedor>
+        </section>
 
         {/* 8. Respaldo: lo ya hecho, los avales y el equipo */}
         <Seccion id="respaldo">
