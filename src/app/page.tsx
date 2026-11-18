@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowUpRight, BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
+import { ArrowUpRight, BellOff, Check, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
 import { VideoLumbra } from "@/components/portada/video-lumbra";
+import { CaosOrden } from "@/components/portada/caos-orden";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { Logotipo, Simbolo } from "@/components/marca/logotipo";
@@ -50,13 +51,13 @@ const CAPITULOS = [
 const CONTEXTO: { etiqueta: string; titulo: string; texto?: string; puntos?: string[] }[] = [
   {
     etiqueta: "Por qué nace",
-    titulo: "Porque en la pyme esto se queda en papeles sueltos.",
+    titulo: "Porque en la pyme esto se queda en papeles sueltos",
     texto:
       "Evaluar los riesgos psicosociales y ordenar la desconexión digital suele acabar repartido entre correos, hojas y carpetas, sin seguimiento ni pruebas. Nace para ordenar ese trabajo y que no dependa de la memoria de nadie.",
   },
   {
     etiqueta: "Cómo le ayuda",
-    titulo: "Le da método sin cargarle de trabajo.",
+    titulo: "Le da método sin cargarle de trabajo",
     puntos: [
       "Sabe cómo está su plantilla sin exponer a nadie",
       "Convierte los resultados en medidas con responsable y fecha",
@@ -65,7 +66,7 @@ const CONTEXTO: { etiqueta: string; titulo: string; texto?: string; puntos?: str
   },
   {
     etiqueta: "Qué necesita",
-    titulo: "Para empezar, muy poco.",
+    titulo: "Para empezar, muy poco",
     puntos: [
       "Una persona responsable en la empresa",
       "Su técnico de prevención, propio o de su servicio de prevención",
@@ -180,7 +181,7 @@ export default function Portada() {
           <Contenedor>
             <div data-hero-texto className="mx-auto flex max-w-[52rem] flex-col items-center gap-6 text-center">
               <h1 className="aparecer text-balance text-[2rem] font-medium leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]">
-                Evaluación psicosocial y desconexión digital, en orden.
+                Evaluación psicosocial y desconexión digital, en orden
               </h1>
               <p className="aparecer max-w-[36rem] text-pretty text-lg text-tinta-suave">
                 Para pymes, servicios de prevención y asesorías que quieren cuidar a su plantilla y documentar cada paso.
@@ -209,43 +210,50 @@ export default function Portada() {
 
         {/* 3. Qué es */}
         <Seccion id="que-es" alterna>
-          <Encabezado etiqueta="Qué es" titulo={`Qué es ${NOMBRE} y por qué nace.`} />
-          <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
-            <div data-tarjetas className="flex flex-col gap-6 lg:col-span-5">
-              <p data-tarjeta className="max-w-[60ch] text-pretty text-xl leading-relaxed lg:text-[1.375rem]">
+          <Encabezado etiqueta="Qué es" titulo={`Qué es ${NOMBRE} y por qué nace`} />
+          <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
+            <div data-tarjetas className="flex flex-col gap-8 lg:col-span-6">
+              <p data-tarjeta className="max-w-[34rem] text-pretty text-xl leading-relaxed lg:text-[1.375rem]">
                 Una plataforma web para evaluar los riesgos psicosociales de forma continua, ordenar la desconexión digital y guardar cada paso con fecha.
               </p>
-              <p data-tarjeta className="max-w-[60ch] text-pretty text-lg leading-relaxed text-tinta-suave">
+              <p data-tarjeta className="max-w-[34rem] text-pretty text-lg leading-relaxed text-tinta-suave">
                 Acompaña al técnico de prevención: la plantilla responde de forma anónima, la empresa actúa y todo queda documentado.
               </p>
+              <ul data-tarjeta className="flex max-w-[34rem] flex-col border-t border-linea-fuerte">
+                {PILARES.map((p) => (
+                  <li key={p.titulo} className="flex items-start gap-4 border-b border-linea-fuerte py-4">
+                    <Icono icono={p.icono} />
+                    <span className="flex flex-col gap-0.5">
+                      <span className="font-semibold">{p.titulo}</span>
+                      <span className="text-pretty text-sm text-tinta-suave">{p.texto}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
               <p data-tarjeta className="flex items-center gap-3 text-sm font-medium">
                 <span aria-hidden className="size-2 rounded-full bg-lumbre" />
-                Sin vigilancia: no mide actividad, conexiones ni correos.
+                Sin vigilancia: no mide actividad, conexiones ni correos
               </p>
             </div>
-            <ul data-tarjetas className="grid gap-6 [perspective:1400px] lg:col-span-7">
-              {PILARES.map((p) => (
-                <li key={p.titulo} data-tarjeta className={`${TARJETA} flex items-start gap-6`}>
-                  <Icono icono={p.icono} />
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-lg font-semibold">{p.titulo}</h3>
-                    <p className="text-pretty text-tinta-suave">{p.texto}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="lg:col-span-6">
+              <CaosOrden />
+            </div>
           </div>
-          <ol data-tarjetas className="mt-16 grid gap-6 [perspective:1400px] md:grid-cols-3 lg:mt-20 lg:gap-8">
+
+          <ol data-tarjetas className="mt-20 grid border-t border-linea-fuerte [perspective:1400px] md:grid-cols-3 lg:mt-28">
             {CONTEXTO.map((c, i) => (
-              <li key={c.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
-                <span className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{String(i + 1).padStart(2, "0")} · {c.etiqueta}</span>
+              <li key={c.titulo} data-tarjeta className="flex flex-col gap-4 border-b border-linea-fuerte py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0 md:last:pr-0">
+                <span aria-hidden className="text-[3.5rem] font-medium leading-none tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.5px_var(--lumbre-500)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{c.etiqueta}</span>
                 <h3 className="text-xl font-semibold leading-snug">{c.titulo}</h3>
                 {c.texto ? <p className="text-pretty text-tinta-suave">{c.texto}</p> : null}
                 {c.puntos ? (
-                  <ul className="flex flex-col border-t border-linea">
+                  <ul className="flex flex-col gap-2.5">
                     {c.puntos.map((pt) => (
-                      <li key={pt} className="flex items-start gap-3 border-b border-linea py-2.5 text-[0.95rem]">
-                        <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-lumbre" />
+                      <li key={pt} className="flex items-start gap-3 text-[0.95rem]">
+                        <Check aria-hidden size={16} strokeWidth={2.5} className="mt-1 shrink-0 text-[var(--lumbre-600)]" />
                         {pt}
                       </li>
                     ))}
@@ -258,7 +266,7 @@ export default function Portada() {
 
         {/* 4. Para qué sirve */}
         <Seccion id="para-que-sirve">
-          <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo." />
+          <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo" />
           <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3 lg:gap-8">
             {BENEFICIOS.map((b) => (
               <li key={b.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
@@ -272,7 +280,7 @@ export default function Portada() {
 
         {/* 5. Cómo se utiliza */}
         <Seccion id="como-se-utiliza" alterna>
-          <Encabezado etiqueta="Cómo se utiliza" titulo="De la primera respuesta a la última evidencia." />
+          <Encabezado etiqueta="Cómo se utiliza" titulo="De la primera respuesta a la última evidencia" />
           <ol data-pasos className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {PASOS.map((p, i) => (
               <li key={p.titulo} data-paso className="flex flex-col gap-4">
@@ -294,7 +302,7 @@ export default function Portada() {
 
         {/* 6. La aplicación por dentro */}
         <Seccion id="aplicacion">
-          <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro." entradilla="Pantallas reales con datos de demostración." />
+          <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro" entradilla="Pantallas reales con datos de demostración." />
           <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
             <ol className="hidden flex-col gap-7 lg:col-span-4 lg:flex">
               {CAPITULOS.map((c, i) => (
@@ -328,7 +336,7 @@ export default function Portada() {
 
         {/* 7. Para quién es */}
         <Seccion id="para-quien" alterna>
-          <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención." />
+          <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención" />
           <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
             {PERFILES.map((p) => (
               <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4 lg:p-8`}>
@@ -342,12 +350,12 @@ export default function Portada() {
 
         {/* 8. Respaldo: lo ya hecho, los avales y el equipo */}
         <Seccion id="respaldo">
-          <Encabezado etiqueta="Respaldo" titulo="No partimos de cero." />
+          <Encabezado etiqueta="Respaldo" titulo="No partimos de cero" />
           <div data-evolucion className="relative overflow-hidden rounded-[28px] bg-[var(--tinta-900)] p-8 text-[var(--texto-sobre-marca)] sm:p-10 lg:p-14">
             <div className="relative grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
               <div data-evolucion-texto className="flex flex-col gap-5 lg:col-span-5">
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--lumbre-300)]">Ya lo hemos hecho</p>
-                <h3 className="text-balance text-[1.875rem] font-medium leading-[1.08] tracking-[-0.03em] lg:text-[2.5rem]">Antes de {NOMBRE}, ya pusimos a prueba WORKWELL360.</h3>
+                <h3 className="text-balance text-[1.875rem] font-medium leading-[1.08] tracking-[-0.03em] lg:text-[2.5rem]">Antes de {NOMBRE}, ya pusimos a prueba WORKWELL360</h3>
                 <p className="max-w-[46ch] text-pretty text-lg text-[var(--tinta-200)]">
                   Monitorizamos el prototipo en YMCA Salamanca con resultados satisfactorios. {NOMBRE} es su evolución.
                 </p>
@@ -397,7 +405,7 @@ export default function Portada() {
           <div id="equipo" className="mt-16 flex scroll-mt-24 flex-col items-center gap-8 lg:mt-20">
             <div className="flex flex-col items-center gap-3 text-center">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Quiénes somos</p>
-              <h3 className="text-2xl font-medium tracking-[-0.025em] lg:text-[1.75rem]">Las personas detrás del proyecto.</h3>
+              <h3 className="text-2xl font-medium tracking-[-0.025em] lg:text-[1.75rem]">Las personas detrás del proyecto</h3>
             </div>
             <ul data-tarjetas className="mx-auto flex w-full max-w-[72rem] flex-wrap justify-center gap-4 [perspective:1400px] lg:gap-6">
             {EQUIPO.map((m) => (
