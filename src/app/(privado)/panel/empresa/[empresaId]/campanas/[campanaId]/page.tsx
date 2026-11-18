@@ -12,6 +12,7 @@ import {
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { CifraAnimada } from "@/components/movimiento/movimiento";
 import { AvisoSuprimido, ResultadosPorFactor, type BloqueResultados } from "@/components/panel/resultados";
+import { Anillo, Pasos } from "@/components/panel/pasos";
 import { Boton, clasesBoton, EnlaceBoton } from "@/components/ui/boton";
 import { AreaTexto, Campo, Casilla, Enviar, Formulario, ListaDevuelta } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Etiqueta, Tarjeta } from "@/components/ui/piezas";
@@ -37,7 +38,7 @@ export default async function PaginaCampana({
   searchParams: Promise<{ g?: string | string[] }>;
 }) {
   const { empresaId, campanaId } = await params;
-  const { supabase, empresa, esTecnico } = await cargarEmpresa(empresaId);
+  const { supabase, empresa, esTecnico, soloLectura } = await cargarEmpresa(empresaId);
   const id = esquemaUuid.safeParse(campanaId);
   if (!id.success) notFound();
 
@@ -101,35 +102,50 @@ export default async function PaginaCampana({
         <Etiqueta>{campana.tipo === "pulso" ? "Seguimiento" : "Evaluación"}</Etiqueta>
         <Etiqueta tono={campana.estado === "abierta" ? "acento" : "neutro"}>{ESTADOS_CAMPANA[campana.estado]}</Etiqueta>
         {campana.instrumentos?.es_demo ? <Etiqueta tono="aviso">Cuestionario de demostración</Etiqueta> : null}
-        {esFpsico ? <span className="text-sm text-tinta-suave">{ORIGEN_INSST}</span> : null}
         <span className="text-sm text-tinta-suave">
           {cerrada ? `Cerrada el ${fecha(campana.cerrada_el)}` : campana.abierta_el ? `Abierta el ${fecha(campana.abierta_el)}` : `Creada el ${fecha(campana.creada_el)}`}
         </span>
       </div>
+      {esFpsico ? <p className="-mt-4 text-sm text-tinta-suave">{ORIGEN_INSST}</p> : null}
+
+      <Pasos
+        etiqueta="Fases de la campaña"
+        pasos={[
+          { titulo: "Preparada", detalle: campana.abierta_el ? "Cuestionario listo" : fecha(campana.creada_el), hecho: true },
+          { titulo: "Abierta", detalle: campana.abierta_el ? fecha(campana.abierta_el) : "Pendiente", hecho: Boolean(campana.abierta_el), actual: campana.estado === "borrador" },
+          { titulo: "Cerrada", detalle: campana.cerrada_el ? fecha(campana.cerrada_el) : "Pendiente", hecho: cerrada, actual: campana.estado === "abierta" },
+          esEvaluacion
+            ? { titulo: "Informe firmado", detalle: informe?.estado === "firmado" ? fecha(informe.firmado_el) : "Pendiente", hecho: informe?.estado === "firmado", actual: cerrada && informe?.estado !== "firmado", href: cerrada ? "#t-informe" : undefined }
+            : { titulo: "Resultados", detalle: cerrada ? "Disponibles" : "Al cerrar", hecho: cerrada, href: cerrada ? "#t-resultados" : undefined },
+        ]}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Tarjeta className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Participación</h2>
-          <p className="flex items-baseline gap-2">
-            <span className="whitespace-nowrap font-serif text-5xl font-medium leading-none tabular-nums">
-              {participacion?.porcentaje !== null && participacion?.porcentaje !== undefined ? (
-                <CifraAnimada valor={participacion.porcentaje} sufijo=" %" />
-              ) : (
-                <CifraAnimada valor={participacion?.respuestas ?? 0} />
-              )}
-            </span>
-            <span className="text-tinta-suave">
-              {participacion?.plantilla
-                ? `${participacion.respuestas} respuestas de ${participacion.plantilla} personas invitadas`
-                : "respuestas recibidas"}
-            </span>
-          </p>
-          <p className="text-sm text-tinta-suave">
-            Es un recuento total. No se sabe quién ha respondido ni quién falta. Mínimo por grupo: {campana.minimo_grupo} respuestas.
-          </p>
+          <div className="flex items-center gap-6">
+            {participacion?.porcentaje !== null && participacion?.porcentaje !== undefined ? (
+              <Anillo valor={participacion.porcentaje / 100} centro={`${participacion.porcentaje} %`} pie="participación" />
+            ) : (
+              <Anillo valor={0} centro={String(participacion?.respuestas ?? 0)} pie="respuestas" />
+            )}
+            <div className="flex flex-col gap-2">
+              <p className="flex items-baseline gap-2">
+                <span className="text-[2rem] font-medium leading-none tracking-[-0.03em] tabular-nums">
+                  <CifraAnimada valor={participacion?.respuestas ?? 0} />
+                </span>
+                <span className="text-tinta-suave">
+                  {participacion?.plantilla ? `respuestas de ${participacion.plantilla} personas invitadas` : "respuestas recibidas"}
+                </span>
+              </p>
+              <p className="max-w-[44ch] text-sm text-tinta-suave">
+                Es un recuento total. No se sabe quién ha respondido ni quién falta. Mínimo por grupo: {campana.minimo_grupo} respuestas.
+              </p>
+            </div>
+          </div>
         </Tarjeta>
 
-        {!cerrada ? (
+        {!cerrada && !soloLectura ? (
           <Tarjeta className="flex flex-col gap-3">
             <h2 className="text-lg font-semibold">{campana.estado === "borrador" ? "Abrir la campaña" : "Cerrar la campaña"}</h2>
             <p className="text-sm text-tinta-suave">
@@ -171,7 +187,7 @@ export default async function PaginaCampana({
               {enlaceGeneral ? (
                 <>
                   <p className="text-sm text-tinta-suave">Comparta este enlace con toda la plantilla por un canal común. Es el mismo para todas las personas.</p>
-                  <p className="break-all rounded-lg border border-linea bg-papel p-3 font-mono text-sm">{enlaceGeneral}</p>
+                  <p className="break-all rounded-xl border border-linea bg-papel p-3 font-mono text-sm">{enlaceGeneral}</p>
                 </>
               ) : (
                 <p className="text-sm text-tinta-suave">El enlace se crea al abrir la campaña.</p>
@@ -191,16 +207,19 @@ export default async function PaginaCampana({
 
       {cerrada && !esEvaluacion ? (
         <section aria-labelledby="t-resultados" className="flex flex-col gap-4">
-          <h2 id="t-resultados" className="text-xl font-semibold">Resultados por factores</h2>
+          <div className="flex flex-col gap-1">
+            <h2 id="t-resultados" className="scroll-mt-24 text-xl font-semibold">Resultados por factores</h2>
+            <p className="text-sm text-tinta-suave">Filtre por grupo para comparar. Los grupos con menos de {campana.minimo_grupo} respuestas aparecen protegidos.</p>
+          </div>
           {dimensiones.length > 0 ? (
-            <form method="get" action={ruta} className="flex flex-col gap-3 rounded-xl border border-linea bg-superficie p-4 sm:flex-row sm:flex-wrap sm:items-end">
+            <form method="get" action={ruta} className="flex flex-col gap-3 rounded-[20px] border border-linea bg-superficie p-5 sm:flex-row sm:flex-wrap sm:items-end">
               {dimensiones.map(([dimensionId, nombre]) => {
                 const opciones = grupos.filter((g) => g.dimension_id === dimensionId);
                 const elegido = opciones.find((g) => filtro.includes(g.grupo_id))?.grupo_id ?? "";
                 return (
                   <div key={dimensionId} className="flex flex-col gap-1.5">
                     <label htmlFor={`f-${dimensionId}`} className="text-sm font-medium">{nombre}</label>
-                    <select id={`f-${dimensionId}`} name="g" defaultValue={elegido} className="min-h-11 rounded-lg border border-linea bg-superficie px-3">
+                    <select id={`f-${dimensionId}`} name="g" defaultValue={elegido} className="min-h-11 min-w-48 rounded-xl border border-control bg-superficie px-3.5">
                       <option value="">Todos</option>
                       {opciones.map((g) => (
                         <option key={g.grupo_id} value={g.grupo_id} disabled={!g.visible}>
@@ -267,16 +286,18 @@ export default async function PaginaCampana({
 
       {cerrada && esEvaluacion ? (
         <section aria-labelledby="t-informe" className="flex flex-col gap-4">
-          <h2 id="t-informe" className="text-xl font-semibold">Informe</h2>
+          <h2 id="t-informe" className="scroll-mt-24 text-xl font-semibold">Informe</h2>
           {!informe ? (
             <EstadoVacio
               titulo="Todavía no hay informe"
               texto="Prepare el registro del informe. El técnico de prevención subirá el documento generado en la aplicación FPSICO, añadirá sus observaciones y lo firmará."
               accion={
-                <Formulario accion={prepararInforme}>
-                  <input type="hidden" name="campanaId" value={campana.id} />
-                  <Enviar>Preparar informe</Enviar>
-                </Formulario>
+                soloLectura ? undefined : (
+                  <Formulario accion={prepararInforme}>
+                    <input type="hidden" name="campanaId" value={campana.id} />
+                    <Enviar>Preparar informe</Enviar>
+                  </Formulario>
+                )
               }
             />
           ) : (

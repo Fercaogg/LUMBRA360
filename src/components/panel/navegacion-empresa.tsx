@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { BellOff, ClipboardList, LayoutDashboard, ListChecks, Users } from "lucide-react";
 
 // Navegación de la empresa: barra lateral en escritorio y barra horizontal en móvil.
@@ -17,11 +18,18 @@ export function NavegacionEmpresa({ empresaId, movil = false }: { empresaId: str
   const actual = usePathname();
   const base = `/panel/empresa/${empresaId}`;
   const activa = (ruta: string) => (ruta === "" ? actual === base : actual.startsWith(base + ruta));
+  const lista = useRef<HTMLUListElement>(null);
+  // En móvil, la sección activa se centra en la barra deslizable.
+  useEffect(() => {
+    if (!movil) return;
+    const el = lista.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    el?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, [movil, actual]);
 
   if (movil) {
     return (
       <nav aria-label="Secciones de la empresa" className="-mx-4 overflow-x-auto px-4 lg:hidden">
-        <ul className="flex gap-2 pb-1">
+        <ul ref={lista} className="flex gap-2 pb-1">
           {SECCIONES.map(({ ruta, texto, icono: I }) => {
             const si = activa(ruta);
             return (

@@ -63,7 +63,7 @@ export function Etiqueta({
     acento: "bg-[var(--lumbre-50)] text-[var(--lumbre-700)] ring-[var(--lumbre-200)]",
     aviso: "bg-aviso-tenue text-aviso ring-aviso/20",
   } as const;
-  return <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${tonos[tono]}`}>{children}</span>;
+  return <span className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${tonos[tono]}`}>{children}</span>;
 }
 
 export function Aviso({ children, tono = "aviso" }: { children: ReactNode; tono?: "aviso" | "error" }) {

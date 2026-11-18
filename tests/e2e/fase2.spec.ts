@@ -101,7 +101,7 @@ test("evaluación: respuestas anónimas, sin puntuación, exportación e informe
   await responder(browser, codigos[0], "usado");
 
   await page.goto(ruta);
-  await expect(page.getByText("6 respuestas de 6 personas invitadas")).toBeVisible();
+  await expect(page.getByText("respuestas de 6 personas invitadas")).toBeVisible();
   await page.getByRole("button", { name: "Cerrar campaña" }).click();
   await expect(page.getByText("Esta plataforma no puntúa la evaluación.")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Resultados por factores" })).toHaveCount(0);
