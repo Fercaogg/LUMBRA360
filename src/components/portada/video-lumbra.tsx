@@ -77,7 +77,7 @@ export function VideoLumbra() {
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        mostrar(4);
+        mostrar(3);
         gsap.set(q("[data-barra-nivel]"), { scaleX: 1 });
       });
       mm.add("(prefers-reduced-motion: no-preference)", () => {

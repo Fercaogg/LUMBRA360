@@ -38,3 +38,4 @@ la ficha de cada una (autor, enlace y licencia). Por cada foto, anotar aquí:
 ## Retratos del equipo
 Fotos facilitadas por el cliente, recortadas en cuadrado y pasadas a blanco y negro cálido para unificarlas.
 Archivos en `public/equipo/`. Usar solo con el consentimiento de cada persona.
+| public/marca/terceros/ris3-cyl.svg | Vectorizado con potrace del logotipo facilitado por el cliente (`brand/terceros/ris3-cyl-original.png`) | Sección «Respaldo». Requiere autorización. |

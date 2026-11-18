@@ -85,7 +85,7 @@ const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: numbe
   { tipo: "Aval", nombre: "Universidad de Salamanca", logo: { src: "/marca/terceros/usal.svg", ancho: 2552, alto: 693 } },
   { tipo: "Aval", nombre: "Fundación General de la Universidad de Salamanca", logo: { src: "/marca/terceros/fundacion-general-usal.webp", ancho: 198, alto: 283 } },
   { tipo: "Programa", nombre: "Prototipos 2026/2027", logo: { src: "/marca/terceros/prototipos-tcue.webp", ancho: 427, alto: 239 } },
-  { tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León" },
+  { tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León", logo: { src: "/marca/terceros/ris3-cyl.svg", ancho: 3747, alto: 748 } },
 ];
 
 const HITOS: { etiqueta: string; titulo: string; texto: string; marca?: string; logo?: "ymca" | "onda"; destacado?: boolean }[] = [
@@ -103,7 +103,7 @@ const EQUIPO = [
 const PERFILES = [
   { icono: Building2, titulo: "Gerencia de pymes", texto: "Una visión clara de lo hecho y lo pendiente." },
   { icono: Users, titulo: "Recursos humanos", texto: "Campañas, política de desconexión y acuses en un sitio." },
-  { icono: HardHat, titulo: "Técnicos de prevención", texto: "Respuestas para FPSICO, informe firmado y plan de acción." },
+  { icono: HardHat, titulo: "Técnicos de PRL", texto: "Respuestas para FPSICO, informe firmado y plan de acción." },
   { icono: ClipboardCheck, titulo: "Asesorías y gestorías", texto: "Varias empresas desde un panel, con su marca." },
 ];
 
@@ -201,7 +201,7 @@ export default function Portada() {
               <Movil
                 src="/portada/app-responder-movil.webp"
                 alt="Pantalla para responder el cuestionario en el móvil con un código."
-                className="absolute -right-[3%] bottom-0 w-[20%] max-w-[180px]"
+                className="absolute -right-[6%] bottom-0 hidden w-[16%] max-w-[170px] sm:block"
               />
             </div>
           </Contenedor>
@@ -329,9 +329,9 @@ export default function Portada() {
         {/* 7. Para quién es */}
         <Seccion id="para-quien" alterna>
           <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención." />
-          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <ul data-perfiles className="grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
             {PERFILES.map((p) => (
-              <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4`}>
+              <li key={p.titulo} data-perfil className={`${TARJETA} flex flex-col gap-4 lg:p-8`}>
                 <Icono icono={p.icono} />
                 <h3 className="text-lg font-semibold">{p.titulo}</h3>
                 <p className="text-pretty text-tinta-suave">{p.texto}</p>
@@ -343,9 +343,9 @@ export default function Portada() {
         {/* 8. Quiénes somos */}
         <Seccion id="equipo">
           <Encabezado etiqueta="Quiénes somos" titulo="Las personas detrás del proyecto." />
-          <ul data-tarjetas className="mx-auto grid max-w-[60rem] gap-4 [perspective:1400px] sm:grid-cols-3 lg:gap-6">
+          <ul data-tarjetas className="mx-auto flex max-w-[72rem] flex-wrap justify-center gap-4 [perspective:1400px] lg:gap-6">
             {EQUIPO.map((m) => (
-              <li key={m.nombre} data-tarjeta className="flex items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5">
+              <li key={m.nombre} data-tarjeta className="flex w-full items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5 sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)]">
                 <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
                 <div className="flex min-w-0 flex-col">
                   <h3 className="font-semibold leading-snug">{m.nombre}</h3>
@@ -428,8 +428,8 @@ export default function Portada() {
 
       {/* 11. Pie */}
       <footer className="border-t border-linea bg-superficie">
-        <Contenedor className="grid gap-12 py-20 sm:grid-cols-2 lg:grid-cols-12">
-          <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-6">
+        <Contenedor className="grid grid-cols-2 gap-x-8 gap-y-12 py-20 lg:grid-cols-12">
+          <div className="col-span-2 flex flex-col gap-4 lg:col-span-6">
             <Logotipo alto={22} />
             <p className="max-w-[22rem] text-sm text-tinta-suave">Herramienta independiente de apoyo al técnico de prevención. No es un servicio de la Inspección de Trabajo ni del INSST.</p>
           </div>
@@ -445,7 +445,7 @@ export default function Portada() {
           <ColumnaPie
             titulo="Contacto"
             enlaces={[
-              { href: "/contacto", texto: "Solicitar una demostración" },
+              { href: "/contacto", texto: "Pedir una demostración" },
               { href: "/acceso", texto: "Acceder al panel" },
             ]}
           />
