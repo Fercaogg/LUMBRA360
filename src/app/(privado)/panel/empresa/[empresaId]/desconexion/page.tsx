@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cambiarAcuse, iniciarPolitica, registrarAudiencia, registrarFormacion } from "@/app/(privado)/acciones-desconexion";
-import { Pestanas } from "@/components/panel/listas";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { AreaTexto, Campo, Enviar, Formulario, Selector } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Etiqueta, Tarjeta } from "@/components/ui/piezas";
-import { cargarEmpresa, fecha, pestanasEmpresa } from "@/lib/empresa";
+import { cargarEmpresa, fecha } from "@/lib/empresa";
 import { urlSitio } from "@/lib/entorno";
 
 export const metadata: Metadata = { title: "Desconexión digital" };
@@ -49,7 +48,6 @@ export default async function PaginaDesconexion({ params }: { params: Promise<{ 
         titulo="Desconexión digital"
         descripcion="Política interna, audiencia a la representación de las personas trabajadoras, acuse de lectura y formación. Cada registro queda con fecha y autor."
       />
-      <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`${base}/desconexion`} />
       {!editaPlan ? (
         <p className="rounded-xl border border-linea bg-superficie p-4 text-sm text-tinta-suave">
           Esta sección la editan la empresa y su técnico de prevención. Usted puede consultarla.

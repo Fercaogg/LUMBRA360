@@ -4,10 +4,9 @@ import {
   crearDimension,
   crearGrupo,
 } from "@/app/(privado)/acciones-evaluacion";
-import { Pestanas } from "@/components/panel/listas";
 import { Campo, Enviar, Formulario } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Tarjeta } from "@/components/ui/piezas";
-import { cargarEmpresa, pestanasEmpresa } from "@/lib/empresa";
+import { cargarEmpresa } from "@/lib/empresa";
 
 export const metadata: Metadata = { title: "Grupos" };
 
@@ -18,7 +17,6 @@ export default async function PaginaEstructura({
 }) {
   const { empresaId } = await params;
   const { supabase, empresa, soloLectura } = await cargarEmpresa(empresaId);
-  const base = `/panel/empresa/${empresa.id}`;
   const { data } = await supabase
     .from("dimensiones")
     .select("id, nombre, grupos(id, nombre, orden)")
@@ -31,10 +29,6 @@ export default async function PaginaEstructura({
       <Cabecera
         titulo="Grupos"
         descripcion="Defina cómo quiere ver los resultados: por departamento, por turno o por centro. La persona elige su grupo al responder, si quiere."
-      />
-      <Pestanas
-        enlaces={pestanasEmpresa(empresa.id)}
-        actual={`${base}/estructura`}
       />
       <p className="max-w-prose text-pretty text-sm text-tinta-suave">
         Un grupo con menos de 5 respuestas nunca muestra resultados. Evite

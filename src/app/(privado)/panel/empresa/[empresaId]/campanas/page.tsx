@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Pestanas } from "@/components/panel/listas";
 import { EnlaceBoton } from "@/components/ui/boton";
 import { Cabecera, EstadoVacio, Etiqueta } from "@/components/ui/piezas";
-import { cargarEmpresa, ESTADOS_CAMPANA, fecha, pestanasEmpresa } from "@/lib/empresa";
+import { cargarEmpresa, ESTADOS_CAMPANA, fecha } from "@/lib/empresa";
 
 export const metadata: Metadata = { title: "Campañas" };
 
 export default async function PaginaCampanas({ params }: { params: Promise<{ empresaId: string }> }) {
   const { empresaId } = await params;
-  const { supabase, empresa } = await cargarEmpresa(empresaId);
+  const { supabase, empresa, soloLectura } = await cargarEmpresa(empresaId);
   const base = `/panel/empresa/${empresa.id}`;
   const { data } = await supabase
     .from("campanas")
@@ -23,14 +22,13 @@ export default async function PaginaCampanas({ params }: { params: Promise<{ emp
       <Cabecera
         titulo="Campañas y seguimientos"
         descripcion={empresa.nombre}
-        acciones={<EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
+        acciones={soloLectura ? undefined : <EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
       />
-      <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`${base}/campanas`} />
       {lista.length === 0 ? (
         <EstadoVacio
           titulo="Todavía no hay campañas"
           texto="Una campaña invita a la plantilla a responder un cuestionario anónimo. Los seguimientos son cuestionarios breves entre evaluaciones."
-          accion={<EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
+          accion={soloLectura ? undefined : <EnlaceBoton href={`${base}/campanas/nueva`}>Preparar una campaña</EnlaceBoton>}
         />
       ) : (
         <ul className="flex flex-col divide-y divide-linea overflow-hidden rounded-xl border border-linea bg-superficie">

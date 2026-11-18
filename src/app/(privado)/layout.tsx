@@ -1,38 +1,49 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { LogOut, Sparkles } from "lucide-react";
 import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo } from "@/components/marca/logotipo";
-import { Boton } from "@/components/ui/boton";
 import { Cargando } from "@/components/ui/piezas";
 import { obtenerAcceso } from "@/lib/acceso";
 import { salir } from "@/app/acceso/acciones";
 
 export const metadata = { robots: { index: false, follow: false } };
 
+const ENLACE = "inline-flex min-h-10 items-center rounded-full px-3.5 text-sm font-medium text-tinta-suave transition-colors hover:bg-papel hover:text-tinta";
+
 async function Sesion() {
   const acceso = await obtenerAcceso();
   if (!acceso) return null;
+  const inicial = acceso.esVisor ? "D" : acceso.usuario.correo.charAt(0).toUpperCase();
   return (
-    <div className="flex items-center gap-3">
-      <Link href="/panel" className="rounded-md px-2 py-2 text-sm font-medium text-white underline-offset-4 hover:underline">
+    <div className="flex items-center gap-1 sm:gap-2">
+      <Link href="/panel" className={ENLACE}>
         Panel
       </Link>
       {acceso.esAdmin ? (
-        <Link href="/admin" className="rounded-md px-2 py-2 text-sm font-medium text-white underline-offset-4 hover:underline">
+        <Link href="/admin" className={`${ENLACE} hidden sm:inline-flex`}>
           Administración
         </Link>
       ) : null}
+      <span className="mx-1 hidden h-6 w-px bg-linea sm:block" aria-hidden />
       {acceso.esVisor ? (
-        <span className="rounded-full bg-lumbre px-3 py-1 text-xs font-semibold text-[var(--tinta-950)]">Demostración</span>
+        <span className="hidden items-center gap-1.5 rounded-full bg-[var(--lumbre-50)] px-3 py-1 text-xs font-semibold text-[var(--lumbre-700)] ring-1 ring-inset ring-[var(--lumbre-200)] sm:inline-flex">
+          <Sparkles size={12} aria-hidden /> Demostración
+        </span>
       ) : (
-        <span className="hidden max-w-56 truncate text-sm text-sobre-marca/75 sm:inline" title={acceso.usuario.correo}>
-          {acceso.usuario.correo}
+        <span
+          title={acceso.usuario.correo}
+          className="hidden size-9 place-items-center rounded-full bg-tinta text-sm font-semibold text-[var(--texto-sobre-marca)] sm:grid"
+        >
+          {inicial}
+          <span className="sr-only">Sesión de {acceso.usuario.correo}</span>
         </span>
       )}
       <form action={salir}>
-        <Boton variante="sobreMarca" type="submit">
+        <button type="submit" className={`${ENLACE} gap-1.5`}>
+          <LogOut size={16} aria-hidden />
           Salir
-        </Boton>
+        </button>
       </form>
     </div>
   );
@@ -43,7 +54,7 @@ async function AvisoDemo() {
   if (!acceso?.esVisor) return null;
   return (
     <div className="border-b border-[var(--lumbre-200)] bg-[var(--lumbre-50)]">
-      <p className="mx-auto w-full max-w-5xl px-4 py-2.5 text-sm text-[var(--lumbre-800)]">
+      <p className="mx-auto w-full max-w-[1264px] px-4 py-2.5 text-sm text-[var(--lumbre-800)] sm:px-8">
         Está viendo una demostración con datos ficticios. Puede recorrer todo, pero no guardar cambios.{" "}
         <Link href="/contacto" className="font-semibold underline underline-offset-4">
           Pedir una demostración guiada
@@ -55,11 +66,11 @@ async function AvisoDemo() {
 
 export default function DisposicionPrivada({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <header className="bg-marca text-sobre-marca">
-        <div className="mx-auto flex min-h-16 w-full max-w-5xl items-center justify-between gap-4 px-4">
+    <div className="flex min-h-full flex-1 flex-col bg-papel">
+      <header className="sticky top-0 z-30 border-b border-linea bg-superficie/90 backdrop-blur-md">
+        <div className="mx-auto flex min-h-16 w-full max-w-[1264px] items-center justify-between gap-4 px-4 sm:px-8">
           <EnlaceInicio className="rounded-md py-2">
-            <Logotipo variante="negativo" alto={28} decorativo />
+            <Logotipo alto={22} decorativo />
           </EnlaceInicio>
           <Suspense fallback={null}>
             <Sesion />
@@ -69,9 +80,9 @@ export default function DisposicionPrivada({ children }: { children: React.React
       <Suspense fallback={null}>
         <AvisoDemo />
       </Suspense>
-      <main id="contenido" className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8 sm:py-10">
+      <main id="contenido" className="mx-auto flex w-full max-w-[1264px] flex-1 flex-col px-4 py-8 sm:px-8 sm:py-12">
         <Suspense fallback={<Cargando />}>{children}</Suspense>
       </main>
-    </>
+    </div>
   );
 }

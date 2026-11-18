@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { cambiarEstadoMedida, crearMedida } from "@/app/(privado)/acciones-evaluacion";
-import { Pestanas } from "@/components/panel/listas";
 import { AreaTexto, Campo, Enviar, Formulario, Selector } from "@/components/ui/formulario";
 import { Cabecera, EstadoVacio, Etiqueta, Tarjeta } from "@/components/ui/piezas";
-import { cargarEmpresa, fecha, pestanasEmpresa } from "@/lib/empresa";
+import { cargarEmpresa, fecha } from "@/lib/empresa";
 
 export const metadata: Metadata = { title: "Plan de acción" };
 
@@ -20,7 +19,6 @@ const CAMPOS: Record<string, string> = {
 export default async function PaginaPlan({ params }: { params: Promise<{ empresaId: string }> }) {
   const { empresaId } = await params;
   const { supabase, empresa, editaPlan } = await cargarEmpresa(empresaId);
-  const base = `/panel/empresa/${empresa.id}`;
   const [medidas, campanas] = await Promise.all([
     supabase
       .from("medidas")
@@ -36,7 +34,6 @@ export default async function PaginaPlan({ params }: { params: Promise<{ empresa
   return (
     <>
       <Cabecera titulo="Plan de acción" descripcion="Medidas, responsable, fecha y estado. Cada cambio queda registrado con fecha y autor." />
-      <Pestanas enlaces={pestanasEmpresa(empresa.id)} actual={`${base}/plan`} />
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <div className="flex flex-col gap-4">
           {lista.length === 0 ? (

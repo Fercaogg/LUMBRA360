@@ -16,12 +16,12 @@ export type EmpresaListada = {
 // Lista de empresas. En móvil se apila; no hay tablas con desplazamiento lateral.
 export function ListaEmpresas({ empresas }: { empresas: EmpresaListada[] }) {
   return (
-    <ul className="flex flex-col divide-y divide-linea overflow-hidden rounded-xl border border-linea bg-superficie">
+    <ul className="flex flex-col divide-y divide-linea overflow-hidden rounded-[20px] border border-linea bg-superficie">
       {empresas.map((empresa) => (
         <li key={empresa.id}>
           <Link
             href={`/panel/empresa/${empresa.id}`}
-            className="flex flex-col gap-2 p-4 transition-colors duration-150 hover:bg-papel sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-2 p-5 transition-colors duration-150 hover:bg-papel sm:flex-row sm:items-center sm:justify-between"
           >
             <span className="flex flex-col gap-0.5">
               <span className="font-medium">{empresa.nombre}</span>
@@ -80,7 +80,7 @@ export function ListaInvitaciones({ invitaciones }: { invitaciones: InvitacionLi
 export function Pestanas({ enlaces, actual }: { enlaces: { href: string; texto: string }[]; actual: string }) {
   return (
     <nav aria-label="Secciones" className="-mx-4 overflow-x-auto px-4">
-      <ul className="flex gap-1 border-b border-linea">
+      <ul className="inline-flex gap-1 rounded-full border border-linea bg-superficie p-1">
         {enlaces.map((enlace) => {
           const activo = enlace.href === actual;
           return (
@@ -88,8 +88,8 @@ export function Pestanas({ enlaces, actual }: { enlaces: { href: string; texto: 
               <Link
                 href={enlace.href}
                 aria-current={activo ? "page" : undefined}
-                className={`inline-flex min-h-11 items-center whitespace-nowrap border-b-2 px-3 text-sm font-medium transition-colors duration-150 ${
-                  activo ? "border-acento text-acento" : "border-transparent text-tinta-suave hover:text-tinta"
+                className={`inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-4 text-sm font-medium transition-colors duration-150 ${
+                  activo ? "bg-tinta text-[var(--texto-sobre-marca)]" : "text-tinta-suave hover:bg-papel hover:text-tinta"
                 }`}
               >
                 {enlace.texto}

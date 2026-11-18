@@ -33,7 +33,7 @@ export function Formulario({
           aria-live="polite"
           className={
             estado.mensaje
-              ? `rounded-md border px-3 py-2 text-sm ${estado.ok ? "border-[var(--correcto-borde)] bg-correcto-tenue text-correcto" : "aparecer border-[var(--error-borde)] bg-error-tenue text-error"}`
+              ? `rounded-xl border px-4 py-3 text-sm ${estado.ok ? "border-[var(--correcto-borde)] bg-correcto-tenue text-correcto" : "aparecer border-[var(--error-borde)] bg-error-tenue text-error"}`
               : "sr-only"
           }
         >
@@ -45,7 +45,7 @@ export function Formulario({
 }
 
 const CLASES_CONTROL =
-  "min-h-11 w-full rounded-md border border-control bg-superficie px-3 text-base text-tinta " +
+  "min-h-11 w-full rounded-xl border border-control bg-superficie px-3.5 text-base text-tinta " +
   "placeholder:text-tinta-suave/70 transition-[border-color,box-shadow] duration-150 hover:border-tinta-suave " +
   "focus:border-acento focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--foco)_25%,transparent)] focus:outline-none " +
   "aria-[invalid=true]:border-error";
@@ -228,7 +228,7 @@ export function ListaDevuelta({ nombreArchivo }: { nombreArchivo: string }) {
   if (!lista || lista.length === 0) return null;
   const texto = lista.join("\n");
   return (
-    <div className="aparecer flex flex-col gap-3 rounded-lg border border-linea bg-papel p-3">
+    <div className="aparecer flex flex-col gap-3 rounded-xl border border-linea bg-papel p-4">
       <ul aria-label="Códigos generados" className="grid max-h-64 grid-cols-2 gap-x-4 gap-y-1 overflow-y-auto font-mono text-sm sm:grid-cols-3">
         {lista.map((linea) => (
           <li key={linea}>{linea}</li>
