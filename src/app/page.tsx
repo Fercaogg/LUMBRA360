@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowUpRight, BellOff, Check, EyeOff, FileCheck2, ListChecks, Waves } from "lucide-react";
+import { ArrowUpRight, BellOff, Check, EyeOff, FileCheck2, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
 import { VideoLumbra } from "@/components/portada/video-lumbra";
 import { CaosOrden } from "@/components/portada/caos-orden";
 import { PerfilesBento } from "@/components/portada/perfiles-bento";
+import { BeneficiosVivos } from "@/components/portada/beneficios-vivos";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { EnlaceInicio } from "@/components/marca/enlace-inicio";
@@ -26,12 +27,6 @@ const NAVEGACION = [
   { href: "#como-se-utiliza", texto: "Cómo se utiliza" },
   { href: "#aplicacion", texto: "La aplicación" },
   { href: "#para-quien", texto: "Para quién" },
-];
-
-const BENEFICIOS = [
-  { icono: EyeOff, titulo: "Escuchar sin exponer a nadie", texto: "Cuestionarios anónimos. Los resultados solo se ven en grupos de 5 personas o más." },
-  { icono: ListChecks, titulo: "Pasar de los datos a las medidas", texto: "Cada medida del plan tiene responsable, fecha prevista y estado." },
-  { icono: FileCheck2, titulo: "Tenerlo todo documentado", texto: "Evaluación, política de desconexión, acuses y formación quedan fechados." },
 ];
 
 const PASOS = [
@@ -146,7 +141,6 @@ const EQUIPO: Miembro[] = [
 const BOTON = "inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base font-medium transition-colors duration-200";
 const BOTON_PRINCIPAL = `${BOTON} bg-tinta text-[var(--texto-sobre-marca)] hover:bg-[var(--tinta-800)]`;
 const BOTON_SECUNDARIO = `${BOTON} border border-linea-fuerte text-tinta hover:border-tinta`;
-const TARJETA = "h-full rounded-[20px] border border-linea bg-superficie p-8 transition-shadow duration-300 hover:shadow-[var(--sombra-2)] lg:p-10";
 
 function Contenedor({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[1264px] px-6 sm:px-8 ${className}`}>{children}</div>;
@@ -305,16 +299,8 @@ export default function Portada() {
 
         {/* 4. Para qué sirve */}
         <Seccion id="para-que-sirve">
-          <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo" />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] md:grid-cols-3 lg:gap-8">
-            {BENEFICIOS.map((b) => (
-              <li key={b.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
-                <Icono icono={b.icono} />
-                <h3 className="text-lg font-semibold">{b.titulo}</h3>
-                <p className="text-pretty text-tinta-suave">{b.texto}</p>
-              </li>
-            ))}
-          </ul>
+          <Encabezado etiqueta="Para qué sirve" titulo="Cuidar a la plantilla y poder demostrarlo" entradilla={`Tres cosas que una pyme necesita y que ${NOMBRE} resuelve en un mismo sitio.`} />
+          <BeneficiosVivos />
         </Seccion>
 
         {/* 5. Cómo se utiliza */}

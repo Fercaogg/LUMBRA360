@@ -280,3 +280,30 @@ html.lenis body {
 .bento-panel:hover::after {
   opacity: 1;
 }
+
+/* Tarjetas de «Para qué sirve»: borde que se ilumina con el puntero */
+.beneficio {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: box-shadow 400ms var(--curva-salida), border-color 400ms var(--curva-salida);
+}
+.beneficio::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), var(--lumbre), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 400ms var(--curva-salida);
+  pointer-events: none;
+}
+.beneficio:hover {
+  box-shadow: 0 30px 60px -36px rgb(17 17 17 / 0.35);
+}
+.beneficio:hover::after {
+  opacity: 1;
+}
