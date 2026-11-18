@@ -430,9 +430,9 @@ enabled = true
 
 # Correo de acceso por enlace mágico. La misma plantilla sirve para el primer acceso y los siguientes.
 [auth.email.template.magic_link]
-subject = "Tu enlace de acceso"
+subject = "Su enlace de acceso a LUMBRA360"
 content_path = "./supabase/templates/acceso.html"
 
 [auth.email.template.confirmation]
-subject = "Tu enlace de acceso"
+subject = "Su enlace de acceso a LUMBRA360"
 content_path = "./supabase/templates/acceso.html"
