@@ -340,24 +340,8 @@ export default function Portada() {
           </ul>
         </Seccion>
 
-        {/* 8. Quiénes somos */}
-        <Seccion id="equipo">
-          <Encabezado etiqueta="Quiénes somos" titulo="Las personas detrás del proyecto." />
-          <ul data-tarjetas className="mx-auto flex max-w-[72rem] flex-wrap justify-center gap-4 [perspective:1400px] lg:gap-6">
-            {EQUIPO.map((m) => (
-              <li key={m.nombre} data-tarjeta className="flex w-full items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5 sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)]">
-                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
-                <div className="flex min-w-0 flex-col">
-                  <h3 className="font-semibold leading-snug">{m.nombre}</h3>
-                  <p className="text-sm text-tinta-suave">Dirección del proyecto</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Seccion>
-
-        {/* 9. Respaldo: primero lo ya hecho, después los avales */}
-        <Seccion id="respaldo" alterna>
+        {/* 8. Respaldo: lo ya hecho, los avales y el equipo */}
+        <Seccion id="respaldo">
           <Encabezado etiqueta="Respaldo" titulo="No partimos de cero." />
           <div data-evolucion className="relative overflow-hidden rounded-[28px] bg-[var(--tinta-900)] p-8 text-[var(--texto-sobre-marca)] sm:p-10 lg:p-14">
             <div className="relative grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
@@ -409,10 +393,28 @@ export default function Portada() {
               </li>
             ))}
           </ul>
+
+          <div id="equipo" className="mt-16 flex scroll-mt-24 flex-col items-center gap-8 lg:mt-20">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Quiénes somos</p>
+              <h3 className="text-2xl font-medium tracking-[-0.025em] lg:text-[1.75rem]">Las personas detrás del proyecto.</h3>
+            </div>
+            <ul data-tarjetas className="mx-auto flex w-full max-w-[72rem] flex-wrap justify-center gap-4 [perspective:1400px] lg:gap-6">
+            {EQUIPO.map((m) => (
+              <li key={m.nombre} data-tarjeta className="flex w-full items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5 sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)]">
+                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
+                <div className="flex min-w-0 flex-col">
+                  <h3 className="font-semibold leading-snug">{m.nombre}</h3>
+                  <p className="text-sm text-tinta-suave">Dirección del proyecto</p>
+                </div>
+              </li>
+            ))}
+            </ul>
+          </div>
         </Seccion>
 
-        {/* 10. Llamada final */}
-        <Seccion>
+        {/* 9. Llamada final */}
+        <Seccion alterna>
           <div data-cierre className="relative mx-auto flex max-w-[40rem] flex-col items-center gap-6 text-center">
             <svg aria-hidden viewBox={ONDA_CAJA} className="pointer-events-none absolute left-1/2 top-1/2 -z-0 w-[min(120vw,46rem)] -translate-x-1/2 -translate-y-1/2 overflow-visible opacity-[0.14]">
               <path data-onda d={ONDA_TRAZADO} transform={ONDA_TRANSFORMACION} pathLength={100} fill="none" stroke="var(--lumbre)" strokeWidth="2" />
@@ -426,7 +428,7 @@ export default function Portada() {
         </Seccion>
       </main>
 
-      {/* 11. Pie */}
+      {/* 10. Pie */}
       <footer className="border-t border-linea bg-superficie">
         <Contenedor className="grid grid-cols-2 gap-x-8 gap-y-12 py-20 lg:grid-cols-12">
           <div className="col-span-2 flex flex-col gap-4 lg:col-span-6">
