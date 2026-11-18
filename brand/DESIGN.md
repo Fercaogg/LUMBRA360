@@ -1,6 +1,6 @@
 ---
 version: 3.0
-name: lumbra · Tinta y lumbre
+name: LUMBRA360 · Tinta y lumbre
 description: >-
   Parte del logotipo: «lumbra» en una grotesca negra compacta, con la «m» convertida en una onda.
   Lienzo blanco con mucho aire, tinta negra para el texto y la interfaz, titulares grandes en grotesca
@@ -153,9 +153,9 @@ components:
   nav-top:            { background: "{colors.canvas} 85% + blur", height: 64px, border: "1px {colors.hairline}" }
 ---
 
-# DESIGN.md · lumbra
+# DESIGN.md · LUMBRA360
 
-Sistema de diseño propio de lumbra, versión 3.0, **«Tinta y lumbre»**. Parte del logotipo entregado por el cliente (`brand/logo/fuente/lumbra-original.svg`), que no se redibuja. Los tokens anteriores son la fuente de verdad. Su implementación está en `brand/tokens.css`, `brand/tailwind.config.ts` y `brand/tailwind.theme.css`. La página `brand/brand.html` lo muestra todo en funcionamiento.
+Sistema de diseño propio de LUMBRA360, versión 3.0, **«Tinta y lumbre»**. Parte del logotipo entregado por el cliente (`brand/logo/fuente/lumbra-original.svg`), que no se redibuja. Los tokens anteriores son la fuente de verdad. Su implementación está en `brand/tokens.css`, `brand/tailwind.config.ts` y `brand/tailwind.theme.css`. La página `brand/brand.html` lo muestra todo en funcionamiento.
 
 ## Referencias y qué se toma de cada una
 

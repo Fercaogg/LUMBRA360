@@ -443,14 +443,14 @@ isOneToOne: false
                   ]
                 },"instrumentos": {
                   Row: {
-                    "creado_el": string,"descripcion": string | null,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"export_cabecera": string | null,"export_confirmado": boolean,"export_fin_linea": string,"export_separador": string,"id": string,"licencia_confirmada": boolean,"licencia_nota": string | null,"minutos_estimados": number | null,"nombre": string,"origen": Database["public"]['Enums']["origen_instrumento"],"tipo": Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el": string,"descripcion": string | null,"es_demo": boolean,"estado": Database["public"]['Enums']["estado_instrumento"],"export_cabecera": string | null,"export_confirmado": boolean,"export_fin_linea": string,"export_formato": string,"export_separador": string,"id": string,"licencia_confirmada": boolean,"licencia_nota": string | null,"minutos_estimados": number | null,"nombre": string,"origen": Database["public"]['Enums']["origen_instrumento"],"tipo": Database["public"]['Enums']["tipo_instrumento"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre": string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_formato"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre": string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
                   }
                   Update: {
-                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre"?: string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
+                    "creado_el"?: string,"descripcion"?: string | null,"es_demo"?: boolean,"estado"?: Database["public"]['Enums']["estado_instrumento"],"export_cabecera"?: string | null,"export_confirmado"?: boolean,"export_fin_linea"?: string,"export_formato"?: string,"export_separador"?: string,"id"?: string,"licencia_confirmada"?: boolean,"licencia_nota"?: string | null,"minutos_estimados"?: number | null,"nombre"?: string,"origen"?: Database["public"]['Enums']["origen_instrumento"],"tipo"?: Database["public"]['Enums']["tipo_instrumento"]
                   }
                   Relationships: [
                     

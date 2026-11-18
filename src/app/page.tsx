@@ -90,17 +90,50 @@ const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: numbe
   { tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León", logo: { src: "/marca/terceros/ris3-cyl.svg", ancho: 3747, alto: 748 } },
 ];
 
-const HITOS: { etiqueta: string; titulo: string; texto: string; marca?: string; logo?: "ymca" | "onda"; destacado?: boolean }[] = [
-  { etiqueta: "Prototipo", titulo: "WORKWELL360", texto: "La primera versión de la idea.", marca: "WW" },
+const HITOS: { etiqueta: string; titulo: string; texto: string; logo: "workwell" | "ymca" | "onda"; destacado?: boolean }[] = [
+  { etiqueta: "Prototipo", titulo: "WORKWELL360", texto: "La primera versión de la idea.", logo: "workwell" },
   { etiqueta: "Pilotaje", titulo: "YMCA Salamanca", texto: "Monitorizado con resultados satisfactorios.", logo: "ymca" },
   { etiqueta: "Evolución", titulo: "LUMBRA360", texto: "Más completo, con evidencias fechadas.", logo: "onda", destacado: true },
 ];
 
-const EQUIPO: { nombre: string; foto: string; perfil?: string }[] = [
-  { nombre: "Fernando Martín Vaquero", foto: "/equipo/fernando-martin-vaquero.webp" },
-  { nombre: "Ana María Pinto Llorente", foto: "/equipo/ana-maria-pinto-llorente.webp", perfil: "https://produccioncientifica.usal.es/investigadores/57371/detalle" },
-  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva-v2.webp", perfil: "https://produccioncientifica.usal.es/investigadores/148334/detalle" },
+type Miembro = { nombre: string; foto: string; cargo: string; detalle: string[]; enlaces: { texto: string; href: string }[] };
+const EQUIPO: Miembro[] = [
+  {
+    nombre: "Fernando Martín Vaquero",
+    foto: "/equipo/fernando-martin-vaquero.webp",
+    cargo: "Dirección del proyecto",
+    detalle: [],
+    enlaces: [{ texto: "LinkedIn", href: "https://www.linkedin.com/in/fermartvaq/" }],
+  },
+  {
+    nombre: "Ana María Pinto Llorente",
+    foto: "/equipo/ana-maria-pinto-llorente.webp",
+    cargo: "Profesora Titular de Universidad",
+    detalle: [
+      "Departamento de Didáctica, Organización y Métodos de Investigación",
+      "Instituto Universitario de Ciencias de la Educación",
+      "Grupo GRIAL, de Investigación en Interacción y eLearning",
+      "Universidad de Salamanca",
+    ],
+    enlaces: [{ texto: "Perfil de investigación", href: "https://produccioncientifica.usal.es/investigadores/57371/detalle" }],
+  },
+  {
+    nombre: "Luis Eduardo Andrade Silva",
+    foto: "/equipo/luis-eduardo-andrade-silva-v2.webp",
+    cargo: "Profesor Ayudante Doctor",
+    detalle: [
+      "Departamento de Teoría e Historia de la Educación",
+      "Grupo CaUSAL, Cultura Académica, Patrimonio y Memoria Social",
+      "Grupo Procesos, Espacios y Prácticas Educativas",
+      "Universidad de Salamanca",
+    ],
+    enlaces: [
+      { texto: "Perfil de investigación", href: "https://produccioncientifica.usal.es/investigadores/148334/detalle" },
+      { texto: "Web personal", href: "https://gipep.usal.es/luis-eduardo-andrade-silva/" },
+    ],
+  },
 ];
+
 
 // ---------- Piezas de maquetación ----------
 
@@ -364,13 +397,13 @@ export default function Portada() {
                 {HITOS.map((h) => (
                   <li key={h.titulo} data-hito className="relative flex flex-col gap-4">
                     <span className={`grid size-14 place-items-center rounded-full ${h.destacado ? "bg-lumbre text-[var(--tinta-950)]" : "bg-white text-[var(--tinta-900)]"}`}>
-                      {h.logo === "ymca" ? (
+                      {h.logo === "workwell" ? (
+                        <Image src="/marca/terceros/workwell360.svg" alt="WORKWELL360" width={34} height={20} className="h-auto w-[34px]" />
+                      ) : h.logo === "ymca" ? (
                         <Image src="/marca/terceros/ymca.svg" alt="YMCA" width={40} height={12} className="h-auto w-10" />
                       ) : h.logo === "onda" ? (
                         <Simbolo tamano={30} color="var(--tinta-950)" />
-                      ) : (
-                        <span className="font-mono text-sm font-semibold">{h.marca}</span>
-                      )}
+                      ) : null}
                     </span>
                     <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--tinta-300)]">{h.etiqueta}</span>
                     <span className="text-lg font-semibold leading-snug">{h.titulo}</span>
@@ -406,19 +439,30 @@ export default function Portada() {
             </div>
             <ul data-tarjetas className="mx-auto flex w-full max-w-[72rem] flex-wrap justify-center gap-4 [perspective:1400px] lg:gap-6">
             {EQUIPO.map((m) => (
-              <li key={m.nombre} data-tarjeta className="flex w-full items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5 sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)]">
-                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
-                <div className="flex min-w-0 flex-col">
-                  <h3 className="font-semibold leading-snug">{m.nombre}</h3>
-                  <p className="text-sm text-tinta-suave">Dirección del proyecto</p>
-                  {m.perfil ? (
-                    <a href={m.perfil} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1 self-start text-sm font-medium underline decoration-linea-fuerte underline-offset-4 transition-colors hover:decoration-tinta">
-                      Perfil de investigación
+              <li key={m.nombre} data-tarjeta className="flex w-full flex-col gap-4 rounded-[20px] border border-linea bg-superficie p-6 sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)]">
+                <div className="flex items-center gap-4">
+                  <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
+                  <div className="flex min-w-0 flex-col">
+                    <h3 className="font-semibold leading-snug">{m.nombre}</h3>
+                    <p className="text-sm text-tinta-suave">{m.cargo}</p>
+                  </div>
+                </div>
+                {m.detalle.length ? (
+                  <ul className="flex flex-col gap-1.5 border-t border-linea pt-4 text-sm text-tinta-suave">
+                    {m.detalle.map((d) => (
+                      <li key={d}>{d}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <p className="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-1">
+                  {m.enlaces.map((e) => (
+                    <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-medium underline decoration-linea-fuerte underline-offset-4 transition-colors hover:decoration-tinta">
+                      {e.texto}
                       <ArrowUpRight aria-hidden size={14} strokeWidth={2} />
                       <span className="sr-only">(se abre en una pestaña nueva)</span>
                     </a>
-                  ) : null}
-                </div>
+                  ))}
+                </p>
               </li>
             ))}
             </ul>
@@ -451,7 +495,6 @@ export default function Portada() {
           <ColumnaPie
             titulo="Legal"
             enlaces={[
-              { href: "/legal/aviso-legal", texto: "Aviso legal" },
               { href: "/legal/privacidad", texto: "Privacidad" },
               { href: "/legal/cookies", texto: "Cookies" },
             ]}

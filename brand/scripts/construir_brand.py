@@ -42,6 +42,11 @@ def main() -> None:
         + "</svg>"
     )
     contraste = [[m, n, t, f, r, ok] for m, n, t, f, r, ok in resultados()]
+    # La onda de la demostración de movimiento sale del mismo trazado que usa la web.
+    onda = (MARCA.parent / "src/components/marca/onda.ts").read_text()
+    trazado = re.search(r'ONDA_TRAZADO = "([^"]+)"', onda).group(1)
+    transformacion = re.search(r'ONDA_TRANSFORMACION = "([^"]+)"', onda).group(1)
+    fuente = fuente.replace('id="onda-demo"', f'id="onda-demo" d="{trazado}" transform="{transformacion}"').replace("<script>/*ONDA*/</script>\n", "")
     salida = (
         fuente.replace("<!--SPRITE-->", sprite)
         .replace("/*CONTRASTE*/[]", json.dumps(contraste, ensure_ascii=False))

@@ -110,6 +110,7 @@ export const esquemaExportacion = z.object({
   separador: z.string().max(3, "Máximo 3 caracteres."),
   cabecera: opcional(500),
   finLinea: z.enum(["crlf", "lf"]),
+  formato: z.enum(["personalizado", "fpsico31"]),
   confirmado: z.boolean(),
 });
 export const esquemaFactor = z.object({

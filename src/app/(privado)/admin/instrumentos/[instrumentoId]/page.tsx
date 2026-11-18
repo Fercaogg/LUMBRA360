@@ -83,7 +83,9 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
         <Aviso>[PENDIENTE: autorización escrita del INSST]. No se puede publicar ni copiar ningún ítem hasta tenerla.</Aviso>
       ) : null}
       {esFpsico && !inst.export_confirmado ? (
-        <Aviso>[PENDIENTE: comprobar en el manual técnico y de uso de FPSICO 4.1] el formato exacto del .txt. La exportación está bloqueada hasta confirmarlo.</Aviso>
+        <Aviso>
+          Formato FPSICO 3.1 disponible según el Anexo II del manual técnico y de uso de FPSICO 4.1 (págs. 77-80). [PENDIENTE: probar una importación real en FPSICO 4.1, sobre todo sin preguntas variables]. La exportación sigue bloqueada hasta marcarlo como comprobado.
+        </Aviso>
       ) : null}
       {!editable ? (
         <Aviso>Este instrumento ya no está en borrador. Sus factores, ítems, escalas y niveles no se pueden modificar.</Aviso>
@@ -155,6 +157,14 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
           </p>
           <Formulario accion={guardarExportacion}>
             <input type="hidden" name="id" value={inst.id} />
+            <Selector etiqueta="Formato" name="formato" defaultValue={inst.export_formato}>
+              <option value="fpsico31">FPSICO 3.1, importable en FPSICO 4.1 (Anexo II del manual)</option>
+              <option value="personalizado">Personalizado</option>
+            </Selector>
+            <p className="text-sm text-tinta-suave">
+              Con el formato FPSICO se ignoran separador, primera línea y fin de línea: se escriben 40 asteriscos y una línea por cuestionario con
+              <code className="font-mono">{'"","","'}</code> seguido de las 89 respuestas, en CRLF. Exige exactamente 89 ítems y cuestionarios completos.
+            </p>
             <Campo etiqueta="Separador entre columnas" name="separador" defaultValue={inst.export_separador} maxLength={3} ayuda="Vacío si las respuestas van seguidas, sin separador." />
             <AreaTexto etiqueta="Primera línea (opcional)" name="cabecera" defaultValue={inst.export_cabecera ?? ""} maxLength={500} rows={2} />
             <Selector etiqueta="Fin de línea" name="finLinea" defaultValue={inst.export_fin_linea}>

@@ -13,7 +13,7 @@ python3 brand/scripts/construir_brand.py <carpeta icons de lucide-static 0.460.0
 ```
 
 ```bash
-python3 brand/scripts/generar_logos.py
+python3 brand/scripts/logo_lumbra.py
 ```
 
-Los scripts necesitan `fonttools` y `brotli` (`pip install fonttools brotli`). Las carpetas de iconos y fuentes se obtienen con `npm pack lucide-static@0.460.0 @fontsource/newsreader`.
+Los iconos se obtienen con `npm pack lucide-static@0.460.0`. Las fuentes (Instrument Sans e IBM Plex Mono) ya están en `fonts/`. Los logotipos de terceros vectorizados se generan con `potrace` a partir de los originales de `terceros/`.

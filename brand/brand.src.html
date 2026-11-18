@@ -4,857 +4,409 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sistema de marca LUMBRA360</title>
-<meta name="description" content="Galería de luz: identidad, tokens, componentes, movimiento y tono de LUMBRA360.">
+<meta name="description" content="Tinta y lumbre: logotipo, color, tipografía, componentes, movimiento y tono de LUMBRA360. Versión 3.0.">
 <link rel="icon" href="logo/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="tokens.css">
 <style>
-  @font-face { font-family: "Newsreader"; src: url("fonts/newsreader-latin-300-normal.woff2") format("woff2"); font-weight: 300; font-display: swap; }
-  @font-face { font-family: "Newsreader"; src: url("fonts/newsreader-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "Newsreader"; src: url("fonts/newsreader-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
-  @font-face { font-family: "IBM Plex Sans"; src: url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "IBM Plex Sans"; src: url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "Instrument Sans"; src: url("fonts/instrument-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Instrument Sans"; src: url("fonts/instrument-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Instrument Sans"; src: url("fonts/instrument-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
   @font-face { font-family: "IBM Plex Mono"; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 
   *, *::before, *::after { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 var(--texto-cuerpo)/var(--interlineado-texto) var(--fuente-interfaz); letter-spacing: var(--tracking-interfaz); -webkit-font-smoothing: antialiased; }
-  h1, h2, h3, h4, h5, p, figure, dl, dd, ol, ul { margin: 0; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 var(--texto-cuerpo)/var(--interlineado-texto) var(--fuente-interfaz); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4, p, figure, dl, dd, ol, ul { margin: 0; }
   ul, ol { padding: 0; list-style: none; }
-  a { color: var(--enlace); text-underline-offset: 3px; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a { color: var(--enlace); text-underline-offset: 4px; }
   img, svg { display: block; max-width: 100%; }
   :focus-visible { outline: 2px solid var(--foco); outline-offset: 3px; border-radius: 6px; }
-  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-
-  .serif { font-family: var(--fuente-titular); font-weight: 400; letter-spacing: var(--tracking-titular); }
-  .ligera { font-weight: 300; letter-spacing: var(--tracking-heroe); }
-  .mono { font-family: var(--fuente-datos); font-size: 0.8125rem; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-  .num { font-variant-numeric: tabular-nums; }
+  .mono { font-family: var(--fuente-datos); font-size: .8125rem; font-variant-numeric: tabular-nums; }
   .suave { color: var(--texto-suave); }
-  .terciario { color: var(--texto-terciario); }
-  .ceja { font-size: var(--texto-mini); font-weight: 600; letter-spacing: var(--tracking-mayusculas); text-transform: uppercase; color: var(--texto-terciario); }
-  .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-  .ic-16 { width: 16px; height: 16px; stroke-width: 2; }
-  .ic-24 { width: 24px; height: 24px; }
+  .ceja { font-family: var(--fuente-datos); font-size: .75rem; letter-spacing: var(--tracking-mayusculas); text-transform: uppercase; color: var(--texto-suave); }
+  .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
-  .dentro { width: 100%; max-width: var(--ancho-contenido); margin-inline: auto; padding-inline: var(--espacio-5); }
-  @media (min-width: 768px) { .dentro { padding-inline: var(--espacio-10); } }
+  .contenedor { width: 100%; max-width: 1264px; margin: 0 auto; padding: 0 24px; }
+  @media (min-width: 640px) { .contenedor { padding: 0 32px; } }
 
-  .nav { position: sticky; top: 0; z-index: var(--z-cabecera); background: color-mix(in srgb, var(--fondo) 85%, transparent); backdrop-filter: saturate(160%) blur(16px); border-bottom: 1px solid var(--linea); }
-  .nav .dentro { display: flex; align-items: center; justify-content: space-between; gap: var(--espacio-4); min-height: 64px; }
-  .nav nav { display: none; gap: var(--espacio-6); font-size: var(--texto-pequeno); }
-  .nav nav a { color: var(--texto-suave); }
-  .nav nav a:hover { color: var(--texto); text-decoration: none; }
-  @media (min-width: 1080px) { .nav nav { display: flex; } }
-  .tema { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radio-total); background: var(--fondo-alterno); }
-  .tema button { border: 0; background: none; color: var(--texto-suave); width: 36px; height: 30px; border-radius: var(--radio-total); display: grid; place-items: center; cursor: pointer; }
-  .tema button[aria-pressed="true"] { background: var(--superficie); color: var(--texto); box-shadow: var(--sombra-1); }
+  /* Cabecera */
+  .cab { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--fondo) 88%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--linea); }
+  .cab .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+  .cab nav { display: none; gap: 20px; font-size: .875rem; }
+  .cab nav a { color: var(--texto-suave); text-decoration: none; }
+  .cab nav a:hover { color: var(--texto); }
+  @media (min-width: 1024px) { .cab nav { display: flex; } }
+  .tema { display: inline-flex; padding: 3px; border-radius: 999px; border: 1px solid var(--linea-fuerte); }
+  .tema button { display: grid; place-items: center; width: 34px; height: 30px; border: 0; border-radius: 999px; background: none; color: var(--texto-suave); cursor: pointer; }
+  .tema button[aria-pressed="true"] { background: var(--primario); color: var(--primario-texto); }
+  .logo-pos { display: block; } .logo-neg { display: none; }
+  :root[data-theme="dark"] .logo-pos { display: none; } :root[data-theme="dark"] .logo-neg { display: block; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo-pos { display: none; } :root:not([data-theme="light"]) .logo-neg { display: block; } }
 
-  section.sala { padding-block: var(--espacio-seccion); }
-  section.alterna { background: var(--fondo-alterno); }
-  .cabeza { display: grid; gap: var(--espacio-4); margin-bottom: var(--espacio-16); max-width: 760px; }
-  .cabeza h2 { font-size: var(--texto-display); line-height: 1.05; }
-  .cabeza p { font-size: var(--texto-entrada); color: var(--texto-suave); line-height: var(--interlineado-texto); }
-  .razon { margin-top: var(--espacio-12); display: grid; grid-template-columns: auto 1fr; gap: var(--espacio-4); max-width: 760px; font-size: var(--texto-base); color: var(--texto-suave); }
-  .razon::before { content: ""; width: 2px; border-radius: 2px; background: var(--lumbre); }
-  .razon strong { color: var(--texto); font-weight: 600; }
+  /* Secciones */
+  section { padding: 96px 0; }
+  @media (min-width: 1024px) { section { padding: 140px 0; } }
+  section:nth-of-type(even) { background: var(--fondo-alterno); }
+  .encabezado { display: flex; flex-direction: column; gap: 16px; max-width: 46rem; margin-bottom: 56px; }
+  .encabezado h2 { font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem); font-weight: 500; line-height: 1.08; letter-spacing: -0.03em; }
+  .encabezado p { font-size: 1.125rem; color: var(--texto-suave); max-width: 60ch; }
+  .rejilla { display: grid; gap: 24px; }
+  @media (min-width: 768px) { .r2 { grid-template-columns: repeat(2, 1fr); } .r3 { grid-template-columns: repeat(3, 1fr); } .r4 { grid-template-columns: repeat(4, 1fr); } }
+  .tarjeta { border: 1px solid var(--linea); border-radius: 20px; background: var(--superficie); padding: 28px; }
+  .tarjeta h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 8px; }
+  .lienzo { display: grid; place-items: center; min-height: 200px; border-radius: 16px; padding: 32px; }
+  .pie-fig { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; font-size: .875rem; color: var(--texto-suave); }
 
-  .rejilla { display: grid; gap: var(--espacio-6); }
-  @media (min-width: 760px) { .c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (min-width: 1000px) { .c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  @media (min-width: 560px) and (max-width: 999px) { .c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .lamina { background: var(--fondo-alterno); border-radius: var(--radio-lg); padding: var(--espacio-10); }
-  section.alterna .lamina { background: var(--superficie); }
-  .ficha { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio-md); padding: var(--espacio-5); }
-  .titulo-bloque { font-size: var(--texto-h4); font-weight: 600; letter-spacing: var(--tracking-interfaz); margin-bottom: var(--espacio-4); }
+  /* Portada */
+  .portada { padding: 120px 0 96px; background: var(--fondo); }
+  .portada h1 { font-size: clamp(2.5rem, 1.6rem + 4vw, 4.5rem); font-weight: 500; line-height: 1; letter-spacing: -0.04em; max-width: 14ch; }
+  .portada .bajada { margin-top: 24px; font-size: 1.25rem; color: var(--texto-suave); max-width: 52ch; }
+  .portada .datos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--linea-fuerte); border-radius: 999px; padding: 6px 14px; font-size: .875rem; }
 
-  .heroe { padding-block: clamp(6rem, 4rem + 10vw, 12rem) var(--espacio-seccion); text-align: center; position: relative; overflow: hidden; }
-  .heroe .halo-heroe { position: absolute; left: 50%; top: -30%; width: min(1100px, 140vw); aspect-ratio: 1; transform: translateX(-50%); background: radial-gradient(closest-side, color-mix(in srgb, var(--lumbre) 13%, transparent), transparent 72%); pointer-events: none; }
-  .heroe h1 { font-size: var(--texto-heroe); line-height: var(--interlineado-heroe); max-width: 13ch; margin: var(--espacio-8) auto var(--espacio-8); }
-  .heroe p { font-size: var(--texto-entrada); color: var(--texto-suave); max-width: 52ch; margin-inline: auto; }
-  .heroe .simbolo-heroe { width: 72px; height: 72px; margin-inline: auto; }
+  /* Color */
+  .muestra { border-radius: 16px; overflow: hidden; border: 1px solid var(--linea); background: var(--superficie); }
+  .muestra .bloque { height: 120px; }
+  .muestra div:last-child { padding: 14px 16px; }
+  .escala { display: grid; grid-template-columns: repeat(11, 1fr); border-radius: 12px; overflow: hidden; }
+  .escala span { height: 56px; position: relative; }
+  .escala small { position: absolute; bottom: 4px; left: 6px; font: .625rem var(--fuente-datos); }
+  table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linea); }
+  th { font: .75rem var(--fuente-datos); text-transform: uppercase; letter-spacing: .1em; color: var(--texto-suave); font-weight: 400; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  .tabla-envoltorio { overflow-x: auto; border: 1px solid var(--linea); border-radius: 16px; background: var(--superficie); }
 
-  .direccion { display: grid; gap: var(--espacio-4); align-content: start; }
-  .direccion h3 { font-size: var(--texto-h3); }
-  .direccion dl { display: grid; gap: var(--espacio-3); font-size: var(--texto-pequeno); }
-  .direccion dt { font-weight: 600; }
-  .direccion dd { color: var(--texto-suave); }
-  .muestras { display: flex; gap: 6px; }
-  .muestras span { width: 24px; height: 24px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); }
-  .elegida { outline: 2px solid var(--primario); outline-offset: -2px; }
+  /* Tipografía */
+  .especimen { display: grid; gap: 0; border-top: 1px solid var(--linea); }
+  .especimen > div { display: grid; gap: 8px; padding: 20px 0; border-bottom: 1px solid var(--linea); align-items: baseline; }
+  @media (min-width: 768px) { .especimen > div { grid-template-columns: 220px 1fr; } }
 
-  .lienzo { border-radius: var(--radio-lg); display: grid; place-items: center; min-height: 220px; padding: var(--espacio-10); background: var(--fondo-alterno); }
-  .lienzo.blanco { background: #fff; box-shadow: inset 0 0 0 1px var(--linea); }
-  .lienzo.tinta { background: #0d262b; }
-  .pie-lienzo { display: flex; justify-content: space-between; margin-top: var(--espacio-3); font-size: var(--texto-pequeno); color: var(--texto-terciario); }
-  .tamanos { display: flex; align-items: flex-end; gap: var(--espacio-8); flex-wrap: wrap; }
-  .tamanos figure { display: grid; justify-items: center; gap: var(--espacio-3); font-size: var(--texto-mini); color: var(--texto-terciario); }
-
-  .muestra-grande { border-radius: var(--radio-lg); min-height: 200px; padding: var(--espacio-6); display: flex; flex-direction: column; justify-content: space-between; }
-  .muestra-grande b { font-family: var(--fuente-titular); font-weight: 400; font-size: var(--texto-h3); letter-spacing: var(--tracking-titular); }
-  .muestra-grande span { font-size: var(--texto-pequeno); }
-  .escala { display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); border-radius: var(--radio-md); overflow: hidden; }
-  .escala div { min-height: 84px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 11px; line-height: 1.3; }
-  .proporcion { display: flex; height: 12px; border-radius: var(--radio-total); overflow: hidden; gap: 2px; }
-
-  .especimen-grande { font-family: var(--fuente-titular); font-weight: 300; font-size: clamp(6rem, 3rem + 12vw, 13rem); line-height: 0.9; letter-spacing: -0.04em; }
-  .escala-tipo > div { display: grid; gap: var(--espacio-2); padding-block: var(--espacio-6); border-bottom: 1px solid var(--linea); }
-  @media (min-width: 760px) { .escala-tipo > div { grid-template-columns: 220px 1fr; align-items: baseline; gap: var(--espacio-8); } }
-  .escala-tipo small { font: 400 var(--texto-mini)/1.4 var(--fuente-datos); color: var(--texto-terciario); }
-
-  .boton { display: inline-flex; align-items: center; justify-content: center; gap: var(--espacio-2); min-height: var(--control-alto); padding: 0 22px; border-radius: var(--radio-total); border: 1px solid transparent; font: 400 var(--texto-base)/1 var(--fuente-interfaz); letter-spacing: var(--tracking-interfaz); cursor: pointer; text-decoration: none !important; white-space: nowrap; transition: background-color var(--duracion-rapida) var(--curva-estandar), border-color var(--duracion-rapida), transform var(--duracion-rapida) var(--curva-salida); }
-  .boton:active:not(:disabled) { transform: scale(0.97); }
-  .boton:disabled { opacity: 0.45; cursor: not-allowed; }
-  .b-primario { background: var(--primario); color: var(--primario-texto); }
-  .b-primario:hover:not(:disabled) { background: var(--primario-hover); }
-  .b-secundario { background: transparent; color: var(--texto); border-color: var(--linea-fuerte); }
-  .b-secundario:hover:not(:disabled) { border-color: var(--borde-control); }
-  .b-texto { background: none; color: var(--enlace); padding-inline: 6px; }
-  .b-texto:hover { text-decoration: underline !important; }
+  /* Componentes */
+  .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 999px; font: 500 1rem var(--fuente-interfaz); border: 1px solid transparent; cursor: pointer; text-decoration: none; }
+  .b-principal { background: var(--primario); color: var(--primario-texto); }
+  .b-secundario { border-color: var(--linea-fuerte); color: var(--texto); background: transparent; }
   .b-lumbre { background: var(--lumbre); color: var(--lumbre-texto); }
-  .b-lumbre:hover { background: var(--lumbre-300); }
-  .b-peligro { background: transparent; color: var(--error-texto); border-color: var(--error-borde); }
-  .b-compacto { min-height: var(--control-alto-compacto); padding-inline: 16px; font-size: var(--texto-pequeno); }
-  .b-claro { background: #eeebe5; color: #0b1a1d; }
-  .girando { width: 15px; height: 15px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: girar .8s linear infinite; }
-  @keyframes girar { to { transform: rotate(1turn); } }
-  .fila { display: flex; flex-wrap: wrap; gap: var(--espacio-3); align-items: center; }
+  .estado { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px; font-size: .75rem; font-weight: 600; }
+  .campo { display: flex; flex-direction: column; gap: 6px; }
+  .campo label { font-size: .875rem; font-weight: 600; }
+  .campo input { min-height: 44px; border-radius: 10px; border: 1px solid var(--borde-control); padding: 0 12px; font: inherit; background: var(--superficie); color: var(--texto); }
+  .bento { position: relative; overflow: hidden; border-radius: 24px; padding: 28px; background: var(--tinta-950); color: #fff; }
+  .bento::before { content: ""; position: absolute; inset: 0; background: radial-gradient(380px circle at var(--mx, 30%) var(--my, 20%), color-mix(in srgb, var(--lumbre) 22%, transparent), transparent 65%); }
+  .bento > * { position: relative; }
+  .iconos { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+  .iconos li { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 8px; border: 1px solid var(--linea); border-radius: 14px; background: var(--superficie); font: .6875rem var(--fuente-datos); color: var(--texto-suave); text-align: center; }
 
-  .campo { display: grid; gap: 6px; }
-  .campo label, .campo .etq { font-size: var(--texto-pequeno); font-weight: 600; }
-  .campo .ayuda { font-size: var(--texto-pequeno); color: var(--texto-terciario); }
-  .campo .err { font-size: var(--texto-pequeno); color: var(--error-texto); display: flex; gap: 6px; align-items: center; }
-  .control { width: 100%; min-height: var(--control-alto); padding: 0 14px; border: 1px solid var(--borde-control); border-radius: var(--radio-sm); background: var(--superficie); color: var(--texto); font: 400 var(--texto-base) var(--fuente-interfaz); transition: border-color var(--duracion-rapida), box-shadow var(--duracion-rapida); }
-  .control:hover { border-color: var(--texto-suave); }
-  .control:focus { outline: none; border-color: var(--foco); box-shadow: 0 0 0 3px color-mix(in srgb, var(--foco) 22%, transparent); }
-  .control[aria-invalid="true"] { border-color: var(--error-solido); }
-  .opcion { display: flex; align-items: flex-start; gap: var(--espacio-3); font-size: var(--texto-base); }
-  .opcion input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--primario); }
+  /* Movimiento */
+  .onda-demo path { stroke-dasharray: 0 100; fill-opacity: 0; animation: dibujar 3.6s var(--curva-entrada-salida) infinite; }
+  @keyframes dibujar { 0% { stroke-dasharray: 0 100; fill-opacity: 0; } 55% { stroke-dasharray: 100 0; fill-opacity: 0; } 75%, 100% { stroke-dasharray: 100 0; fill-opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .onda-demo path { animation: none; stroke-dasharray: 100 0; fill-opacity: 1; } }
 
-  .capsula { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: var(--radio-total); font-size: var(--texto-mini); font-weight: 600; line-height: 1.4; white-space: nowrap; letter-spacing: 0; }
-  .capsula .ic { width: 14px; height: 14px; stroke-width: 2; }
-  .capsula.correcto { color: var(--correcto-texto); background: var(--correcto-fondo); }
-  .capsula.aviso { color: var(--aviso-texto); background: var(--aviso-fondo); }
-  .capsula.error { color: var(--error-texto); background: var(--error-fondo); }
-  .capsula.info { color: var(--info-texto); background: var(--info-fondo); }
-  .capsula.neutra { color: var(--texto-suave); background: var(--fondo-hundido); }
-  .capsula.tinta { color: var(--primario-suave-texto); background: var(--primario-suave); }
+  /* Aplicaciones */
+  .portatil { max-width: 760px; margin: 0 auto; }
+  .portatil .pantalla { background: var(--tinta-900); border-radius: 16px 16px 0 0; padding: 1.4% 1.4% 2%; width: 88%; margin: 0 auto; box-shadow: 0 40px 80px -40px rgb(17 17 17 / .45); }
+  .portatil .pantalla img { border-radius: 6px; width: 100%; }
+  .portatil .base { height: 14px; border-radius: 0 0 14px 14px; background: linear-gradient(var(--piedra-200), var(--piedra-400)); }
+  .mal { position: relative; }
+  .mal::after { content: ""; position: absolute; inset: 10px; border-top: 2px solid var(--error-solido); transform: rotate(-12deg); transform-origin: center; opacity: .8; top: 50%; }
 
-  .kpi { display: grid; gap: var(--espacio-3); align-content: start; }
-  .kpi .etq { font-size: var(--texto-pequeno); color: var(--texto-suave); display: flex; gap: 8px; align-items: center; }
-  .kpi .valor { font-family: var(--fuente-titular); font-weight: 300; font-size: var(--texto-h1); line-height: 1; letter-spacing: var(--tracking-titular); font-variant-numeric: tabular-nums lining-nums; }
-  .kpi .valor small { font: 400 var(--texto-pequeno) var(--fuente-interfaz); color: var(--texto-terciario); margin-left: 6px; letter-spacing: 0; }
-  .kpi .pista { height: 4px; border-radius: var(--radio-xs); background: var(--fondo-hundido); overflow: hidden; }
-  .kpi .pista i { display: block; height: 100%; border-radius: var(--radio-xs); background: var(--primario); }
-  .kpi .nota { font-size: var(--texto-pequeno); color: var(--texto-terciario); }
-
-  .tabla-caja { border: 1px solid var(--linea); border-radius: var(--radio-md); background: var(--superficie); overflow-x: auto; }
-  table.datos { width: 100%; border-collapse: collapse; font-size: var(--texto-pequeno); font-variant-numeric: tabular-nums; letter-spacing: 0; }
-  table.datos th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-mayusculas); text-transform: uppercase; color: var(--texto-terciario); padding: 14px 16px; border-bottom: 1px solid var(--linea-fuerte); white-space: nowrap; }
-  table.datos td { padding: 0 16px; height: 48px; border-bottom: 1px solid var(--linea); vertical-align: middle; }
-  table.datos tbody tr:last-child td { border-bottom: 0; }
-  table.datos tbody tr:hover { background: var(--fondo-alterno); }
-  table.datos .n { text-align: right; }
-  table.datos .principal { font-weight: 600; }
-
-  .linea-tiempo { position: relative; display: grid; gap: var(--espacio-6); padding-left: 28px; }
-  .linea-tiempo::before { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: var(--linea-fuerte); }
-  .hito { position: relative; display: grid; gap: 2px; }
-  .hito .nodo { position: absolute; left: -28px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--superficie); box-shadow: 0 0 0 2px var(--primario); }
-  .hito.nueva .nodo { background: var(--lumbre); box-shadow: 0 0 0 2px var(--lumbre); }
-  .hito .halo { position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--lumbre); opacity: 0; }
-  .hito .t { font-weight: 600; font-size: var(--texto-base); }
-  .hito .m { font-size: var(--texto-pequeno); color: var(--texto-terciario); display: flex; gap: 4px 12px; flex-wrap: wrap; }
-
-  .alerta { display: grid; grid-template-columns: auto 1fr; gap: var(--espacio-3); padding: var(--espacio-4) var(--espacio-5); border-radius: var(--radio-md); font-size: var(--texto-pequeno); }
-  .alerta strong { display: block; font-size: var(--texto-base); font-weight: 600; margin-bottom: 2px; }
-  .alerta p { color: var(--texto); }
-  .alerta.correcto { color: var(--correcto-texto); background: var(--correcto-fondo); }
-  .alerta.aviso { color: var(--aviso-texto); background: var(--aviso-fondo); }
-  .alerta.error { color: var(--error-texto); background: var(--error-fondo); }
-  .alerta.info { color: var(--info-texto); background: var(--info-fondo); }
-
-  .vacio { display: grid; justify-items: center; text-align: center; gap: var(--espacio-4); padding: var(--espacio-16) var(--espacio-6); border-radius: var(--radio-lg); background: var(--fondo-alterno); }
-  .vacio .circulo { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--superficie); color: var(--texto); box-shadow: var(--sombra-1); }
-  .vacio h3 { font-family: var(--fuente-titular); font-weight: 400; font-size: var(--texto-h3); letter-spacing: var(--tracking-titular); }
-  .vacio p { max-width: 44ch; color: var(--texto-suave); font-size: var(--texto-base); }
-
-  dialog.modal { border: 0; padding: 0; border-radius: var(--radio-xl); background: var(--superficie-elevada); color: var(--texto); box-shadow: var(--sombra-3); width: min(520px, calc(100vw - 32px)); }
-  dialog.modal::backdrop { background: var(--velo); backdrop-filter: blur(4px); }
-  .modal .cuerpo { padding: var(--espacio-10) var(--espacio-10) var(--espacio-6); display: grid; gap: var(--espacio-4); }
-  .modal .pie { display: flex; justify-content: flex-end; gap: var(--espacio-3); padding: 0 var(--espacio-10) var(--espacio-10); flex-wrap: wrap; }
-
-  .lateral { background: var(--fondo-alterno); border-radius: var(--radio-lg); padding: var(--espacio-5) var(--espacio-3); display: grid; grid-template-rows: auto 1fr auto; gap: var(--espacio-8); min-height: 460px; }
-  .lateral nav ul { display: grid; gap: 2px; }
-  .lateral a { display: flex; align-items: center; gap: var(--espacio-3); min-height: 40px; padding: 0 var(--espacio-3); border-radius: var(--radio-sm); color: var(--texto-suave); font-size: var(--texto-base); }
-  .lateral a:hover { color: var(--texto); background: color-mix(in srgb, var(--superficie) 60%, transparent); text-decoration: none; }
-  .lateral a[aria-current="page"] { background: var(--superficie); color: var(--texto); font-weight: 600; box-shadow: var(--sombra-1), inset 2px 0 0 var(--lumbre); }
-  .lateral .grupo { padding: var(--espacio-4) var(--espacio-3) var(--espacio-1); }
-
-  .par { display: grid; gap: var(--espacio-4); }
-  @media (min-width: 760px) { .par { grid-template-columns: 1fr 1fr; } }
-  .par > div { border-radius: var(--radio-md); padding: var(--espacio-5); font-size: var(--texto-base); }
-  .microcopy { display: grid; gap: var(--espacio-5); }
-  @media (min-width: 900px) { .microcopy { grid-template-columns: repeat(2, 1fr); } }
-  .microcopy .lamina { display: grid; gap: var(--espacio-3); align-content: start; padding: var(--espacio-8); }
-
-  .marco { border-radius: var(--radio-lg); overflow: hidden; box-shadow: 0 0 0 1px var(--linea), var(--sombra-2); background: var(--fondo); }
-  .marco .barra { display: flex; gap: 6px; padding: 12px 16px; background: var(--fondo-alterno); }
-  .marco .barra i { width: 10px; height: 10px; border-radius: 50%; background: var(--linea-fuerte); }
-  .landing-mock .navm { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 28px; border-bottom: 1px solid var(--linea); }
-  .landing-mock .navm span { font-size: 13px; color: var(--texto-suave); display: none; gap: 22px; }
-  @media (min-width: 760px) { .landing-mock .navm span { display: flex; } }
-  .landing-mock .h { text-align: center; padding: 80px 24px 72px; }
-  .landing-mock .h h4 { font-family: var(--fuente-titular); font-weight: 300; font-size: clamp(2.2rem, 1rem + 3.6vw, 3.6rem); line-height: 1.02; letter-spacing: -0.03em; max-width: 13ch; margin: 0 auto 20px; }
-  .landing-mock .tres { display: grid; gap: 16px; padding: 56px 28px; background: var(--fondo-alterno); }
-  @media (min-width: 760px) { .landing-mock .tres { grid-template-columns: repeat(3, 1fr); } }
-  .landing-mock .tres div { background: var(--superficie); border-radius: var(--radio-lg); padding: 26px; font-size: 14px; color: var(--texto-suave); }
-  .landing-mock .tres b { display: block; font-family: var(--fuente-titular); font-weight: 400; font-size: 21px; color: var(--texto); margin-bottom: 8px; letter-spacing: -0.01em; }
-  .landing-mock .pausa { background: #0d262b; color: #eeebe5; text-align: center; padding: 64px 24px; }
-  .landing-mock .pausa p { font-family: var(--fuente-titular); font-weight: 300; font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: -0.02em; max-width: 20ch; margin: 0 auto 22px; line-height: 1.1; }
-  .acceso-mock { min-height: 520px; display: grid; place-items: center; padding: 56px 20px; background: var(--fondo); }
-  .acceso-mock form { width: min(360px, 100%); display: grid; gap: var(--espacio-6); text-align: left; }
-  .app { display: grid; min-height: 640px; }
-  @media (min-width: 980px) { .app { grid-template-columns: 236px 1fr; } }
-  .app .lateral { border-radius: 0; display: none; min-height: 0; }
-  @media (min-width: 980px) { .app .lateral { display: grid; } }
-  .app main { padding: var(--espacio-8) var(--espacio-6); display: grid; gap: var(--espacio-8); align-content: start; }
-  @media (min-width: 760px) { .app main { padding: var(--espacio-10); } }
-  .pdf-caja { display: grid; gap: var(--espacio-8); justify-items: center; background: var(--fondo-alterno); padding: var(--espacio-12) var(--espacio-4); border-radius: var(--radio-lg); }
-  @media (min-width: 900px) { .pdf-caja { grid-template-columns: 1fr 1fr; align-items: start; } }
-  .a4 { width: 100%; max-width: 400px; aspect-ratio: 1 / 1.414; background: #fff; color: #0b1a1d; box-shadow: 0 0 0 1px rgb(0 0 0 / .04), 0 24px 48px -24px rgb(11 26 29 / .3); padding: 10% 10% 7%; display: grid; grid-template-rows: auto 1fr auto; font: 400 9.5px/1.5 var(--fuente-interfaz); }
-  .a4 .t { font-family: var(--fuente-titular); }
-  .a4 .pie-pdf { display: flex; justify-content: space-between; gap: 8px; color: #706a61; font-size: 7.5px; border-top: 1px solid #e6e2da; padding-top: 8px; }
-  .ejemplo { display: inline-flex; padding: 2px 9px; border-radius: var(--radio-total); background: var(--aviso-fondo); color: var(--aviso-texto); font-size: 11px; font-weight: 600; letter-spacing: 0; }
-
-  footer.pie { padding-block: var(--espacio-16); background: var(--fondo-alterno); color: var(--texto-terciario); font-size: var(--texto-pequeno); }
+  footer { padding: 48px 0; border-top: 1px solid var(--linea); font-size: .875rem; color: var(--texto-suave); }
 </style>
 </head>
 <body>
-<p style="margin:0;padding:12px 16px;background:#1b1b1b;color:#f5f5f2;font:500 14px/1.4 system-ui,sans-serif;text-align:center">Versión 2.0, sustituida por la 3.0 «Tinta y lumbre». Lo vigente está en brand/DESIGN.md y brand/tokens.css.</p>
 <!--SPRITE-->
-<a class="sr-only" href="#contenido">Saltar al contenido</a>
-
-<header class="nav">
-  <div class="dentro">
-    <a href="#inicio" aria-label="LUMBRA360, sistema de marca"><img class="logo-cambia" src="logo/lumbra360-horizontal-positivo.svg" alt="" style="height: 28px; width: auto"></a>
-    <nav aria-label="Secciones"><a href="#direcciones">Dirección</a><a href="#logotipo">Logotipo</a><a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a><a href="#movimiento">Movimiento</a><a href="#voz">Voz</a><a href="#aplicaciones">Aplicaciones</a></nav>
-    <div class="tema" role="group" aria-label="Tema de color">
-      <button type="button" data-tema="light" aria-pressed="false" title="Claro"><svg class="ic ic-16"><use href="#i-sun"/></svg><span class="sr-only">Claro</span></button>
-      <button type="button" data-tema="sistema" aria-pressed="true" title="Según el sistema"><svg class="ic ic-16"><use href="#i-monitor"/></svg><span class="sr-only">Según el sistema</span></button>
-      <button type="button" data-tema="dark" aria-pressed="false" title="Oscuro"><svg class="ic ic-16"><use href="#i-moon"/></svg><span class="sr-only">Oscuro</span></button>
+<header class="cab">
+  <div class="contenedor">
+    <a href="#inicio" aria-label="LUMBRA360, inicio"><img class="logo-pos" src="logo/lumbra-horizontal-positivo.svg" alt="" height="22" style="height:22px;width:auto"><img class="logo-neg" src="logo/lumbra-horizontal-negativo.svg" alt="" height="22" style="height:22px;width:auto"></a>
+    <nav aria-label="Secciones">
+      <a href="#concepto">Concepto</a><a href="#logotipo">Logotipo</a><a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#componentes">Componentes</a><a href="#movimiento">Movimiento</a><a href="#voz">Voz</a><a href="#aplicaciones">Aplicaciones</a>
+    </nav>
+    <div class="tema" role="group" aria-label="Tema">
+      <button type="button" data-tema="light" aria-pressed="false" aria-label="Claro"><svg class="ic"><use href="#i-sun"/></svg></button>
+      <button type="button" data-tema="auto" aria-pressed="true" aria-label="Según el sistema"><svg class="ic"><use href="#i-monitor"/></svg></button>
+      <button type="button" data-tema="dark" aria-pressed="false" aria-label="Oscuro"><svg class="ic"><use href="#i-moon"/></svg></button>
     </div>
   </div>
 </header>
 
-<main id="contenido">
-
-<section class="heroe" id="inicio">
-  <div class="halo-heroe" aria-hidden="true"></div>
-  <div class="dentro" style="position: relative">
-    <img class="simbolo-heroe logo-cambia" src="logo/lumbra360-simbolo-positivo.svg" alt="">
-    <h1 class="serif ligera">Claridad para lo que estaba en zona gris.</h1>
-    <p>Sistema de marca de LUMBRA360 · versión 2.0, dirección «Galería de luz». Pensado para una sensación concreta: <em>tengo todo en orden y lo puedo demostrar</em>.</p>
-  </div>
-</section>
-
-<section class="sala alterna" id="direcciones">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">01 · Dirección creativa</p>
-      <h2 class="serif ligera">Tres caminos. Uno elegido.</h2>
-    </div>
-    <div class="rejilla c3">
-      <article class="lamina direccion elegida">
-        <span class="capsula tinta" style="justify-self: start"><svg class="ic"><use href="#i-check"/></svg>Elegida</span>
-        <h3 class="serif">A · Galería de luz</h3>
-        <div class="muestras" aria-hidden="true"><span style="background:#ffffff"></span><span style="background:#f7f5f1"></span><span style="background:#0d262b"></span><span style="background:#e6a23a"></span></div>
-        <dl><dt>Concepto</dt><dd>Una sala blanca y serena donde la información queda expuesta con calma, como una obra iluminada.</dd><dt>Paleta</dt><dd>Blanco y pergamino cálido, tinta petróleo casi negra, lumbre ámbar como único acento.</dd><dt>Tipografía</dt><dd>Newsreader ligera a gran tamaño; IBM Plex Sans con cifras tabulares.</dd><dt>Símbolo</dt><dd>Anillo fino de 360° con un punto de lumbre central.</dd></dl>
-      </article>
-      <article class="lamina direccion">
-        <h3 class="serif">B · Haz</h3>
-        <div class="muestras" aria-hidden="true"><span style="background:#ffffff"></span><span style="background:#e9e8e4"></span><span style="background:#26282b"></span><span style="background:#d99a2b"></span></div>
-        <dl><dt>Concepto</dt><dd>Un haz de luz que barre la zona gris.</dd><dt>Paleta</dt><dd>Blanco, gris piedra, tinta grafito y ámbar.</dd><dt>Tipografía</dt><dd>Grotesca compacta e Inter.</dd><dt>Símbolo</dt><dd>Semicírculo del que sale una cuña de luz.</dd></dl>
-      </article>
-      <article class="lamina direccion">
-        <h3 class="serif">C · Amanecer documental</h3>
-        <div class="muestras" aria-hidden="true"><span style="background:#f4ecdc"></span><span style="background:#8a6a4a"></span><span style="background:#b5532f"></span><span style="background:#3a2e26"></span></div>
-        <dl><dt>Concepto</dt><dd>El papel y el sello de un archivo histórico.</dd><dt>Paleta</dt><dd>Crema, sepia y terracota.</dd><dt>Tipografía</dt><dd>EB Garamond y una sans humanista.</dd><dt>Símbolo</dt><dd>Arco de sol sobre una línea.</dd></dl>
-      </article>
-    </div>
-    <p class="razon"><span><strong>Por qué A.</strong> Responde a la referencia principal (mucho aire, una sola tinta, un único acento, la tipografía como protagonista) y convierte el nombre en sistema: el anillo es la visión 360°, el punto es la lumbre, el blanco es la claridad. La B, con Inter y grotesca, cae en la plantilla SaaS. La C resulta nostálgica para un producto que debe transmitir rigor actual.</span></p>
-  </div>
-</section>
-
-<section class="sala" id="logotipo">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">02 · Logotipo</p>
-      <h2 class="serif ligera">El anillo y la lumbre.</h2>
-      <p>Un anillo fino de 360° con una apertura arriba a la derecha: nada queda cerrado ni oculto. En el centro, la lumbre. «LUMBRA» en Newsreader muy espaciada y «360» en un tono más claro de la misma tinta.</p>
-    </div>
-    <div class="rejilla c2">
-      <figure><div class="lienzo blanco"><img src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360, horizontal en positivo" style="height: 48px; width: auto"></div><figcaption class="pie-lienzo"><span>Horizontal · positivo</span><a href="logo/lumbra360-horizontal-positivo.svg" download>SVG</a></figcaption></figure>
-      <figure><div class="lienzo tinta"><img src="logo/lumbra360-horizontal-negativo.svg" alt="LUMBRA360, horizontal en negativo" style="height: 48px; width: auto"></div><figcaption class="pie-lienzo"><span>Horizontal · negativo</span><a href="logo/lumbra360-horizontal-negativo.svg" download>SVG</a></figcaption></figure>
-      <figure><div class="lienzo"><img src="logo/lumbra360-vertical-positivo.svg" alt="LUMBRA360, vertical en positivo" style="height: 120px; width: auto"></div><figcaption class="pie-lienzo"><span>Vertical · positivo</span><a href="logo/lumbra360-vertical-positivo.svg" download>SVG</a></figcaption></figure>
-      <figure><div class="lienzo tinta"><img src="logo/lumbra360-vertical-negativo.svg" alt="LUMBRA360, vertical en negativo" style="height: 120px; width: auto"></div><figcaption class="pie-lienzo"><span>Vertical · negativo</span><a href="logo/lumbra360-vertical-negativo.svg" download>SVG</a></figcaption></figure>
-    </div>
-    <div class="rejilla c2" style="margin-top: var(--espacio-6)">
-      <div class="lamina">
-        <h3 class="titulo-bloque">Dos dibujos del símbolo</h3>
-        <div class="tamanos">
-          <figure><img src="logo/lumbra360-simbolo-positivo.svg" alt="Símbolo fino a 96 píxeles" width="96" height="96"><figcaption>Fino · 96</figcaption></figure>
-          <figure><img src="logo/lumbra360-simbolo-positivo.svg" alt="Símbolo fino a 48 píxeles" width="48" height="48"><figcaption>Fino · 48</figcaption></figure>
-          <figure><img src="logo/lumbra360-simbolo-pequeno-positivo.svg" alt="Símbolo pequeño a 32 píxeles" width="32" height="32"><figcaption>Pequeño · 32</figcaption></figure>
-          <figure><img src="logo/lumbra360-simbolo-pequeno-positivo.svg" alt="Símbolo pequeño a 16 píxeles" width="16" height="16"><figcaption>Pequeño · 16</figcaption></figure>
-        </div>
-        <p class="suave" style="margin-top: var(--espacio-6); font-size: var(--texto-base)">El fino, desde 32 px. El pequeño, con trazo grueso, para el favicon y de 16 a 32 px: un trazo fino desaparece a esos tamaños.</p>
-      </div>
-      <div class="lamina">
-        <h3 class="titulo-bloque">Normas</h3>
-        <ul class="suave" style="display: grid; gap: var(--espacio-3); font-size: var(--texto-base)">
-          <li>Área de protección: la mitad de la altura del símbolo alrededor.</li>
-          <li>Mínimo: 140 px de ancho en pantalla, 35 mm en papel.</li>
-          <li>No deformar, girar, recolorear ni añadir sombras.</li>
-          <li>No separar el punto del anillo ni cambiar la tipografía.</li>
-          <li>En texto: «LUMBRA360», sin espacio.</li>
-        </ul>
+<main id="inicio">
+  <div class="portada">
+    <div class="contenedor">
+      <p class="ceja">Sistema de marca · versión 3.0 · Tinta y lumbre</p>
+      <h1 style="margin-top:20px">Cumplir y cuidar sin vigilar</h1>
+      <p class="bajada">Blanco con mucho aire, tinta negra para el texto y un único acento bermellón. Titulares grandes en grotesca, movimiento que explica y nada que distraiga.</p>
+      <div class="datos">
+        <span class="chip">Instrument Sans + IBM Plex Mono</span>
+        <span class="chip">Lumbre <span class="mono">#F25A1F</span></span>
+        <span class="chip">WCAG AA en claro y oscuro</span>
+        <span class="chip">GSAP + Lenis</span>
       </div>
     </div>
   </div>
-</section>
 
-<section class="sala alterna" id="color">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">03 · Color</p>
-      <h2 class="serif ligera">Mucho aire, una tinta y una luz.</h2>
-      <p>El blanco y el pergamino son el material principal. Una sola tinta petróleo casi negra escribe y actúa. La lumbre aparece poco y siempre con intención.</p>
-    </div>
-    <div class="rejilla c4">
-      <div class="muestra-grande" style="background: #ffffff; box-shadow: inset 0 0 0 1px var(--linea); color: #0b1a1d"><b>Lienzo</b><span class="mono">#FFFFFF · dominante</span></div>
-      <div class="muestra-grande" style="background: #f7f5f1; box-shadow: inset 0 0 0 1px var(--linea); color: #0b1a1d"><b>Pergamino</b><span class="mono">#F7F5F1 · alterna</span></div>
-      <div class="muestra-grande" style="background: #0d262b; color: #eeebe5"><b>Tinta</b><span class="mono">#0D262B · texto y acción</span></div>
-      <div class="muestra-grande" style="background: #e6a23a; color: #0d262b"><b>Lumbre</b><span class="mono">#E6A23A · único acento</span></div>
-    </div>
-    <div style="margin-top: var(--espacio-8); display: grid; gap: var(--espacio-3)">
-      <div class="proporcion" aria-label="Proporción orientativa: blanco y pergamino 80 por ciento, tinta 15, lumbre 5"><span style="flex: 80; background: #fff; box-shadow: inset 0 0 0 1px var(--linea-fuerte)"></span><span style="flex: 15; background: #0d262b"></span><span style="flex: 5; background: #e6a23a"></span></div>
-      <p class="terciario" style="font-size: var(--texto-pequeno)">Proporción orientativa: lienzo y pergamino 80 %, tinta 15 %, lumbre 5 %.</p>
-    </div>
-    <div id="escalas" style="display: grid; gap: var(--espacio-8); margin-top: var(--espacio-16)"></div>
-
-    <h3 class="titulo-bloque" style="margin-top: var(--espacio-16)">Semánticos, siempre con icono y etiqueta</h3>
-    <div class="rejilla c4">
-      <div class="alerta correcto"><svg class="ic"><use href="#i-circle-check"/></svg><div><strong>Correcto</strong><p>Al día y completado.</p></div></div>
-      <div class="alerta aviso"><svg class="ic"><use href="#i-clock"/></svg><div><strong>Aviso</strong><p>Plazos y pendientes.</p></div></div>
-      <div class="alerta error"><svg class="ic"><use href="#i-circle-x"/></svg><div><strong>Error</strong><p>Fallos reales. Nunca decoración.</p></div></div>
-      <div class="alerta info"><svg class="ic"><use href="#i-info"/></svg><div><strong>Información</strong><p>Contexto y anonimato.</p></div></div>
-    </div>
-
-    <h3 class="titulo-bloque" style="margin-top: var(--espacio-16)">Contraste comprobado (WCAG 2.x, AA)</h3>
-    <div class="tabla-caja">
-      <table class="datos"><caption class="sr-only">Contraste de las parejas de color</caption>
-        <thead><tr><th>Modo</th><th>Pareja</th><th>Muestra</th><th class="n">Contraste</th><th>Resultado</th></tr></thead>
-        <tbody id="contraste"></tbody>
-      </table>
-    </div>
-    <p class="terciario" style="margin-top: var(--espacio-3); font-size: var(--texto-pequeno)">Calculado con <span class="mono">brand/scripts/contraste.py</span>. Mínimo 4,5:1 para texto y 3:1 para bordes de control y foco.</p>
-  </div>
-</section>
-
-<section class="sala" id="tipografia">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">04 · Tipografía</p>
-      <h2 class="serif ligera">La tipografía es la protagonista.</h2>
-      <p>Newsreader ligera a gran tamaño da a cada página la presencia tranquila de una galería. IBM Plex Sans lee datos sin esfuerzo, con cifras tabulares. Las dos son libres.</p>
-    </div>
-    <div class="rejilla c2" style="align-items: end">
-      <div><p class="especimen-grande">Aa</p><p style="margin-top: var(--espacio-4)"><strong>Newsreader</strong> <span class="terciario">· 300 grande, 400 desde h1 · SIL OFL</span></p></div>
-      <div><p style="font-size: clamp(5rem, 3rem + 8vw, 9rem); line-height: .9; font-weight: 400; letter-spacing: -0.03em">Aa <span class="num" style="font-size: .45em; letter-spacing: 0">0123</span></p><p style="margin-top: var(--espacio-4)"><strong>IBM Plex Sans</strong> <span class="terciario">· 400 y 600, cifras tabulares · SIL OFL</span></p></div>
-    </div>
-    <div class="escala-tipo" style="margin-top: var(--espacio-16)">
-      <div><small>héroe · 80/44 · 300 · −0,03em</small><span class="serif ligera" style="font-size: var(--texto-heroe); line-height: 1.02">Todo en orden</span></div>
-      <div><small>display · 56/36 · 300</small><span class="serif ligera" style="font-size: var(--texto-display); line-height: 1.05">Evaluación psicosocial</span></div>
-      <div><small>h1 · 44/32 · 400</small><span class="serif" style="font-size: var(--texto-h1); line-height: 1.1">Plan de acción</span></div>
-      <div><small>h2 · 34/26 · 400</small><span class="serif" style="font-size: var(--texto-h2); line-height: 1.1">Desconexión digital</span></div>
-      <div><small>h3 · 24 · 400</small><span class="serif" style="font-size: var(--texto-h3)">Evidencias de este trimestre</span></div>
-      <div><small>h4 · 19 · Plex 600</small><span style="font-size: var(--texto-h4); font-weight: 600">Próximos plazos</span></div>
-      <div><small>entradilla · 22/19 · 1,55</small><span style="font-size: var(--texto-entrada)">Le acompañamos en cada paso, con todo documentado.</span></div>
-      <div><small>cuerpo · 17 · 1,55</small><span>Texto de lectura. Una idea por frase, sin prisa.</span></div>
-      <div><small>interfaz · 16 · 1,45</small><span style="font-size: var(--texto-base)">Formularios, menús y botones.</span></div>
-      <div><small>datos · 14 · tnum</small><span class="num" style="font-size: var(--texto-pequeno)">24 evidencias · 76 % · 12/03/2025 10:42</span></div>
-      <div><small>ceja · 12 · 600 · +0,14em</small><span class="ceja">Estado de cumplimiento</span></div>
-      <div><small>literal · Plex Mono 13</small><span class="mono">SHA-256 9f2c…41ab</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="sala alterna" id="espacio">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">05 · Espacio, forma y elevación</p>
-      <h2 class="serif ligera">Cada idea, en su sala.</h2>
-      <p>Rejilla de 4 px y de 80 a 128 px entre secciones. Cápsula para actuar, rectángulo suave para contener. Sin sombras en tarjetas: la jerarquía la hacen el aire y el cambio de fondo.</p>
-    </div>
-    <div class="rejilla c3">
-      <div class="lamina"><h3 class="titulo-bloque">Espacio</h3><div id="barras-espacio" style="display: grid; gap: 8px"></div></div>
-      <div class="lamina"><h3 class="titulo-bloque">Radios</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: var(--texto-mini); color: var(--texto-terciario)">
-          <div style="height: 64px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); padding: 8px; display: grid; align-items: end">xs · 4</div>
-          <div style="height: 64px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); padding: 8px; display: grid; align-items: end">sm · 8 · campos</div>
-          <div style="height: 64px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); padding: 8px; display: grid; align-items: end">md · 12 · datos</div>
-          <div style="height: 64px; border-radius: 20px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); padding: 10px; display: grid; align-items: end">lg · 20 · láminas</div>
-          <div style="height: 64px; border-radius: 28px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); padding: 12px; display: grid; align-items: end">xl · 28 · modales</div>
-          <div style="height: 64px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--linea-fuerte); display: grid; place-items: center">cápsula</div>
-        </div>
+  <!-- 1. Concepto -->
+  <section id="concepto">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">01 · Concepto y nombre</p>
+        <h2>La vuelta completa, a la luz</h2>
+        <p>LUMBRA360 une «lumbre», lo que ilumina lo que estaba en zona gris, y «360», la vuelta completa: medir, decidir, actuar y demostrar. La marca transmite una sola idea: tengo todo en orden y lo puedo demostrar.</p>
       </div>
-      <div class="lamina"><h3 class="titulo-bloque">Elevación</h3>
-        <div style="display: grid; gap: 14px; font-size: var(--texto-pequeno); color: var(--texto-terciario)">
-          <div style="background: var(--fondo-alterno); border-radius: 12px; padding: 18px">Plano · secciones y láminas</div>
-          <div style="background: var(--fondo); border-radius: 12px; padding: 18px; box-shadow: var(--sombra-1)">Filete · tarjetas de datos</div>
-          <div style="background: var(--fondo); border-radius: 12px; padding: 18px; box-shadow: var(--sombra-2)">Flota · menús</div>
-          <div style="background: var(--fondo); border-radius: 12px; padding: 18px; box-shadow: var(--sombra-3)">Capa · modales</div>
-        </div>
+      <div class="rejilla r3">
+        <div class="tarjeta"><h3>Nombre</h3><p class="suave">En los textos, siempre LUMBRA360, sin espacio. El logotipo dice «lumbra»: el 360 vive en el nombre, no en el dibujo.</p></div>
+        <div class="tarjeta"><h3>Promesa</h3><p class="suave">Ordenar la gestión psicosocial y la desconexión digital de la pyme, con cada paso fechado, sin vigilar a nadie.</p></div>
+        <div class="tarjeta"><h3>Carácter</h3><p class="suave">Sobrio, claro y cercano. Profesional sin ser frío. Moderno sin trucos: el movimiento siempre explica algo.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="sala" id="iconos">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">06 · Iconografía</p>
-      <h2 class="serif ligera">Lucide, trazo de 1,5.</h2>
-      <p>Lineales, con extremos redondeados como el símbolo, en el color del texto. 2 px a 16 px para que no se empasten. Sin sirenas, escudos ni balanzas.</p>
-    </div>
-    <ul id="iconos-lista" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 4px"></ul>
-  </div>
-</section>
-
-<section class="sala alterna" id="componentes">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">07 · Sistema de interfaz</p>
-      <h2 class="serif ligera">Calma en la presentación. Precisión en los datos.</h2>
-      <p>Controles de 44 px, foco siempre visible y nada que dependa solo del color. Las vistas densas toman la disciplina de un buen informe financiero.</p>
-    </div>
-
-    <div class="rejilla c2">
-      <div class="lamina">
-        <h3 class="titulo-bloque">Botones</h3>
-        <div class="fila"><button class="boton b-primario" type="button">Preparar campaña</button><button class="boton b-secundario" type="button">Cancelar</button><button class="boton b-texto" type="button">Ver detalles <svg class="ic ic-16"><use href="#i-arrow-right"/></svg></button></div>
-        <div class="fila" style="margin-top: var(--espacio-4)"><button class="boton b-lumbre" type="button"><svg class="ic ic-16"><use href="#i-file-down"/></svg>Exportar dossier</button><button class="boton b-peligro" type="button">Retirar acceso</button></div>
-        <div class="fila" style="margin-top: var(--espacio-4)"><button class="boton b-primario" type="button" disabled>Desactivado</button><button class="boton b-primario" type="button" aria-busy="true"><span class="girando" aria-hidden="true"></span>Generando…</button><button class="boton b-secundario b-compacto" type="button">Compacto</button></div>
-        <p class="terciario" style="margin-top: var(--espacio-6); font-size: var(--texto-pequeno)">Un primario de tinta por vista. La lumbre, solo para exportar el dossier. Al pulsar, el botón se contrae a 0,97.</p>
+  <!-- 2. Logotipo -->
+  <section id="logotipo">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">02 · Logotipo</p>
+        <h2>«lumbra», con la onda</h2>
+        <p>El logotipo original no se redibuja: las versiones se generan desde él. La «m» es una onda continua que une las letras y es también el símbolo.</p>
       </div>
-      <div class="lamina">
-        <h3 class="titulo-bloque">Campos</h3>
-        <div style="display: grid; gap: var(--espacio-5)">
-          <div class="campo"><label for="c1">Correo electrónico</label><input id="c1" class="control" type="email" placeholder="nombre@empresa.es" aria-describedby="c1a"><span class="ayuda" id="c1a">Le enviaremos un enlace de acceso.</span></div>
-          <div class="campo"><label for="c2">Fecha prevista</label><input id="c2" class="control" type="text" value="31/02/2025" aria-invalid="true" aria-describedby="c2e"><span class="err" id="c2e"><svg class="ic ic-16"><use href="#i-circle-x"/></svg>Revise la fecha: ese día no existe.</span></div>
-          <label class="opcion"><input type="checkbox" checked>He revisado el informe y las observaciones</label>
-        </div>
+      <div class="rejilla r2">
+        <figure><div class="lienzo" style="background:var(--piedra-0);border:1px solid var(--linea)"><img src="logo/lumbra-horizontal-positivo.svg" alt="Logotipo en positivo" style="width:min(320px,80%)"></div><figcaption class="pie-fig"><span>Positivo, sobre blanco</span><a href="logo/lumbra-horizontal-positivo.svg" download>SVG</a></figcaption></figure>
+        <figure><div class="lienzo" style="background:var(--tinta-900)"><img src="logo/lumbra-horizontal-negativo.svg" alt="Logotipo en negativo" style="width:min(320px,80%)"></div><figcaption class="pie-fig"><span>Negativo, sobre tinta</span><a href="logo/lumbra-horizontal-negativo.svg" download>SVG</a></figcaption></figure>
+        <figure><div class="lienzo" style="background:var(--piedra-50)"><img src="logo/lumbra-horizontal-acento.svg" alt="Logotipo con la onda en lumbre" style="width:min(320px,80%)"></div><figcaption class="pie-fig"><span>Acento: solo en piezas de marca</span><a href="logo/lumbra-horizontal-acento.svg" download>SVG</a></figcaption></figure>
+        <figure><div class="lienzo" style="background:var(--piedra-0);border:1px solid var(--linea);gap:32px;grid-auto-flow:column"><img src="logo/lumbra-simbolo-lumbre.svg" alt="Símbolo: la onda" style="width:120px"><img src="logo/favicon.svg" alt="Favicon" style="width:48px"><img src="logo/favicon.svg" alt="" style="width:16px"></div><figcaption class="pie-fig"><span>Símbolo y favicon (se lee a 16 px)</span><a href="logo/lumbra-simbolo-lumbre.svg" download>SVG</a></figcaption></figure>
       </div>
-    </div>
-
-    <div class="lamina" style="margin-top: var(--espacio-6)">
-      <h3 class="titulo-bloque">Estados de cumplimiento</h3>
-      <div class="fila">
-        <span class="capsula correcto"><svg class="ic"><use href="#i-circle-check"/></svg>Al día</span>
-        <span class="capsula info"><svg class="ic"><use href="#i-history"/></svg>En curso</span>
-        <span class="capsula aviso"><svg class="ic"><use href="#i-clock"/></svg>Vence pronto</span>
-        <span class="capsula error"><svg class="ic"><use href="#i-circle-x"/></svg>Requiere atención</span>
-        <span class="capsula neutra"><svg class="ic"><use href="#i-list-checks"/></svg>Sin iniciar</span>
-        <span class="capsula tinta"><svg class="ic"><use href="#i-eye-off"/></svg>Protegido por anonimato</span>
-        <span class="capsula tinta"><svg class="ic"><use href="#i-lock"/></svg>Firmado</span>
-      </div>
-      <p class="terciario" style="margin-top: var(--espacio-4); font-size: var(--texto-pequeno)">Describen tareas, no juicios legales: nunca «Cumple la ley» ni «Sin riesgo».</p>
-    </div>
-
-    <div class="rejilla c4" id="kpis" style="margin-top: var(--espacio-6)">
-      <div class="ficha kpi"><span class="etq"><svg class="ic ic-16"><use href="#i-users"/></svg>Participación</span><span class="valor" data-valor="76">76<small>%</small></span><div class="pista"><i style="width: 76%"></i></div><span class="nota">19 de 25 personas</span></div>
-      <div class="ficha kpi"><span class="etq"><svg class="ic ic-16"><use href="#i-list-checks"/></svg>Medidas en curso</span><span class="valor" data-valor="6">6<small>de 9</small></span><div class="pista"><i style="width: 66%"></i></div><span class="nota">3 hechas</span></div>
-      <div class="ficha kpi"><span class="etq"><svg class="ic ic-16"><use href="#i-file-check"/></svg>Evidencias</span><span class="valor" data-valor="24">24</span><div class="pista"><i style="width: 100%; background: var(--lumbre)"></i></div><span class="nota">Última hoy, 10:42</span></div>
-      <div class="ficha kpi"><span class="etq"><svg class="ic ic-16"><use href="#i-calendar-clock"/></svg>Próximo plazo</span><span class="valor" data-valor="14">14<small>días</small></span><div class="pista"><i style="width: 40%; background: var(--aviso-solido)"></i></div><span class="nota"><span class="capsula aviso" style="padding: 1px 8px 1px 6px"><svg class="ic"><use href="#i-clock"/></svg>Vence pronto</span></span></div>
-    </div>
-    <div class="fila" style="margin-top: var(--espacio-3)"><button class="boton b-texto b-compacto" type="button" id="repetir-kpis"><svg class="ic ic-16"><use href="#i-history"/></svg>Repetir la carga</button><span class="ejemplo">Datos ficticios</span></div>
-
-    <div class="rejilla c2" style="margin-top: var(--espacio-6); align-items: start">
-      <div>
-        <h3 class="titulo-bloque">Tabla de datos</h3>
-        <div class="tabla-caja">
-          <table class="datos"><caption class="sr-only">Empresas gestionadas, datos de ejemplo</caption>
-            <thead><tr><th>Empresa</th><th>Estado</th><th class="n">Participación</th><th class="n">Evidencias</th></tr></thead>
-            <tbody>
-              <tr><td class="principal">Empresa de ejemplo A</td><td><span class="capsula correcto"><svg class="ic"><use href="#i-circle-check"/></svg>Al día</span></td><td class="n">76 %</td><td class="n">24</td></tr>
-              <tr><td class="principal">Empresa de ejemplo B</td><td><span class="capsula aviso"><svg class="ic"><use href="#i-clock"/></svg>Vence pronto</span></td><td class="n">58 %</td><td class="n">11</td></tr>
-              <tr><td class="principal">Empresa de ejemplo C</td><td><span class="capsula info"><svg class="ic"><use href="#i-history"/></svg>En curso</span></td><td class="n">—</td><td class="n">3</td></tr>
-              <tr><td class="principal">Empresa de ejemplo D</td><td><span class="capsula neutra"><svg class="ic"><use href="#i-list-checks"/></svg>Sin iniciar</span></td><td class="n">—</td><td class="n">0</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="terciario" style="margin-top: var(--espacio-3); font-size: var(--texto-pequeno)">Cabeceras discretas, cifras tabulares a la derecha, filetes de 1 px y filas de 48 px. Sin rayado. En móvil, tarjetas.</p>
-      </div>
-      <div class="ficha" style="padding: var(--espacio-6)">
-        <h3 class="titulo-bloque">Línea temporal de evidencias</h3>
-        <ol class="linea-tiempo" id="linea-tiempo">
-          <li class="hito"><span class="nodo" aria-hidden="true"></span><span class="t">Política de desconexión aprobada · versión 2</span><span class="m"><span>8 mar · 16:05</span><span>Dirección</span><span class="mono">4e1a…c07d</span></span></li>
-          <li class="hito"><span class="nodo" aria-hidden="true"></span><span class="t">Informe de evaluación registrado y firmado</span><span class="m"><span>2 mar · 11:20</span><span>Técnico de prevención</span><span class="mono">9f2c…41ab</span></span></li>
-          <li class="hito"><span class="nodo" aria-hidden="true"></span><span class="t">Campaña cerrada · 19 respuestas</span><span class="m"><span>26 feb · 18:00</span><span>RR. HH.</span></span></li>
-        </ol>
-        <div class="fila" style="margin-top: var(--espacio-6)"><button class="boton b-secundario b-compacto" type="button" id="nueva-evidencia"><svg class="ic ic-16"><use href="#i-plus"/></svg>Registrar evidencia de ejemplo</button></div>
-        <p role="status" aria-live="polite" id="estado-evidencia" class="terciario" style="margin-top: var(--espacio-2); font-size: var(--texto-pequeno); min-height: 1.4em"></p>
-      </div>
-    </div>
-
-    <div class="rejilla c2" style="margin-top: var(--espacio-6); align-items: start">
-      <div style="display: grid; gap: var(--espacio-3)">
-        <h3 class="titulo-bloque" style="margin: 0">Alertas</h3>
-        <div class="alerta correcto" role="status"><svg class="ic"><use href="#i-circle-check"/></svg><div><strong>Evidencia registrada</strong><p>Queda en la línea temporal con fecha y autor.</p></div></div>
-        <div class="alerta info"><svg class="ic"><use href="#i-eye-off"/></svg><div><strong>Resultados protegidos</strong><p>Este grupo tiene menos de 5 respuestas, así que no se muestra.</p></div></div>
-        <div class="alerta aviso"><svg class="ic"><use href="#i-clock"/></svg><div><strong>Plazo en 14 días</strong><p>La revisión del plan de acción vence el 30 de abril.</p></div></div>
-        <div class="alerta error" role="alert"><svg class="ic"><use href="#i-circle-x"/></svg><div><strong>No hemos podido cargar los datos</strong><p>Sus registros están a salvo. Vuelva a intentarlo en unos segundos.</p></div></div>
-      </div>
-      <div style="display: grid; gap: var(--espacio-6)">
-        <div class="vacio" style="background: var(--superficie)"><span class="circulo"><svg class="ic ic-24"><use href="#i-folder-open"/></svg></span><h3>Todavía no hay evidencias</h3><p>Se registrarán solas a medida que avance: campañas, informes, medidas, política y formación.</p><button class="boton b-primario" type="button">Preparar la primera campaña</button></div>
-        <div class="fila"><button class="boton b-secundario" type="button" id="abrir-modal">Abrir modal de confirmación</button></div>
-      </div>
-    </div>
-
-    <div class="rejilla c2" style="margin-top: var(--espacio-6); align-items: start">
-      <aside class="lateral" aria-label="Navegación de ejemplo" style="background: var(--superficie)">
-        <img class="logo-cambia" src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360" style="height: 24px; width: auto; margin-left: 12px">
-        <nav aria-label="Secciones del panel de ejemplo"><ul>
-          <li><a href="#componentes" aria-current="page"><svg class="ic"><use href="#i-layout-dashboard"/></svg>Panel</a></li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-clipboard-check"/></svg>Evaluación</a></li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-list-checks"/></svg>Plan de acción</a></li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-bell-off"/></svg>Desconexión digital</a></li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-history"/></svg>Evidencias</a></li>
-          <li class="grupo ceja">Empresa</li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-users"/></svg>Accesos</a></li>
-          <li><a href="#componentes"><svg class="ic"><use href="#i-settings"/></svg>Ajustes</a></li>
-        </ul></nav>
-        <a href="#componentes"><svg class="ic"><use href="#i-log-out"/></svg>Salir</a>
-      </aside>
-      <p class="razon" style="margin: 0"><span><strong>Navegación lateral.</strong> En pergamino, para que el contenido blanco quede en primer plano. La sección activa se marca con fondo blanco, peso 600 y un filete de lumbre: nunca solo con color. En móvil se convierte en menú desde la cabecera.</span></p>
-    </div>
-  </div>
-</section>
-
-<dialog class="modal" id="modal" aria-labelledby="modal-titulo">
-  <div class="cuerpo">
-    <h2 class="serif" id="modal-titulo" style="font-size: var(--texto-h3)">¿Generar el dossier de evidencias?</h2>
-    <p class="suave" style="font-size: var(--texto-base)">Se creará un PDF con portada, índice y todas las evidencias registradas hasta hoy, ordenadas por fecha. La generación queda registrada.</p>
-  </div>
-  <div class="pie">
-    <button class="boton b-secundario" type="button" data-cerrar>Cancelar</button>
-    <button class="boton b-lumbre" type="button" data-cerrar><svg class="ic ic-16"><use href="#i-file-down"/></svg>Generar dossier</button>
-  </div>
-</dialog>
-
-<section class="sala" id="movimiento">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">08 · Movimiento</p>
-      <h2 class="serif ligera">Se mueve para explicar, no para entretener.</h2>
-      <p>Confirmar, orientar o mostrar un cambio de dato. Si no hace ninguna de esas tres cosas, no se anima. Con «reducir movimiento», todo ocurre al instante.</p>
-    </div>
-    <div class="tabla-caja">
-      <table class="datos"><caption class="sr-only">Duraciones y curvas</caption>
-        <thead><tr><th>Token</th><th class="n">Valor</th><th>Uso</th></tr></thead>
-        <tbody>
-          <tr><td class="mono">--duracion-rapida</td><td class="n">120 ms</td><td>Pulsación, color</td></tr>
-          <tr><td class="mono">--duracion-base</td><td class="n">200 ms</td><td>Menús, interruptores</td></tr>
-          <tr><td class="mono">--duracion-lenta</td><td class="n">360 ms</td><td>Modales, cambio de sección</td></tr>
-          <tr><td class="mono">--duracion-enfasis</td><td class="n">720 ms</td><td>Indicadores, confirmación de evidencia</td></tr>
-          <tr><td class="mono">--curva-salida</td><td class="n mono">0.23, 1, 0.32, 1</td><td>Todo lo que entra</td></tr>
-          <tr><td class="mono">--curva-entrada-salida</td><td class="n mono">0.65, 0, 0.35, 1</td><td>Entre dos posiciones</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="rejilla c2" style="margin-top: var(--espacio-6)">
-      <div class="lamina">
-        <h3 class="titulo-bloque">Transición entre secciones</h3>
-        <div class="fila" role="group" aria-label="Secciones de ejemplo" style="margin-bottom: var(--espacio-6)">
-          <button class="boton b-secundario b-compacto" type="button" data-seccion="0" aria-pressed="true">Resumen</button>
-          <button class="boton b-secundario b-compacto" type="button" data-seccion="1" aria-pressed="false">Evidencias</button>
-          <button class="boton b-secundario b-compacto" type="button" data-seccion="2" aria-pressed="false">Dossier</button>
-        </div>
-        <div id="escena" style="position: relative; min-height: 180px">
-          <div class="escena" style="display: grid; gap: 12px"><span class="serif" style="font-size: var(--texto-h2)">Resumen</span><p class="suave" style="font-size: var(--texto-base)">Lo saliente se desvanece; lo entrante sube 12 px. 360 ms, sin rebote.</p></div>
-          <div class="escena" hidden style="display: grid; gap: 12px"><span class="serif" style="font-size: var(--texto-h2)">Evidencias</span><p class="suave" style="font-size: var(--texto-base)">24 registros ordenados por fecha. Ejemplo ficticio.</p></div>
-          <div class="escena" hidden style="display: grid; gap: 12px"><span class="serif" style="font-size: var(--texto-h2)">Dossier</span><p><button class="boton b-lumbre b-compacto" type="button"><svg class="ic ic-16"><use href="#i-file-down"/></svg>Descargar</button></p></div>
-        </div>
-      </div>
-      <div class="lamina" style="display: grid; gap: var(--espacio-4); align-content: start; font-size: var(--texto-base)">
-        <h3 class="titulo-bloque" style="margin: 0">Cuándo animar</h3>
-        <p><strong>Sí:</strong> confirmar que algo se ha guardado, mostrar el valor de un indicador, orientar al cambiar de sección, abrir y cerrar capas.</p>
-        <p><strong>No:</strong> entradas decorativas en cada tarjeta, parpadeos, bucles, parallax dentro del producto, animar texto que hay que leer.</p>
-        <p><strong>Nunca:</strong> comunicar urgencia con movimiento. Un plazo se dice con texto, icono y color.</p>
-        <p class="terciario" style="font-size: var(--texto-pequeno)">GSAP 3 con <span class="mono">gsap.matchMedia()</span>: con reducir movimiento se aplican los estados finales.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sala alterna" id="voz">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">09 · Tono y mensajes</p>
-      <h2 class="serif ligera">Claro, sereno y de usted.</h2>
-      <p>Como un buen técnico de prevención: precisión sin alarma y sin prometer lo que no depende de nosotros. Frases cortas, español de España, sin emojis.</p>
-    </div>
-    <div class="par">
-      <div style="background: var(--error-fondo)"><span class="ceja" style="color: var(--error-texto)">Así no</span><p style="margin-top: 6px">¡Atención! Tienes riesgos críticos sin resolver. Actúa ya para evitar multas.</p></div>
-      <div style="background: var(--correcto-fondo)"><span class="ceja" style="color: var(--correcto-texto)">Así sí</span><p style="margin-top: 6px">Hay 2 medidas sin responsable. Asígnelas para que el plan de acción quede completo.</p></div>
-    </div>
-    <div class="microcopy" style="margin-top: var(--espacio-12)">
-      <div class="lamina"><span class="ceja">Bienvenida</span><p class="serif" style="font-size: var(--texto-h3)">Le damos la bienvenida a LUMBRA360.</p><p class="suave">Le acompañaremos paso a paso para tener la evaluación psicosocial y la desconexión digital en orden, con todo documentado.</p><div class="fila"><button class="boton b-primario b-compacto" type="button">Empezar</button></div></div>
-      <div class="lamina"><span class="ceja">Panel principal</span><p class="serif" style="font-size: var(--texto-h3)">Buenos días.</p><p class="suave">Esto es lo que está en orden y lo que conviene revisar esta semana.</p></div>
-      <div class="lamina"><span class="ceja">Evaluación completada</span><div class="alerta correcto"><svg class="ic"><use href="#i-circle-check"/></svg><div><strong>Campaña cerrada</strong><p>Hemos registrado la fecha de cierre y la participación. El técnico de prevención ya puede preparar el informe.</p></div></div></div>
-      <div class="lamina"><span class="ceja">Evidencia generada</span><div class="alerta correcto"><svg class="ic"><use href="#i-file-check"/></svg><div><strong>Evidencia registrada</strong><p>Se ha guardado el 12 de marzo a las 10:42 en la línea temporal. No se puede modificar; si necesita aclarar algo, añada una anotación.</p></div></div></div>
-      <div class="lamina"><span class="ceja">Plazo próximo a vencer</span><div class="alerta aviso"><svg class="ic"><use href="#i-clock"/></svg><div><strong>La revisión del plan vence en 14 días</strong><p>Fecha prevista: 30 de abril. ¿Quiere revisar los responsables de las medidas pendientes?</p></div></div><p class="terciario" style="font-size: var(--texto-pequeno)">Plazos fijados por la empresa o su técnico. Si se cita un plazo legal: [PENDIENTE DE VALIDAR].</p></div>
-      <div class="lamina"><span class="ceja">Error de carga</span><div class="alerta error"><svg class="ic"><use href="#i-circle-x"/></svg><div><strong>No hemos podido cargar los datos</strong><p>Sus registros están a salvo. Vuelva a intentarlo en unos segundos. Si persiste, escríbanos y le ayudamos.</p></div></div></div>
-      <div class="lamina"><span class="ceja">Estado vacío</span><p class="serif" style="font-size: var(--texto-h3)">Todavía no hay medidas en el plan.</p><p class="suave">Cuando el técnico de prevención presente el informe, podrá añadir aquí las medidas, con responsable y fecha.</p></div>
-      <div class="lamina"><span class="ceja">Exportación para inspección</span><p class="serif" style="font-size: var(--texto-h3)">Su dossier está listo.</p><p class="suave">Incluye portada, índice y 24 evidencias ordenadas por fecha, generado el 12 de marzo de 2025. Recoge lo registrado en la plataforma y no sustituye la valoración del técnico de prevención.</p><p class="terciario" style="font-size: var(--texto-pequeno)">Norma que ampara el requerimiento: [PENDIENTE DE VALIDAR].</p><div class="fila"><button class="boton b-lumbre b-compacto" type="button"><svg class="ic ic-16"><use href="#i-file-down"/></svg>Descargar PDF</button></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="sala" id="aplicaciones">
-  <div class="dentro">
-    <div class="cabeza">
-      <p class="ceja">10 · Aplicaciones</p>
-      <h2 class="serif ligera">La marca, en uso.</h2>
-      <p>Maquetas con datos ficticios marcados como ejemplo.</p>
-    </div>
-
-    <h3 class="titulo-bloque">Landing</h3>
-    <div class="marco landing-mock">
-      <div class="barra" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="navm"><img class="logo-cambia" src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360" style="height: 22px; width: auto"><span><a>Cómo funciona</a><a>Para asesorías</a><a>Precios</a></span><button class="boton b-primario b-compacto" type="button">Acceder</button></div>
-      <div class="h">
-        <p class="ceja" style="margin-bottom: 20px">Evaluación psicosocial y desconexión digital</p>
-        <h4>Cumplir y cuidar sin vigilar.</h4>
-        <p class="suave" style="max-width: 46ch; margin: 0 auto 28px">Cuestionarios anónimos, plan de acción y un dossier de evidencias fechadas, en un solo lugar.</p>
-        <div class="fila" style="justify-content: center"><button class="boton b-primario" type="button">Ver cómo funciona</button><button class="boton b-texto" type="button">Solicitar piloto <svg class="ic ic-16"><use href="#i-arrow-right"/></svg></button></div>
-      </div>
-      <div class="tres">
-        <div><b>La plantilla responde</b>Con un código, sin cuenta. Nada se muestra con menos de 5 respuestas.</div>
-        <div><b>El técnico decide</b>Registra y firma el informe, y acompaña el plan de acción.</div>
-        <div><b>Queda la evidencia</b>Todo, en una línea temporal y en un dossier en PDF.</div>
-      </div>
-      <div class="pausa"><p>Nada de vigilancia. Solo cuestionarios voluntarios y documentos.</p><button class="boton b-claro b-compacto" type="button">Privacidad por diseño</button></div>
-    </div>
-
-    <h3 class="titulo-bloque" style="margin-top: var(--espacio-16)">Acceso</h3>
-    <div class="marco">
-      <div class="barra" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="acceso-mock">
-        <form onsubmit="return false">
-          <img class="logo-cambia" src="logo/lumbra360-simbolo-positivo.svg" alt="" width="48" height="48">
-          <div><h4 class="serif ligera" style="font-size: var(--texto-h1); line-height: 1.05">Acceda a su panel.</h4><p class="suave" style="margin-top: 10px; font-size: var(--texto-base)">Le enviaremos un enlace de acceso. No necesita contraseña.</p></div>
-          <div class="campo"><label for="a1">Correo electrónico</label><input id="a1" class="control" type="email" placeholder="nombre@empresa.es" autocomplete="email"></div>
-          <button class="boton b-primario" type="submit" style="width: 100%">Enviar enlace</button>
-          <p class="terciario" style="font-size: var(--texto-pequeno)">¿Viene a responder un cuestionario? No necesita cuenta: use el código que le ha dado su empresa.</p>
-        </form>
-      </div>
-    </div>
-
-    <h3 class="titulo-bloque" style="margin-top: var(--espacio-16)">Panel principal</h3>
-    <div class="marco">
-      <div class="barra" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="app">
-        <aside class="lateral" aria-label="Navegación del panel de ejemplo">
-          <img class="logo-cambia" src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360" style="height: 22px; width: auto; margin-left: 12px">
-          <nav><ul>
-            <li><a href="#aplicaciones" aria-current="page"><svg class="ic"><use href="#i-layout-dashboard"/></svg>Panel</a></li>
-            <li><a href="#aplicaciones"><svg class="ic"><use href="#i-clipboard-check"/></svg>Evaluación</a></li>
-            <li><a href="#aplicaciones"><svg class="ic"><use href="#i-list-checks"/></svg>Plan de acción</a></li>
-            <li><a href="#aplicaciones"><svg class="ic"><use href="#i-bell-off"/></svg>Desconexión digital</a></li>
-            <li><a href="#aplicaciones"><svg class="ic"><use href="#i-history"/></svg>Evidencias</a></li>
-          </ul></nav>
-          <a href="#aplicaciones"><svg class="ic"><use href="#i-log-out"/></svg>Salir</a>
-        </aside>
-        <main>
-          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espacio-4); align-items: end">
-            <div><p class="terciario" style="font-size: var(--texto-pequeno)">Empresa de ejemplo · <span class="ejemplo">Ejemplo ficticio</span></p><h4 class="serif ligera" style="font-size: var(--texto-display); line-height: 1.02; margin-top: 10px">Buenos días.</h4><p class="suave" style="margin-top: 8px">Esto es lo que está en orden y lo que conviene revisar esta semana.</p></div>
-            <button class="boton b-lumbre" type="button"><svg class="ic ic-16"><use href="#i-file-down"/></svg>Exportar dossier</button>
+      <div class="rejilla r2" style="margin-top:24px">
+        <div class="tarjeta"><h3>Normas</h3><ul class="suave" style="display:grid;gap:6px"><li>Mínimo: 72 px de ancho en pantalla.</li><li>Área de respeto: la altura de la «l» alrededor.</li><li>Solo positivo, negativo o acento.</li><li>En texto corrido: LUMBRA360.</li></ul></div>
+        <div class="tarjeta"><h3>No hacer</h3>
+          <div class="rejilla r3" style="gap:12px;margin-top:8px">
+            <div class="lienzo mal" style="min-height:90px;padding:12px;background:var(--piedra-50)"><img src="logo/lumbra-horizontal-positivo.svg" alt="Deformado" style="width:120px;transform:scaleX(1.4)"></div>
+            <div class="lienzo mal" style="min-height:90px;padding:12px;background:var(--piedra-50)"><img src="logo/lumbra-horizontal-positivo.svg" alt="Recoloreado" style="width:120px;filter:hue-rotate(120deg) saturate(8) invert(.3)"></div>
+            <div class="lienzo mal" style="min-height:90px;padding:12px;background:var(--lumbre)"><img src="logo/lumbra-horizontal-positivo.svg" alt="Sobre lumbre" style="width:120px"></div>
           </div>
-          <div class="rejilla c4" style="gap: var(--espacio-4)">
-            <div class="ficha kpi"><span class="etq">Evaluación</span><span class="capsula correcto" style="justify-self: start"><svg class="ic"><use href="#i-lock"/></svg>Informe firmado</span><span class="nota">2 de marzo</span></div>
-            <div class="ficha kpi"><span class="etq">Plan de acción</span><span class="valor">6<small>de 9</small></span><div class="pista"><i style="width: 66%"></i></div></div>
-            <div class="ficha kpi"><span class="etq">Desconexión digital</span><span class="capsula info" style="justify-self: start"><svg class="ic"><use href="#i-history"/></svg>Acuse abierto</span><span class="nota">31 lecturas confirmadas</span></div>
-            <div class="ficha kpi"><span class="etq">Próximo plazo</span><span class="valor">14<small>días</small></span><span class="capsula aviso" style="justify-self: start"><svg class="ic"><use href="#i-clock"/></svg>Revisión del plan</span></div>
-          </div>
-          <div class="tabla-caja">
-            <table class="datos"><caption class="sr-only">Últimas evidencias, ejemplo</caption>
-              <thead><tr><th>Fecha</th><th>Evidencia</th><th>Autor</th><th class="n">Huella</th></tr></thead>
-              <tbody>
-                <tr><td class="num">12/03 10:42</td><td class="principal">Formación en desconexión digital</td><td>RR. HH.</td><td class="n mono">3b7e…90a1</td></tr>
-                <tr><td class="num">08/03 16:05</td><td class="principal">Política aprobada · versión 2</td><td>Dirección</td><td class="n mono">4e1a…c07d</td></tr>
-                <tr><td class="num">02/03 11:20</td><td class="principal">Informe registrado y firmado</td><td>Técnico de prevención</td><td class="n mono">9f2c…41ab</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </main>
+          <p class="suave" style="margin-top:12px;font-size:.875rem">Ni deformar, ni recolorear, ni sombras o degradados, ni sobre la lumbre.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <h3 class="titulo-bloque" style="margin-top: var(--espacio-16)">Informe PDF exportable</h3>
-    <div class="pdf-caja">
-      <article class="a4" aria-label="Portada del dossier, ejemplo">
-        <div style="display: flex; justify-content: space-between; align-items: center"><img src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360" style="height: 14px; width: auto"><span style="font-size: 7px; letter-spacing: .16em; color: #706a61">EJEMPLO FICTICIO</span></div>
-        <div style="display: grid; align-content: center; gap: 12px">
-          <span style="font-size: 7.5px; letter-spacing: .2em; color: #706a61; font-weight: 600">DOSSIER DE EVIDENCIAS</span>
-          <span class="t" style="font-size: 30px; font-weight: 300; line-height: 1; letter-spacing: -0.03em">Empresa de ejemplo, S. L.</span>
-          <span style="color: #5c5850">Evaluación psicosocial y desconexión digital</span>
-          <span style="width: 36px; height: 2px; background: #e6a23a; margin-block: 8px"></span>
-          <table style="border-collapse: collapse; font-size: 8.5px; font-variant-numeric: tabular-nums">
-            <tr><td style="color: #706a61; padding: 3px 14px 3px 0">Generado</td><td>12 de marzo de 2025, 10:45</td></tr>
-            <tr><td style="color: #706a61; padding: 3px 14px 3px 0">Periodo</td><td>1 ene 2025 – 12 mar 2025</td></tr>
-            <tr><td style="color: #706a61; padding: 3px 14px 3px 0">Evidencias</td><td>24</td></tr>
-            <tr><td style="color: #706a61; padding: 3px 14px 3px 0">Generado por</td><td>RR. HH.</td></tr>
-          </table>
+  <!-- 3. Color -->
+  <section id="color">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">03 · Color</p>
+        <h2>Blanco, tinta y una sola lumbre</h2>
+        <p>La tinta es el negro del logotipo y hace de texto, de acción y de bloque oscuro. La lumbre aparece poco: la acción de más valor, la onda y detalles pequeños. El error es carmesí para no confundirse con ella.</p>
+      </div>
+      <div class="rejilla r4">
+        <div class="muestra"><div class="bloque" style="background:var(--tinta-900)"></div><div><strong>Tinta</strong><p class="mono suave">#1B1B1B · texto y acción</p></div></div>
+        <div class="muestra"><div class="bloque" style="background:var(--lumbre)"></div><div><strong>Lumbre</strong><p class="mono suave">#F25A1F · único acento</p></div></div>
+        <div class="muestra"><div class="bloque" style="background:var(--piedra-0);border-bottom:1px solid var(--linea)"></div><div><strong>Blanco</strong><p class="mono suave">#FFFFFF · lienzo</p></div></div>
+        <div class="muestra"><div class="bloque" style="background:var(--piedra-50)"></div><div><strong>Piedra 50</strong><p class="mono suave">#F5F5F2 · alterna secciones</p></div></div>
+      </div>
+      <div style="display:grid;gap:12px;margin-top:32px">
+        <p class="ceja">Tinta</p>
+        <div class="escala" id="escala-tinta"></div>
+        <p class="ceja" style="margin-top:12px">Lumbre</p>
+        <div class="escala" id="escala-lumbre" style="grid-template-columns:repeat(10,1fr)"></div>
+        <p class="ceja" style="margin-top:12px">Semánticos</p>
+        <div class="rejilla r4" style="gap:12px">
+          <span class="estado" style="background:var(--correcto-fondo);color:var(--correcto-texto)"><svg class="ic" style="width:14px;height:14px"><use href="#i-circle-check"/></svg>Al día</span>
+          <span class="estado" style="background:var(--aviso-fondo);color:var(--aviso-texto)"><svg class="ic" style="width:14px;height:14px"><use href="#i-clock"/></svg>Vence pronto</span>
+          <span class="estado" style="background:var(--error-fondo);color:var(--error-texto)"><svg class="ic" style="width:14px;height:14px"><use href="#i-circle-x"/></svg>Requiere atención</span>
+          <span class="estado" style="background:var(--info-fondo);color:var(--info-texto)"><svg class="ic" style="width:14px;height:14px"><use href="#i-info"/></svg>En curso</span>
         </div>
-        <div class="pie-pdf"><span>Origen del cuestionario de evaluación: Instituto Nacional de Seguridad y Salud en el Trabajo.</span><span>1 / 12</span></div>
-      </article>
-      <article class="a4" aria-label="Índice y línea temporal del dossier, ejemplo">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #e6e2da; padding-bottom: 8px"><span class="t" style="font-size: 15px">Índice</span><span style="font-size: 7.5px; color: #706a61">Empresa de ejemplo, S. L.</span></div>
-        <div style="display: grid; gap: 16px; align-content: start; padding-top: 14px">
-          <ol style="display: grid; gap: 6px">
-            <li style="display: flex; gap: 10px"><span style="color: #706a61">1</span>Evaluación psicosocial<span style="margin-left: auto; color: #706a61">3</span></li>
-            <li style="display: flex; gap: 10px"><span style="color: #706a61">2</span>Informe y observaciones del técnico<span style="margin-left: auto; color: #706a61">4</span></li>
-            <li style="display: flex; gap: 10px"><span style="color: #706a61">3</span>Plan de acción e historial<span style="margin-left: auto; color: #706a61">6</span></li>
-            <li style="display: flex; gap: 10px"><span style="color: #706a61">4</span>Política de desconexión digital<span style="margin-left: auto; color: #706a61">8</span></li>
-            <li style="display: flex; gap: 10px"><span style="color: #706a61">5</span>Audiencia, acuses y formación<span style="margin-left: auto; color: #706a61">10</span></li>
-          </ol>
-          <span class="t" style="font-size: 15px; margin-top: 8px">Línea temporal</span>
-          <table style="width: 100%; border-collapse: collapse; font-size: 8px; font-variant-numeric: tabular-nums">
-            <thead><tr style="text-align: left; color: #706a61; font-size: 6.5px; letter-spacing: .12em"><th style="padding: 4px 0; border-bottom: 1px solid #d3cdc2; font-weight: 600">FECHA</th><th style="border-bottom: 1px solid #d3cdc2; font-weight: 600">EVIDENCIA</th><th style="border-bottom: 1px solid #d3cdc2; font-weight: 600">AUTOR</th></tr></thead>
-            <tbody>
-              <tr><td style="padding: 5px 0; border-bottom: 1px solid #efece6">26/02/2025</td><td style="border-bottom: 1px solid #efece6">Campaña cerrada</td><td style="border-bottom: 1px solid #efece6">RR. HH.</td></tr>
-              <tr><td style="padding: 5px 0; border-bottom: 1px solid #efece6">02/03/2025</td><td style="border-bottom: 1px solid #efece6">Informe firmado</td><td style="border-bottom: 1px solid #efece6">Técnico</td></tr>
-              <tr><td style="padding: 5px 0; border-bottom: 1px solid #efece6">08/03/2025</td><td style="border-bottom: 1px solid #efece6">Política aprobada v2</td><td style="border-bottom: 1px solid #efece6">Dirección</td></tr>
-              <tr><td style="padding: 5px 0">12/03/2025</td><td>Formación registrada</td><td>RR. HH.</td></tr>
-            </tbody>
-          </table>
-          <p style="color: #706a61; font-size: 7.5px">Recoge lo registrado en la plataforma. Las respuestas a los cuestionarios son anónimas y no se incluyen.</p>
-        </div>
-        <div class="pie-pdf"><span style="font-family: var(--fuente-datos)">Huella del documento: 9f2c…41ab</span><span>2 / 12</span></div>
-      </article>
+      </div>
+      <h3 style="margin:48px 0 16px;font-size:1.0625rem">Contraste comprobado (WCAG 2.x, AA)</h3>
+      <div class="tabla-envoltorio"><table id="contraste"><thead><tr><th>Modo</th><th>Pareja</th><th>Texto</th><th>Fondo</th><th style="text-align:right">Contraste</th><th>Resultado</th></tr></thead><tbody></tbody></table></div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- 4. Tipografía -->
+  <section id="tipografia">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">04 · Tipografía</p>
+        <h2>Una grotesca para todo</h2>
+        <p>Instrument Sans en titulares, interfaz y datos, con cifras tabulares. IBM Plex Mono para valores literales e índices. Las dos con licencia SIL OFL. La elegancia sale del tamaño y del aire, no del peso.</p>
+      </div>
+      <div class="especimen">
+        <div><span class="mono suave">Héroe · 60 px · 500 · −0,035 em</span><span style="font-size:clamp(2rem,1.4rem + 2.6vw,3.75rem);font-weight:500;line-height:1.05;letter-spacing:-.035em">Evaluación psicosocial, en orden</span></div>
+        <div><span class="mono suave">Sección · 40 px · 500</span><span style="font-size:clamp(1.75rem,1.4rem + 1.4vw,2.5rem);font-weight:500;letter-spacing:-.03em;line-height:1.1">Cuidar a la plantilla y poder demostrarlo</span></div>
+        <div><span class="mono suave">Tarjeta · 18 px · 600</span><span style="font-size:1.125rem;font-weight:600">Pasar de los datos a las medidas</span></div>
+        <div><span class="mono suave">Lectura · 17 px · 400</span><span class="suave">Cada medida del plan tiene responsable, fecha prevista y estado.</span></div>
+        <div><span class="mono suave">Datos · 14 px · tnum</span><span style="font-size:.875rem;font-variant-numeric:tabular-nums">24 evidencias · 75 % · 12/03/2026</span></div>
+        <div><span class="mono suave">Índice · Plex Mono 12</span><span class="ceja" style="color:var(--texto)">02 · Cómo se utiliza</span></div>
+      </div>
+      <div class="rejilla r3" style="margin-top:32px">
+        <div class="tarjeta"><h3>Títulos sin punto final</h3><p class="suave">Ni en la web ni en la aplicación. Las preguntas conservan sus signos.</p></div>
+        <div class="tarjeta"><h3>Frases cortas</h3><p class="suave">Párrafos de 60 a 70 caracteres de ancho, alineados a la izquierda.</p></div>
+        <div class="tarjeta"><h3>Cifras</h3><p class="suave">Siempre tabulares en tablas e indicadores. Porcentajes con espacio: 75 %.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Componentes -->
+  <section id="componentes">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">05 · Componentes</p>
+        <h2>Pocas piezas, siempre iguales</h2>
+        <p>Botones en cápsula, tarjetas con el mismo radio y relleno, filetes de 1 px en lugar de sombras y un único botón principal por bloque.</p>
+      </div>
+      <div class="rejilla r2">
+        <div class="tarjeta" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <h3 style="width:100%">Botones</h3>
+          <a class="boton b-principal" href="#componentes">Solicitar una demostración</a>
+          <a class="boton b-secundario" href="#componentes">Cómo se utiliza</a>
+          <a class="boton b-lumbre" href="#componentes">Exportar dossier</a>
+          <p class="suave" style="width:100%;font-size:.875rem">Lumbre solo para la acción de más valor. Texto en tinta sobre lumbre, nunca en blanco.</p>
+        </div>
+        <div class="tarjeta" style="display:grid;gap:16px">
+          <h3>Campo</h3>
+          <div class="campo"><label for="c1">Correo electrónico</label><input id="c1" placeholder="nombre@empresa.es"></div>
+          <p class="suave" style="font-size:.875rem">44 px de alto, borde de control con 3:1 y foco en lumbre.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Tarjeta de beneficio</h3>
+          <span style="display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--lumbre-50);color:var(--lumbre-600);margin:12px 0"><svg class="ic"><use href="#i-eye-off"/></svg></span>
+          <p style="font-weight:600">Escuchar sin exponer a nadie</p>
+          <p class="suave" style="margin-top:6px">Cuestionarios anónimos. Resultados solo en grupos de 5 o más.</p>
+        </div>
+        <div class="bento" id="bento">
+          <p class="ceja" style="color:var(--lumbre-300)">Panel oscuro (bento)</p>
+          <p style="font-size:1.25rem;font-weight:600;margin-top:12px">Gerencia de pymes</p>
+          <p style="color:var(--tinta-200);margin-top:6px">Un foco de luz sigue al puntero. Para secciones que deben destacar.</p>
+        </div>
+      </div>
+      <h3 style="margin:48px 0 16px;font-size:1.0625rem">Iconografía · Lucide (ISC), trazo 1,75</h3>
+      <ul class="iconos" id="iconos"></ul>
+    </div>
+  </section>
+
+  <!-- 6. Movimiento -->
+  <section id="movimiento">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">06 · Movimiento</p>
+        <h2>Se mueve para explicar</h2>
+        <p>GSAP y ScrollTrigger, con desplazamiento suave (Lenis). Las animaciones van ligadas al scroll: avanzan al bajar y retroceden al subir. Con «reducir movimiento», todo se ve quieto en su estado final.</p>
+      </div>
+      <div class="rejilla r2">
+        <div class="lienzo" style="background:var(--piedra-50)"><svg class="onda-demo" viewBox="465.99 654.89 324.36 201.4" width="220" aria-label="La onda se dibuja y se rellena"><path id="onda-demo" fill="var(--lumbre)" stroke="var(--lumbre)" stroke-width="2" pathLength="100"/></svg></div>
+        <div class="tarjeta" style="display:grid;gap:12px">
+          <h3>Principios</h3>
+          <ul class="suave" style="display:grid;gap:8px">
+            <li>Si no explica algo, no se anima.</li>
+            <li>Recorridos cortos (24 a 64 px) y curvas suaves; nada de rebotes largos.</li>
+            <li>Escenas que cuentan el producto: el portátil que se abre, los papeles que se ordenan, la película de pantallas.</li>
+            <li>Nunca se comunica urgencia con movimiento: un plazo se dice con texto e icono.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tabla-envoltorio" style="margin-top:24px"><table><thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead><tbody>
+        <tr><td class="mono">--duracion-rapida</td><td class="mono">120 ms</td><td>Pulsación, color</td></tr>
+        <tr><td class="mono">--duracion-base</td><td class="mono">200 ms</td><td>Menús, interruptores</td></tr>
+        <tr><td class="mono">--duracion-lenta</td><td class="mono">360 ms</td><td>Paneles, cambio de capítulo</td></tr>
+        <tr><td class="mono">--duracion-enfasis</td><td class="mono">720 ms</td><td>Entradas de sección, indicadores</td></tr>
+        <tr><td class="mono">--curva-salida</td><td class="mono">0.23, 1, 0.32, 1</td><td>Todo lo que entra</td></tr>
+      </tbody></table></div>
+    </div>
+  </section>
+
+  <!-- 7. Voz -->
+  <section id="voz">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">07 · Voz y tono</p>
+        <h2>De usted, claro y sin promesas</h2>
+        <p>Español de España, frases cortas y tratamiento de usted. Se explica qué pasa y qué hacer, sin tecnicismos ni alarma.</p>
+      </div>
+      <div class="rejilla r2">
+        <div class="tarjeta"><h3>Sí</h3><ul class="suave" style="display:grid;gap:6px"><li>«Le enviaremos un enlace de acceso.»</li><li>«Resultados protegidos: este grupo tiene menos de 5 respuestas.»</li><li>«Cada paso queda registrado con fecha y autor.»</li><li>Datos de demostración siempre marcados como ejemplo.</li></ul></div>
+        <div class="tarjeta"><h3>Nunca</h3><ul class="suave" style="display:grid;gap:6px"><li>«Evaluación oficial», «cumplimiento garantizado», «evita sanciones».</li><li>Cifras, clientes o testimonios inventados.</li><li>Sugerir que el INSST avala la plataforma.</li><li>Mencionar la IA en textos públicos.</li></ul></div>
+      </div>
+      <div class="tarjeta" style="margin-top:24px"><h3>Mención obligatoria</h3><p class="suave">Donde se use el cuestionario FPSICO: «Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo».</p></div>
+    </div>
+  </section>
+
+  <!-- 8. Aplicaciones -->
+  <section id="aplicaciones">
+    <div class="contenedor">
+      <div class="encabezado">
+        <p class="ceja">08 · Aplicaciones</p>
+        <h2>La marca en el producto</h2>
+        <p>Capturas reales del panel con datos de demostración, siempre dentro de un dispositivo y con el mismo tratamiento.</p>
+      </div>
+      <div class="portatil"><div class="pantalla"><img src="../public/portada/app-resultados.webp" alt="Resultados de un seguimiento de demostración"></div><div class="base"></div></div>
+      <div class="rejilla r3" style="margin-top:48px">
+        <figure><img src="../public/portada/app-plan.webp" alt="Plan de acción de demostración" style="border-radius:12px;border:1px solid var(--linea)"><figcaption class="pie-fig"><span>Plan de acción</span></figcaption></figure>
+        <figure><img src="../public/portada/app-desconexion.webp" alt="Desconexión digital de demostración" style="border-radius:12px;border:1px solid var(--linea)"><figcaption class="pie-fig"><span>Desconexión digital</span></figcaption></figure>
+        <figure><img src="../public/portada/app-campanas.webp" alt="Campañas de demostración" style="border-radius:12px;border:1px solid var(--linea)"><figcaption class="pie-fig"><span>Campañas</span></figcaption></figure>
+      </div>
+      <div class="tarjeta" style="margin-top:48px"><h3>Logotipos de terceros</h3><p class="suave">Universidad de Salamanca, Fundación General, Prototipos, RIS3 de Castilla y León y YMCA Salamanca aparecen solo en «Respaldo», en pequeño y sin alterar. Cada uso necesita la autorización de su titular (ver <span class="mono">credits.md</span>). WORKWELL360 es el prototipo del que nace LUMBRA360.</p></div>
+    </div>
+  </section>
 </main>
 
-<footer class="pie">
-  <div class="dentro" style="display: flex; flex-wrap: wrap; gap: var(--espacio-4); justify-content: space-between; align-items: center">
-    <img class="logo-cambia" src="logo/lumbra360-horizontal-positivo.svg" alt="LUMBRA360" style="height: 24px; width: auto">
-    <span>Sistema de marca LUMBRA360 · 2.0 «Galería de luz» · Newsreader e IBM Plex (SIL OFL) · Lucide (ISC) · GSAP 3</span>
-  </div>
-</footer>
+<footer><div class="contenedor">Sistema de marca LUMBRA360 · versión 3.0 «Tinta y lumbre» · Instrument Sans e IBM Plex Mono (SIL OFL) · Lucide (ISC) · GSAP</div></footer>
 
-<script src="vendor/gsap.min.js"></script>
 <script>
 (() => {
   const raiz = document.documentElement;
-  const botonesTema = document.querySelectorAll("[data-tema]");
-  const esOscuro = () => { const f = raiz.getAttribute("data-theme"); return f ? f === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
-  function logos() {
-    const o = esOscuro();
-    document.querySelectorAll(".logo-cambia").forEach((i) => { i.src = i.src.replace(o ? "positivo" : "negativo", o ? "negativo" : "positivo"); });
-  }
-  function aplicarTema(v) {
-    if (v === "sistema") raiz.removeAttribute("data-theme"); else raiz.setAttribute("data-theme", v);
-    botonesTema.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.tema === v)));
-    try { localStorage.setItem("lumbra-marca-tema", v); } catch (e) {}
-    logos();
-  }
-  botonesTema.forEach((b) => b.addEventListener("click", () => aplicarTema(b.dataset.tema)));
-  let g = "sistema"; try { g = localStorage.getItem("lumbra-marca-tema") || "sistema"; } catch (e) {}
-  aplicarTema(g);
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", logos);
+  const botones = document.querySelectorAll("[data-tema]");
+  const aplicar = (t) => {
+    if (t === "auto") raiz.removeAttribute("data-theme"); else raiz.setAttribute("data-theme", t);
+    botones.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.tema === t)));
+    try { localStorage.setItem("lumbra-tema", t); } catch (e) {}
+  };
+  botones.forEach((b) => b.addEventListener("click", () => aplicar(b.dataset.tema)));
+  try { const g = localStorage.getItem("lumbra-tema"); if (g) aplicar(g); } catch (e) {}
 
-  const est = getComputedStyle(raiz);
-  const escalas = [["Tinta", "tinta", [50,100,200,300,400,500,600,700,800,900,950]], ["Lumbre", "lumbre", [50,100,200,300,400,500,600,700,800,900]], ["Piedra · neutros cálidos", "piedra", [0,25,50,100,200,300,400,500,600,700,800,900,950]]];
-  const cont = document.getElementById("escalas");
-  for (const [t, n, pasos] of escalas) {
-    const b = document.createElement("div");
-    b.innerHTML = `<h3 class="titulo-bloque">${t}</h3>`;
-    const f = document.createElement("div"); f.className = "escala";
-    for (const p of pasos) {
-      const hex = est.getPropertyValue(`--${n}-${p}`).trim();
-      const r = parseInt(hex.slice(1,3),16), gg = parseInt(hex.slice(3,5),16), bb = parseInt(hex.slice(5,7),16);
-      const claro = (0.299*r + 0.587*gg + 0.114*bb) > 150;
-      const c = document.createElement("div"); c.style.background = hex; c.style.color = claro ? "#0b1a1d" : "#ffffff";
-      if (hex.toLowerCase() === "#ffffff") c.style.boxShadow = "inset 0 0 0 1px var(--linea)";
-      c.innerHTML = `<b style="font-weight:600">${p}</b><span class="mono" style="font-size:10.5px">${hex}</span>`;
-      f.appendChild(c);
-    }
-    b.appendChild(f); cont.appendChild(b);
-  }
-
-  const parejas = /*CONTRASTE*/[];
-  document.getElementById("contraste").innerHTML = parejas.map(([m, n, t, f, r, ok]) => `<tr><td>${m}</td><td class="principal">${n}</td><td><span style="display:inline-flex;align-items:center;justify-content:center;min-width:52px;padding:2px 10px;border-radius:999px;background:${f};color:${t};box-shadow:inset 0 0 0 1px var(--linea);font-weight:600">Aa</span></td><td class="n">${String(r).replace('.', ',')}:1</td><td>${ok ? '<span class="capsula correcto"><svg class="ic"><use href="#i-check"/></svg>Cumple</span>' : '<span class="capsula error">No cumple</span>'}</td></tr>`).join("");
-
-  const pasosEsp = [[1,4],[2,8],[3,12],[4,16],[6,24],[8,32],[12,48],[16,64],[24,96],[32,128]];
-  document.getElementById("barras-espacio").innerHTML = pasosEsp.map(([t, px]) => `<div style="display:grid;grid-template-columns:64px 1fr;align-items:center;gap:12px;font-size:12px;color:var(--texto-terciario)"><span class="mono" style="font-size:11px">${t} · ${px}</span><i style="display:block;height:8px;border-radius:4px;background:var(--tinta-200);width:${Math.min(px*1.6, 220)}px;max-width:100%"></i></div>`).join("");
-
-  const iconos = /*ICONOS*/[];
-  document.getElementById("iconos-lista").innerHTML = iconos.map((n) => `<li style="display:grid;justify-items:center;gap:10px;padding:22px 6px;border-radius:12px;font-size:11px;color:var(--texto-terciario);text-align:center"><svg class="ic ic-24" style="color:var(--texto)"><use href="#i-${n}"/></svg><span>${n}</span></li>`).join("");
-
-  const reducir = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const conGsap = (fn) => { if (window.gsap && !reducir()) fn(window.gsap); };
-
-  const modal = document.getElementById("modal");
-  document.getElementById("abrir-modal").addEventListener("click", () => { modal.showModal(); conGsap((gs) => gs.fromTo(modal, { opacity: 0, y: 12, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.36, ease: "expo.out" })); });
-  modal.querySelectorAll("[data-cerrar]").forEach((b) => b.addEventListener("click", () => modal.close()));
-
-  function cargar() {
-    conGsap((gs) => {
-      gs.fromTo("#kpis .pista i", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.72, ease: "power3.out", stagger: 0.06 });
-      document.querySelectorAll("#kpis .valor[data-valor]").forEach((el, i) => {
-        const fin = Number(el.dataset.valor), resto = el.querySelector("small") ? el.querySelector("small").outerHTML : "", e = { v: 0 };
-        gs.to(e, { v: fin, duration: 0.72, delay: i * 0.06, ease: "power3.out", onUpdate: () => { el.innerHTML = Math.round(e.v) + resto; } });
-      });
+  // Escalas de color leídas de los tokens
+  const css = getComputedStyle(raiz);
+  const escala = (id, nombre, pasos) => {
+    const el = document.getElementById(id);
+    pasos.forEach((p) => {
+      const s = document.createElement("span");
+      s.style.background = `var(--${nombre}-${p})`;
+      const etiqueta = document.createElement("small");
+      etiqueta.textContent = p;
+      etiqueta.style.color = (typeof p === "number" && p >= 500) || p === "400" ? "#fff" : "#111";
+      s.appendChild(etiqueta);
+      s.title = `--${nombre}-${p}: ${css.getPropertyValue(`--${nombre}-${p}`).trim()}`;
+      el.appendChild(s);
     });
-  }
-  const obs = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { cargar(); obs.disconnect(); } }, { threshold: 0.4 });
-  obs.observe(document.getElementById("kpis"));
-  document.getElementById("repetir-kpis").addEventListener("click", cargar);
+  };
+  escala("escala-tinta", "tinta", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]);
+  escala("escala-lumbre", "lumbre", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
 
-  const escenas = document.querySelectorAll("#escena .escena"), bots = document.querySelectorAll("[data-seccion]");
-  let actual = 0;
-  bots.forEach((b) => b.addEventListener("click", () => {
-    const d = Number(b.dataset.seccion); if (d === actual) return;
-    bots.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    const sale = escenas[actual], entra = escenas[d]; actual = d;
-    if (!window.gsap || reducir()) { sale.hidden = true; entra.hidden = false; return; }
-    gsap.timeline().to(sale, { opacity: 0, duration: 0.16, onComplete: () => { sale.hidden = true; gsap.set(sale, { opacity: 1 }); } }).add(() => { entra.hidden = false; }).fromTo(entra, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.36, ease: "expo.out" });
-  }));
+  // Tabla de contraste (calculada por brand/scripts/contraste.py)
+  const contraste = /*CONTRASTE*/[];
+  const cuerpo = document.querySelector("#contraste tbody");
+  contraste.forEach(([modo, nombre, t, f, r, ok]) => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `<td>${modo}</td><td>${nombre}</td><td class="mono"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${t};vertical-align:-1px;margin-right:6px;border:1px solid var(--linea)"></span>${t}</td><td class="mono"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${f};vertical-align:-1px;margin-right:6px;border:1px solid var(--linea)"></span>${f}</td><td class="num">${String(r).replace(".", ",")}:1</td><td>${ok ? "Cumple" : "No cumple"}</td>`;
+    cuerpo.appendChild(fila);
+  });
 
-  const textos = ["Acta de audiencia adjunta", "Acuse de lectura cerrado", "Medida marcada como hecha"];
-  let n = 0;
-  document.getElementById("nueva-evidencia").addEventListener("click", () => {
-    const lista = document.getElementById("linea-tiempo");
-    const hora = new Date().toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-    const li = document.createElement("li"); li.className = "hito nueva";
-    li.innerHTML = `<span class="nodo" aria-hidden="true"><span class="halo"></span></span><span class="t">${textos[n++ % textos.length]} · ejemplo</span><span class="m"><span>Hoy · ${hora}</span><span>Usted</span></span>`;
-    lista.prepend(li);
-    document.getElementById("estado-evidencia").textContent = `Evidencia registrada hoy a las ${hora}. No se puede modificar.`;
-    conGsap((gs) => {
-      const alto = li.offsetHeight;
-      gs.timeline()
-        .fromTo(li, { height: 0, opacity: 0, marginBottom: -24 }, { height: alto, opacity: 1, marginBottom: 0, duration: 0.36, ease: "expo.out", clearProps: "height,marginBottom" })
-        .fromTo(li.querySelector(".nodo"), { scale: 0 }, { scale: 1, duration: 0.36, ease: "back.out(1.4)" }, "-=0.12")
-        .fromTo(li.querySelector(".halo"), { scale: 0.6, opacity: 0.9 }, { scale: 2, opacity: 0, duration: 0.72, ease: "power2.out" }, "<");
-    });
+  // Galería de iconos
+  const lista = document.getElementById("iconos");
+  /*ICONOS*/[].forEach((n) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<svg class="ic" style="width:24px;height:24px"><use href="#i-${n}"/></svg>${n}`;
+    lista.appendChild(li);
+  });
+
+  // Foco de luz del bento
+  const bento = document.getElementById("bento");
+  bento.addEventListener("pointermove", (e) => {
+    const r = bento.getBoundingClientRect();
+    bento.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    bento.style.setProperty("--my", `${e.clientY - r.top}px`);
   });
 })();
 </script>
+<script>/*ONDA*/</script>
 </body>
 </html>

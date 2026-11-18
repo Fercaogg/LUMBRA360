@@ -18,7 +18,7 @@ test("una evaluación es FPSICO: pide la autorización del INSST y muestra el or
   await expect(page.getByRole("heading", { name: nombre })).toBeVisible();
   await expect(visible(page, ORIGEN)).toBeVisible();
   await expect(visible(page, "No se puede publicar ni copiar ningún ítem hasta tenerla.")).toBeVisible();
-  await expect(visible(page, "[PENDIENTE: comprobar en el manual técnico y de uso de FPSICO 4.1]")).toBeVisible();
+  await expect(visible(page, "[PENDIENTE: probar una importación real en FPSICO 4.1, sobre todo sin preguntas variables]")).toBeVisible();
   // Una evaluación no lleva niveles: no se puntúa aquí.
   await expect(page.getByRole("button", { name: "Añadir nivel" }).filter({ visible: true })).toHaveCount(0);
 

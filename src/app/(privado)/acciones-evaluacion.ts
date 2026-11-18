@@ -223,12 +223,13 @@ export async function guardarExportacion(_p: EstadoFormulario, datos: FormData):
       separador: String(datos.get("separador") ?? ""),
       cabecera: campo(datos, "cabecera"),
       finLinea: campo(datos, "finLinea"),
+      formato: campo(datos, "formato") ?? "personalizado",
       confirmado: datos.get("confirmado") === "on",
     },
     async (d, { supabase }) => {
       const { error } = await supabase
         .from("instrumentos")
-        .update({ export_separador: d.separador, export_cabecera: d.cabecera, export_fin_linea: d.finLinea, export_confirmado: d.confirmado })
+        .update({ export_formato: d.formato, export_separador: d.separador, export_cabecera: d.cabecera, export_fin_linea: d.finLinea, export_confirmado: d.confirmado })
         .eq("id", d.id);
       return { error, exito: "Formato guardado.", revalidar: `/admin/instrumentos/${d.id}` };
     },

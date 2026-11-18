@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { PaginaPendiente } from "@/components/portada/pagina-pendiente";
 
 const PAGINAS = {
-  "aviso-legal": "Aviso legal",
   privacidad: "Política de privacidad",
   cookies: "Política de cookies",
 } as const;
