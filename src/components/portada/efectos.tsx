@@ -30,6 +30,7 @@ export function EfectosPortada() {
       pasos();
       pelicula();
       perfiles();
+      evolucion();
       cierre();
 
       return () => {
@@ -215,6 +216,25 @@ function perfiles() {
         { x: 0, y: 0, rotationY: 0, opacity: 1, ease: "power3.out", scrollTrigger: { trigger: lista, start: `top ${96 - i * 3}%`, end: "top 55%", scrub: 1 } },
       );
     });
+  });
+}
+
+// 6b. Respaldo: el bloque «Ya lo hemos hecho» crece y la línea une los hitos.
+function evolucion() {
+  const bloque = document.querySelector<HTMLElement>("[data-evolucion]");
+  if (!bloque) return;
+  const linea = bloque.querySelector("[data-evolucion-linea]");
+  const hitos = todos("[data-hito]", bloque);
+  gsap.fromTo(bloque, { scale: 0.94, y: 40, borderRadius: 48 }, { scale: 1, y: 0, borderRadius: 28, ease: "power3.out", scrollTrigger: { trigger: bloque, start: "top 95%", end: "top 55%", scrub: 1 } });
+  gsap.from(bloque.querySelector("[data-evolucion-texto]"), { x: -30, autoAlpha: 0, duration: 1, ease: "expo.out", scrollTrigger: { trigger: bloque, start: "top 75%", toggleActions: "play none none reverse" } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: bloque, start: "top 70%", end: "center 45%", scrub: 1 } });
+  if (linea) {
+    gsap.set(linea, { scaleX: 0 });
+    tl.to(linea, { scaleX: 1, ease: "none", duration: 1 }, 0);
+  }
+  hitos.forEach((h, i) => {
+    tl.fromTo(h, { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, i * 0.35);
+    tl.fromTo(h.firstElementChild, { scale: 0.5 }, { scale: 1, duration: 0.3, ease: "back.out(2.2)" }, i * 0.35);
   });
 }
 

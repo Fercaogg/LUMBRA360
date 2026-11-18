@@ -8,7 +8,7 @@ import { EfectosPortada } from "@/components/portada/efectos";
 import { VideoLumbra } from "@/components/portada/video-lumbra";
 import { Movil, Portatil, PortatilPelicula } from "@/components/portada/dispositivos";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
-import { Logotipo } from "@/components/marca/logotipo";
+import { Logotipo, Simbolo } from "@/components/marca/logotipo";
 import Image from "next/image";
 
 export const metadata: Metadata = {
@@ -47,6 +47,34 @@ const CAPITULOS = [
   { titulo: "Evidencias fechadas", texto: "Política aprobada, acuses y formación, con fecha y autor.", imagen: "/portada/app-desconexion.webp", alt: "Política de desconexión de ejemplo aprobada, con fecha y autor.", cursor: [40, 63] },
 ];
 
+const CONTEXTO: { etiqueta: string; titulo: string; texto?: string; puntos?: string[] }[] = [
+  {
+    etiqueta: "Por qué nace",
+    titulo: "Porque en la pyme esto se queda en papeles sueltos.",
+    texto:
+      "Evaluar los riesgos psicosociales y ordenar la desconexión digital suele acabar repartido entre correos, hojas y carpetas, sin seguimiento ni pruebas. Nace para ordenar ese trabajo y que no dependa de la memoria de nadie.",
+  },
+  {
+    etiqueta: "Cómo le ayuda",
+    titulo: "Le da método sin cargarle de trabajo.",
+    puntos: [
+      "Sabe cómo está su plantilla sin exponer a nadie",
+      "Convierte los resultados en medidas con responsable y fecha",
+      "Tiene cada paso documentado si se lo piden",
+    ],
+  },
+  {
+    etiqueta: "Qué necesita",
+    titulo: "Para empezar, muy poco.",
+    puntos: [
+      "Una persona responsable en la empresa",
+      "Su técnico de prevención, propio o de su servicio de prevención",
+      "Que la plantilla pueda responder desde el móvil o el ordenador",
+      "Nada que instalar",
+    ],
+  },
+];
+
 const PILARES = [
   { icono: Waves, titulo: "Evaluación psicosocial continua", texto: "Seguimientos breves y apoyo a la evaluación con FPSICO, siempre anónimos." },
   { icono: BellOff, titulo: "Desconexión digital", texto: "Política, audiencia a la representación, acuses de lectura y formación." },
@@ -58,6 +86,12 @@ const AVALES: { tipo: string; nombre: string; logo?: { src: string; ancho: numbe
   { tipo: "Aval", nombre: "Fundación General de la Universidad de Salamanca", logo: { src: "/marca/terceros/fundacion-general-usal.webp", ancho: 198, alto: 283 } },
   { tipo: "Programa", nombre: "Prototipos 2026/2027", logo: { src: "/marca/terceros/prototipos-tcue.webp", ancho: 427, alto: 239 } },
   { tipo: "Estrategia regional", nombre: "RIS3 de Castilla y León" },
+];
+
+const HITOS: { etiqueta: string; titulo: string; texto: string; marca?: string; logo?: "ymca" | "onda"; destacado?: boolean }[] = [
+  { etiqueta: "Prototipo", titulo: "WORKWELL360", texto: "La primera versión de la idea.", marca: "WW" },
+  { etiqueta: "Pilotaje", titulo: "YMCA Salamanca", texto: "Monitorizado con resultados satisfactorios.", logo: "ymca" },
+  { etiqueta: "Evolución", titulo: "LUMBRA360", texto: "Más completo, con evidencias fechadas.", logo: "onda", destacado: true },
 ];
 
 const EQUIPO = [
@@ -175,7 +209,7 @@ export default function Portada() {
 
         {/* 3. Qué es */}
         <Seccion id="que-es" alterna>
-          <Encabezado etiqueta="Qué es" titulo={`${NOMBRE}, en pocas palabras.`} />
+          <Encabezado etiqueta="Qué es" titulo={`Qué es ${NOMBRE} y por qué nace.`} />
           <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
             <div data-tarjetas className="flex flex-col gap-6 lg:col-span-5">
               <p data-tarjeta className="max-w-[60ch] text-pretty text-xl leading-relaxed lg:text-[1.375rem]">
@@ -201,6 +235,25 @@ export default function Portada() {
               ))}
             </ul>
           </div>
+          <ol data-tarjetas className="mt-16 grid gap-6 [perspective:1400px] md:grid-cols-3 lg:mt-20 lg:gap-8">
+            {CONTEXTO.map((c, i) => (
+              <li key={c.titulo} data-tarjeta className={`${TARJETA} flex flex-col gap-4`}>
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{String(i + 1).padStart(2, "0")} · {c.etiqueta}</span>
+                <h3 className="text-xl font-semibold leading-snug">{c.titulo}</h3>
+                {c.texto ? <p className="text-pretty text-tinta-suave">{c.texto}</p> : null}
+                {c.puntos ? (
+                  <ul className="flex flex-col border-t border-linea">
+                    {c.puntos.map((pt) => (
+                      <li key={pt} className="flex items-start gap-3 border-b border-linea py-2.5 text-[0.95rem]">
+                        <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-lumbre" />
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
+            ))}
+          </ol>
         </Seccion>
 
         {/* 4. Para qué sirve */}
@@ -290,54 +343,72 @@ export default function Portada() {
         {/* 8. Quiénes somos */}
         <Seccion id="equipo">
           <Encabezado etiqueta="Quiénes somos" titulo="Las personas detrás del proyecto." />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <ul data-tarjetas className="mx-auto grid max-w-[60rem] gap-4 [perspective:1400px] sm:grid-cols-3 lg:gap-6">
             {EQUIPO.map((m) => (
-              <li key={m.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-6`}>
-                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={480} height={480} sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw" className="aspect-square w-full rounded-[14px] object-cover" />
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-semibold">{m.nombre}</h3>
-                  <p className="text-tinta-suave">Dirección del proyecto</p>
+              <li key={m.nombre} data-tarjeta className="flex items-center gap-4 rounded-[20px] border border-linea bg-superficie p-4 pr-5">
+                <Image src={m.foto} alt={`Retrato de ${m.nombre}`} width={128} height={128} sizes="64px" className="size-16 shrink-0 rounded-full object-cover" />
+                <div className="flex min-w-0 flex-col">
+                  <h3 className="font-semibold leading-snug">{m.nombre}</h3>
+                  <p className="text-sm text-tinta-suave">Dirección del proyecto</p>
                 </div>
               </li>
             ))}
           </ul>
         </Seccion>
 
-        {/* 9. Respaldo */}
+        {/* 9. Respaldo: primero lo ya hecho, después los avales */}
         <Seccion id="respaldo" alterna>
-          <Encabezado etiqueta="Respaldo" titulo="Un proyecto con respaldo institucional." />
-          <ul data-tarjetas className="grid gap-6 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <Encabezado etiqueta="Respaldo" titulo="No partimos de cero." />
+          <div data-evolucion className="relative overflow-hidden rounded-[28px] bg-[var(--tinta-900)] p-8 text-[var(--texto-sobre-marca)] sm:p-10 lg:p-14">
+            <div className="relative grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+              <div data-evolucion-texto className="flex flex-col gap-5 lg:col-span-5">
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--lumbre-300)]">Ya lo hemos hecho</p>
+                <h3 className="text-balance text-[1.875rem] font-medium leading-[1.08] tracking-[-0.03em] lg:text-[2.5rem]">Antes de {NOMBRE}, ya pusimos a prueba WORKWELL360.</h3>
+                <p className="max-w-[46ch] text-pretty text-lg text-[var(--tinta-200)]">
+                  Monitorizamos el prototipo en YMCA Salamanca con resultados satisfactorios. {NOMBRE} es su evolución.
+                </p>
+              </div>
+              <ol className="relative grid gap-8 sm:grid-cols-3 sm:gap-6 lg:col-span-7">
+                <span aria-hidden className="absolute left-7 right-[calc((100%-3rem)/3-1.75rem)] top-7 hidden h-0.5 overflow-hidden rounded-full bg-white/15 sm:block">
+                  <span data-evolucion-linea className="absolute inset-0 origin-left bg-lumbre" />
+                </span>
+                {HITOS.map((h) => (
+                  <li key={h.titulo} data-hito className="relative flex flex-col gap-4">
+                    <span className={`grid size-14 place-items-center rounded-full ${h.destacado ? "bg-lumbre text-[var(--tinta-950)]" : "bg-white text-[var(--tinta-900)]"}`}>
+                      {h.logo === "ymca" ? (
+                        <Image src="/marca/terceros/ymca.svg" alt="YMCA" width={40} height={12} className="h-auto w-10" />
+                      ) : h.logo === "onda" ? (
+                        <Simbolo tamano={30} color="var(--tinta-950)" />
+                      ) : (
+                        <span className="font-mono text-sm font-semibold">{h.marca}</span>
+                      )}
+                    </span>
+                    <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--tinta-300)]">{h.etiqueta}</span>
+                    <span className="text-lg font-semibold leading-snug">{h.titulo}</span>
+                    <span className="text-sm text-[var(--tinta-200)]">{h.texto}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          <ul data-tarjetas className="mt-6 grid grid-cols-2 gap-4 [perspective:1400px] lg:mt-8 lg:grid-cols-4">
             {AVALES.map((a) => (
-              <li key={a.nombre} data-tarjeta className={`${TARJETA} flex flex-col gap-6`}>
-                <div className="flex h-24 items-center justify-center">
+              <li key={a.nombre} data-tarjeta className="flex flex-col items-center gap-3 rounded-[20px] border border-linea bg-superficie px-4 py-5 text-center">
+                <div className="flex h-12 items-center justify-center">
                   {a.logo ? (
-                    <Image src={a.logo.src} alt={a.nombre} width={a.logo.ancho} height={a.logo.alto} className="h-auto max-h-24 w-auto max-w-full object-contain" />
+                    <Image src={a.logo.src} alt={a.nombre} width={a.logo.ancho} height={a.logo.alto} className="h-auto max-h-12 w-auto max-w-[9.5rem] object-contain" />
                   ) : (
-                    <span className="text-center text-xl font-semibold leading-tight tracking-[-0.02em]">{a.nombre}</span>
+                    <span className="text-base font-semibold leading-tight tracking-[-0.02em]">RIS3 CyL</span>
                   )}
                 </div>
-                <div className="flex flex-col gap-1 border-t border-linea pt-5">
-                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{a.tipo}</p>
-                  <h3 className="font-semibold leading-snug">{a.nombre}</h3>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-tinta-suave">{a.tipo}</span>
+                  <span className="text-sm font-medium leading-snug">{a.nombre}</span>
                 </div>
               </li>
             ))}
           </ul>
-          <div data-tarjetas className="mt-6 [perspective:1400px] lg:mt-8">
-            <div data-tarjeta className={`${TARJETA} grid items-center gap-8 md:grid-cols-[1fr_auto]`}>
-              <div className="flex flex-col gap-3">
-                <p className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">Origen</p>
-                <h3 className="text-lg font-semibold">La evolución de WORKWELL360</h3>
-                <p className="max-w-[60ch] text-pretty text-tinta-suave">
-                  {NOMBRE} nace del prototipo WORKWELL360, que monitorizamos previamente en YMCA Salamanca con resultados satisfactorios.
-                </p>
-              </div>
-              <div className="flex flex-col items-start gap-2 md:items-center">
-                <span className="text-sm text-tinta-suave">Pilotaje previo en</span>
-                <Image src="/marca/terceros/ymca.svg" alt="YMCA Salamanca" width={140} height={40} className="h-10 w-auto" />
-              </div>
-            </div>
-          </div>
         </Seccion>
 
         {/* 10. Llamada final */}
