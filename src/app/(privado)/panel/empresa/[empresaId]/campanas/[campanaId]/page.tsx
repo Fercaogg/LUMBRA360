@@ -123,7 +123,7 @@ export default async function PaginaCampana({
       <div className="grid gap-6 lg:grid-cols-2">
         <Tarjeta className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Participación</h2>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col items-start gap-5 min-[420px]:flex-row min-[420px]:items-center min-[420px]:gap-6">
             {participacion?.porcentaje !== null && participacion?.porcentaje !== undefined ? (
               <Anillo valor={participacion.porcentaje / 100} centro={`${participacion.porcentaje} %`} pie="participación" />
             ) : (

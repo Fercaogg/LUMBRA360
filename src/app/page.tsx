@@ -148,7 +148,7 @@ function Contenedor({ children, className = "" }: { children: ReactNode; classNa
 
 function Seccion({ id, alterna = false, children }: { id?: string; alterna?: boolean; children: ReactNode }) {
   return (
-    <section id={id} className={`scroll-mt-16 py-24 lg:py-40 ${alterna ? "bg-papel" : "bg-superficie"}`}>
+    <section id={id} className={`scroll-mt-16 py-16 sm:py-24 lg:py-40 ${alterna ? "bg-papel" : "bg-superficie"}`}>
       <Contenedor>{children}</Contenedor>
     </section>
   );
@@ -368,7 +368,7 @@ export default function Portada() {
         </Seccion>
 
         {/* 7. Para quién es: bento oscuro */}
-        <section id="para-quien" className="relative scroll-mt-16 overflow-hidden bg-[var(--tinta-950)] py-24 text-white lg:py-40">
+        <section id="para-quien" className="relative scroll-mt-16 overflow-hidden bg-[var(--tinta-950)] py-16 text-white sm:py-24 lg:py-40">
           <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-[36rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--lumbre)_22%,transparent),transparent)] blur-2xl" />
           <Contenedor className="relative">
             <Encabezado etiqueta="Para quién es" titulo="Pensada para quien gestiona la prevención" entradilla="Cada perfil ve lo que necesita. Nadie ve lo que no le corresponde." oscuro />

@@ -69,6 +69,10 @@ function heroe() {
     .fromTo(pantalla, { opacity: 0, filter: "brightness(2.2) blur(8px)" }, { opacity: 1, filter: "brightness(1) blur(0px)", duration: 0.7, ease: "power2.out" }, "-=0.45")
     .fromTo(movil, { yPercent: 30, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.5");
 
+  // En pantallas pequeñas el portátil ya ocupa el ancho: fijar y ampliar solo dejaría
+  // un hueco en blanco al bajar. El zoom queda para escritorio.
+  if (!window.matchMedia("(min-width: 1024px)").matches) return;
+
   // Destino del zoom: centrado bajo la cabecera y lo más grande que quepa.
   const cabecera = 72;
   const margen = 20;
@@ -176,7 +180,9 @@ function pelicula() {
     scrollTrigger: {
       trigger: peli,
       start: "center center",
-      end: `+=${n * 90}%`,
+      // En móvil cada capítulo pide menos recorrido para no hacer la sección eterna.
+      end: () => `+=${n * (window.innerWidth < 768 ? 55 : 90)}%`,
+      invalidateOnRefresh: true,
       pin: true,
       scrub: 1.2,
       anticipatePin: 1,

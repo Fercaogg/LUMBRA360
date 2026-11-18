@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Inbox } from "lucide-react";
 
 export function Tarjeta({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-[20px] border border-linea bg-superficie p-6 sm:p-7 ${className}`}>{children}</section>;
+  return <section className={`rounded-[20px] border border-linea bg-superficie p-5 sm:p-7 ${className}`}>{children}</section>;
 }
 
 export function Cabecera({

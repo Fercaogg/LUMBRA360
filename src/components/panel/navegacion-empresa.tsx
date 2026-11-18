@@ -28,7 +28,7 @@ export function NavegacionEmpresa({ empresaId, movil = false }: { empresaId: str
 
   if (movil) {
     return (
-      <nav aria-label="Secciones de la empresa" className="-mx-4 overflow-x-auto px-4 lg:hidden">
+      <nav aria-label="Secciones de la empresa" className="-mx-4 overflow-x-auto px-4 [mask-image:linear-gradient(to_right,transparent,#000_12px,#000_calc(100%-28px),transparent)] [scrollbar-width:none] lg:hidden">
         <ul ref={lista} className="flex gap-2 pb-1">
           {SECCIONES.map(({ ruta, texto, icono: I }) => {
             const si = activa(ruta);
