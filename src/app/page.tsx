@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
+import { ArrowUpRight, BellOff, Building2, ClipboardCheck, EyeOff, FileCheck2, HardHat, ListChecks, Users, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
@@ -94,10 +94,10 @@ const HITOS: { etiqueta: string; titulo: string; texto: string; marca?: string; 
   { etiqueta: "Evolución", titulo: "LUMBRA360", texto: "Más completo, con evidencias fechadas.", logo: "onda", destacado: true },
 ];
 
-const EQUIPO = [
+const EQUIPO: { nombre: string; foto: string; perfil?: string }[] = [
   { nombre: "Fernando Martín Vaquero", foto: "/equipo/fernando-martin-vaquero.webp" },
-  { nombre: "Ana María Pinto Llorente", foto: "/equipo/ana-maria-pinto-llorente.webp" },
-  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva-v2.webp" },
+  { nombre: "Ana María Pinto Llorente", foto: "/equipo/ana-maria-pinto-llorente.webp", perfil: "https://produccioncientifica.usal.es/investigadores/57371/detalle" },
+  { nombre: "Luis Eduardo Andrade Silva", foto: "/equipo/luis-eduardo-andrade-silva-v2.webp", perfil: "https://produccioncientifica.usal.es/investigadores/148334/detalle" },
 ];
 
 const PERFILES = [
@@ -406,6 +406,13 @@ export default function Portada() {
                 <div className="flex min-w-0 flex-col">
                   <h3 className="font-semibold leading-snug">{m.nombre}</h3>
                   <p className="text-sm text-tinta-suave">Dirección del proyecto</p>
+                  {m.perfil ? (
+                    <a href={m.perfil} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1 self-start text-sm font-medium underline decoration-linea-fuerte underline-offset-4 transition-colors hover:decoration-tinta">
+                      Perfil de investigación
+                      <ArrowUpRight aria-hidden size={14} strokeWidth={2} />
+                      <span className="sr-only">(se abre en una pestaña nueva)</span>
+                    </a>
+                  ) : null}
                 </div>
               </li>
             ))}
