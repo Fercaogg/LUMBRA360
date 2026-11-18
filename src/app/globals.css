@@ -198,12 +198,35 @@ body {
   transition: background-color 300ms var(--curva-salida), color 300ms var(--curva-salida);
 }
 
-/* Película: el texto activo destaca */
-[data-capitulo] {
-  transition: opacity 300ms var(--curva-salida);
+/* Película: solo el capítulo activo se despliega y su número se ilumina */
+.capitulo-numero {
+  border: 1px solid var(--linea-fuerte);
+  color: var(--texto-suave);
+  transition: background-color 400ms var(--curva-salida), color 400ms var(--curva-salida), border-color 400ms var(--curva-salida), box-shadow 400ms var(--curva-salida), transform 400ms var(--curva-salida);
 }
-[data-capitulo][data-activo="false"] {
-  opacity: 0.4;
+.capitulo-titulo {
+  color: var(--texto-terciario);
+  transition: color 400ms var(--curva-salida);
+}
+.capitulo-cuerpo {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 500ms var(--curva-salida), opacity 400ms var(--curva-salida);
+}
+.capitulo[data-activo="true"] .capitulo-numero {
+  background: var(--lumbre);
+  border-color: var(--lumbre);
+  color: var(--tinta-950);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--lumbre) 18%, transparent);
+  transform: scale(1.05);
+}
+.capitulo[data-activo="true"] .capitulo-titulo {
+  color: var(--texto);
+}
+.capitulo[data-activo="true"] .capitulo-cuerpo {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
 /* Lenis (desplazamiento suave) */

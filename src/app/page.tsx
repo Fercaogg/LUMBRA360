@@ -298,19 +298,27 @@ export default function Portada() {
         <Seccion id="aplicacion">
           <Encabezado etiqueta="La aplicación por dentro" titulo="Todo en un panel claro" entradilla="Pantallas reales con datos de demostración." />
           <div data-pelicula data-cursores={JSON.stringify(CAPITULOS.map((c) => c.cursor))} className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
-            <ol className="hidden flex-col gap-7 lg:col-span-4 lg:flex">
+            <ol className="hidden flex-col lg:col-span-4 lg:flex">
               {CAPITULOS.map((c, i) => (
-                <li key={c.titulo} data-capitulo data-activo={i === 0} className="flex flex-col gap-2">
-                  <span aria-hidden className="relative h-0.5 overflow-hidden rounded-full bg-linea-fuerte">
-                    <span data-barra className="absolute inset-0 origin-left bg-tinta" />
-                  </span>
-                  <span className="mt-2 font-mono text-xs text-tinta-suave">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="text-lg font-semibold">{c.titulo}</h3>
-                  <p className="text-pretty text-tinta-suave">{c.texto}</p>
+                <li key={c.titulo} data-capitulo data-activo={i === 0} className="capitulo flex flex-col border-t border-linea py-4 first:border-t-0">
+                  <div className="flex items-center gap-4">
+                    <span data-numero-capitulo className="capitulo-numero grid size-9 shrink-0 place-items-center rounded-full font-mono text-xs">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="capitulo-titulo text-lg font-semibold leading-snug">{c.titulo}</h3>
+                  </div>
+                  <div className="capitulo-cuerpo">
+                    <div className="overflow-hidden">
+                      <p className="pl-[3.25rem] pt-2 text-pretty text-tinta-suave">{c.texto}</p>
+                      <span aria-hidden className="relative ml-[3.25rem] mt-3 block h-0.5 overflow-hidden rounded-full bg-linea">
+                        <span data-barra className="absolute inset-0 origin-left bg-lumbre" />
+                      </span>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ol>
-            <div className="mx-auto w-full max-w-[calc((100svh-10rem)*1.5)] lg:col-span-8">
+            <div className="mx-auto w-full max-w-[calc((100svh-12rem)*1.5)] lg:col-span-8">
               <PortatilPelicula pantallas={CAPITULOS.map((c) => ({ src: c.imagen, alt: c.alt }))} />
             </div>
             {/* Móvil: un solo texto que cambia con la pantalla */}
