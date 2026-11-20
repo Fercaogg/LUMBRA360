@@ -244,12 +244,12 @@ export default function Portada() {
         {/* 3. Qué es */}
         <Seccion id="que-es" alterna>
           <Encabezado etiqueta="Qué es" titulo={`Qué es ${NOMBRE} y por qué nace`} />
-          <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
-            <div data-tarjetas className="flex flex-col gap-8 lg:col-span-6">
-              <p data-tarjeta className="max-w-[34rem] text-pretty text-xl leading-relaxed lg:text-[1.375rem]">
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-12">
+            <div data-tarjetas className="flex flex-col gap-6 sm:gap-8 lg:col-span-6">
+              <p data-tarjeta className="max-w-[34rem] text-pretty text-lg leading-relaxed sm:text-xl lg:text-[1.375rem]">
                 Una plataforma web para evaluar los riesgos psicosociales de forma continua, ordenar la desconexión digital y guardar cada paso con fecha.
               </p>
-              <p data-tarjeta className="max-w-[34rem] text-pretty text-lg leading-relaxed text-tinta-suave">
+              <p data-tarjeta className="max-w-[34rem] text-pretty leading-relaxed text-tinta-suave sm:text-lg">
                 Acompaña al técnico de prevención: la plantilla responde de forma anónima, la empresa actúa y todo queda documentado.
               </p>
               <ul data-tarjeta className="flex max-w-[34rem] flex-col border-t border-linea-fuerte">
@@ -273,10 +273,18 @@ export default function Portada() {
             </div>
           </div>
 
-          <ol data-tarjetas className="mt-20 grid border-t border-linea-fuerte [perspective:1400px] md:grid-cols-3 lg:mt-28">
+          {/* En móvil, tarjetas que se deslizan en horizontal; desde md, tres columnas. */}
+          <ol
+            data-tarjetas
+            className="-mx-4 mt-14 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] md:mx-0 md:mt-20 md:grid md:snap-none md:grid-cols-3 md:gap-0 md:overflow-visible md:border-t md:border-linea-fuerte md:px-0 md:pb-0 md:[perspective:1400px] lg:mt-28"
+          >
             {CONTEXTO.map((c, i) => (
-              <li key={c.titulo} data-tarjeta className="flex flex-col gap-4 border-b border-linea-fuerte py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0 md:last:pr-0">
-                <span aria-hidden className="text-[3.5rem] font-medium leading-none tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.5px_var(--lumbre-500)]">
+              <li
+                key={c.titulo}
+                data-tarjeta
+                className="flex w-[84%] max-w-[22rem] shrink-0 snap-start flex-col gap-3 rounded-[20px] border border-linea bg-superficie p-6 md:w-auto md:max-w-none md:gap-4 md:rounded-none md:border-0 md:border-l md:border-linea-fuerte md:bg-transparent md:px-8 md:py-10 md:first:border-l-0 md:first:pl-0 md:last:pr-0"
+              >
+                <span aria-hidden className="text-[2.5rem] font-medium leading-none tracking-[-0.05em] text-transparent [-webkit-text-stroke:1.5px_var(--lumbre-500)] md:text-[3.5rem]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-xs uppercase tracking-[0.14em] text-tinta-suave">{c.etiqueta}</span>

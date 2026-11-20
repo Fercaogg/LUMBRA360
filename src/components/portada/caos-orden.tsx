@@ -45,20 +45,25 @@ export function CaosOrden() {
       const q = gsap.utils.selector(raiz);
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const factor = Math.min(1, raiz.clientWidth / 520);
+        // En móvil el desorden es más contenido: los papeles no se salen de la pantalla
+        // y se ordenan antes, mientras la escena aún está entera a la vista.
+        const estrecho = raiz.clientWidth < 480;
+        const factor = Math.min(1, raiz.clientWidth / 520) * (estrecho ? 0.45 : 1);
+        const giro = estrecho ? 0.45 : 1;
+        const fondo = estrecho ? 0.25 : 1;
         const tl = gsap.timeline({
           defaults: { ease: "power2.inOut" },
-          scrollTrigger: { trigger: raiz, start: "top 85%", end: "center 40%", scrub: 1 },
+          scrollTrigger: { trigger: raiz, start: estrecho ? "top 90%" : "top 85%", end: estrecho ? "top 25%" : "center 40%", scrub: estrecho ? 0.6 : 1 },
         });
         tl.fromTo(
           q("[data-papel]"),
           {
             x: (i: number) => DESORDEN[i].x * factor,
             y: (i: number) => DESORDEN[i].y * factor,
-            z: (i: number) => DESORDEN[i].z,
-            rotation: (i: number) => DESORDEN[i].rotation,
-            rotationX: (i: number) => DESORDEN[i].rotationX,
-            rotationY: (i: number) => DESORDEN[i].rotationY,
+            z: (i: number) => DESORDEN[i].z * fondo,
+            rotation: (i: number) => DESORDEN[i].rotation * giro,
+            rotationX: (i: number) => DESORDEN[i].rotationX * giro,
+            rotationY: (i: number) => DESORDEN[i].rotationY * giro,
           },
           { x: 0, y: 0, z: 0, rotation: 0, rotationX: 0, rotationY: 0, duration: 1, stagger: 0.07 },
         )
