@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>LUMBRA360 · vídeo promocional</title>
+<style>
+@font-face { font-family: "Instrument Sans"; font-weight: 400; src: url("../../../brand/fonts/instrument-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 500; src: url("../../../brand/fonts/instrument-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 600; src: url("../../../brand/fonts/instrument-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("../../../brand/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url("../../../brand/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  --tinta: #111111; --tinta-900: #1B1B1B; --blanco: #FFFFFF; --papel: #F4F4F1;
+  --lumbre: #F25A1F; --lumbre-suave: #FFE1D4; --lumbre-texto: #B83A0E;
+  --piedra-700: #55554F; --piedra-600: #6B6B65; --linea: #E3E3DF; --linea-fuerte: #CFCFCA;
+  --ok-t: #1D6440; --ok-f: #E6F2EB; --aviso-t: #7A4B00; --aviso-f: #FBF0D6; --info-t: #24508F; --info-f: #E7EEF8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--papel); }
+body { font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif; color: var(--tinta); -webkit-font-smoothing: antialiased; }
+#stage { position: relative; overflow: hidden; background: var(--papel); }
+body.h #stage { width: 1920px; height: 1080px; }
+body.v #stage { width: 1080px; height: 1920px; }
+.abs { position: absolute; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; }
+.escena { position: absolute; inset: 0; opacity: 0; }
+svg.ic { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tarjeta { background: var(--blanco); border: 1px solid var(--linea); border-radius: 18px; box-shadow: 0 1px 0 rgba(17,17,17,.03), 0 24px 60px -28px rgba(17,17,17,.22); }
+.raya { height: 10px; border-radius: 5px; background: #ECECE8; }
+
+/* Rótulos fijos */
+#rotulo { position: absolute; font-size: 18px; color: var(--piedra-700); opacity: 0; display: flex; align-items: center; gap: 14px; }
+#rotulo .num { color: var(--lumbre-texto); }
+#rotulo .barra { width: 36px; height: 2px; background: var(--lumbre); }
+#demo { position: absolute; font-size: 15px; color: var(--piedra-700); border: 1px solid var(--linea-fuerte); border-radius: 999px; padding: 8px 16px; opacity: 0; background: rgba(255,255,255,.6); }
+body.h #rotulo { left: 96px; top: 70px; }
+body.h #demo { right: 96px; top: 62px; }
+body.v #rotulo { left: 72px; top: 110px; font-size: 20px; }
+body.v #demo { left: 72px; top: 160px; font-size: 16px; }
+
+/* Subtítulos */
+#subs { position: absolute; left: 0; right: 0; display: flex; justify-content: center; pointer-events: none; z-index: 50; }
+#subs span { background: rgba(17,17,17,.9); color: #fff; border-radius: 10px; text-align: center; font-weight: 500; line-height: 1.3; opacity: 0; }
+body.h #subs { bottom: 52px; }
+body.h #subs span { font-size: 36px; padding: 10px 26px 12px; max-width: 1360px; }
+body.v #subs { bottom: 210px; padding: 0 64px; }
+body.v #subs span { font-size: 42px; padding: 12px 26px 14px; max-width: 952px; }
+
+/* ===== Escena 1 y 2 ===== */
+.flot { position: absolute; will-change: transform; }
+.doc { position: absolute; transform-style: preserve-3d; }
+.d-mail { width: 400px; padding: 26px 28px; }
+.d-mail .cab { display: flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 500; }
+.d-mail .cab svg { width: 28px; height: 28px; color: var(--tinta); }
+.d-mail .de { font-size: 15px; color: var(--piedra-600); margin: 8px 0 16px 40px; }
+.d-xls { width: 380px; padding: 20px 22px; }
+.d-xls .nom { font-size: 17px; font-weight: 500; display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+.d-xls .nom svg { width: 24px; height: 24px; }
+.d-xls table { border-collapse: collapse; width: 100%; }
+.d-xls td { border: 1px solid var(--linea); height: 30px; }
+.d-xls tr:first-child td { background: #F0F0EC; }
+.d-acta { width: 290px; height: 370px; padding: 30px 28px; border-radius: 6px; }
+.d-acta h4 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+.d-acta .f { font-size: 14px; color: var(--piedra-600); margin-bottom: 22px; }
+.d-acta .raya { margin-bottom: 14px; }
+.d-carpeta { width: 320px; height: 230px; }
+.d-carpeta svg { width: 100%; height: 100%; }
+.d-carpeta .eti { position: absolute; left: 34px; bottom: 34px; font-size: 20px; font-weight: 500; }
+.d-nota { width: 250px; padding: 22px; background: #FFFDF5; border: 1px solid #ECE6CF; border-radius: 4px; font-size: 20px; line-height: 1.3; }
+
+#lista { width: 760px; padding: 34px 40px 26px; }
+#lista .mono { font-size: 15px; color: var(--piedra-700); margin-bottom: 18px; }
+.fila { display: flex; align-items: center; gap: 20px; height: 68px; border-top: 1px solid var(--linea); font-size: 30px; font-weight: 500; letter-spacing: -0.01em; opacity: 0; }
+.fila .ok { width: 40px; height: 40px; flex: none; }
+.fila .ok circle { stroke: var(--linea-fuerte); }
+.fila .ok path { stroke: var(--lumbre); stroke-width: 2.4; stroke-dasharray: 20; stroke-dashoffset: 20; }
+.fila .ok .relleno { fill: var(--lumbre-suave); stroke: none; opacity: 0; }
+
+#logo { opacity: 0; }
+#logo img { display: block; width: 100%; }
+#logo-sub { text-align: center; font-size: 18px; color: var(--piedra-700); opacity: 0; }
+#pasos { display: grid; gap: 14px; }
+body.h #pasos { grid-template-columns: repeat(6, 1fr); width: 1680px; left: 120px; top: 700px; }
+body.v #pasos { grid-template-columns: repeat(2, 1fr); width: 936px; left: 72px; top: 1040px; }
+.paso { padding: 20px 20px 22px; border-radius: 14px; background: var(--blanco); border: 1px solid var(--linea); opacity: 0; }
+.paso .n { font-size: 15px; color: var(--lumbre-texto); margin-bottom: 10px; }
+.paso .t { font-size: 23px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; }
+body.v .paso .t { font-size: 27px; }
+
+/* ===== Escena 3: móvil ===== */
+.titular { font-weight: 400; letter-spacing: -0.035em; line-height: 0.98; }
+.chip { display: inline-flex; align-items: center; gap: 12px; font-size: 26px; font-weight: 500; padding: 14px 22px 14px 16px; background: var(--blanco); border: 1px solid var(--linea); border-radius: 999px; opacity: 0; }
+.chip svg { width: 28px; height: 28px; color: var(--lumbre); stroke-width: 2; }
+.chips { display: flex; flex-wrap: wrap; gap: 14px; }
+.nota { font-size: 24px; color: var(--piedra-700); line-height: 1.35; opacity: 0; }
+#movil-escena { perspective: 1800px; }
+#movil { width: 400px; height: 820px; border-radius: 58px; background: var(--tinta-900); padding: 14px; transform-style: preserve-3d; box-shadow: 0 50px 90px -40px rgba(17,17,17,.55), 0 0 0 1px #000; }
+#pantalla { position: relative; width: 100%; height: 100%; border-radius: 45px; background: var(--blanco); overflow: hidden; }
+.isla { position: absolute; top: 14px; left: 50%; width: 110px; height: 32px; margin-left: -55px; border-radius: 20px; background: var(--tinta-900); z-index: 5; }
+.pant { position: absolute; inset: 0; padding: 82px 30px 30px; }
+.pant .mini { font-size: 12px; color: var(--piedra-700); }
+.pant h5 { font-size: 27px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.12; margin: 12px 0 8px; }
+.pant p { font-size: 16px; color: var(--piedra-700); line-height: 1.4; }
+.codigo { display: flex; gap: 8px; margin: 34px 0 26px; }
+.codigo div { flex: 1; height: 56px; border: 1.5px solid var(--linea-fuerte); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace; font-size: 25px; font-weight: 500; }
+.codigo div.activo { border-color: var(--tinta); }
+.boton { height: 58px; border-radius: 14px; background: var(--lumbre); color: var(--tinta); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; }
+.progreso { height: 6px; border-radius: 3px; background: #EDEDEA; margin: 4px 0 30px; overflow: hidden; }
+.progreso i { display: block; height: 100%; width: 40%; background: var(--lumbre); border-radius: 3px; }
+.opcion { display: flex; align-items: center; gap: 14px; height: 60px; padding: 0 18px; border: 1.5px solid var(--linea); border-radius: 12px; margin-bottom: 12px; font-size: 18px; font-weight: 500; }
+.opcion .radio { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--linea-fuerte); position: relative; flex: none; }
+.opcion .radio i { position: absolute; inset: 4px; border-radius: 50%; background: var(--lumbre); transform: scale(0); }
+.gracias { text-align: center; padding-top: 170px; }
+.gracias svg { width: 120px; height: 120px; }
+.gracias h5 { font-size: 30px; margin-top: 24px; }
+
+/* ===== Escena 4: resultados ===== */
+.ventana { background: var(--blanco); border: 1px solid var(--linea); border-radius: 22px; box-shadow: 0 40px 100px -50px rgba(17,17,17,.4); overflow: hidden; }
+.ventana .barra-v { height: 74px; border-bottom: 1px solid var(--linea); display: flex; align-items: center; justify-content: space-between; padding: 0 34px; }
+.ventana .barra-v b { font-size: 24px; font-weight: 500; letter-spacing: -0.01em; }
+.ventana .barra-v .mono { font-size: 13px; color: var(--piedra-700); }
+.etq { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--papel); color: var(--piedra-700); }
+.etq svg { width: 18px; height: 18px; }
+#grupos { position: absolute; display: grid; gap: 22px; }
+body.h #grupos { grid-template-columns: repeat(4, 1fr); left: 34px; right: 34px; top: 108px; }
+body.v #grupos { grid-template-columns: repeat(2, 1fr); left: 28px; right: 28px; top: 100px; gap: 18px; }
+.grupo { position: relative; border: 1px solid var(--linea); border-radius: 16px; padding: 24px; height: 400px; opacity: 0; }
+body.v .grupo { height: 520px; padding: 22px; }
+.grupo .nom { font-size: 23px; font-weight: 500; letter-spacing: -0.01em; }
+.grupo .mono { font-size: 12px; color: var(--piedra-700); margin-top: 6px; }
+.puntos { display: grid; grid-template-columns: repeat(5, 26px); gap: 12px; margin: 30px 0 28px; min-height: 114px; }
+.puntos i { width: 26px; height: 26px; border-radius: 50%; background: var(--tinta-900); transform: scale(0); }
+.puntos i.l { background: var(--lumbre); }
+.medidor .m-et { display: flex; justify-content: space-between; font-size: 16px; color: var(--piedra-700); margin-bottom: 8px; }
+.medidor .m-b { height: 12px; border-radius: 6px; background: #EDEDEA; overflow: hidden; margin-bottom: 18px; }
+.medidor .m-b i { display: block; height: 100%; border-radius: 6px; background: var(--tinta-900); width: 0; }
+.grupo .velo { position: absolute; inset: 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; opacity: 0; background: rgba(244,244,241,.55); }
+.velo svg { width: 76px; height: 76px; color: var(--tinta); }
+.velo svg .v-ok { stroke: var(--lumbre); stroke-width: 2; }
+.velo b { font-size: 30px; font-weight: 500; }
+.velo span { font-size: 17px; color: var(--piedra-700); max-width: 260px; line-height: 1.35; }
+.grupo .cont { transition: none; }
+
+/* ===== Escena 5: plan de acción ===== */
+.barra-r { position: absolute; border-radius: 10px; overflow: hidden; }
+.barra-r .fondo { position: absolute; inset: 0; background: var(--tinta-900); }
+.barra-r .fondo.l { background: var(--lumbre); }
+.barra-r .tar { position: absolute; inset: 0; background: var(--blanco); border: 1px solid var(--linea); border-radius: inherit; opacity: 0; }
+.barra-r .cuerpo { position: absolute; inset: 0; padding: 28px 30px; opacity: 0; }
+.barra-et { position: absolute; font-size: 22px; font-weight: 500; }
+.medida h6 { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.12; margin: 14px 0 22px; }
+.medida .dato { display: flex; align-items: center; gap: 12px; font-size: 19px; color: var(--piedra-700); margin-bottom: 10px; }
+.medida .dato svg { width: 22px; height: 22px; color: var(--tinta); }
+.medida .dato b { color: var(--tinta); font-weight: 500; }
+.estado { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; padding: 7px 14px; border-radius: 999px; }
+.estado svg { width: 17px; height: 17px; stroke-width: 2.4; }
+.e-pend { background: var(--aviso-f); color: var(--aviso-t); }
+.e-curso { background: var(--info-f); color: var(--info-t); }
+.e-hecha { background: var(--ok-f); color: var(--ok-t); }
+.estado-cambia { position: relative; display: inline-block; height: 34px; }
+.estado-cambia .estado { position: absolute; left: 0; top: 0; white-space: nowrap; }
+
+/* ===== Escena 6: desconexión ===== */
+#poli-escena { perspective: 2000px; }
+#poli { width: 560px; padding: 54px 52px; border-radius: 8px; transform-style: preserve-3d; }
+#poli .mono { font-size: 13px; color: var(--piedra-700); }
+#poli h4 { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.02; margin: 18px 0 10px; }
+#poli .sec { font-size: 18px; font-weight: 600; margin: 26px 0 12px; }
+#poli .raya { margin-bottom: 12px; height: 9px; }
+#sello { position: absolute; border: 4px solid var(--lumbre); color: var(--lumbre-texto); border-radius: 12px; padding: 12px 22px 10px; text-align: center; transform: rotate(-9deg) scale(1.8); opacity: 0; background: rgba(255,255,255,.85); }
+#sello .s1 { font-family: "IBM Plex Mono", monospace; font-size: 34px; font-weight: 500; letter-spacing: .16em; }
+#sello .s2 { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .08em; margin-top: 4px; }
+.pasos-d { display: flex; flex-direction: column; gap: 14px; }
+.pd { display: flex; align-items: center; gap: 20px; padding: 20px 24px; background: var(--blanco); border: 1px solid var(--linea); border-radius: 16px; opacity: 0; }
+.pd .ico { width: 54px; height: 54px; border-radius: 14px; background: var(--papel); display: flex; align-items: center; justify-content: center; flex: none; }
+.pd .ico svg { width: 28px; height: 28px; }
+.pd .tx { flex: 1; }
+.pd .tx b { display: block; font-size: 24px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.15; }
+.pd .tx span { font-size: 14px; color: var(--piedra-700); }
+.pd .ok2 { width: 36px; height: 36px; flex: none; }
+.pd .ok2 circle { fill: var(--lumbre); stroke: none; opacity: 0; }
+.pd .ok2 path { stroke: var(--tinta); stroke-width: 2.6; stroke-dasharray: 20; stroke-dashoffset: 20; }
+.anillo { width: 74px; height: 74px; flex: none; position: relative; }
+.anillo svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.anillo circle { fill: none; stroke-width: 6; }
+.anillo .base { stroke: #EDEDEA; }
+.anillo .prog { stroke: var(--lumbre); stroke-linecap: round; }
+.anillo .cifra { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace; font-size: 17px; font-weight: 500; }
+.sinvig { display: flex; gap: 14px; align-items: flex-start; font-size: 20px; color: var(--piedra-700); line-height: 1.35; opacity: 0; }
+.sinvig svg { width: 26px; height: 26px; color: var(--tinta); flex: none; margin-top: 1px; }
+
+/* ===== Escena 7: panel y cierre ===== */
+#panel-escena { perspective: 2400px; }
+#panel { transform-style: preserve-3d; display: flex; }
+#panel .lateral { width: 300px; border-right: 1px solid var(--linea); padding: 28px 22px; background: #FAFAF8; }
+#panel .lateral .mono { font-size: 12px; color: var(--piedra-700); margin: 6px 8px 14px; }
+#panel .lateral .emp { display: flex; align-items: center; gap: 10px; font-size: 16px; padding: 12px; border-radius: 10px; margin-bottom: 4px; }
+#panel .lateral .emp.act { background: var(--papel); font-weight: 600; }
+#panel .lateral .emp svg { width: 20px; height: 20px; flex: none; }
+#panel .principal { flex: 1; padding: 30px 34px; }
+#panel .cab-p { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; }
+#panel .cab-p b { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
+#panel .cab-p .mono { font-size: 12px; color: var(--piedra-700); }
+.mosaico { display: grid; gap: 18px; }
+body.h .mosaico { grid-template-columns: repeat(3, 1fr); }
+body.v .mosaico { grid-template-columns: 1fr 1fr; }
+.losa { border: 1px solid var(--linea); border-radius: 14px; padding: 20px 22px; min-height: 150px; opacity: 0; }
+.losa .mono { font-size: 12px; color: var(--piedra-700); margin-bottom: 12px; }
+.losa .gr { font-size: 24px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 12px; }
+.losa .fila-e { display: flex; gap: 8px; flex-wrap: wrap; }
+.evid { grid-column: 1 / -1; }
+.ev { display: grid; grid-template-columns: 150px 1fr auto; gap: 16px; align-items: center; padding: 11px 0; border-top: 1px solid var(--linea); font-size: 17px; opacity: 0; }
+body.v .ev { grid-template-columns: 140px 1fr; }
+body.v .ev .aut { grid-column: 2; margin-top: -8px; }
+.ev .fe { font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--lumbre-texto); font-weight: 500; }
+.ev .aut { font-size: 15px; color: var(--piedra-700); }
+#negro { position: absolute; inset: 0; background: var(--tinta); opacity: 0; z-index: 30; }
+#cierre { position: absolute; inset: 0; z-index: 31; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #F5F5F2; }
+#cierre .lg { opacity: 0; }
+#cierre .lg img { display: block; width: 100%; }
+#cierre .lema { font-size: 56px; letter-spacing: -0.03em; margin-top: 46px; opacity: 0; }
+#cierre .nombre { font-size: 17px; color: #BDBDB6; margin-top: 26px; opacity: 0; }
+#cierre .cta { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: 70px; opacity: 0; }
+#cierre .btn { background: var(--lumbre); color: var(--tinta); font-size: 30px; font-weight: 600; padding: 20px 40px; border-radius: 16px; }
+#cierre .url { font-size: 22px; color: #F5F5F2; letter-spacing: .12em; }
+body.v #cierre .lema { font-size: 60px; text-align: center; padding: 0 60px; line-height: 1.05; }
+body.v #cierre { justify-content: flex-start; padding-top: 640px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ESCENA 1-2: desorden y orden -->
+  <div class="escena" id="e1">
+    <div class="flot" id="f-mail"><div class="doc tarjeta d-mail" id="d-mail">
+      <div class="cab"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Re: Re: evaluación pendiente</div>
+      <div class="de">Bandeja de entrada</div>
+      <div class="raya" style="width:92%;margin-bottom:12px"></div><div class="raya" style="width:70%;margin-bottom:12px"></div><div class="raya" style="width:80%"></div>
+    </div></div>
+    <div class="flot" id="f-xls"><div class="doc tarjeta d-xls" id="d-xls">
+      <div class="nom"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>riesgos_v3_FINAL(2).xlsx</div>
+      <table><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></table>
+    </div></div>
+    <div class="flot" id="f-acta"><div class="doc tarjeta d-acta" id="d-acta">
+      <h4>Acta de reunión</h4><div class="f">Comité de seguridad y salud</div>
+      <div class="raya" style="width:100%"></div><div class="raya" style="width:86%"></div><div class="raya" style="width:94%"></div><div class="raya" style="width:60%"></div><div class="raya" style="width:90%;margin-top:26px"></div><div class="raya" style="width:76%"></div><div class="raya" style="width:84%"></div>
+    </div></div>
+    <div class="flot" id="f-carpeta"><div class="doc d-carpeta" id="d-carpeta">
+      <svg viewBox="0 0 320 230"><path d="M14 30a14 14 0 0 1 14-14h82l22 24h160a14 14 0 0 1 14 14v148a14 14 0 0 1-14 14H28a14 14 0 0 1-14-14Z" fill="#fff" stroke="#E3E3DF" stroke-width="2"/><path d="M14 64h292" stroke="#E3E3DF" stroke-width="2"/></svg>
+      <div class="eti">Carpeta PRL (copia)</div>
+    </div></div>
+    <div class="flot" id="f-nota"><div class="doc d-nota" id="d-nota">¿Quién tiene el último informe?</div></div>
+
+    <div class="abs tarjeta" id="lista">
+      <div class="mono">Todo en un solo sitio</div>
+      <div class="fila"><svg class="ok ic" viewBox="0 0 40 40"><circle class="relleno" cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="18"/><path d="M13 20.5l5 5 9-10"/></svg>Evaluación psicosocial</div>
+      <div class="fila"><svg class="ok ic" viewBox="0 0 40 40"><circle class="relleno" cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="18"/><path d="M13 20.5l5 5 9-10"/></svg>Plan de acción</div>
+      <div class="fila"><svg class="ok ic" viewBox="0 0 40 40"><circle class="relleno" cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="18"/><path d="M13 20.5l5 5 9-10"/></svg>Política de desconexión digital</div>
+      <div class="fila"><svg class="ok ic" viewBox="0 0 40 40"><circle class="relleno" cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="18"/><path d="M13 20.5l5 5 9-10"/></svg>Acuses de lectura</div>
+      <div class="fila"><svg class="ok ic" viewBox="0 0 40 40"><circle class="relleno" cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="18"/><path d="M13 20.5l5 5 9-10"/></svg>Evidencias fechadas</div>
+    </div>
+
+    <div class="abs" id="logo"><img src="logo-acento.svg" alt="lumbra"></div>
+    <div class="abs mono" id="logo-sub">LUMBRA360 · Evaluación psicosocial y desconexión digital</div>
+    <div class="abs" id="pasos">
+      <div class="paso"><div class="n mono">01</div><div class="t">Alta de la empresa</div></div>
+      <div class="paso"><div class="n mono">02</div><div class="t">Cuestionario anónimo</div></div>
+      <div class="paso"><div class="n mono">03</div><div class="t">Resultados por grupos</div></div>
+      <div class="paso"><div class="n mono">04</div><div class="t">Plan de acción</div></div>
+      <div class="paso"><div class="n mono">05</div><div class="t">Desconexión digital</div></div>
+      <div class="paso"><div class="n mono">06</div><div class="t">Evidencias fechadas</div></div>
+    </div>
+  </div>
+
+  <!-- ESCENA 3: cuestionario anónimo -->
+  <div class="escena" id="e3">
+    <div class="abs" id="e3-texto">
+      <h2 class="titular" id="e3-tit">Responde la plantilla.<br>Nadie sabe quién.</h2>
+      <div class="chips" id="e3-chips">
+        <div class="chip"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Con un código</div>
+        <div class="chip"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Sin cuenta</div>
+        <div class="chip"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Sin nombre</div>
+        <div class="chip"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Sin instalar nada</div>
+      </div>
+      <p class="nota" id="e3-nota">Nadie puede saber quién ha respondido ni quién falta.</p>
+    </div>
+    <div class="abs" id="movil-escena"><div id="movil"><div id="pantalla">
+      <div class="isla"></div>
+      <div class="pant" id="p-a">
+        <div class="mini mono">Empresa demo (ficticia)</div>
+        <h5>Cuestionario de riesgos psicosociales</h5>
+        <p>Introduzca el código que le ha dado su empresa. No se pide su nombre.</p>
+        <div class="mini mono" style="margin-top:30px">Código de acceso</div>
+        <div class="codigo" id="codigo"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="boton" id="b-empezar">Empezar</div>
+      </div>
+      <div class="pant" id="p-b" style="opacity:0">
+        <div class="mini mono">Bloque: organización del trabajo</div>
+        <div class="progreso" style="margin-top:14px"><i id="prog-q"></i></div>
+        <h5 style="margin-bottom:30px">¿Puede organizar su trabajo a su propio ritmo?</h5>
+        <div class="opcion"><span class="radio"><i></i></span>Siempre o casi siempre</div>
+        <div class="opcion" id="op-sel"><span class="radio"><i id="op-dot"></i></span>A menudo</div>
+        <div class="opcion"><span class="radio"><i></i></span>A veces</div>
+        <div class="opcion"><span class="radio"><i></i></span>Nunca o casi nunca</div>
+      </div>
+      <div class="pant gracias" id="p-c" style="opacity:0">
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="#F25A1F" id="g-circ"/><path d="M38 61l15 15 30-32" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="70" stroke-dashoffset="70" id="g-check"/></svg>
+        <h5>Respuesta enviada</h5>
+        <p>Es anónima.<br>No se guarda su nombre.</p>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- ESCENA 4: resultados por grupos -->
+  <div class="escena" id="e4">
+    <div class="abs ventana" id="v-res">
+      <div class="barra-v"><b>Resultados por grupos</b><span class="etq"><svg class="ic" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mínimo 5 personas por grupo</span></div>
+      <div id="grupos">
+        <div class="grupo" data-n="8"><div class="cont"><div class="nom">Administración</div><div class="mono">Grupo visible</div><div class="puntos"></div>
+          <div class="medidor"><div class="m-et"><span>Carga de trabajo</span></div><div class="m-b"><i data-w="58%"></i></div><div class="m-et"><span>Autonomía</span></div><div class="m-b"><i data-w="72%"></i></div></div></div></div>
+        <div class="grupo" data-n="14"><div class="cont"><div class="nom">Taller</div><div class="mono">Grupo visible</div><div class="puntos"></div>
+          <div class="medidor"><div class="m-et"><span>Carga de trabajo</span></div><div class="m-b"><i data-w="76%" class="lb"></i></div><div class="m-et"><span>Autonomía</span></div><div class="m-b"><i data-w="44%"></i></div></div></div></div>
+        <div class="grupo" data-n="9"><div class="cont"><div class="nom">Atención al cliente</div><div class="mono">Grupo visible</div><div class="puntos"></div>
+          <div class="medidor"><div class="m-et"><span>Carga de trabajo</span></div><div class="m-b"><i data-w="64%"></i></div><div class="m-et"><span>Autonomía</span></div><div class="m-b"><i data-w="52%"></i></div></div></div></div>
+        <div class="grupo" id="g-peq" data-n="3"><div class="cont" id="g-peq-c"><div class="nom">Mantenimiento</div><div class="mono">Grupo pequeño</div><div class="puntos"></div>
+          <div class="medidor"><div class="m-et"><span>Carga de trabajo</span></div><div class="m-b"><i data-w="60%"></i></div><div class="m-et"><span>Autonomía</span></div><div class="m-b"><i data-w="50%"></i></div></div></div>
+          <div class="velo" id="velo"><svg class="ic" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path class="v-ok" d="m9 12 2 2 4-4"/></svg><b>Protegido</b><span>Menos de 5 personas. No se muestra.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCENA 5: plan de acción -->
+  <div class="escena" id="e5">
+    <div class="abs" id="e5-cab"><div class="mono" style="font-size:15px;color:var(--piedra-700)">Seguimiento de demostración (ficticio)</div></div>
+    <div class="barra-et" id="be0">Carga de trabajo</div>
+    <div class="barra-et" id="be1">Autonomía</div>
+    <div class="barra-et" id="be2">Participación</div>
+    <div class="barra-r" id="br0"><div class="fondo l"></div><div class="tar"></div><div class="cuerpo medida">
+      <span class="estado e-curso"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>En curso</span>
+      <h6>Repartir mejor los picos de carga</h6>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Responsable: <b>Dirección</b></div>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Fecha prevista: <b>15/01/2027</b></div>
+    </div></div>
+    <div class="barra-r" id="br1"><div class="fondo"></div><div class="tar"></div><div class="cuerpo medida">
+      <span class="estado-cambia"><span class="estado e-pend" id="st-pend">Pendiente</span><span class="estado e-curso" id="st-curso" style="opacity:0"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>En curso</span></span>
+      <h6>Más margen para decidir las pausas</h6>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Responsable: <b>Encargado de taller</b></div>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Fecha prevista: <b>29/01/2027</b></div>
+    </div></div>
+    <div class="barra-r" id="br2"><div class="fondo"></div><div class="tar"></div><div class="cuerpo medida">
+      <span class="estado e-hecha"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Hecha</span>
+      <h6>Reunión de equipo cada mes</h6>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Responsable: <b>Recursos humanos</b></div>
+      <div class="dato"><svg class="ic" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Fecha prevista: <b>11/12/2026</b></div>
+    </div></div>
+  </div>
+
+  <!-- ESCENA 6: desconexión digital -->
+  <div class="escena" id="e6">
+    <div class="abs" id="poli-escena"><div class="tarjeta" id="poli">
+      <div class="mono">Empresa demo (ficticia)</div>
+      <h4>Política de desconexión digital</h4>
+      <div class="mono" style="letter-spacing:.08em">Versión 1 · a partir de plantilla</div>
+      <div class="sec">1. Objeto</div><div class="raya" style="width:100%"></div><div class="raya" style="width:88%"></div><div class="raya" style="width:70%"></div>
+      <div class="sec">2. Tiempo de descanso</div><div class="raya" style="width:96%"></div><div class="raya" style="width:82%"></div><div class="raya" style="width:90%"></div>
+      <div class="sec">3. Formación</div><div class="raya" style="width:92%"></div><div class="raya" style="width:64%"></div>
+      <div id="sello"><div class="s1">FECHADO</div><div class="s2">12/11/2026 · RR. HH.</div></div>
+    </div></div>
+    <div class="abs" id="e6-der">
+      <div class="pasos-d">
+        <div class="pd"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></svg></div><div class="tx"><b>Política desde plantilla</b><span class="mono">05/11/2026</span></div><svg class="ok2 ic" viewBox="0 0 36 36"><circle cx="18" cy="18" r="17"/><path d="M11 18.5l5 5 9-10"/></svg></div>
+        <div class="pd"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="tx"><b>Audiencia a la representación de las personas trabajadoras</b><span class="mono">09/11/2026</span></div><svg class="ok2 ic" viewBox="0 0 36 36"><circle cx="18" cy="18" r="17"/><path d="M11 18.5l5 5 9-10"/></svg></div>
+        <div class="pd"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg></div><div class="tx"><b>Acuses de lectura</b><span class="mono">Desde 12/11/2026</span></div>
+          <div class="anillo"><svg viewBox="0 0 74 74"><circle class="base" cx="37" cy="37" r="31"/><circle class="prog" id="anillo-p" cx="37" cy="37" r="31" stroke-dasharray="194.8" stroke-dashoffset="194.8"/></svg><div class="cifra" id="cifra">0/24</div></div></div>
+        <div class="pd"><div class="ico"><svg class="ic" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><div class="tx"><b>Formación</b><span class="mono">19/11/2026</span></div><svg class="ok2 ic" viewBox="0 0 36 36"><circle cx="18" cy="18" r="17"/><path d="M11 18.5l5 5 9-10"/></svg></div>
+      </div>
+      <div class="sinvig" id="sinvig"><svg class="ic" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg><span>Sin vigilancia: no mide la actividad, las conexiones ni los correos de nadie.</span></div>
+    </div>
+  </div>
+
+  <!-- ESCENA 7: panel completo y cierre -->
+  <div class="escena" id="e7">
+    <div class="abs mono" id="e7-aud" style="font-size:15px;color:var(--piedra-700)">Un mismo panel para servicios de prevención, asesorías, técnicos y RR. HH.</div>
+    <div class="abs" id="panel-escena"><div class="ventana" id="panel">
+      <div class="lateral">
+        <div class="mono">Empresas</div>
+        <div class="emp act"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>Empresa demo (ficticia)</div>
+        <div class="emp"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>Empresa demo B (ficticia)</div>
+        <div class="emp"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>Empresa demo C (ficticia)</div>
+      </div>
+      <div class="principal">
+        <div class="cab-p"><b>Empresa demo (ficticia)</b><span class="mono">Seguimiento de demostración (ficticio)</span></div>
+        <div class="mosaico">
+          <div class="losa"><div class="mono">Evaluación psicosocial</div><div class="gr">Campaña cerrada</div><div class="fila-e"><span class="etq">Anónima</span><span class="etq">Grupos de 5 o más</span></div></div>
+          <div class="losa"><div class="mono">Plan de acción</div><div class="gr">3 medidas</div><div class="fila-e"><span class="estado e-hecha">Hecha</span><span class="estado e-curso">En curso</span></div></div>
+          <div class="losa"><div class="mono">Desconexión digital</div><div class="gr">Política publicada</div><div class="fila-e"><span class="etq">Audiencia</span><span class="etq">Acuses</span><span class="etq">Formación</span></div></div>
+          <div class="losa evid"><div class="mono">Evidencias fechadas</div>
+            <div class="ev"><span class="fe">02/10/2026</span><span>Empresa dada de alta</span><span class="aut">Servicio de prevención</span></div>
+            <div class="ev"><span class="fe">20/10/2026</span><span>Cuestionario abierto a la plantilla</span><span class="aut">Técnico de prevención</span></div>
+            <div class="ev"><span class="fe">05/11/2026</span><span>Plan de acción aprobado</span><span class="aut">Dirección</span></div>
+            <div class="ev"><span class="fe">12/11/2026</span><span>Política de desconexión publicada</span><span class="aut">Recursos humanos</span></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div id="negro"></div>
+  <div id="cierre">
+    <div class="lg" id="c-logo"><img src="logo-negativo-acento.svg" alt="lumbra"></div>
+    <div class="nombre mono" id="c-nombre">LUMBRA360</div>
+    <div class="lema" id="c-lema">Cumplir y cuidar sin vigilar.</div>
+    <div class="cta" id="c-cta"><div class="btn">Solicite una demostración</div><div class="url mono" id="c-url">lumbra360.vercel.app</div></div>
+  </div>
+
+  <div id="rotulo" class="mono"><span class="barra"></span><span class="num" id="r-num"></span><span id="r-tx"></span></div>
+  <div id="demo" class="mono">Empresa demo (ficticia)</div>
+  <div id="subs"><span id="sub"></span></div>
+</div>
+
+<script src="../../../brand/vendor/gsap.min.js"></script>
+<script src="cues.js"></script>
+<script src="escenas.js"></script>
+</body>
+</html>
