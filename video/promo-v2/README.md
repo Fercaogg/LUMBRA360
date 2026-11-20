@@ -1,4 +1,4 @@
-# LUMBRA360 · película promocional (116 s, 16:9)
+# LUMBRA360 · película promocional (139 s, 16:9)
 
 Salida: `salida/lumbra360-pelicula-16x9.mp4` (1920 × 1080, 30 fps, H.264 + AAC, −15 LUFS, subtítulos incrustados).
 Subtítulos aparte: `subtitulos/lumbra360-promo-v2.es.srt`.
@@ -7,18 +7,21 @@ Subtítulos aparte: `subtitulos/lumbra360-promo-v2.es.srt`.
 
 | Tiempo | Escena | Qué se ve |
 |---|---|---|
-| 0–10 s | Apertura | El logotipo se dibuja trazo a trazo (la onda y luego las letras) y entran en 3D las cuatro tarjetas de avales: Universidad de Salamanca, Fundación General USAL, Prototipos 2026/2027, RIS3 de Castilla y León |
-| 10–27 s | Lo que pide la ley | Ley 31/1995 (arts. 16 y 23) y Ley Orgánica 3/2018 (art. 88) como documentos en 3D; carga de trabajo, autonomía y apoyo del equipo |
-| 27–38 s | El problema | Mundo 3D de correos, hojas, actas y notas sueltas; «Sin seguimiento. Sin pruebas.»; todo se concentra en la onda |
-| 38–46 s | La solución | Captura real del panel de empresa; acercamiento a sus pestañas |
-| 46–49 s | 01 Alta | Captura real del panel del partner |
-| 49–60 s | 02 Cuestionario | Móvil con la pantalla real de acceso (textos literales) y el código tecleado; rótulo FPSICO con su origen |
-| 60–71 s | 03 Resultados | Captura real: «No se sabe quién ha respondido ni quién falta. Mínimo por grupo: 5 respuestas»; grupos de ejemplo y grupo pequeño protegido |
-| 71–79 s | 04 Plan de acción | Captura real: responsable, fecha prevista, estado e historial |
-| 79–90 s | 05 Desconexión | Captura real: política, audiencia, acuse de lectura y formación; versión aprobada con fecha y autor; sello «Fechado» |
-| 91–98 s | Principios | «Sin vigilar a nadie»: actividad, conexiones y correos tachados |
-| 98–105 s | Origen | WORKWELL360 → YMCA Salamanca → LUMBRA360 |
-| 105–116 s | Cierre | Logotipo, lema, «Solicite una demostración», web y avales |
+| 0–10 s | Apertura | El logotipo se dibuja trazo a trazo y entran en 3D las tarjetas de avales: Universidad de Salamanca, Fundación General USAL, Prototipos 2026/2027, RIS3 de Castilla y León |
+| 10–27 s | Lo que pide la ley | Ley 31/1995 (arts. 16 y 23) y Ley Orgánica 3/2018 (art. 88) como documentos en 3D |
+| 27–38 s | El problema | Mundo 3D de correos, hojas, actas y notas sueltas; todo se concentra en la onda |
+| 38–49 s | La solución · 01 Alta | Panel actual de la empresa: barra lateral, «Anonimato protegido», «Servicio ofrecido por Marca demo A» |
+| 49–61 s | 02 Cuestionario | Recorrido real en móvil: código de un solo uso, «Antes de empezar», «Es voluntario y anónimo», páginas con barra de progreso y aviso «Falta esta respuesta» |
+| 61–71 s | 03 Una persona, una respuesta | «Cómo se protege este cuestionario»: una persona, una respuesta; respuestas inalterables |
+| 71–83 s | 04 Evaluación con FPSICO | «Esta plataforma no puntúa la evaluación», exportación solo por el técnico, fase «Informe firmado» y rótulo de origen del INSST |
+| 83–94 s | 05 Resultados de seguimiento | Participación («No se sabe quién ha respondido ni quién falta») y filtro con las áreas protegidas |
+| 94–102 s | 06 Plan de acción | Anillo 1/3, responsable, fecha e historial de cambios |
+| 102–113 s | 07 Desconexión digital | «Lo que conviene tener hecho» 4 de 4, versión aprobada con fecha y autor, sello «Fechado» |
+| 114–121 s | Principios | «Sin vigilar a nadie»: actividad, conexiones y correos tachados |
+| 121–128 s | Origen | WORKWELL360 → YMCA Salamanca → LUMBRA360 |
+| 128–139 s | Cierre | Logotipo, lema, «Solicite una demostración», web y avales |
+
+Las capturas (`escenas/assets/p_*.webp` en escritorio a 2x y `r_*.webp` en móvil a 3x) salen de la rama `claude/admiring-keller-vumcqu` (commit 26a2fd6) en local, con los datos de demostración de `supabase/seed.sql`. Para el recorrido en móvil se abrió temporalmente la evaluación demo con un código de prueba en la base de datos local, y después se dejó como estaba.
 
 ## Regenerar
 

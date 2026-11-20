@@ -3,93 +3,112 @@
 LUMBRA360.
 
 2
-00:00:04,320 --> 00:00:08,620
+00:00:04,320 --> 00:00:08,760
 Con el aval de la Universidad de
 Salamanca y de su Fundación General.
 
 3
-00:00:10,520 --> 00:00:15,360
+00:00:10,520 --> 00:00:15,340
 En España, toda empresa debe evaluar
 los riesgos laborales de su plantilla.
 
 4
-00:00:15,520 --> 00:00:21,230
+00:00:15,520 --> 00:00:21,200
 También los psicosociales: la carga de
 trabajo, la autonomía o el apoyo del equipo.
 
 5
-00:00:21,720 --> 00:00:25,640
+00:00:21,720 --> 00:00:25,510
 Y debe contar con una política
 interna de desconexión digital.
 
 6
-00:00:27,920 --> 00:00:33,620
+00:00:27,920 --> 00:00:33,650
 En la pyme, ese trabajo suele acabar repartido
 entre correos, hojas de cálculo y carpetas.
 
 7
-00:00:33,920 --> 00:00:36,320
+00:00:33,920 --> 00:00:36,360
 Sin seguimiento. Sin pruebas.
 
 8
-00:00:39,520 --> 00:00:45,350
+00:00:39,520 --> 00:00:45,170
 LUMBRA360 lo ordena en un solo sitio, para
 que no dependa de la memoria de nadie.
 
 9
-00:00:46,520 --> 00:00:49,510
+00:00:46,120 --> 00:00:49,080
 Su servicio de prevención
 da de alta la empresa.
 
 10
-00:00:49,920 --> 00:00:53,970
-La plantilla responde de forma anónima,
-desde el móvil y con un código.
+00:00:49,720 --> 00:00:53,720
+La plantilla responde desde el
+móvil, con un código de un solo uso.
 
 11
-00:00:54,520 --> 00:00:57,790
-Sin cuenta. Sin nombre. Sin instalar nada.
+00:00:54,320 --> 00:00:58,380
+Sin cuenta y sin nombre. Página a
+página, con su barra de progreso.
 
 12
-00:01:00,920 --> 00:01:05,430
-Los resultados solo se muestran
-en grupos de cinco personas o más.
+00:01:02,320 --> 00:01:04,430
+Una persona, una respuesta.
 
 13
-00:01:05,720 --> 00:01:08,990
-Nadie puede saber quién ha
-respondido ni quién falta.
+00:01:04,520 --> 00:01:09,050
+Y lo respondido no se puede cambiar ni
+borrar. Tampoco desde la administración.
 
 14
-00:01:11,920 --> 00:01:16,240
-Cada resultado se convierte en medidas,
-con responsable, fecha y estado.
+00:01:12,320 --> 00:01:15,070
+La plataforma no puntúa la evaluación.
 
 15
-00:01:19,920 --> 00:01:25,710
+00:01:15,120 --> 00:01:21,140
+El técnico de prevención exporta las respuestas
+a FPSICO y registra aquí el informe firmado.
+
+16
+00:01:23,920 --> 00:01:28,150
+Los seguimientos se muestran solo
+por grupos de cinco personas o más.
+
+17
+00:01:28,520 --> 00:01:31,910
+Un grupo pequeño queda
+protegido, también al filtrar.
+
+18
+00:01:34,920 --> 00:01:39,280
+Cada resultado se convierte en medidas,
+con responsable, fecha e historial.
+
+19
+00:01:42,920 --> 00:01:48,730
 Política de desconexión, audiencia a la
 representación, acuses de lectura y formación.
 
-16
-00:01:26,120 --> 00:01:29,230
+20
+00:01:49,120 --> 00:01:52,240
 Cada paso queda registrado,
 con fecha y autor.
 
-17
-00:01:31,720 --> 00:01:37,120
+21
+00:01:54,720 --> 00:02:00,040
 Y sin vigilar a nadie: no mide la actividad,
 ni las conexiones, ni los correos.
 
-18
-00:01:38,920 --> 00:01:43,940
+22
+00:02:01,920 --> 00:02:06,990
 Nace de WORKWELL360, un prototipo
 ya probado en YMCA Salamanca.
 
-19
-00:01:47,120 --> 00:01:49,270
+23
+00:02:10,120 --> 00:02:12,240
 LUMBRA360.
 
-20
-00:01:49,520 --> 00:01:51,610
+24
+00:02:12,520 --> 00:02:14,580
 Cumplir y cuidar sin vigilar.
 

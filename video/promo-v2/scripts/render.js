@@ -32,7 +32,7 @@ const fs = require("fs");
   const salida = process.argv[3];
   const fps = +(process.argv[4] || 30);
   const audio = path.resolve(__dirname, "../audio/mezcla.wav");
-  const total = Math.round(116 * fps);
+  const total = Math.round(139 * fps);
   const ff = spawn("ffmpeg", ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(fps), "-c:v", "mjpeg", "-i", "-",
     "-i", audio, "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-pix_fmt", "yuv420p",
     "-profile:v", "high", "-tune", "animation", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-shortest", salida], { stdio: ["pipe", "inherit", "inherit"] });

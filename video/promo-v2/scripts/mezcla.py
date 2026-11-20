@@ -2,9 +2,10 @@
 import json, os, wave
 import numpy as np
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SR, DUR = 48000, 116.0
-INICIOS = {"a1":1.6,"a2":4.4,"b1":10.6,"b2":15.6,"b3":21.8,"c1":28.0,"c2":34.0,"d1":39.6,"e1":46.6,"e2":50.0,"e3":54.6,
-           "f1":61.0,"f2":65.8,"g1":72.0,"h1":80.0,"h2":86.2,"i1":91.8,"j1":99.0,"k1":107.2,"k2":109.6}
+SR, DUR = 48000, 139.0
+INICIOS = {"a1":1.6,"a2":4.4,"b1":10.6,"b2":15.6,"b3":21.8,"c1":28.0,"c2":34.0,"d1":39.6,
+           "e1":46.2,"e2":49.8,"e3":54.4,"n1":62.4,"n2":64.6,"p1":72.4,"p2":75.2,"f1":84.0,"f2":88.6,"g1":95.0,
+           "h1":103.0,"h2":109.2,"i1":114.8,"j1":122.0,"k1":130.2,"k2":132.6}
 guion = {f["id"]: f for f in json.load(open(os.path.join(RAIZ, "scripts", "guion.json"), encoding="utf-8"))}
 voz = np.zeros(int(DUR * SR)); cues = []
 for fid, t in INICIOS.items():

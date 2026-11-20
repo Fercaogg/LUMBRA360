@@ -107,21 +107,18 @@ svg.ic { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: ro
 #fpsico { left: 120px; top: 760px; width: 900px; }
 #fpsico b { display: block; font-size: 28px; font-weight: 500; letter-spacing: -0.01em; }
 #fpsico span { display: block; font-size: 21px; color: var(--p700); margin-top: 8px; }
-#movil-esc { left: 1230px; top: 112px; width: 450px; height: 860px; perspective: 1800px; transform: scale(.9); transform-origin: 50% 0; }
-#movil { width: 450px; height: 860px; border-radius: 64px; background: var(--tinta-900); padding: 15px; box-shadow: 0 60px 100px -40px rgba(17,17,17,.55), 0 0 0 1px #000; transform-style: preserve-3d; }
-#pantalla { position: relative; width: 100%; height: 100%; border-radius: 50px; background: #fff; overflow: hidden; padding: 150px 24px 0; }
-#pantalla .isla { position: absolute; top: 16px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: var(--tinta-900); }
-#pantalla .lg { width: 150px; margin-bottom: 26px; }
-#pantalla .lg img { width: 100%; display: block; }
-.tarj { border: 1.5px solid var(--linea); border-radius: 22px; padding: 26px 22px; }
-.tarj h4 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
-.tarj p { font-size: 20px; color: var(--p700); line-height: 1.38; margin: 10px 0 24px; }
-.tarj label { font-size: 18px; font-weight: 500; display: block; margin-bottom: 10px; }
-.campo { height: 62px; border: 1.5px solid var(--p600); border-radius: 12px; display: flex; align-items: center; padding: 0 18px; font-family: "IBM Plex Mono", monospace; font-size: 30px; letter-spacing: .2em; font-weight: 500; }
-.campo i { width: 2px; height: 32px; background: var(--tinta); margin-left: 3px; }
-.btn-m { display: inline-block; margin-top: 22px; background: var(--tinta-900); color: #fff; font-size: 21px; font-weight: 500; padding: 16px 26px; border-radius: 14px; }
-.nota-m { font-size: 19px; color: var(--p700); line-height: 1.4; margin-top: 26px; padding: 0 4px; }
-
+#movil-esc { left: 1200px; top: 66px; width: 470px; height: 900px; perspective: 1800px; transform: scale(.95); transform-origin: 50% 0; }
+#movil { width: 470px; height: 900px; border-radius: 64px; background: var(--tinta-900); padding: 15px; box-shadow: 0 60px 100px -40px rgba(17,17,17,.55), 0 0 0 1px #000; transform-style: preserve-3d; }
+#pantalla { position: relative; width: 100%; height: 100%; border-radius: 50px; background: #fff; overflow: hidden; }
+#pantalla .isla { position: absolute; top: 16px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: var(--tinta-900); z-index: 3; }
+#pv { position: absolute; left: 0; top: 0; width: 440px; height: 952px; transform-origin: 0 0; }
+#pv .rs { position: absolute; left: 0; top: 0; width: 440px; display: block; opacity: 0; }
+#origen-pie { left: 260px; top: 916px; font-size: 19px; color: var(--p700); }
+#desp { position: absolute; left: 452px; top: 1238px; width: 250px; background: #fff; border: 1px solid var(--linea-f); border-radius: 10px; box-shadow: 0 18px 40px -16px rgba(17,17,17,.35); padding: 6px; transform-origin: 50% 0; opacity: 0; }
+#desp .op { display: flex; align-items: center; gap: 8px; font-size: 15px; padding: 8px 10px; border-radius: 6px; }
+#desp .op.sel { background: var(--papel); font-weight: 600; }
+#desp .op.prot { color: #9A9A93; }
+#desp .op svg { width: 15px; height: 15px; }
 /* grupos */
 #grupos { left: 150px; top: 330px; width: 1620px; display: flex; gap: 30px; perspective: 1800px; }
 .gr { position: relative; width: 383px; height: 420px; background: #fff; border: 1px solid var(--linea); border-radius: 22px; padding: 30px; transform-style: preserve-3d; }
@@ -243,51 +240,51 @@ svg.ic { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: ro
     <div class="abs" id="t4">
       <h2 class="titular" id="t4a" data-palabras>Todo, en un <span class="ac">solo sitio.</span></h2>
       <h2 class="titular" id="t4b" data-palabras>Su servicio de prevención da de alta la empresa.</h2>
+      <h2 class="titular" id="t4f" data-palabras>Una persona, <span class="ac">una respuesta.</span></h2>
+      <h2 class="titular" id="t4g" data-palabras>La evaluación se trata <span class="ac">en FPSICO.</span></h2>
       <h2 class="titular" id="t4c" data-palabras>Resultados solo en grupos de <span class="ac">5 o más.</span></h2>
       <h2 class="titular" id="t4d" data-palabras>Cada resultado, una medida.</h2>
       <h2 class="titular" id="t4e" data-palabras>La desconexión digital, <span class="ac">documentada.</span></h2>
     </div>
     <div class="abs oculto" id="app">
       <div id="cam">
-        <img class="pant" id="i-empresa" src="assets/app-empresa.webp" alt="">
-        <img class="pant" id="i-partner" src="assets/app-partner.webp" alt="">
-        <img class="pant" id="i-resultados" src="assets/app-resultados.webp" alt="">
-        <img class="pant" id="i-plan" src="assets/app-plan.webp" alt="">
-        <img class="pant" id="i-desc" src="assets/app-desconexion.webp" alt="">
+        <img class="pant" id="i-resumen" src="assets/p_resumen.webp" alt="">
+        <img class="pant" id="i-evaluacion" src="assets/p_evaluacion.webp" alt="">
+        <img class="pant" id="i-seguimiento" src="assets/p_seguimiento.webp" alt="">
+        <img class="pant" id="i-plan" src="assets/p_plan.webp" alt="">
+        <img class="pant" id="i-desc" src="assets/p_desconexion.webp" alt="">
         <div id="marcas"></div>
+        <div id="desp">
+          <div class="op sel">Todos</div>
+          <div class="op">Área demo 1</div>
+          <div class="op prot"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Área demo 2 (protegido)</div>
+          <div class="op prot"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Área demo 3 (protegido)</div>
+        </div>
       </div>
       <div class="fundido"></div>
     </div>
-    <div class="abs" id="sello"><div class="s1">FECHADO</div><div class="s2">17/11/2026 · Con autor</div></div>
+    <div class="abs" id="sello"><div class="s1">FECHADO</div><div class="s2">14/11/2026 · Con autor</div></div>
+    <div class="abs oculto" id="origen-pie">Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo</div>
 
     <div class="abs" id="t5"><h2 class="titular" id="t5a" data-palabras>La plantilla responde <span class="ac">desde el móvil.</span></h2></div>
     <div class="abs" id="sin">
-      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin cuenta.</div>
-      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin nombre.</div>
-      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin instalar nada.</div>
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Código de un solo uso.</div>
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin cuenta ni nombre.</div>
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Página a página.</div>
     </div>
-    <div class="abs oculto" id="fpsico"><b>Evaluación con el cuestionario FPSICO</b><span>Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo</span></div>
+    <div class="abs oculto" id="fpsico"><b>Evaluación con la estructura de FPSICO 4.1</b><span>Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo</span></div>
     <div class="abs oculto" id="movil-esc"><div id="movil"><div id="pantalla">
-      <div class="isla"></div>
-      <div class="lg"><img src="assets/logo-acento.svg" alt="lumbra"></div>
-      <div class="tarj">
-        <h4>Responder el cuestionario</h4>
-        <p>Escriba el código que le ha dado su empresa. No necesita cuenta.</p>
-        <label>Código</label>
-        <div class="campo"><span id="codigo"></span><i id="cursor"></i></div>
-        <div class="btn-m" id="continuar">Continuar</div>
+      <div id="pv">
+        <img class="rs" id="r0" src="assets/r_0_vacio.webp" alt="">
+        <img class="rs" id="r1" src="assets/r_1_codigo.webp" alt="">
+        <img class="rs" id="r2" src="assets/r_2_intro.webp" alt="">
+        <img class="rs" id="r3" src="assets/r_3_intro_anonimo.webp" alt="">
+        <img class="rs" id="r4" src="assets/r_4_pagina.webp" alt="">
+        <img class="rs" id="r5" src="assets/r_5_respondidas.webp" alt="">
+        <img class="rs" id="r6" src="assets/r_6_aviso.webp" alt="">
       </div>
-      <div class="nota-m">Es voluntario y anónimo. No se pide su nombre ni su correo.</div>
+      <div class="isla"></div>
     </div></div></div>
-
-    <div class="abs" id="grupos">
-      <div class="gr"><h5>Administración</h5><div class="mono">8 personas</div><div class="pts">{{P8}}</div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
-      <div class="gr"><h5>Taller</h5><div class="mono">14 personas</div><div class="pts">{{P14}}</div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
-      <div class="gr"><h5>Atención al cliente</h5><div class="mono">9 personas</div><div class="pts">{{P9}}</div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
-      <div class="gr" id="gpeq"><div id="gpeq-c"><h5>Mantenimiento</h5><div class="mono">Grupo pequeño</div><div class="pts">{{P3}}</div></div>
-        <div class="velo" id="velo"><svg class="ic" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path class="v" d="m9 12 2 2 4-4"/></svg><b>Protegido</b><span>Menos de 5 personas.<br>No se muestra.</span></div></div>
-    </div>
-    <div class="abs mono oculto" id="grupos-nota">Grupos de ejemplo · Empresa demo (ficticia)</div>
   </div>
 
   <!-- 9. Sin vigilancia -->

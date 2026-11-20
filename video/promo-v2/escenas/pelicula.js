@@ -1,6 +1,6 @@
 // Película promocional de LUMBRA360 (16:9, 116 s). Todo depende del tiempo: window.pintar(t).
 (function () {
-  const DUR = 116;
+  const DUR = 139;
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   gsap.defaults({ ease: "power2.inOut", overwrite: false });
@@ -148,147 +148,191 @@
   tl.to("#onda3", { scale: 16, opacity: 0, duration: 0.75, ease: "power3.in" }, 37.85);
   inunda("#fl3", 37.95, 0.7);
 
-  // ===================== 4 a 8. Producto real =====================
-  const K = 1400 / 1600; // escala de las capturas
-  const PANT = ["#i-empresa", "#i-partner", "#i-resultados", "#i-plan", "#i-desc"];
+  // ===================== 4 a 10. Producto real (capturas de la aplicación actual) =====================
+  const K = 1400 / 1600; // escala de las capturas: coordenadas en píxeles CSS de una página de 1600 px
+  const ALTO = { "#i-resumen": 1722, "#i-evaluacion": 2020, "#i-seguimiento": 1698, "#i-plan": 1421, "#i-desc": 1602 };
+  const PANT = Object.keys(ALTO);
+  let pantActual = "#i-resumen";
   gsap.set("#cam", { x: 0, y: 0, scale: 1 });
-  const verPant = (id, at, d = 0.35) => PANT.forEach((p) => tl.to(p, { opacity: p === id ? 1 : 0, duration: d, ease: "sine.inOut" }, at));
-  // Acercamiento a una zona de la captura (coordenadas en píxeles de la captura original de 1600 px)
+  const verPant = (id, at, d = 0.35) => { PANT.forEach((p) => tl.to(p, { opacity: p === id ? 1 : 0, duration: d, ease: "sine.inOut" }, at)); pantActual = id; };
   const zona = (r, maxS = 1.9) => {
     const [x0, y0, x1, y1] = r.map((v) => v * K);
     const s = Math.min(1300 / (x1 - x0), 560 / (y1 - y0), maxS);
-    let x = 700 - s * (x0 + x1) / 2, y = 305 - s * (y0 + y1) / 2;
-    x = Math.min(0, Math.max(1400 - 1400 * s, x)); y = Math.min(0, y);
+    let x = 700 - s * (x0 + x1) / 2, y = 330 - s * (y0 + y1) / 2;
+    x = Math.min(0, Math.max(1400 - 1400 * s, x));
+    y = Math.min(0, Math.max(660 - s * ALTO[pantActual] * K, y));
     return { x, y, scale: s };
   };
   const acerca = (r, at, maxS, d = 1.0) => tl.to("#cam", Object.assign(zona(r, maxS), { duration: d, ease: "power3.inOut" }), at);
   const aleja = (at, d = 0.9) => tl.to("#cam", { x: 0, y: 0, scale: 1, duration: d, ease: "power3.inOut" }, at);
   const marcas = $("#marcas");
-  const marca = (r, at, tipo = "mk", d = 0.45) => {
+  const marca = (r, at, tipo = "caja", d = 0.45) => {
     const [x0, y0, x1, y1] = r.map((v) => v * K);
     const m = document.createElement("div"); m.className = tipo;
     Object.assign(m.style, { left: x0 - 6 + "px", top: y0 - 4 + "px", width: x1 - x0 + 12 + "px", height: y1 - y0 + 8 + "px" });
     marcas.appendChild(m);
     if (tipo === "mk") tl.to(m, { scaleX: 1, duration: d, ease: "power2.out" }, at);
-    else { gsap.set(m, { scale: 1.12 }); tl.to(m, { opacity: 1, scale: 1, duration: d, ease: "expo.out" }, at); }
+    else { gsap.set(m, { scale: 1.1 }); tl.to(m, { opacity: 1, scale: 1, duration: d, ease: "expo.out" }, at); }
     return m;
   };
   const quitaMarcas = (ms, at) => tl.to(ms, { opacity: 0, duration: 0.3 }, at);
 
-  // 4. Todo en un solo sitio
+  // La solución: el panel de la empresa
   gsap.set("#app", { transformPerspective: 2200 });
-  verPant("#i-empresa", 38.6, 0.01);
+  verPant("#i-resumen", 38.6, 0.01);
   ent("#app", { opacity: 0, rotationX: 30, z: -600, y: 160 }, { opacity: 1, rotationX: 0, z: 0, y: 0, duration: 1.7, ease: "expo.out" }, 38.7);
   palabras("#t4a", 39.6);
-  acerca([130, 420, 1000, 486], 43.0, 1.8, 1.1);
-  const tabs = [[146, 440, 238, 466], [272, 440, 504, 466], [536, 440, 666, 466], [698, 440, 876, 466], [908, 440, 976, 466]]
-    .map((r, i) => marca(r, 43.85 + i * 0.36));
+  acerca([188, 212, 460, 604], 42.6, 1.9, 1.1);
+  const mNav = [[200, 224, 448, 264], [200, 272, 448, 312], [200, 320, 448, 360], [200, 368, 448, 408], [200, 416, 448, 456]].map((r, i) => marca(r, 43.5 + i * 0.3));
+  const mAn = marca([200, 482, 448, 596], 45.0);
   palabrasFuera("#t4a", 45.75);
-  quitaMarcas(tabs, 45.8);
-  aleja(45.9, 0.8);
-  verPant("#i-partner", 46.15);
-  palabras("#t4b", 46.3, 0.06);
-  acerca([140, 380, 900, 486], 47.2, 1.95, 1.0);
-  palabrasFuera("#t4b", 49.15);
-  tl.to("#app", { x: -1700, filter: "blur(18px)", duration: 0.55, ease: "power3.in" }, 49.25);
+  quitaMarcas([...mNav, mAn], 45.7);
+  palabras("#t4b", 46.2, 0.06);
+  acerca([490, 140, 1100, 300], 46.0, 1.9, 1.0);
+  const mSer = marca([494, 152, 738, 177], 46.9, "mk", 0.6);
+  quitaMarcas([mSer], 48.9);
+  palabrasFuera("#t4b", 48.95);
+  tl.to("#app", { x: -1700, filter: "blur(18px)", duration: 0.55, ease: "power3.in" }, 49.05);
 
-  // 5. Cuestionario anónimo en el móvil (pantalla real reconstruida con sus textos)
+  // Cuestionario: capturas reales del recorrido en móvil
+  const RS = ["#r0", "#r1", "#r2", "#r3", "#r4", "#r5", "#r6"];
+  const enfoque = (cy) => { const k = 440 / 390; return { scale: 1, x: 0, y: Math.min(0, Math.max(870 - 952, 435 - cy * k)) }; };
+  const pantM = (id, at, cy, z, d = 0.45) => {
+    RS.forEach((r) => tl.to(r, { opacity: r === id ? 1 : 0, duration: d, ease: "sine.inOut" }, at));
+    tl.to("#pv", Object.assign(enfoque(cy), { duration: 0.9, ease: "power3.inOut" }), at - 0.1);
+  };
+  gsap.set("#pv", enfoque(412)); gsap.set("#r0", { opacity: 1 });
   gsap.set("#movil", { transformPerspective: 1800 });
-  ent("#movil-esc", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 49.55);
-  ent("#movil", { x: 700, rotationY: -55, rotationX: 8, filter: "blur(16px)" }, { x: 0, rotationY: -12, rotationX: 4, filter: "blur(0px)", duration: 1.5, ease: "expo.out" }, 49.55);
-  tl.to("#movil", { rotationY: -5, rotationX: 2, duration: 8, ease: "sine.inOut" }, 51.2);
-  palabras("#t5a", 50.0);
-  tl.to("#continuar", { scale: 0.94, duration: 0.12, ease: "power1.out" }, 53.15);
-  tl.to("#continuar", { scale: 1, duration: 0.25, ease: "power2.out" }, 53.27);
-  [54.6, 55.5, 56.35].forEach((at, i) => ent(`#sin .sin:nth-child(${i + 1})`, { opacity: 0, x: -30, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, at));
-  ent("#fpsico", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 57.3);
-  palabrasFuera("#t5a", 59.15);
-  sale(["#sin .sin", "#fpsico"], 59.15, 0.35);
-  tl.to("#movil", { x: 600, rotationY: 50, opacity: 0, duration: 0.6, ease: "power3.in" }, 59.2);
+  ent("#movil-esc", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 49.35);
+  ent("#movil", { x: 700, rotationY: -55, rotationX: 8, filter: "blur(16px)" }, { x: 0, rotationY: -12, rotationX: 4, filter: "blur(0px)", duration: 1.5, ease: "expo.out" }, 49.35);
+  tl.to("#movil", { rotationY: -5, rotationX: 2, duration: 10, ease: "sine.inOut" }, 51.0);
+  palabras("#t5a", 49.9);
+  pantM("#r1", 50.8, 412, 1.3, 0.25);
+  pantM("#r2", 52.1, 300, 1.12);
+  pantM("#r3", 54.4, 560, 1.28);
+  pantM("#r4", 56.2, 470, 1.24);
+  pantM("#r5", 57.1, 470, 1.24, 0.2);
+  pantM("#r6", 58.5, 610, 1.24);
+  [51.6, 54.6, 56.4].forEach((at, i) => ent(`#sin .sin:nth-child(${i + 1})`, { opacity: 0, x: -30, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, at));
+  ent("#fpsico", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 58.6);
+  palabrasFuera("#t5a", 61.0);
+  sale(["#sin .sin", "#fpsico"], 61.0, 0.35);
+  tl.to("#movil", { x: 600, rotationY: 50, opacity: 0, duration: 0.6, ease: "power3.in" }, 61.05);
 
-  // 6. Resultados por grupos
-  verPant("#i-resultados", 59.6, 0.01);
-  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 59.6);
-  tl.set("#app", { x: -1700, filter: "blur(18px)", rotationX: 0, z: 0, scale: 1, opacity: 1 }, 59.7);
-  tl.to("#app", { x: 0, filter: "blur(0px)", duration: 0.85, ease: "expo.out" }, 59.75);
-  palabras("#t4c", 60.4, 0.06);
-  acerca([140, 352, 780, 610], 61.5, 1.9, 1.1);
-  const mGr = [marca([172, 548, 446, 574], 63.0, "mk", 0.6), marca([350, 518, 740, 544], 65.95, "mk", 0.8)];
-  tl.to("#app", { scale: 0.9, z: -200, opacity: 0, filter: "blur(10px)", duration: 0.4, ease: "power3.in" }, 66.95);
-  quitaMarcas(mGr, 67.8);
-  ent(".gr", { opacity: 0, y: 140, rotationX: -65 }, { opacity: 1, y: 0, rotationX: 0, duration: 1.1, stagger: 0.1, ease: "expo.out" }, 67.3);
-  ent("#grupos-nota", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 68.0);
-  tl.to("#gpeq-c", { filter: "blur(14px)", opacity: 0.3, duration: 0.8, ease: "sine.inOut" }, 68.45);
-  tl.to("#gpeq", { borderColor: "#F25A1F", duration: 0.5 }, 68.6);
-  ent("#velo", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" }, 68.65);
-  sale([".gr", "#grupos-nota"], 70.55, 0.45, { y: -40, stagger: 0.04 });
-  palabrasFuera("#t4c", 70.6);
+  // Una persona, una respuesta: garantías de la campaña
+  verPant("#i-evaluacion", 61.4, 0.01);
+  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 61.4);
+  tl.set("#app", { x: -1700, filter: "blur(18px)", rotationX: 0, z: 0, scale: 1, opacity: 1 }, 61.45);
+  tl.to("#app", { x: 0, filter: "blur(0px)", duration: 0.85, ease: "expo.out" }, 61.5);
+  palabras("#t4f", 62.0, 0.08);
+  acerca([556, 888, 956, 1140], 62.3, 1.9, 1.1);
+  const mG1 = marca([560, 893, 952, 1033], 62.9);
+  const mG2 = marca([560, 1037, 952, 1135], 65.3);
+  quitaMarcas([mG1, mG2], 67.6);
+  acerca([496, 778, 1400, 1322], 67.6, 1.9, 1.2);
+  palabrasFuera("#t4f", 71.0);
 
-  // 7. Plan de acción
-  verPant("#i-plan", 70.9, 0.01);
-  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 70.9);
-  tl.set("#app", { x: 0, scale: 0.92, z: 0, opacity: 0, filter: "blur(12px)" }, 70.95);
-  tl.to("#app", { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 71.0);
-  palabras("#t4d", 71.25);
-  acerca([140, 380, 912, 780], 72.35, 1.75, 1.0);
-  const mPl = [marca([170, 504, 492, 558], 73.95, "caja"), marca([538, 504, 868, 532], 74.6, "caja"), marca([774, 408, 884, 446], 75.3, "caja"), marca([168, 698, 404, 728], 76.4, "caja")];
-  quitaMarcas(mPl, 78.45);
-  palabrasFuera("#t4d", 78.6);
-  aleja(78.5, 0.7);
+  // La evaluación se trata en FPSICO
+  palabras("#t4g", 71.6, 0.07);
+  ent("#origen-pie", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 71.8);
+  acerca([516, 1418, 1230, 1480], 72.0, 1.9, 1.1);
+  const mF1 = marca([523, 1424, 862, 1449], 72.7, "mk", 0.6);
+  acerca([516, 1478, 1384, 1696], 75.1, 1.9, 1.1);
+  const mF2 = marca([523, 1484, 958, 1506], 75.8, "mk", 0.6);
+  quitaMarcas([mF1], 75.2);
+  acerca([496, 345, 1400, 494], 78.3, 1.9, 1.1);
+  quitaMarcas([mF2], 78.4);
+  const mF3 = marca([1171, 410, 1375, 465], 79.2);
+  palabrasFuera("#t4g", 82.6);
+  tl.to("#origen-pie", { opacity: 0, duration: 0.4 }, 82.6);
+  quitaMarcas([mF3], 82.6);
 
-  // 8. Desconexión digital
-  verPant("#i-desc", 78.95);
-  palabras("#t4e", 79.15, 0.06);
-  acerca([126, 196, 1070, 272], 79.6, 1.9, 0.9);
-  const mDe = [marca([140, 208, 288, 234], 80.15), marca([293, 208, 861, 234], 81.35, "mk", 0.8), marca([866, 208, 1025, 234], 83.05), marca([138, 240, 243, 266], 84.25), marca([248, 240, 620, 266], 86.25, "mk", 0.7)];
-  quitaMarcas(mDe, 87.15);
-  acerca([140, 560, 780, 690], 87.1, 1.9, 1.0);
-  ent("#sello", { opacity: 0, scale: 2.2, rotation: -16 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.55, ease: "back.out(1.3)" }, 88.05);
-  palabrasFuera("#t4e", 89.75);
-  sale(["#app", "#sello"], 89.85, 0.5);
-  inunda("#fl4", 90.15, 0.8);
+  // Resultados de un seguimiento
+  tl.to("#app", { opacity: 0, filter: "blur(12px)", scale: 0.97, duration: 0.35, ease: "power2.in" }, 82.8);
+  verPant("#i-seguimiento", 83.15, 0.01);
+  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 83.15);
+  tl.to("#app", { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.6, ease: "expo.out" }, 83.2);
+  palabras("#t4c", 83.3, 0.06);
+  acerca([496, 522, 936, 752], 83.9, 1.9, 1.1);
+  const mS1 = marca([678, 657, 910, 723], 85.6);
+  quitaMarcas([mS1], 87.7);
+  acerca([496, 1318, 1400, 1580], 87.8, 1.9, 1.1);
+  gsap.set("#desp", { scaleY: 0.4, opacity: 0 });
+  tl.to("#desp", { scaleY: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, 88.7);
+  tl.to("#desp .prot", { backgroundColor: "#FFE1D4", color: "#B83A0E", duration: 0.4, stagger: 0.2 }, 89.6);
+  tl.to("#desp", { opacity: 0, scaleY: 0.6, duration: 0.3, ease: "power2.in" }, 93.4);
+  palabrasFuera("#t4c", 93.7);
+
+  // Plan de acción
+  tl.to("#app", { opacity: 0, filter: "blur(12px)", scale: 0.97, duration: 0.35, ease: "power2.in" }, 93.9);
+  verPant("#i-plan", 94.25, 0.01);
+  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 94.25);
+  tl.to("#app", { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.6, ease: "expo.out" }, 94.3);
+  palabras("#t4d", 94.5);
+  acerca([496, 254, 1400, 424], 94.9, 1.9, 1.0);
+  acerca([492, 480, 1060, 760], 96.3, 1.9, 1.0);
+  const mP = [marca([544, 614, 780, 642], 97.1), marca([815, 614, 983, 642], 97.75), marca([521, 690, 692, 718], 98.45)];
+  quitaMarcas(mP, 101.4);
+  palabrasFuera("#t4d", 101.6);
+
+  // Desconexión digital
+  tl.to("#app", { opacity: 0, filter: "blur(12px)", scale: 0.97, duration: 0.35, ease: "power2.in" }, 101.8);
+  verPant("#i-desc", 102.15, 0.01);
+  tl.set("#cam", { x: 0, y: 0, scale: 1 }, 102.15);
+  tl.to("#app", { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.6, ease: "expo.out" }, 102.2);
+  palabras("#t4e", 102.4, 0.06);
+  acerca([496, 280, 1400, 442], 102.6, 1.9, 1.0);
+  const mD = [marca([521, 343, 726, 414], 103.2), marca([738, 343, 942, 398], 104.4), marca([954, 343, 1159, 398], 106.0), marca([1171, 343, 1375, 398], 107.3)];
+  quitaMarcas(mD, 108.5);
+  acerca([496, 605, 1400, 783], 108.5, 1.9, 1.0);
+  const mV = marca([523, 716, 972, 740], 109.5, "mk", 0.7);
+  gsap.set("#sello", { left: 1240, top: 690 });
+  ent("#sello", { opacity: 0, scale: 2.2, rotation: -16 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.55, ease: "back.out(1.3)" }, 110.3);
+  palabrasFuera("#t4e", 112.6);
+  sale(["#app", "#sello"], 112.7, 0.5);
+  inunda("#fl4", 113.0, 0.8);
 
   // ===================== 9. Sin vigilancia =====================
-  palabras("#t9a", 91.55, 0.12);
-  ent(".nm", { opacity: 0, rotationX: 60, y: 40, transformPerspective: 1400 }, { opacity: 1, rotationX: 0, y: 0, duration: 1.0, stagger: 0.14, ease: "expo.out" }, 92.5);
-  [94.35, 95.25, 96.2].forEach((at, i) => tl.to(`.nm:nth-child(${i + 1}) i`, { scaleX: 1, duration: 0.45, ease: "power3.out" }, at));
-  [94.5, 95.4, 96.35].forEach((at, i) => tl.to(`.nm:nth-child(${i + 1})`, { color: "#8A8A84", duration: 0.4 }, at));
-  ent("#nomide-et", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7 }, 96.75);
-  palabrasFuera("#t9a", 97.65);
-  sale([".nm", "#nomide-et"], 97.65, 0.4);
+  palabras("#t9a", 114.55, 0.12);
+  ent(".nm", { opacity: 0, rotationX: 60, y: 40, transformPerspective: 1400 }, { opacity: 1, rotationX: 0, y: 0, duration: 1.0, stagger: 0.14, ease: "expo.out" }, 115.5);
+  [117.35, 118.25, 119.2].forEach((at, i) => tl.to(`.nm:nth-child(${i + 1}) i`, { scaleX: 1, duration: 0.45, ease: "power3.out" }, at));
+  [117.5, 118.4, 119.35].forEach((at, i) => tl.to(`.nm:nth-child(${i + 1})`, { color: "#8A8A84", duration: 0.4 }, at));
+  ent("#nomide-et", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7 }, 119.75);
+  palabrasFuera("#t9a", 120.65);
+  sale([".nm", "#nomide-et"], 120.65, 0.4);
 
   // ===================== 10. Origen =====================
   gsap.set("#hitos", { opacity: 0 });
-  tl.set("#hitos", { opacity: 1 }, 98.0);
-  palabras("#t10a", 98.25);
+  tl.set("#hitos", { opacity: 1 }, 121);
+  palabras("#t10a", 121.25);
   gsap.set("#hitos-in", { transformPerspective: 2400, rotationY: 5, rotationX: 9 });
-  tl.to("#hitos-in", { rotationY: -3, rotationX: 3, duration: 7.4, ease: "sine.inOut" }, 98.1);
-  [["#h1", 98.95], ["#h2", 101.55], ["#h3", 102.95]].forEach(([h, at]) => {
+  tl.to("#hitos-in", { rotationY: -3, rotationX: 3, duration: 7.4, ease: "sine.inOut" }, 121.1);
+  [["#h1", 121.95], ["#h2", 124.55], ["#h3", 125.95]].forEach(([h, at]) => {
     ent(h + " .c", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, at);
     ent([h + " .mono", h + " h5", h + " p"], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.09, ease: "expo.out" }, at + 0.2);
   });
-  tl.to("#linea i", { scaleX: 0.5, duration: 1.8, ease: "power2.inOut" }, 99.6);
-  tl.to("#linea i", { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 101.9);
-  palabrasFuera("#t10a", 105.1);
-  sale("#hitos", 105.15, 0.5);
+  tl.to("#linea i", { scaleX: 0.5, duration: 1.8, ease: "power2.inOut" }, 122.6);
+  tl.to("#linea i", { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 124.9);
+  palabrasFuera("#t10a", 128.1);
+  sale("#hitos", 128.15, 0.5);
 
   // ===================== 11. Cierre =====================
-  construyeLogo("#l2w", 105.75);
-  ent("#l2n", { opacity: 0, letterSpacing: "0.6em" }, { opacity: 1, letterSpacing: "0.3em", duration: 1.4, ease: "expo.out" }, 107.4);
-  palabras("#lema", 109.55, 0.1);
-  ent("#cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1.0, ease: "expo.out" }, 111.45);
-  ent("#mini", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, 112.7);
+  construyeLogo("#l2w", 128.75);
+  ent("#l2n", { opacity: 0, letterSpacing: "0.6em" }, { opacity: 1, letterSpacing: "0.3em", duration: 1.4, ease: "expo.out" }, 130.4);
+  palabras("#lema", 132.55, 0.1);
+  ent("#cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1.0, ease: "expo.out" }, 134.45);
+  ent("#mini", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, 135.7);
   tl.set({}, {}, DUR);
 
   // ===================== Elementos dependientes del tiempo =====================
   const CAP = [
-    [10.3, 26.2, "", "Lo que pide la ley", 0], [27.6, 36.4, "", "El problema", 1], [38.9, 45.8, "", "La solución", 0],
-    [46.1, 49.2, "01", "Alta de la empresa", 0], [49.7, 59.2, "02", "Cuestionario anónimo", 0], [60.1, 70.6, "03", "Resultados por grupos", 0],
-    [71.1, 78.6, "04", "Plan de acción", 0], [79.1, 89.8, "05", "Desconexión digital", 0], [91.4, 97.7, "", "Principios", 1], [98.2, 105.1, "", "Origen", 1],
+    [10.3, 26.2, "", "Lo que pide la ley", 0], [27.6, 36.4, "", "El problema", 1], [38.9, 45.7, "", "La solución", 0],
+    [46.0, 48.9, "01", "Alta de la empresa", 0], [49.5, 61.0, "02", "Cuestionario anónimo", 0], [61.6, 71.0, "03", "Una persona, una respuesta", 0],
+    [71.6, 82.6, "04", "Evaluación con FPSICO", 0], [83.3, 93.7, "05", "Resultados de seguimiento", 0], [94.4, 101.6, "06", "Plan de acción", 0],
+    [102.3, 112.6, "07", "Desconexión digital", 0], [114.4, 120.7, "", "Principios", 1], [121.2, 128.1, "", "Origen", 1],
   ];
-  const DEMO = [[38.9, 49.2], [49.7, 59.2], [60.1, 70.6], [71.1, 89.8]];
+  const DEMO = [[38.9, 48.9], [61.6, 112.6]];
   const env = (t, a, b, f = 0.4) => Math.max(0, Math.min(1, (t - a) / f, (b - t) / f));
-  const CODIGO = "K7M24Q";
 
   window.pintar = function (t) {
     tl.seek(Math.min(t, DUR), false);
@@ -302,9 +346,6 @@
     }
     $("#cap").style.opacity = o;
     $("#demo").style.opacity = Math.max(0, ...DEMO.map(([a, b]) => env(t, a, b)));
-    const n = Math.max(0, Math.min(6, Math.floor((t - 51.4) / 0.2) + 1));
-    $("#codigo").textContent = CODIGO.slice(0, n);
-    $("#cursor").style.opacity = n < 6 && Math.floor(t * 2) % 2 === 0 ? 1 : 0;
     let s = "", so = 0;
     for (const c of window.CUES) if (t >= c.ini && t <= c.fin) { s = c.texto; so = env(t, c.ini, c.fin, 0.12); }
     const sub = $("#sub"); if (sub.textContent !== s) sub.textContent = s; sub.style.opacity = so;
