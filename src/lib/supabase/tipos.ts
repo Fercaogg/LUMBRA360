@@ -821,6 +821,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"solicitudes_demo": {
+                  Row: {
+                    "acepta_novedades": boolean,"correo": string,"creada_el": string,"id": string,"nombre": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "acepta_novedades"?: boolean,"correo": string,"creada_el"?: string,"id"?: string,"nombre": string
+                  }
+                  Update: {
+                    "acepta_novedades"?: boolean,"correo"?: string,"creada_el"?: string,"id"?: string,"nombre"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"tecnico_empresas": {
                   Row: {
                     "creado_el": string,"empresa_id": string,"usuario_id": string

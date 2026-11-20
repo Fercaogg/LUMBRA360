@@ -537,7 +537,12 @@ export default function Portada() {
         <Contenedor>
           <div className="flex flex-col gap-2 border-t border-linea py-6 text-xs text-tinta-suave sm:flex-row sm:justify-between">
             <p>{ORIGEN_INSST}.</p>
-            <p>© {NOMBRE}</p>
+            <nav aria-label="Textos legales" className="flex flex-wrap gap-x-5 gap-y-2">
+              <Link href="/aviso-legal" className="hover:text-tinta">Aviso legal</Link>
+              <Link href="/privacidad" className="hover:text-tinta">Privacidad</Link>
+              <Link href="/cookies" className="hover:text-tinta">Cookies</Link>
+              <span>© {NOMBRE}</span>
+            </nav>
           </div>
         </Contenedor>
       </footer>

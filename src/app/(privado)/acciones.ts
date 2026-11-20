@@ -189,3 +189,12 @@ export async function alternarPendiente(datos: FormData): Promise<void> {
     .eq("id", id.data);
   revalidatePath("/admin/pendientes");
 }
+
+// Borra una solicitud de demostración (derecho de supresión o fin del piloto). Solo administración, por RLS.
+export async function borrarSolicitudDemo(datos: FormData): Promise<void> {
+  const { supabase, permitido } = await preparar();
+  const id = esquemaUuid.safeParse(datos.get("id"));
+  if (!permitido || !id.success) return;
+  await supabase.from("solicitudes_demo").delete().eq("id", id.data);
+  revalidatePath("/admin/solicitudes");
+}

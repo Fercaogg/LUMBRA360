@@ -6,6 +6,7 @@ const ENLACES = [
   { href: "/admin/empresas", texto: "Empresas" },
   { href: "/admin/instrumentos", texto: "Instrumentos" },
   { href: "/admin/plantillas", texto: "Plantillas" },
+  { href: "/admin/solicitudes", texto: "Solicitudes" },
   { href: "/admin/pendientes", texto: "Pendientes" },
 ];
 

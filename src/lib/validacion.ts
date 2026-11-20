@@ -236,3 +236,13 @@ export const esquemaAcuse = z.object({
   nombre: texto(3, 160, "Escriba su nombre y apellidos."),
   conforme: z.literal(true, "Marque la casilla para confirmar la lectura."),
 });
+
+// ---------------------------------------------------------------------------
+// Web pública: solicitud de demostración
+// ---------------------------------------------------------------------------
+
+export const esquemaSolicitudDemo = z.object({
+  nombre: texto(2, 120, "Escriba su nombre."),
+  correo: esquemaCorreo,
+  novedades: z.literal("si").optional(),
+});
