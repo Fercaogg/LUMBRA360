@@ -133,7 +133,7 @@ test("la demo de la plantilla enseña el cuestionario sin guardar nada", async (
   await page.goto("/demo");
   await page.getByRole("link", { name: /Ver el cuestionario/ }).click();
   await expect(page).toHaveURL(/\/demo\/cuestionario$/);
-  await expect(page.getByText("no se guarda nada")).toBeVisible();
+  await expect(page.getByText("Así lo ve una persona de la plantilla")).toBeVisible();
   await page.getByRole("button", { name: "Continuar" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Cuestionario de demostración (ficticio)" })).toBeVisible();
   await expect(page.getByText("Es voluntario y anónimo")).toBeVisible();

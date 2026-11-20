@@ -307,3 +307,58 @@ html.lenis body {
 .beneficio:hover::after {
   opacity: 1;
 }
+
+/* Demostración: elección entre panel y cuestionario */
+.demo-opcion {
+  transition: transform 500ms var(--curva-salida), box-shadow 500ms var(--curva-salida);
+}
+.demo-opcion .demo-vista {
+  transition: transform 600ms var(--curva-salida);
+}
+@media (hover: hover) {
+  .demo-opcion:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 40px 80px -48px rgb(17 17 17 / 0.45);
+  }
+  .demo-opcion:hover .demo-vista {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+}
+.demo-opcion:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .demo-anillo {
+    animation: demo-anillo 1.4s var(--curva-salida) 0.3s both;
+  }
+  .demo-barra {
+    animation: demo-barra 0.9s var(--curva-salida) 0.4s both;
+    transform-origin: left center;
+  }
+  .demo-elegida {
+    animation: demo-elegida 0.5s var(--curva-salida) 0.9s both;
+  }
+}
+@keyframes demo-anillo {
+  from {
+    stroke-dasharray: 0 100;
+  }
+}
+@keyframes demo-barra {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes demo-elegida {
+  from {
+    background: transparent;
+    border-color: var(--linea);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-opcion,
+  .demo-opcion .demo-vista {
+    transition: none;
+  }
+}
