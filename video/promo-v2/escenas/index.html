@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>LUMBRA360 · película</title>
+<style>
+@font-face { font-family: "Instrument Sans"; font-weight: 400; src: url("assets/fonts/instrument-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 500; src: url("assets/fonts/instrument-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Sans"; font-weight: 600; src: url("assets/fonts/instrument-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+:root {
+  --tinta: #111111; --tinta-900: #1B1B1B; --papel: #F4F4F1; --blanco: #FFFFFF; --roto: #F5F5F2;
+  --lumbre: #F25A1F; --lumbre-suave: #FFE1D4; --lumbre-texto: #B83A0E;
+  --p700: #55554F; --p600: #6B6B65; --linea: #E3E3DF; --linea-f: #CFCFCA; --gris-osc: #BDBDB6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--tinta); }
+body { font-family: "Instrument Sans", Arial, sans-serif; color: var(--tinta); -webkit-font-smoothing: antialiased; }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--tinta); }
+.abs { position: absolute; }
+.mono { font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .14em; font-weight: 500; }
+.esc { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+.oculto { opacity: 0; }
+.flood { position: absolute; inset: 0; clip-path: circle(0% at 50% 50%); }
+.w { display: inline-block; white-space: pre; }
+.ac { color: var(--lumbre-texto); }
+.oscuro .ac { color: var(--lumbre); }
+svg.ic { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.titular { font-weight: 400; letter-spacing: -0.035em; line-height: 1.02; }
+
+/* rótulos fijos */
+#cap { position: absolute; left: 120px; top: 62px; z-index: 40; font-size: 20px; display: flex; gap: 16px; align-items: center; opacity: 0; }
+#cap .b { width: 40px; height: 2px; background: var(--lumbre); }
+#cap .n { color: var(--lumbre); }
+#demo { position: absolute; right: 120px; top: 54px; z-index: 40; font-size: 16px; padding: 9px 18px; border-radius: 999px; border: 1px solid var(--linea-f); color: var(--p700); background: rgba(255,255,255,.7); opacity: 0; }
+#subs { position: absolute; left: 0; right: 0; bottom: 54px; z-index: 60; display: flex; justify-content: center; }
+#sub { max-width: 1500px; background: rgba(17,17,17,.92); color: #fff; font-size: 38px; font-weight: 500; line-height: 1.28; padding: 10px 28px 13px; border-radius: 12px; text-align: center; opacity: 0; }
+
+/* logotipo */
+.logo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.logo .onda { fill-opacity: 0; stroke: var(--lumbre); stroke-width: 6; }
+#l1w { left: 580px; top: 380px; width: 760px; }
+#l1n { left: 0; right: 0; top: 600px; text-align: center; font-size: 22px; color: var(--gris-osc); letter-spacing: .3em; }
+#avales-et { left: 0; right: 0; top: 452px; text-align: center; font-size: 18px; color: var(--gris-osc); }
+#avales { left: 118px; top: 500px; width: 1684px; display: flex; gap: 28px; perspective: 1600px; }
+.aval { width: 400px; height: 300px; border-radius: 24px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 30px 26px 28px; text-align: center; transform-style: preserve-3d; }
+.aval .lg { height: 120px; display: flex; align-items: center; justify-content: center; width: 100%; }
+.aval .lg img { max-height: 120px; max-width: 300px; object-fit: contain; }
+.aval .ti { font-size: 16px; color: var(--p700); margin-bottom: 8px; }
+.aval .no { font-size: 25px; font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; }
+
+/* escena ley */
+#t2 { left: 120px; top: 230px; width: 860px; }
+#t2 .titular { position: absolute; left: 0; top: 0; width: 860px; font-size: 84px; }
+#pills { left: 120px; top: 620px; display: flex; flex-direction: column; gap: 16px; }
+.pill { display: inline-flex; align-items: center; gap: 16px; font-size: 34px; font-weight: 500; letter-spacing: -0.01em; padding: 14px 28px 16px 20px; background: #fff; border: 1px solid var(--linea); border-radius: 999px; width: max-content; }
+.pill i { width: 14px; height: 14px; border-radius: 50%; background: var(--lumbre); }
+#leyes { left: 1060px; top: 190px; width: 720px; height: 640px; perspective: 1800px; }
+.ley { position: absolute; left: 0; top: 0; width: 700px; padding: 44px 48px; background: #fff; border-radius: 18px; border: 1px solid var(--linea); box-shadow: 0 40px 80px -40px rgba(17,17,17,.35); transform-style: preserve-3d; }
+.ley .mono { font-size: 17px; color: var(--lumbre-texto); }
+.ley h3 { font-size: 46px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.04; margin: 16px 0 26px; }
+.ley .fila { display: flex; gap: 16px; align-items: flex-start; border-top: 1px solid var(--linea); padding: 18px 0 16px; font-size: 27px; line-height: 1.25; }
+.ley .fila svg { width: 30px; height: 30px; flex: none; color: var(--lumbre); stroke-width: 2.4; margin-top: 2px; }
+.ley .fila b { font-weight: 600; }
+#ley2 { top: 110px; left: 20px; }
+
+/* escena problema */
+#mundo { position: absolute; inset: 0; perspective: 1100px; perspective-origin: 50% 46%; }
+#camara { position: absolute; left: 960px; top: 500px; width: 0; height: 0; transform-style: preserve-3d; }
+.pap { position: absolute; transform-style: preserve-3d; background: #fff; border-radius: 10px; padding: 22px 24px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
+.pap .niebla { position: absolute; inset: 0; border-radius: inherit; background: var(--tinta); pointer-events: none; }
+.pap .cab { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 500; }
+.pap .cab svg { width: 28px; height: 28px; flex: none; }
+.pap .sub { font-size: 15px; color: var(--p600); margin: 6px 0 14px 40px; }
+.pap .r { height: 10px; border-radius: 5px; background: #ECECE8; margin-top: 10px; }
+.pap.nota { background: #FFF8E4; font-size: 25px; line-height: 1.25; font-weight: 500; border-radius: 4px; }
+.pap table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+.pap td { border: 1px solid var(--linea); height: 28px; }
+.pap tr:first-child td { background: #F0F0EC; }
+#viñeta { position: absolute; inset: 0; background: radial-gradient(ellipse 52% 40% at 50% 47%, rgba(17,17,17,.82), rgba(17,17,17,0) 100%); }
+#t3 { left: 0; right: 0; top: 330px; text-align: center; color: #fff; }
+#t3 .titular { position: absolute; left: 0; right: 0; font-size: 104px; }
+#onda3 { left: 860px; top: 420px; width: 200px; }
+#onda3 img { width: 100%; display: block; }
+
+/* producto */
+#t4 { left: 0; right: 0; top: 112px; text-align: center; }
+#t4 .titular { position: absolute; left: 0; right: 0; font-size: 64px; }
+#app { left: 260px; top: 240px; width: 1400px; height: 660px; border-radius: 22px; background: #fff; overflow: hidden; box-shadow: 0 1px 0 rgba(17,17,17,.04), 0 60px 120px -60px rgba(17,17,17,.45); border: 1px solid var(--linea); }
+#cam { position: absolute; left: 0; top: 0; width: 1400px; transform-origin: 0 0; }
+#cam img.pant { position: absolute; left: 0; top: 0; width: 1400px; display: block; opacity: 0; }
+#cam .mk { position: absolute; background: var(--lumbre); mix-blend-mode: multiply; opacity: .32; border-radius: 4px; transform-origin: 0 50%; transform: scaleX(0); }
+#cam .caja { position: absolute; border: 3px solid var(--lumbre); border-radius: 10px; opacity: 0; }
+#app .fundido { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(rgba(255,255,255,0), #fff); }
+#sello { left: 1180px; top: 650px; z-index: 12; border: 5px solid var(--lumbre); color: var(--lumbre-texto); border-radius: 14px; padding: 14px 26px 12px; text-align: center; background: rgba(255,255,255,.92); opacity: 0; }
+#sello .s1 { font-family: "IBM Plex Mono", monospace; font-size: 44px; font-weight: 500; letter-spacing: .16em; }
+#sello .s2 { font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .06em; margin-top: 4px; }
+
+/* móvil */
+#t5 { left: 120px; top: 190px; width: 900px; }
+#t5 .titular { font-size: 76px; }
+#sin { left: 120px; top: 470px; display: flex; flex-direction: column; gap: 18px; }
+.sin { display: flex; align-items: center; gap: 20px; font-size: 52px; letter-spacing: -0.025em; }
+.sin span.ck { width: 52px; height: 52px; border-radius: 50%; background: var(--lumbre); display: flex; align-items: center; justify-content: center; flex: none; }
+.sin span.ck svg { width: 30px; height: 30px; color: var(--tinta); stroke-width: 3; }
+#fpsico { left: 120px; top: 760px; width: 900px; }
+#fpsico b { display: block; font-size: 28px; font-weight: 500; letter-spacing: -0.01em; }
+#fpsico span { display: block; font-size: 21px; color: var(--p700); margin-top: 8px; }
+#movil-esc { left: 1230px; top: 112px; width: 450px; height: 860px; perspective: 1800px; transform: scale(.9); transform-origin: 50% 0; }
+#movil { width: 450px; height: 860px; border-radius: 64px; background: var(--tinta-900); padding: 15px; box-shadow: 0 60px 100px -40px rgba(17,17,17,.55), 0 0 0 1px #000; transform-style: preserve-3d; }
+#pantalla { position: relative; width: 100%; height: 100%; border-radius: 50px; background: #fff; overflow: hidden; padding: 150px 24px 0; }
+#pantalla .isla { position: absolute; top: 16px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 20px; background: var(--tinta-900); }
+#pantalla .lg { width: 150px; margin-bottom: 26px; }
+#pantalla .lg img { width: 100%; display: block; }
+.tarj { border: 1.5px solid var(--linea); border-radius: 22px; padding: 26px 22px; }
+.tarj h4 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
+.tarj p { font-size: 20px; color: var(--p700); line-height: 1.38; margin: 10px 0 24px; }
+.tarj label { font-size: 18px; font-weight: 500; display: block; margin-bottom: 10px; }
+.campo { height: 62px; border: 1.5px solid var(--p600); border-radius: 12px; display: flex; align-items: center; padding: 0 18px; font-family: "IBM Plex Mono", monospace; font-size: 30px; letter-spacing: .2em; font-weight: 500; }
+.campo i { width: 2px; height: 32px; background: var(--tinta); margin-left: 3px; }
+.btn-m { display: inline-block; margin-top: 22px; background: var(--tinta-900); color: #fff; font-size: 21px; font-weight: 500; padding: 16px 26px; border-radius: 14px; }
+.nota-m { font-size: 19px; color: var(--p700); line-height: 1.4; margin-top: 26px; padding: 0 4px; }
+
+/* grupos */
+#grupos { left: 150px; top: 330px; width: 1620px; display: flex; gap: 30px; perspective: 1800px; }
+.gr { position: relative; width: 383px; height: 420px; background: #fff; border: 1px solid var(--linea); border-radius: 22px; padding: 30px; transform-style: preserve-3d; }
+.gr h5 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
+.gr .mono { font-size: 15px; color: var(--p700); margin-top: 8px; }
+.gr .pts { display: grid; grid-template-columns: repeat(5, 34px); gap: 16px; margin-top: 34px; }
+.gr .pts i { width: 34px; height: 34px; border-radius: 50%; background: var(--tinta-900); }
+.gr .estado { position: absolute; left: 30px; bottom: 28px; display: inline-flex; gap: 10px; align-items: center; font-size: 20px; font-weight: 600; color: #1D6440; background: #E6F2EB; padding: 8px 16px; border-radius: 999px; }
+.gr .estado svg { width: 20px; height: 20px; stroke-width: 2.6; }
+.gr .velo { position: absolute; inset: 0; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; background: rgba(244,244,241,.6); opacity: 0; }
+.velo svg { width: 92px; height: 92px; color: var(--tinta); stroke-width: 1.6; }
+.velo svg .v { stroke: var(--lumbre); stroke-width: 2.4; }
+.velo b { font-size: 38px; font-weight: 500; letter-spacing: -0.02em; }
+.velo span { font-size: 22px; color: var(--p700); line-height: 1.3; }
+#grupos-nota { left: 150px; top: 790px; font-size: 17px; color: var(--p700); }
+
+/* lista desconexión */
+#t8 { left: 0; right: 0; top: 112px; text-align: center; }
+
+/* vigilancia */
+#t9 { left: 0; right: 0; top: 300px; text-align: center; color: #fff; }
+#t9 .titular { font-size: 128px; }
+#nomide { left: 0; right: 0; top: 520px; display: flex; justify-content: center; gap: 80px; perspective: 1400px; }
+.nm { position: relative; font-size: 72px; letter-spacing: -0.03em; color: var(--roto); }
+.nm i { position: absolute; left: -10px; right: -10px; top: 54%; height: 7px; border-radius: 4px; background: var(--lumbre); transform-origin: 0 50%; transform: scaleX(0); }
+#nomide-et { left: 0; right: 0; top: 690px; text-align: center; font-size: 20px; color: var(--gris-osc); }
+
+/* origen */
+#t10 { left: 120px; top: 150px; color: #fff; }
+#t10 .titular { font-size: 84px; }
+#hitos { left: 120px; top: 380px; width: 1680px; height: 460px; perspective: 1800px; }
+#hitos-in { position: absolute; inset: 0; transform-style: preserve-3d; }
+#linea { left: 220px; top: 78px; width: 1120px; height: 4px; background: rgba(255,255,255,.14); border-radius: 2px; overflow: hidden; }
+#linea i { position: absolute; inset: 0; background: var(--lumbre); transform-origin: 0 50%; transform: scaleX(0); }
+.hito { position: absolute; top: 0; width: 460px; color: #fff; }
+.hito .c { width: 160px; height: 160px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+.hito .c img { max-width: 104px; max-height: 76px; }
+.hito .c.lb { background: var(--lumbre); }
+.hito .mono { font-size: 18px; color: var(--lumbre); margin: 30px 0 10px; }
+.hito h5 { font-size: 40px; font-weight: 500; letter-spacing: -0.02em; }
+.hito p { font-size: 25px; color: var(--gris-osc); line-height: 1.35; margin-top: 10px; }
+
+/* cierre */
+#l2w { left: 560px; top: 300px; width: 800px; }
+#l2n { left: 0; right: 0; top: 530px; text-align: center; font-size: 22px; color: var(--gris-osc); letter-spacing: .3em; }
+#lema { left: 0; right: 0; top: 590px; text-align: center; color: #fff; font-size: 72px; }
+#cta { left: 0; right: 0; top: 720px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+#cta .btn { background: var(--lumbre); color: var(--tinta); font-size: 34px; font-weight: 600; padding: 22px 46px; border-radius: 18px; }
+#cta .url { color: var(--roto); font-size: 24px; letter-spacing: .14em; }
+#mini { left: 0; right: 0; top: 940px; display: flex; justify-content: center; gap: 20px; align-items: center; }
+#mini .m { height: 80px; padding: 0 22px; background: #fff; border-radius: 14px; display: flex; align-items: center; }
+#mini .m img { max-height: 56px; max-width: 190px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- Fondos que se inundan por turnos -->
+  <div class="flood" id="fl1" style="background:var(--papel)"></div>
+  <div class="flood" id="fl2" style="background:var(--tinta)"></div>
+  <div class="flood" id="fl3" style="background:var(--papel)"></div>
+  <div class="flood" id="fl4" style="background:var(--tinta)"></div>
+
+  <!-- 1. Apertura: logotipo y avales -->
+  <div class="esc oscuro" id="s1">
+    <div class="abs logo" id="l1w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="199.98 581.33 1093.37 274.97" aria-hidden="true"><g transform="matrix(1, 0, 0, 1, 175, 429)"><g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(5.804397, 419.994067)"><g><path d="M 66.539062 0 L 66.539062 -267.667969 L 19.171875 -267.667969 L 19.171875 0 Z M 66.539062 0 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(76.472863, 419.994067)"><g><path d="M 146.238281 -85.335938 C 146.238281 -50.75 123.683594 -36.464844 103.007812 -36.464844 C 78.570312 -36.464844 66.539062 -48.496094 66.539062 -73.308594 L 66.539062 -193.984375 L 19.171875 -193.984375 L 19.171875 -65.414062 C 19.171875 -19.171875 46.617188 4.511719 86.839844 4.511719 C 114.660156 4.511719 134.960938 -9.398438 147.742188 -28.195312 L 147.742188 0 L 193.609375 0 L 193.609375 -193.984375 L 146.238281 -193.984375 Z M 146.238281 -85.335938 "/></g></g></g></g></g><g transform="matrix(1, 0, 0, 1, 790, 437)"><g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(1.06542, 414.011148)"><g><path d="M 126.707031 -198.519531 C 99.636719 -198.519531 79.707031 -187.613281 66.546875 -168.816406 L 66.546875 -267.699219 L 19.175781 -267.699219 L 19.175781 0 L 64.667969 0 L 64.667969 -27.824219 C 77.828125 -7.519531 98.507812 4.511719 126.707031 4.511719 C 180.09375 4.511719 213.558594 -35.34375 213.558594 -97.003906 C 213.558594 -158.664062 180.09375 -198.519531 126.707031 -198.519531 Z M 115.425781 -34.589844 C 84.597656 -34.589844 65.421875 -56.019531 65.421875 -97.003906 C 65.421875 -137.984375 84.597656 -159.417969 115.425781 -159.417969 C 146.257812 -159.417969 165.433594 -139.488281 165.433594 -98.507812 C 165.433594 -57.523438 146.257812 -34.589844 115.425781 -34.589844 Z M 115.425781 -34.589844 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(202.570828, 414.011148)"><g><path d="M 122.945312 -197.015625 C 92.867188 -197.015625 74.445312 -181.222656 65.042969 -159.417969 L 65.042969 -194.007812 L 19.175781 -194.007812 L 19.175781 0 L 66.546875 0 L 66.546875 -98.507812 C 66.546875 -135.351562 87.605469 -152.648438 122.570312 -152.648438 L 134.601562 -152.648438 L 134.601562 -196.261719 C 130.464844 -197.015625 127.082031 -197.015625 122.945312 -197.015625 Z M 122.945312 -197.015625 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(309.712303, 414.011148)"><g><path d="M 193.628906 0 C 188.367188 -7.519531 185.734375 -22.933594 185.734375 -36.847656 L 185.734375 -140.242188 C 185.734375 -175.207031 162.800781 -198.519531 104.898438 -198.519531 C 44.367188 -198.519531 20.304688 -173.328125 17.671875 -132.34375 L 64.292969 -132.34375 C 66.171875 -156.03125 77.453125 -163.175781 104.523438 -163.175781 C 131.96875 -163.175781 139.867188 -154.152344 139.867188 -139.113281 C 139.867188 -124.824219 130.464844 -119.1875 112.417969 -116.929688 L 83.09375 -114.296875 C 28.199219 -109.035156 8.648438 -86.101562 8.648438 -53.765625 C 8.648438 -16.167969 37.222656 4.511719 78.582031 4.511719 C 107.15625 4.511719 128.210938 -5.640625 140.992188 -23.6875 C 141.746094 -14.289062 143.25 -5.265625 146.257812 0 Z M 89.859375 -29.328125 C 68.054688 -29.328125 57.148438 -39.476562 57.148438 -55.644531 C 57.148438 -71.0625 65.796875 -80.460938 92.117188 -83.46875 L 117.683594 -86.476562 C 127.832031 -87.605469 134.976562 -89.859375 139.867188 -94.371094 L 139.867188 -76.699219 C 139.867188 -42.863281 115.050781 -29.328125 89.859375 -29.328125 Z M 89.859375 -29.328125 "/></g></g></g></g></g><g transform="matrix(1, 0, 0, 1, 450, 491)"><g><g fill="#F25A1F" fill-opacity="1" class="ondag"><g transform="translate(364.866818, 168.416861)"><g><path class="onda" d="M -95.796875 -4.53125 C -82.722656 -4.53125 -70.78125 -1.949219 -59.96875 3.203125 C -49.15625 8.359375 -40.539062 16.210938 -34.125 26.765625 C -27.71875 37.328125 -24.515625 50.65625 -24.515625 66.75 L -24.515625 192.34375 L -76.1875 192.34375 L -76.1875 59.21875 C -76.1875 55.695312 -77.066406 52.425781 -78.828125 49.40625 C -80.585938 46.382812 -82.972656 43.992188 -85.984375 42.234375 C -89.003906 40.472656 -92.273438 39.59375 -95.796875 39.59375 C -99.316406 39.59375 -102.582031 40.472656 -105.59375 42.234375 C -108.613281 43.992188 -111.003906 46.382812 -112.765625 49.40625 C -114.523438 52.425781 -115.40625 55.695312 -115.40625 59.21875 L -115.40625 125.59375 C -115.40625 140.675781 -118.359375 153.492188 -124.265625 164.046875 C -130.171875 174.609375 -138.46875 182.71875 -149.15625 188.375 C -159.84375 194.039062 -172.351562 196.875 -186.6875 196.875 C -201.019531 196.875 -213.523438 194.039062 -224.203125 188.375 C -234.890625 182.71875 -243.1875 174.609375 -249.09375 164.046875 C -255.007812 153.492188 -257.96875 140.675781 -257.96875 125.59375 L -257.96875 59.21875 C -257.96875 55.695312 -258.847656 52.425781 -260.609375 49.40625 C -262.367188 46.382812 -264.753906 43.992188 -267.765625 42.234375 C -270.785156 40.472656 -274.054688 39.59375 -277.578125 39.59375 C -281.347656 39.59375 -284.675781 40.472656 -287.5625 42.234375 C -290.457031 43.992188 -292.785156 46.382812 -294.546875 49.40625 C -296.304688 52.425781 -297.1875 55.695312 -297.1875 59.21875 L -297.1875 192.34375 L -348.859375 192.34375 L -348.859375 66.75 C -348.859375 50.65625 -345.648438 37.328125 -339.234375 26.765625 C -332.828125 16.210938 -324.21875 8.359375 -313.40625 3.203125 C -302.59375 -1.949219 -290.648438 -4.53125 -277.578125 -4.53125 C -264.753906 -4.53125 -252.9375 -1.949219 -242.125 3.203125 C -231.3125 8.359375 -222.632812 16.210938 -216.09375 26.765625 C -209.5625 37.328125 -206.296875 50.65625 -206.296875 66.75 L -206.296875 133.125 C -206.296875 136.894531 -205.414062 140.226562 -203.65625 143.125 C -201.894531 146.019531 -199.566406 148.34375 -196.671875 150.09375 C -193.785156 151.851562 -190.457031 152.734375 -186.6875 152.734375 C -183.164062 152.734375 -179.894531 151.851562 -176.875 150.09375 C -173.863281 148.34375 -171.476562 146.019531 -169.71875 143.125 C -167.957031 140.226562 -167.078125 136.894531 -167.078125 133.125 L -167.078125 66.75 C -167.078125 50.65625 -163.804688 37.328125 -157.265625 26.765625 C -150.734375 16.210938 -142.125 8.359375 -131.4375 3.203125 C -120.75 -1.949219 -108.867188 -4.53125 -95.796875 -4.53125 Z M -95.796875 -4.53125 "/></g></g></g></g></g></svg>
+</div>
+    <div class="abs mono oculto" id="l1n">LUMBRA360</div>
+    <div class="abs mono oculto" id="avales-et">Con el aval y el apoyo de</div>
+    <div class="abs" id="avales">
+      <div class="aval"><div class="lg"><img src="assets/usal.svg" alt="Universidad de Salamanca"></div><div><div class="ti mono">Aval</div><div class="no">Universidad de Salamanca</div></div></div>
+      <div class="aval"><div class="lg"><img src="assets/fundacion-general-usal.webp" alt="Fundación General de la Universidad de Salamanca"></div><div><div class="ti mono">Aval</div><div class="no">Fundación General de la Universidad de Salamanca</div></div></div>
+      <div class="aval"><div class="lg"><img src="assets/prototipos-tcue.webp" alt="Prototipos"></div><div><div class="ti mono">Programa</div><div class="no">Prototipos 2026/2027</div></div></div>
+      <div class="aval"><div class="lg"><img src="assets/ris3-cyl.svg" alt="RIS3 de Castilla y León"></div><div><div class="ti mono">Estrategia regional</div><div class="no">RIS3 de Castilla y León</div></div></div>
+    </div>
+  </div>
+
+  <!-- 2. Lo que pide la ley -->
+  <div class="esc" id="s2">
+    <div class="abs" id="t2">
+      <h2 class="titular" id="t2a" data-palabras>Toda empresa debe <span class="ac">evaluar</span> los riesgos de su plantilla.</h2>
+      <h2 class="titular" id="t2b" data-palabras>También los riesgos <span class="ac">psicosociales.</span></h2>
+      <h2 class="titular" id="t2c" data-palabras>Y tener una política de <span class="ac">desconexión digital.</span></h2>
+    </div>
+    <div class="abs" id="pills">
+      <div class="pill"><i></i>Carga de trabajo</div>
+      <div class="pill"><i></i>Autonomía</div>
+      <div class="pill"><i></i>Apoyo del equipo</div>
+    </div>
+    <div class="abs" id="leyes">
+      <div class="ley" id="ley1">
+        <div class="mono">Ley 31/1995, de 8 de noviembre</div>
+        <h3>Prevención de Riesgos Laborales</h3>
+        <div class="fila"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Art. 16.</b> Evaluar los riesgos de la plantilla.</span></div>
+        <div class="fila"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Art. 23.</b> Documentar la evaluación y las medidas.</span></div>
+        <div class="fila" id="ley1c"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Los riesgos psicosociales forman parte de esa evaluación.</span></div>
+      </div>
+      <div class="ley" id="ley2">
+        <div class="mono">Ley Orgánica 3/2018 · Artículo 88</div>
+        <h3>Derecho a la desconexión digital</h3>
+        <div class="fila"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Una política interna de la empresa.</span></div>
+        <div class="fila"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Audiencia previa a la representación de las personas trabajadoras.</span></div>
+        <div class="fila"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Formación y sensibilización.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. El problema -->
+  <div class="esc oscuro" id="s3">
+    <div id="mundo"><div id="camara"></div></div>
+    <div id="viñeta" class="oculto"></div>
+    <div class="abs" id="t3">
+      <h2 class="titular" id="t3a" style="top:0" data-palabras>En la pyme, todo acaba<br>en papeles sueltos.</h2>
+      <h2 class="titular" id="t3b" style="top:0" data-palabras>Sin seguimiento.<br><span class="ac">Sin pruebas.</span></h2>
+    </div>
+    <div class="abs oculto" id="onda3"><img src="assets/lumbra-simbolo-lumbre.svg" alt=""></div>
+  </div>
+
+  <!-- 4 a 8. El producto real -->
+  <div class="esc" id="sP">
+    <div class="abs" id="t4">
+      <h2 class="titular" id="t4a" data-palabras>Todo, en un <span class="ac">solo sitio.</span></h2>
+      <h2 class="titular" id="t4b" data-palabras>Su servicio de prevención da de alta la empresa.</h2>
+      <h2 class="titular" id="t4c" data-palabras>Resultados solo en grupos de <span class="ac">5 o más.</span></h2>
+      <h2 class="titular" id="t4d" data-palabras>Cada resultado, una medida.</h2>
+      <h2 class="titular" id="t4e" data-palabras>La desconexión digital, <span class="ac">documentada.</span></h2>
+    </div>
+    <div class="abs oculto" id="app">
+      <div id="cam">
+        <img class="pant" id="i-empresa" src="assets/app-empresa.webp" alt="">
+        <img class="pant" id="i-partner" src="assets/app-partner.webp" alt="">
+        <img class="pant" id="i-resultados" src="assets/app-resultados.webp" alt="">
+        <img class="pant" id="i-plan" src="assets/app-plan.webp" alt="">
+        <img class="pant" id="i-desc" src="assets/app-desconexion.webp" alt="">
+        <div id="marcas"></div>
+      </div>
+      <div class="fundido"></div>
+    </div>
+    <div class="abs" id="sello"><div class="s1">FECHADO</div><div class="s2">17/11/2026 · Con autor</div></div>
+
+    <div class="abs" id="t5"><h2 class="titular" id="t5a" data-palabras>La plantilla responde <span class="ac">desde el móvil.</span></h2></div>
+    <div class="abs" id="sin">
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin cuenta.</div>
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin nombre.</div>
+      <div class="sin"><span class="ck"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Sin instalar nada.</div>
+    </div>
+    <div class="abs oculto" id="fpsico"><b>Evaluación con el cuestionario FPSICO</b><span>Origen del cuestionario: Instituto Nacional de Seguridad y Salud en el Trabajo</span></div>
+    <div class="abs oculto" id="movil-esc"><div id="movil"><div id="pantalla">
+      <div class="isla"></div>
+      <div class="lg"><img src="assets/logo-acento.svg" alt="lumbra"></div>
+      <div class="tarj">
+        <h4>Responder el cuestionario</h4>
+        <p>Escriba el código que le ha dado su empresa. No necesita cuenta.</p>
+        <label>Código</label>
+        <div class="campo"><span id="codigo"></span><i id="cursor"></i></div>
+        <div class="btn-m" id="continuar">Continuar</div>
+      </div>
+      <div class="nota-m">Es voluntario y anónimo. No se pide su nombre ni su correo.</div>
+    </div></div></div>
+
+    <div class="abs" id="grupos">
+      <div class="gr"><h5>Administración</h5><div class="mono">8 personas</div><div class="pts"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
+      <div class="gr"><h5>Taller</h5><div class="mono">14 personas</div><div class="pts"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
+      <div class="gr"><h5>Atención al cliente</h5><div class="mono">9 personas</div><div class="pts"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="estado"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Se muestra</span></div>
+      <div class="gr" id="gpeq"><div id="gpeq-c"><h5>Mantenimiento</h5><div class="mono">Grupo pequeño</div><div class="pts"><i></i><i></i><i></i></div></div>
+        <div class="velo" id="velo"><svg class="ic" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path class="v" d="m9 12 2 2 4-4"/></svg><b>Protegido</b><span>Menos de 5 personas.<br>No se muestra.</span></div></div>
+    </div>
+    <div class="abs mono oculto" id="grupos-nota">Grupos de ejemplo · Empresa demo (ficticia)</div>
+  </div>
+
+  <!-- 9. Sin vigilancia -->
+  <div class="esc oscuro" id="s9">
+    <div class="abs" id="t9"><h2 class="titular" id="t9a" data-palabras>Sin vigilar <span class="ac">a nadie.</span></h2></div>
+    <div class="abs" id="nomide">
+      <div class="nm">Actividad<i></i></div><div class="nm">Conexiones<i></i></div><div class="nm">Correos<i></i></div>
+    </div>
+    <div class="abs mono oculto" id="nomide-et">LUMBRA360 no mide nada de esto</div>
+  </div>
+
+  <!-- 10. Origen -->
+  <div class="esc oscuro" id="s10">
+    <div class="abs" id="t10"><h2 class="titular" id="t10a" data-palabras>No partimos <span class="ac">de cero.</span></h2></div>
+    <div class="abs" id="hitos"><div id="hitos-in">
+      <div class="abs" id="linea"><i></i></div>
+      <div class="hito" id="h1" style="left:0"><div class="c"><img src="assets/workwell360.svg" alt="WORKWELL360"></div><div class="mono">Prototipo</div><h5>WORKWELL360</h5><p>Nació como TFG. Premiado por la Junta de Castilla y León y la USAL.</p></div>
+      <div class="hito" id="h2" style="left:610px"><div class="c"><img src="assets/ymca.svg" alt="YMCA"></div><div class="mono">Pilotaje</div><h5>YMCA Salamanca</h5><p>Probado dentro del programa TCUE, con resultados satisfactorios.</p></div>
+      <div class="hito" id="h3" style="left:1220px"><div class="c lb" id="h3c"><img src="assets/lumbra-simbolo-lumbre.svg" alt="" style="filter:brightness(0)"></div><div class="mono">Evolución</div><h5>LUMBRA360</h5><p>Más completo, con cada paso documentado.</p></div>
+    </div></div>
+  </div>
+
+  <!-- 11. Cierre -->
+  <div class="esc oscuro" id="s11">
+    <div class="abs logo" id="l2w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="199.98 581.33 1093.37 274.97" aria-hidden="true"><g transform="matrix(1, 0, 0, 1, 175, 429)"><g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(5.804397, 419.994067)"><g><path d="M 66.539062 0 L 66.539062 -267.667969 L 19.171875 -267.667969 L 19.171875 0 Z M 66.539062 0 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(76.472863, 419.994067)"><g><path d="M 146.238281 -85.335938 C 146.238281 -50.75 123.683594 -36.464844 103.007812 -36.464844 C 78.570312 -36.464844 66.539062 -48.496094 66.539062 -73.308594 L 66.539062 -193.984375 L 19.171875 -193.984375 L 19.171875 -65.414062 C 19.171875 -19.171875 46.617188 4.511719 86.839844 4.511719 C 114.660156 4.511719 134.960938 -9.398438 147.742188 -28.195312 L 147.742188 0 L 193.609375 0 L 193.609375 -193.984375 L 146.238281 -193.984375 Z M 146.238281 -85.335938 "/></g></g></g></g></g><g transform="matrix(1, 0, 0, 1, 790, 437)"><g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(1.06542, 414.011148)"><g><path d="M 126.707031 -198.519531 C 99.636719 -198.519531 79.707031 -187.613281 66.546875 -168.816406 L 66.546875 -267.699219 L 19.175781 -267.699219 L 19.175781 0 L 64.667969 0 L 64.667969 -27.824219 C 77.828125 -7.519531 98.507812 4.511719 126.707031 4.511719 C 180.09375 4.511719 213.558594 -35.34375 213.558594 -97.003906 C 213.558594 -158.664062 180.09375 -198.519531 126.707031 -198.519531 Z M 115.425781 -34.589844 C 84.597656 -34.589844 65.421875 -56.019531 65.421875 -97.003906 C 65.421875 -137.984375 84.597656 -159.417969 115.425781 -159.417969 C 146.257812 -159.417969 165.433594 -139.488281 165.433594 -98.507812 C 165.433594 -57.523438 146.257812 -34.589844 115.425781 -34.589844 Z M 115.425781 -34.589844 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(202.570828, 414.011148)"><g><path d="M 122.945312 -197.015625 C 92.867188 -197.015625 74.445312 -181.222656 65.042969 -159.417969 L 65.042969 -194.007812 L 19.175781 -194.007812 L 19.175781 0 L 66.546875 0 L 66.546875 -98.507812 C 66.546875 -135.351562 87.605469 -152.648438 122.570312 -152.648438 L 134.601562 -152.648438 L 134.601562 -196.261719 C 130.464844 -197.015625 127.082031 -197.015625 122.945312 -197.015625 Z M 122.945312 -197.015625 "/></g></g></g><g class="lt" fill="#F5F5F2" fill-opacity="1"><g transform="translate(309.712303, 414.011148)"><g><path d="M 193.628906 0 C 188.367188 -7.519531 185.734375 -22.933594 185.734375 -36.847656 L 185.734375 -140.242188 C 185.734375 -175.207031 162.800781 -198.519531 104.898438 -198.519531 C 44.367188 -198.519531 20.304688 -173.328125 17.671875 -132.34375 L 64.292969 -132.34375 C 66.171875 -156.03125 77.453125 -163.175781 104.523438 -163.175781 C 131.96875 -163.175781 139.867188 -154.152344 139.867188 -139.113281 C 139.867188 -124.824219 130.464844 -119.1875 112.417969 -116.929688 L 83.09375 -114.296875 C 28.199219 -109.035156 8.648438 -86.101562 8.648438 -53.765625 C 8.648438 -16.167969 37.222656 4.511719 78.582031 4.511719 C 107.15625 4.511719 128.210938 -5.640625 140.992188 -23.6875 C 141.746094 -14.289062 143.25 -5.265625 146.257812 0 Z M 89.859375 -29.328125 C 68.054688 -29.328125 57.148438 -39.476562 57.148438 -55.644531 C 57.148438 -71.0625 65.796875 -80.460938 92.117188 -83.46875 L 117.683594 -86.476562 C 127.832031 -87.605469 134.976562 -89.859375 139.867188 -94.371094 L 139.867188 -76.699219 C 139.867188 -42.863281 115.050781 -29.328125 89.859375 -29.328125 Z M 89.859375 -29.328125 "/></g></g></g></g></g><g transform="matrix(1, 0, 0, 1, 450, 491)"><g><g fill="#F25A1F" fill-opacity="1" class="ondag"><g transform="translate(364.866818, 168.416861)"><g><path class="onda" d="M -95.796875 -4.53125 C -82.722656 -4.53125 -70.78125 -1.949219 -59.96875 3.203125 C -49.15625 8.359375 -40.539062 16.210938 -34.125 26.765625 C -27.71875 37.328125 -24.515625 50.65625 -24.515625 66.75 L -24.515625 192.34375 L -76.1875 192.34375 L -76.1875 59.21875 C -76.1875 55.695312 -77.066406 52.425781 -78.828125 49.40625 C -80.585938 46.382812 -82.972656 43.992188 -85.984375 42.234375 C -89.003906 40.472656 -92.273438 39.59375 -95.796875 39.59375 C -99.316406 39.59375 -102.582031 40.472656 -105.59375 42.234375 C -108.613281 43.992188 -111.003906 46.382812 -112.765625 49.40625 C -114.523438 52.425781 -115.40625 55.695312 -115.40625 59.21875 L -115.40625 125.59375 C -115.40625 140.675781 -118.359375 153.492188 -124.265625 164.046875 C -130.171875 174.609375 -138.46875 182.71875 -149.15625 188.375 C -159.84375 194.039062 -172.351562 196.875 -186.6875 196.875 C -201.019531 196.875 -213.523438 194.039062 -224.203125 188.375 C -234.890625 182.71875 -243.1875 174.609375 -249.09375 164.046875 C -255.007812 153.492188 -257.96875 140.675781 -257.96875 125.59375 L -257.96875 59.21875 C -257.96875 55.695312 -258.847656 52.425781 -260.609375 49.40625 C -262.367188 46.382812 -264.753906 43.992188 -267.765625 42.234375 C -270.785156 40.472656 -274.054688 39.59375 -277.578125 39.59375 C -281.347656 39.59375 -284.675781 40.472656 -287.5625 42.234375 C -290.457031 43.992188 -292.785156 46.382812 -294.546875 49.40625 C -296.304688 52.425781 -297.1875 55.695312 -297.1875 59.21875 L -297.1875 192.34375 L -348.859375 192.34375 L -348.859375 66.75 C -348.859375 50.65625 -345.648438 37.328125 -339.234375 26.765625 C -332.828125 16.210938 -324.21875 8.359375 -313.40625 3.203125 C -302.59375 -1.949219 -290.648438 -4.53125 -277.578125 -4.53125 C -264.753906 -4.53125 -252.9375 -1.949219 -242.125 3.203125 C -231.3125 8.359375 -222.632812 16.210938 -216.09375 26.765625 C -209.5625 37.328125 -206.296875 50.65625 -206.296875 66.75 L -206.296875 133.125 C -206.296875 136.894531 -205.414062 140.226562 -203.65625 143.125 C -201.894531 146.019531 -199.566406 148.34375 -196.671875 150.09375 C -193.785156 151.851562 -190.457031 152.734375 -186.6875 152.734375 C -183.164062 152.734375 -179.894531 151.851562 -176.875 150.09375 C -173.863281 148.34375 -171.476562 146.019531 -169.71875 143.125 C -167.957031 140.226562 -167.078125 136.894531 -167.078125 133.125 L -167.078125 66.75 C -167.078125 50.65625 -163.804688 37.328125 -157.265625 26.765625 C -150.734375 16.210938 -142.125 8.359375 -131.4375 3.203125 C -120.75 -1.949219 -108.867188 -4.53125 -95.796875 -4.53125 Z M -95.796875 -4.53125 "/></g></g></g></g></g></svg>
+</div>
+    <div class="abs mono oculto" id="l2n">LUMBRA360</div>
+    <div class="abs titular" id="lema" data-palabras>Cumplir y cuidar <span class="ac">sin vigilar.</span></div>
+    <div class="abs oculto" id="cta"><div class="btn">Solicite una demostración</div><div class="url mono">lumbra360.vercel.app</div></div>
+    <div class="abs oculto" id="mini">
+      <div class="m"><img src="assets/usal.svg" alt=""></div>
+      <div class="m"><img src="assets/fundacion-general-usal.webp" alt=""></div>
+      <div class="m"><img src="assets/prototipos-tcue.webp" alt=""></div>
+      <div class="m"><img src="assets/ris3-cyl.svg" alt=""></div>
+    </div>
+  </div>
+
+  <div id="cap" class="mono"><span class="b"></span><span class="n" id="cap-n"></span><span id="cap-t"></span></div>
+  <div id="demo" class="mono">Datos de demostración (ficticios)</div>
+  <div id="subs"><div id="sub"></div></div>
+</div>
+<script src="assets/gsap.min.js"></script>
+<script src="cues.js"></script>
+<script src="pelicula.js"></script>
+</body>
+</html>
