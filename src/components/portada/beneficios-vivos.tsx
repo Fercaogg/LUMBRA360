@@ -60,7 +60,7 @@ export function BeneficiosVivos() {
           scrollTrigger: { trigger: raiz.current, start: "top 85%", toggleActions: "play none none reverse" },
         });
 
-        const escena = (sel: string) => ({ trigger: q(sel)[0], start: "top 80%", toggleActions: "play none none reverse" as const });
+        const escena = (sel: string) => ({ trigger: q(sel)[0], start: "top 95%", toggleActions: "play none none reverse" as const });
 
         // 1. Puntos sueltos que se agrupan; el grupo pequeño queda velado.
         gsap
