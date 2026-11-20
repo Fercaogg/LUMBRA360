@@ -3,7 +3,7 @@ import { crearClienteAdmin } from "@/lib/supabase/admin";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { consumirIntento, ipDeLaPeticion } from "@/lib/limites";
 
-// Botón «Demo»: abre una sesión de solo lectura sobre la empresa de demostración.
+// Demo del panel: abre una sesión de solo lectura sobre la empresa de demostración.
 // La cuenta no tiene contraseña ni correo real; la base de datos le impide escribir
 // (migración visor_demo). Si no hay empresa de demostración, no hay demo.
 const CORREO_DEMO = process.env.DEMO_CORREO ?? "demo@lumbra360.invalid";

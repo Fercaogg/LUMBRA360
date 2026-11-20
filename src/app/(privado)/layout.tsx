@@ -56,6 +56,10 @@ async function AvisoDemo() {
     <div className="border-b border-[var(--lumbre-200)] bg-[var(--lumbre-50)]">
       <p className="mx-auto w-full max-w-[1264px] px-4 py-2.5 text-sm text-[var(--lumbre-800)] sm:px-8">
         Está viendo una demostración con datos ficticios. Puede recorrer todo, pero no guardar cambios.{" "}
+        <Link href="/demo/cuestionario" className="font-semibold underline underline-offset-4">
+          Ver lo que ve la plantilla
+        </Link>{" "}
+        ·{" "}
         <Link href="/contacto" className="font-semibold underline underline-offset-4">
           Pedir una demostración guiada
         </Link>

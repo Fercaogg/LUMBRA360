@@ -221,14 +221,13 @@ export default function Portada() {
               ))}
             </ul>
             <div className="flex items-center gap-2">
-              {/* Enlace normal, sin precarga: /demo abre una sesión al visitarlo. */}
               {/* «Acceder» es para quien ya tiene cuenta: discreto. El botón destacado es la demo. */}
               <Link href="/acceso" className="inline-flex min-h-10 items-center rounded-full px-3 text-sm font-medium text-tinta-suave transition-colors hover:text-tinta">
                 Acceder
               </Link>
-              <a href="/demo" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
+              <Link href="/demo" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
                 Demo
-              </a>
+              </Link>
             </div>
           </nav>
         </Contenedor>

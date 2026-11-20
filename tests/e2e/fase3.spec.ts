@@ -118,6 +118,8 @@ test("el botón «Demo» abre la empresa de demostración en solo lectura", asyn
   const p = await visitante.newPage();
   await p.goto("/");
   await p.getByRole("link", { name: "Demo", exact: true }).click();
+  await expect(p).toHaveURL(/\/demo$/);
+  await p.getByRole("link", { name: /Entrar al panel/ }).click();
   await expect(p).toHaveURL(new RegExp(`/panel/empresa/${DEMO.empresa1}$`));
   await expect(p.getByText("Está viendo una demostración con datos ficticios")).toBeVisible();
   await p.goto(`/panel/empresa/${DEMO.empresa1}/plan`);
@@ -125,4 +127,26 @@ test("el botón «Demo» abre la empresa de demostración en solo lectura", asyn
   await p.goto(`/panel/empresa/${DEMO.empresa3}`);
   await expect(p.getByRole("heading", { name: "Esta página no existe" })).toBeVisible();
   await visitante.close();
+});
+
+test("la demo de la plantilla enseña el cuestionario sin guardar nada", async ({ page }) => {
+  await page.goto("/demo");
+  await page.getByRole("link", { name: /Ver el cuestionario/ }).click();
+  await expect(page).toHaveURL(/\/demo\/cuestionario$/);
+  await expect(page.getByText("no se guarda nada")).toBeVisible();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Cuestionario de demostración (ficticio)" })).toBeVisible();
+  await expect(page.getByText("Es voluntario y anónimo")).toBeVisible();
+
+  // Sin responder todo no se envía.
+  await page.getByRole("button", { name: "Enviar respuestas" }).click();
+  await expect(page.getByText("Faltan preguntas por responder.")).toBeVisible();
+
+  const preguntas = page.locator("ol > li fieldset");
+  const n = await preguntas.count();
+  expect(n).toBeGreaterThan(0);
+  for (let i = 0; i < n; i++) await preguntas.nth(i).getByRole("radio").first().check();
+  await page.getByRole("button", { name: "Enviar respuestas" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: /Gracias/ })).toBeVisible();
+  await expect(page.getByText("En la demostración no se ha guardado nada.")).toBeVisible();
 });
