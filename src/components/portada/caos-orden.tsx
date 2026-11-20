@@ -104,7 +104,7 @@ export function CaosOrden() {
             <div
               key={p.titulo}
               data-papel
-              className="absolute left-1/2 flex h-14 w-[94%] -translate-x-1/2 items-center gap-3.5 rounded-[14px] border border-linea bg-superficie px-4 shadow-[0_18px_30px_-20px_rgb(17_17_17/0.35)]"
+              className="absolute inset-x-[3%] flex h-14 items-center gap-3.5 rounded-[14px] border border-linea bg-superficie px-4 shadow-[0_18px_30px_-20px_rgb(17_17_17/0.35)]"
               style={{ top: 72 + i * SEPARACION }}
             >
               <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-papel text-tinta-suave">
