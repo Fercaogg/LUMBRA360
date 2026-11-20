@@ -43,14 +43,15 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
   if (!id.success) notFound();
 
   const supabase = await crearClienteServidor();
-  const [instrumento, escalas, factores] = await Promise.all([
+  const [instrumento, escalas, factores, referencia] = await Promise.all([
     supabase.from("instrumentos").select("*").eq("id", id.data).maybeSingle(),
     supabase.from("escalas").select("id, nombre, escala_opciones(id, etiqueta, valor, codigo_export)").eq("instrumento_id", id.data).order("nombre"),
     supabase
       .from("factores")
-      .select("id, nombre, metodo, orden, niveles(id, etiqueta, desde, tono), items(id, enunciado, invertido, orden, escala_id)")
+      .select("id, nombre, metodo, orden, niveles(id, etiqueta, desde, tono), items(id, enunciado, invertido, orden, escala_id, codigo_fpsico)")
       .eq("instrumento_id", id.data)
       .order("orden"),
+    supabase.from("fpsico_estructura").select("posicion, codigo, pregunta, valor_max").order("posicion"),
   ]);
   const inst = instrumento.data;
   if (!inst) notFound();
@@ -62,6 +63,21 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
   const listaEscalas = escalas.data ?? [];
   const listaFactores = factores.data ?? [];
   const nombreEscala = (escalaId: string) => listaEscalas.find((e) => e.id === escalaId)?.nombre ?? "Escala";
+
+  // Estructura FPSICO: 89 ítems numerados, cada uno con la escala de su rango (Anexo II del manual).
+  const estructuraFpsico = esFpsico || inst.export_formato === "fpsico31";
+  const tablaFpsico = referencia.data ?? [];
+  const posicionDe = new Map(tablaFpsico.map((e) => [e.codigo, e.posicion]));
+  const todosLosItems = listaFactores.flatMap((f) => f.items);
+  const usados = new Set(todosLosItems.map((i) => i.codigo_fpsico).filter(Boolean));
+  const libres = tablaFpsico.filter((e) => !usados.has(e.codigo));
+  const valoresDeEscala = (escalaId: string) =>
+    (listaEscalas.find((e) => e.id === escalaId)?.escala_opciones ?? []).map((o) => o.codigo_export ?? String(o.valor)).sort().join(",");
+  const escalaMal = todosLosItems.filter((i) => {
+    const ref = tablaFpsico.find((e) => e.codigo === i.codigo_fpsico);
+    return ref && valoresDeEscala(i.escala_id) !== Array.from({ length: ref.valor_max }, (_, n) => String(n + 1)).join(",");
+  });
+  const rango = (max: number) => `1 a ${max}`;
 
   return (
     <>
@@ -89,6 +105,30 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
       ) : null}
       {!editable ? (
         <Aviso>Este instrumento ya no está en borrador. Sus factores, ítems, escalas y niveles no se pueden modificar.</Aviso>
+      ) : null}
+
+      {estructuraFpsico ? (
+        <Tarjeta className="flex flex-col gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-lg font-semibold">Estructura FPSICO</h2>
+            <Etiqueta tono={todosLosItems.length === 89 && libres.length === 0 && escalaMal.length === 0 ? "acento" : "aviso"}>
+              {usados.size} de 89 ítems numerados
+            </Etiqueta>
+          </div>
+          <p className="max-w-prose text-pretty text-sm text-tinta-suave">
+            FPSICO 4.1 tiene 44 preguntas y 89 ítems (manual del INSST, apartado B.3). Cada ítem lleva su número y solo admite sus valores: de 1 a 4,
+            de 1 a 5 en 10h, 16a-d, 22, 26, 34a-d y 40a-d, y de 1 a 3 en 13a-d (Anexo II). La base de datos no deja publicar el cuestionario, ni
+            exportar en formato FPSICO, si algo no cuadra.
+          </p>
+          {todosLosItems.length !== 89 ? <Aviso>Hay {todosLosItems.length} ítems. Tienen que ser exactamente 89.</Aviso> : null}
+          {todosLosItems.length - usados.size > 0 ? <Aviso>{todosLosItems.length - usados.size} ítems sin número FPSICO.</Aviso> : null}
+          {libres.length > 0 && libres.length < 89 ? (
+            <Aviso>Faltan por cargar: {libres.map((e) => e.codigo).join(", ")}.</Aviso>
+          ) : null}
+          {escalaMal.length > 0 ? (
+            <Aviso tono="error">La escala no cuadra con el rango de FPSICO en: {escalaMal.map((i) => i.codigo_fpsico).join(", ")}.</Aviso>
+          ) : null}
+        </Tarjeta>
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -120,7 +160,7 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
           <h2 className="text-lg font-semibold">Publicación</h2>
           <p className="text-sm text-tinta-suave">
             {esFpsico
-              ? "Para publicar hace falta la autorización escrita del INSST, al menos un ítem y escalas con dos opciones o más."
+              ? "Para publicar hace falta la autorización escrita del INSST y la estructura FPSICO completa: 89 ítems numerados, cada uno con la escala de su rango."
               : puntua
                 ? "Para publicar hace falta al menos un factor, y que cada factor tenga un ítem y un nivel. Cada escala usada necesita dos opciones o más."
                 : "Para publicar hace falta al menos un ítem y escalas con dos opciones o más."}
@@ -227,7 +267,13 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
 
       <section aria-labelledby="t-factores" className="flex flex-col gap-4">
         <h2 id="t-factores" className="text-xl font-semibold">{puntua ? "Factores, ítems y niveles" : "Factores e ítems"}</h2>
-        {!puntua ? <p className="max-w-prose text-sm text-tinta-suave">El orden de factores e ítems es el orden de las columnas en la exportación. Aquí no se puntúa nada.</p> : null}
+        {!puntua ? (
+          <p className="max-w-prose text-sm text-tinta-suave">
+            {estructuraFpsico
+              ? "El número FPSICO fija el orden del cuestionario y de las columnas en la exportación, sea cual sea el factor. Aquí no se puntúa nada."
+              : "El orden de factores e ítems es el orden de las columnas en la exportación. Aquí no se puntúa nada."}
+          </p>
+        ) : null}
         {listaFactores.map((factor) => (
           <Tarjeta key={factor.id} className="flex flex-col gap-5">
             <div className="flex items-start justify-between gap-3">
@@ -242,10 +288,15 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
               <div className="flex flex-col gap-3">
                 <h4 className="text-sm font-semibold text-tinta-suave">Ítems</h4>
                 <ol className="flex flex-col divide-y divide-linea">
-                  {[...factor.items].sort((a, b) => a.orden - b.orden).map((item) => (
+                  {[...factor.items]
+                    .sort((a, b) => (posicionDe.get(a.codigo_fpsico ?? "") ?? 1000 + a.orden) - (posicionDe.get(b.codigo_fpsico ?? "") ?? 1000 + b.orden))
+                    .map((item) => (
                     <li key={item.id} className="flex items-start justify-between gap-3 py-2">
                       <span className="flex flex-col gap-0.5">
-                        <span>{item.enunciado}</span>
+                        <span>
+                          {item.codigo_fpsico ? <span className="font-mono text-sm text-tinta-suave">{item.codigo_fpsico} · </span> : null}
+                          {item.enunciado}
+                        </span>
                         <span className="text-sm text-tinta-suave">
                           {nombreEscala(item.escala_id)}
                           {puntua && item.invertido ? " · puntuación invertida" : ""}
@@ -259,6 +310,15 @@ export default async function PaginaInstrumento({ params }: { params: Promise<{ 
                   <Formulario accion={crearItem}>
                     <input type="hidden" name="instrumentoId" value={inst.id} />
                     <input type="hidden" name="factorId" value={factor.id} />
+                    {estructuraFpsico ? (
+                      <Selector etiqueta="Número en FPSICO" name="codigoFpsico" required>
+                        {libres.map((e) => (
+                          <option key={e.codigo} value={e.codigo}>
+                            {e.codigo} (pregunta {e.pregunta}, respuestas de {rango(e.valor_max)})
+                          </option>
+                        ))}
+                      </Selector>
+                    ) : null}
                     <AreaTexto etiqueta="Enunciado del ítem" name="enunciado" required maxLength={600} rows={2} />
                     <Selector etiqueta="Escala" name="escalaId" required>
                       {listaEscalas.map((escala) => (

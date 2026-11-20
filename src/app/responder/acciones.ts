@@ -21,6 +21,7 @@ const MENSAJES: Record<string, string> = {
   cerrada: "Esta campaña ya se ha cerrado.",
   no_abierta: "Esta campaña todavía no se ha abierto.",
   incompleto: "Faltan preguntas por responder.",
+  completa: "Este enlace ya no admite más respuestas: ya han respondido todas las personas invitadas.",
 };
 
 export async function enviarRespuesta(_p: EstadoFormulario, datos: FormData): Promise<EstadoFormulario> {

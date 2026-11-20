@@ -53,11 +53,27 @@ async function responder(browser: Browser, codigo: string, esperado: "gracias" |
     await expect(page.getByRole("heading", { name: "Este código ya se ha usado" })).toBeVisible();
   } else {
     await expect(page.getByText("Es voluntario y anónimo")).toBeVisible();
-    if (grupo) await page.getByLabel(grupo).check();
-    const preguntas = page.locator("ol > li");
-    await expect(preguntas).toHaveCount(4);
-    for (let i = 0; i < 4; i++) await preguntas.nth(i).getByRole("radio").nth(3).check();
-    await page.getByRole("button", { name: "Enviar respuestas" }).click();
+    await page.getByRole("button", { name: "Empezar" }).click();
+    if (grupo) {
+      await page.getByLabel(grupo).check();
+      await page.getByRole("button", { name: "Siguiente" }).click();
+    }
+    // Como en FPSICO: no se pasa de página con preguntas en blanco.
+    await page.getByRole("button", { name: "Siguiente" }).click();
+    await expect(page.getByText(/^Faltan por responder:/)).toBeVisible();
+    // Página a página, la primera opción de cada pregunta (valor 1, válido en cualquier rango).
+    for (;;) {
+      const preguntas = page.locator("section:not([hidden]) fieldset");
+      const n = await preguntas.count();
+      for (let i = 0; i < n; i++) await preguntas.nth(i).getByRole("radio").first().check();
+      const enviar = page.getByRole("button", { name: "Enviar respuestas" });
+      if (await enviar.isVisible()) {
+        await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", await page.getByRole("progressbar").getAttribute("aria-valuemax") ?? "");
+        await enviar.click();
+        break;
+      }
+      await page.getByRole("button", { name: "Siguiente" }).click();
+    }
     await expect(page).toHaveURL(/\/responder\/gracias$/);
     expect((await contexto.cookies()).length).toBe(0);
   }
@@ -118,9 +134,10 @@ test("evaluación: respuestas anónimas, sin puntuación, exportación e informe
   const fichero = await (await descarga).path();
   const texto = (await import("node:fs")).readFileSync(fichero, "utf8");
   const lineas = texto.split("\r\n").filter(Boolean);
-  expect(lineas[0]).toBe("FORMATO DE DEMOSTRACION (ficticio)");
+  // Formato FPSICO 3.1 (Anexo II del manual de FPSICO 4.1): 40 asteriscos y 89 respuestas por línea.
+  expect(lineas[0]).toBe("*".repeat(40));
   expect(lineas.length).toBe(7);
-  for (const linea of lineas.slice(1)) expect(linea).toBe("4;4;4;4");
+  for (const linea of lineas.slice(1)) expect(linea).toBe(`"","","${"1".repeat(89)}"`);
 
   await expect(page.getByText("Suba antes el informe en PDF.")).toBeVisible();
   await page.getByLabel("Informe en PDF").setInputFiles(PDF);

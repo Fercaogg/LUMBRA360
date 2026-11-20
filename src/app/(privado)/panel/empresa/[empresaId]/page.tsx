@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { invitar, quitarCuentaEmpresa } from "@/app/(privado)/acciones";
 import { ListaInvitaciones } from "@/components/panel/listas";
+import { RecorridoDemo } from "@/components/panel/recorrido-demo";
 import { Boton, EnlaceBoton } from "@/components/ui/boton";
 import { Campo, Enviar, Formulario } from "@/components/ui/formulario";
 import { Cabecera, Etiqueta, Tarjeta } from "@/components/ui/piezas";
@@ -150,6 +151,7 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
   const acuses = (aprobada?.acuses as unknown as { count: number }[] | undefined)?.[0]?.count ?? 0;
   const abierta = campanas.find((c) => c.estado === "abierta");
   const seguimientoCerrado = campanas.find((c) => c.estado === "cerrada" && c.tipo === "pulso");
+  const evaluacionDemo = campanas.find((c) => c.estado === "cerrada" && c.tipo === "evaluacion") ?? campanas.find((c) => c.tipo === "evaluacion");
 
   const siguiente = soloLectura
     ? seguimientoCerrado
@@ -201,6 +203,9 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
         }
       />
 
+      {soloLectura ? (
+        <RecorridoDemo base={base} evaluacionId={evaluacionDemo?.id ?? null} seguimientoId={seguimientoCerrado?.id ?? null} />
+      ) : (
       <Link
         href={siguiente.href}
         className="group flex flex-col gap-4 rounded-[24px] bg-tinta p-6 text-[var(--texto-sobre-marca)] transition-transform duration-300 hover:-translate-y-0.5 sm:flex-row sm:items-center sm:justify-between sm:p-8"
@@ -220,6 +225,7 @@ export default async function PaginaEmpresa({ params }: { params: Promise<{ empr
           <ArrowRight size={16} aria-hidden className="transition-transform group-hover:translate-x-0.5" />
         </span>
       </Link>
+      )}
 
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <Indicador icono={ClipboardList} etiqueta="Campañas" valor={String(campanas.length)} nota={abierta ? "1 abierta ahora" : "Ninguna abierta"} href={`${base}/campanas`} />

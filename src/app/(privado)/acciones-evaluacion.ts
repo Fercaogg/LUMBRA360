@@ -174,11 +174,13 @@ export async function crearItem(_p: EstadoFormulario, datos: FormData): Promise<
       escalaId: campo(datos, "escalaId"),
       enunciado: campo(datos, "enunciado"),
       invertido: datos.get("invertido") === "on",
+      codigoFpsico: campo(datos, "codigoFpsico"),
     },
     async (d, { supabase }) => {
       const { count } = await supabase.from("items").select("id", { count: "exact", head: true }).eq("factor_id", d.factorId);
       const { error } = await supabase.from("items").insert({
         instrumento_id: d.instrumentoId, factor_id: d.factorId, escala_id: d.escalaId, enunciado: d.enunciado, invertido: d.invertido, orden: (count ?? 0) + 1,
+        codigo_fpsico: d.codigoFpsico,
       });
       return { error, exito: "Ítem añadido.", revalidar: `/admin/instrumentos/${d.instrumentoId}` };
     },
@@ -284,6 +286,9 @@ export async function crearCampana(_p: EstadoFormulario, datos: FormData): Promi
       const { data: inst } = await supabase.from("instrumentos").select("tipo").eq("id", d.instrumentoId).maybeSingle();
       if (inst?.tipo === "evaluacion" && d.dimensiones.length > 0) {
         return { error: { code: "P0001", message: "En las evaluaciones no se pregunta el grupo. Desmarque los grupos." } };
+      }
+      if (inst?.tipo === "evaluacion" && d.modo === "enlace") {
+        return { error: { code: "P0001", message: "Las evaluaciones solo se responden con códigos de un solo uso: así cada persona responde una vez." } };
       }
       const { data, error } = await supabase
         .from("campanas")

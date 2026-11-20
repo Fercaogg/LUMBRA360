@@ -130,6 +130,10 @@ export const esquemaItem = z.object({
   escalaId: esquemaUuid,
   enunciado: texto(1, 600, "Escriba el enunciado."),
   invertido: z.boolean(),
+  // Número del ítem en FPSICO (1, 2 … 10a … 44). La base de datos comprueba que exista.
+  codigoFpsico: z
+    .union([z.literal(""), z.string().regex(/^[1-9][0-9]?[a-h]?$/, "Número FPSICO no válido.")])
+    .transform((v) => (v === "" ? null : v)),
 });
 
 export const TABLAS_INSTRUMENTO = ["escalas", "escala_opciones", "factores", "niveles", "items"] as const;
@@ -137,15 +141,21 @@ export const TABLAS_INSTRUMENTO = ["escalas", "escala_opciones", "factores", "ni
 export const esquemaDimension = z.object({ empresaId: esquemaUuid, nombre: texto(1, 80, "Escriba un nombre.") });
 export const esquemaGrupo = z.object({ dimensionId: esquemaUuid, nombre: texto(1, 80, "Escriba un nombre.") });
 
-export const esquemaCampana = z.object({
-  empresaId: esquemaUuid,
-  instrumentoId: z.uuid("Elija un instrumento."),
-  nombre: texto(2, 160, "Escriba el nombre de la campaña."),
-  modo: z.enum(["codigos", "enlace"]),
-  plantilla: enteroOpcional(1, 100000),
-  minimo: z.coerce.number().int("Use un número entero.").min(5, "El mínimo no puede bajar de 5.").max(50, "Máximo 50."),
-  dimensiones: z.array(esquemaUuid).max(5, "Máximo 5 dimensiones."),
-});
+export const esquemaCampana = z
+  .object({
+    empresaId: esquemaUuid,
+    instrumentoId: z.uuid("Elija un instrumento."),
+    nombre: texto(2, 160, "Escriba el nombre de la campaña."),
+    modo: z.enum(["codigos", "enlace"]),
+    plantilla: enteroOpcional(1, 100000),
+    minimo: z.coerce.number().int("Use un número entero.").min(5, "El mínimo no puede bajar de 5.").max(50, "Máximo 50."),
+    dimensiones: z.array(esquemaUuid).max(5, "Máximo 5 dimensiones."),
+  })
+  // Con el enlace general, las personas invitadas son el tope de respuestas (lo exige también la base de datos).
+  .refine((d) => d.modo !== "enlace" || d.plantilla !== null, {
+    path: ["plantilla"],
+    message: "Con el enlace general, indique cuántas personas están invitadas: es el tope de respuestas.",
+  });
 
 export const esquemaCodigos = z.object({
   campanaId: esquemaUuid,

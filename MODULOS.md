@@ -24,3 +24,4 @@ Fecha de creación de cada módulo.
 | Política de desconexión digital | 3 | 2026-11-17 | Asistente desde plantilla, versiones y aprobación con fecha |
 | Acuse de lectura | 3 | 2026-11-17 | Nominal, sin cuenta, separado de los cuestionarios |
 | Audiencia y formación | 3 | 2026-11-17 | Registro con fecha, asistentes, acta y material |
+| Blindaje de cuestionarios | 3 | 2026-11-21 | Estructura FPSICO de referencia (89 ítems, rangos del Anexo II), orden de FPSICO en cuestionario y exportación, evaluaciones solo con códigos, tope del enlace general, respuestas y códigos inalterables, cuestionario por pasos, vista previa y recorrido de la demo |

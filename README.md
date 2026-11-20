@@ -97,6 +97,18 @@ Los datos de demostración traen un cuestionario de evaluación ficticio, un seg
 5. En «Desconexión digital», como empresa o técnico: empieza la política desde la plantilla, complétala, apruébala, abre el acuse y confírmalo desde una ventana privada. Registra una audiencia con su acta y una formación.
 6. Como `admin@demo.invalid`, en Instrumentos y Plantillas: una evaluación no se publica sin la autorización del INSST y una plantilla no se publica sin revisión jurídica.
 
+## Blindaje de los cuestionarios
+
+Migración `20261121000100_blindaje_cuestionarios.sql`. Todo lo impone la base de datos, también frente a la clave de servicio:
+
+- **Estructura FPSICO.** La tabla `fpsico_estructura` guarda la numeración y el rango de los 89 ítems de las 44 preguntas (manual de FPSICO 4.1, apartado B.3 y Anexo II). Sin enunciados. Cada ítem de un cuestionario FPSICO lleva su número (`items.codigo_fpsico`) y no se publica ni se exporta en formato FPSICO si no están los 89, cada uno con la escala exacta de su rango (1 a 4; 1 a 5 en 10h, 16a-d, 22, 26, 34a-d y 40a-d; 1 a 3 en 13a-d).
+- **Orden de FPSICO.** El cuestionario y la exportación siguen el número FPSICO, no el orden de los factores. La exportación comprueba cada valor, posición a posición.
+- **Una persona, una respuesta.** Las evaluaciones solo admiten códigos de un solo uso. El enlace general de un seguimiento exige las personas invitadas y no admite más respuestas que ellas, aunque lleguen a la vez.
+- **Respuestas inalterables.** Solo entran con la campaña abierta y con ítems de su cuestionario. Nadie las cambia ni las borra, salvo el borrado completo de la empresa. Un código usado no se reactiva.
+- **Cuestionario por pasos**, como en FPSICO: bienvenida con instrucciones, páginas con «Atrás» y «Siguiente», barra de progreso y aviso en rojo si falta alguna respuesta. No guarda nada en el navegador.
+- **Vista previa** del cuestionario desde la campaña (también en la demo), sin poder enviar nada.
+- **Demo.** El resumen de la empresa demo abre con un recorrido de cinco pasos que empieza por el cuestionario. La evaluación demo tiene la estructura FPSICO con textos ficticios y exporta en formato FPSICO 3.1.
+
 ## Anonimato y datos nominales
 
 - Las respuestas no llevan usuario, correo, IP ni hora. Solo el día.

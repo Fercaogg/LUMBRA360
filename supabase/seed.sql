@@ -26,34 +26,54 @@ insert into public.invitaciones (correo, rol, partner_id, empresa_id) values
 -- Los textos del cuestionario son marcadores sin contenido real: no proceden de ningún instrumento.
 -- ---------------------------------------------------------------------------
 
+-- Evaluación de demostración: misma ESTRUCTURA que FPSICO 4.1 (89 ítems numerados 1 … 44,
+-- con los rangos de respuesta del Anexo II del manual), pero con textos ficticios.
+-- Los enunciados reales solo se cargan con la autorización escrita del INSST.
+insert into public.instrumentos (id, nombre, descripcion, tipo, minutos_estimados, es_demo, export_formato) values
+  ('00000000-0000-4000-8c00-000000000001', 'Cuestionario de demostración (ficticio)',
+   'Misma estructura que FPSICO 4.1: 44 preguntas y 89 ítems, en su orden y con sus rangos de respuesta. Los textos son ficticios.',
+   'evaluacion', 20, true, 'fpsico31');
 insert into public.instrumentos (id, nombre, descripcion, tipo, minutos_estimados, es_demo) values
-  ('00000000-0000-4000-8c00-000000000001', 'Cuestionario de demostración (ficticio)', 'Sirve para probar la plataforma. No es un instrumento de evaluación.', 'evaluacion', 2, true),
   ('00000000-0000-4000-8c00-000000000002', 'Seguimiento de demostración (ficticio)', 'Sirve para probar los seguimientos. No es un instrumento de evaluación.', 'pulso', 1, true);
 
 insert into public.escalas (id, instrumento_id, nombre) values
-  ('00000000-0000-4000-8c10-000000000001', '00000000-0000-4000-8c00-000000000001', 'Escala de demostración'),
+  ('00000000-0000-4000-8c10-000000000001', '00000000-0000-4000-8c00-000000000001', 'Escala de demostración de 1 a 4'),
+  ('00000000-0000-4000-8c10-000000000003', '00000000-0000-4000-8c00-000000000001', 'Escala de demostración de 1 a 5'),
+  ('00000000-0000-4000-8c10-000000000004', '00000000-0000-4000-8c00-000000000001', 'Escala de demostración de 1 a 3'),
   ('00000000-0000-4000-8c10-000000000002', '00000000-0000-4000-8c00-000000000002', 'Escala de demostración');
 insert into public.escala_opciones (escala_id, etiqueta, valor, orden)
-select e.id, 'Valor ' || v || ' (demo)', v, v
-from public.escalas e cross join generate_series(1, 5) as v
-where e.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+select e.id, 'Opción ' || v || ' (demo)', v, v
+from (values ('00000000-0000-4000-8c10-000000000001'::uuid, 4), ('00000000-0000-4000-8c10-000000000003'::uuid, 5),
+             ('00000000-0000-4000-8c10-000000000004'::uuid, 3)) as e (id, maximo)
+cross join lateral generate_series(1, e.maximo) as v;
+insert into public.escala_opciones (escala_id, etiqueta, valor, orden)
+select '00000000-0000-4000-8c10-000000000002', 'Valor ' || v || ' (demo)', v, v from generate_series(1, 5) as v;
 
 insert into public.factores (id, instrumento_id, nombre, orden) values
-  ('00000000-0000-4000-8c20-000000000001', '00000000-0000-4000-8c00-000000000001', 'Factor de demostración A', 1),
-  ('00000000-0000-4000-8c20-000000000002', '00000000-0000-4000-8c00-000000000001', 'Factor de demostración B', 2),
+  ('00000000-0000-4000-8c20-000000000001', '00000000-0000-4000-8c00-000000000001', 'Preguntas de demostración', 1),
   ('00000000-0000-4000-8c20-000000000003', '00000000-0000-4000-8c00-000000000002', 'Factor de demostración del seguimiento', 1);
 insert into public.niveles (factor_id, etiqueta, desde, tono)
-select f.id, n.etiqueta, n.desde, n.tono::public.tono_nivel
-from public.factores f
-cross join (values ('Nivel demo 1', 1, 'desfavorable'), ('Nivel demo 2', 2.5, 'intermedio'), ('Nivel demo 3', 3.5, 'favorable')) as n (etiqueta, desde, tono)
-where f.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
-insert into public.items (instrumento_id, factor_id, escala_id, enunciado, orden)
-select f.instrumento_id, f.id, e.id, 'Enunciado de demostración ' || n || ' de «' || f.nombre || '» (texto ficticio)', n
-from public.factores f
-join public.escalas e on e.instrumento_id = f.instrumento_id
-cross join generate_series(1, 2) as n
-where f.instrumento_id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
+select '00000000-0000-4000-8c20-000000000003', n.etiqueta, n.desde, n.tono::public.tono_nivel
+from (values ('Nivel demo 1', 1, 'desfavorable'), ('Nivel demo 2', 2.5, 'intermedio'), ('Nivel demo 3', 3.5, 'favorable')) as n (etiqueta, desde, tono);
 
+-- Los 89 ítems de la evaluación demo, uno por posición de FPSICO, con la escala que le corresponde.
+insert into public.items (instrumento_id, factor_id, escala_id, enunciado, orden, codigo_fpsico)
+select '00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c20-000000000001',
+  case e.valor_max when 5 then '00000000-0000-4000-8c10-000000000003'::uuid
+                   when 3 then '00000000-0000-4000-8c10-000000000004'::uuid
+                   else '00000000-0000-4000-8c10-000000000001'::uuid end,
+  'Enunciado de demostración de la pregunta ' || e.pregunta
+    || case when e.codigo ~ '[a-h]$' then ', apartado ' || right(e.codigo, 1) else '' end
+    || ' (texto ficticio)',
+  e.posicion, e.codigo
+from public.fpsico_estructura e;
+
+insert into public.items (instrumento_id, factor_id, escala_id, enunciado, orden)
+select '00000000-0000-4000-8c00-000000000002', '00000000-0000-4000-8c20-000000000003', '00000000-0000-4000-8c10-000000000002',
+  'Enunciado de demostración ' || n || ' del seguimiento (texto ficticio)', n
+from generate_series(1, 2) as n;
+
+-- Al publicar se comprueba la estructura FPSICO (89 ítems, numeración y rangos).
 update public.instrumentos set estado = 'publicado'
 where id in ('00000000-0000-4000-8c00-000000000001', '00000000-0000-4000-8c00-000000000002');
 
@@ -65,62 +85,57 @@ insert into public.grupos (id, dimension_id, nombre, orden) values
   ('00000000-0000-4000-8d10-000000000002', '00000000-0000-4000-8d00-000000000001', 'Área demo 2', 2),
   ('00000000-0000-4000-8d10-000000000003', '00000000-0000-4000-8d00-000000000001', 'Área demo 3', 3);
 
+-- Las respuestas solo entran con la campaña abierta (disparador de la migración de blindaje):
+-- se abre, se responde y se cierra, igual que en la realidad.
+
 -- Seguimiento demo ya cerrado, con 18 respuestas ficticias: 9 + 6 + 3 (el grupo de 3 queda protegido).
 insert into public.campanas (id, empresa_id, instrumento_id, nombre, modo_acceso, plantilla_invitada)
 values ('00000000-0000-4000-8e00-000000000001', '00000000-0000-4000-b000-000000000001', '00000000-0000-4000-8c00-000000000002', 'Seguimiento de demostración (ficticio)', 'codigos', 24);
 insert into public.campana_dimensiones (campana_id, dimension_id)
 values ('00000000-0000-4000-8e00-000000000001', '00000000-0000-4000-8d00-000000000001');
+update public.campanas set estado = 'abierta', abierta_el = now() - interval '45 days'
+where id = '00000000-0000-4000-8e00-000000000001';
 
-with nuevas as (
-  insert into public.respuestas (id, campana_id, dia)
-  select ('00000000-0000-4000-8f00-' || lpad(n::text, 12, '0'))::uuid, '00000000-0000-4000-8e00-000000000001', current_date - 30
-  from generate_series(1, 18) as n
-  returning id
-), numeradas as (
-  select id, row_number() over (order by id) as n from nuevas
-), grupos as (
-  insert into public.respuesta_grupos (respuesta_id, grupo_id)
-  select id, case when n <= 9 then '00000000-0000-4000-8d10-000000000001'::uuid
-                  when n <= 15 then '00000000-0000-4000-8d10-000000000002'::uuid
-                  else '00000000-0000-4000-8d10-000000000003'::uuid end
-  from numeradas
-  returning 1
-)
+insert into public.respuestas (id, campana_id, dia)
+select ('00000000-0000-4000-8f00-' || lpad(n::text, 12, '0'))::uuid, '00000000-0000-4000-8e00-000000000001', current_date - 30
+from generate_series(1, 18) as n;
+insert into public.respuesta_grupos (respuesta_id, grupo_id)
+select ('00000000-0000-4000-8f00-' || lpad(n::text, 12, '0'))::uuid,
+  case when n <= 9 then '00000000-0000-4000-8d10-000000000001'::uuid
+       when n <= 15 then '00000000-0000-4000-8d10-000000000002'::uuid
+       else '00000000-0000-4000-8d10-000000000003'::uuid end
+from generate_series(1, 18) as n;
 insert into public.respuesta_items (respuesta_id, item_id, valor)
-select r.id, i.id, 1 + ((r.n * 7 + i.orden * 3) % 5)
-from numeradas r
+select ('00000000-0000-4000-8f00-' || lpad(n::text, 12, '0'))::uuid, i.id, 1 + ((n * 7 + i.orden * 3) % 5)
+from generate_series(1, 18) as n
 cross join public.items i
 where i.instrumento_id = '00000000-0000-4000-8c00-000000000002';
 
-update public.campanas
-set estado = 'cerrada', abierta_el = now() - interval '45 days', cerrada_el = now() - interval '30 days'
+update public.campanas set estado = 'cerrada', cerrada_el = now() - interval '30 days'
 where id = '00000000-0000-4000-8e00-000000000001';
 
 -- Evaluación demo ya cerrada, con 8 respuestas ficticias. No se puntúa en la plataforma:
--- sirve para probar la exportación y el registro del informe.
-update public.instrumentos
-set export_confirmado = true, export_separador = ';', export_cabecera = 'FORMATO DE DEMOSTRACION (ficticio)'
+-- sirve para probar la exportación en formato FPSICO y el registro del informe.
+update public.instrumentos set export_confirmado = true
 where id = '00000000-0000-4000-8c00-000000000001';
 
 insert into public.campanas (id, empresa_id, instrumento_id, nombre, modo_acceso, plantilla_invitada)
 values ('00000000-0000-4000-8e00-000000000002', '00000000-0000-4000-b000-000000000001', '00000000-0000-4000-8c00-000000000001', 'Evaluación de demostración (ficticia)', 'codigos', 24);
+update public.campanas set estado = 'abierta', abierta_el = now() - interval '20 days'
+where id = '00000000-0000-4000-8e00-000000000002';
 
-with nuevas as (
-  insert into public.respuestas (id, campana_id, dia)
-  select ('00000000-0000-4000-8f10-' || lpad(n::text, 12, '0'))::uuid, '00000000-0000-4000-8e00-000000000002', current_date - 10
-  from generate_series(1, 8) as n
-  returning id
-), numeradas as (
-  select id, row_number() over (order by id) as n from nuevas
-)
+insert into public.respuestas (id, campana_id, dia)
+select ('00000000-0000-4000-8f10-' || lpad(n::text, 12, '0'))::uuid, '00000000-0000-4000-8e00-000000000002', current_date - 10
+from generate_series(1, 8) as n;
+-- Valores dentro del rango de cada ítem (1 a 3, 1 a 4 o 1 a 5).
 insert into public.respuesta_items (respuesta_id, item_id, valor)
-select r.id, i.id, 1 + ((r.n * 5 + i.orden * 2 + length(i.enunciado)) % 5)
-from numeradas r
+select ('00000000-0000-4000-8f10-' || lpad(n::text, 12, '0'))::uuid, i.id, 1 + ((n * 5 + e.posicion * 2) % e.valor_max)
+from generate_series(1, 8) as n
 cross join public.items i
+join public.fpsico_estructura e on e.codigo = i.codigo_fpsico
 where i.instrumento_id = '00000000-0000-4000-8c00-000000000001';
 
-update public.campanas
-set estado = 'cerrada', abierta_el = now() - interval '20 days', cerrada_el = now() - interval '10 days'
+update public.campanas set estado = 'cerrada', cerrada_el = now() - interval '10 days'
 where id = '00000000-0000-4000-8e00-000000000002';
 
 -- ---------------------------------------------------------------------------

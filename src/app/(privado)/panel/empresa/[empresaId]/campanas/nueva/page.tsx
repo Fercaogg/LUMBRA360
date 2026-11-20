@@ -46,10 +46,11 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
           </Selector>
           <Selector etiqueta="Cómo entra la plantilla" name="modo" defaultValue="codigos">
             <option value="codigos">Códigos de un solo uso (recomendado)</option>
-            <option value="enlace">Enlace general</option>
+            <option value="enlace">Enlace general (solo seguimientos)</option>
           </Selector>
           <p className="-mt-2 text-sm text-tinta-suave">
-            Los códigos se reparten al azar, sin anotar a quién. Con el enlace general una misma persona podría responder dos veces.
+            Los códigos se reparten al azar, sin anotar a quién, y cada uno sirve una vez. Las evaluaciones solo admiten códigos. Con el enlace
+            general de un seguimiento, una misma persona podría responder dos veces: por eso admite como mucho tantas respuestas como personas invitadas.
           </p>
           <Campo
             etiqueta="Personas invitadas (opcional)"
@@ -59,7 +60,7 @@ export default async function PaginaNuevaCampana({ params }: { params: Promise<{
             min={1}
             max={100000}
             defaultValue={empresa.plantilla_declarada ?? ""}
-            ayuda="Sirve para calcular la participación en porcentaje."
+            ayuda="Sirve para calcular la participación en porcentaje. Con el enlace general es obligatorio: es el tope de respuestas."
           />
           <Campo
             etiqueta="Mínimo de respuestas por grupo"

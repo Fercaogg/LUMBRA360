@@ -288,7 +288,7 @@ describe("resultados agregados con mínimo de 5", () => {
 
   it("una campaña con 4 respuestas no muestra ningún resultado", async () => {
     const pequena = await alta(s["an-cuenta"], "campanas", {
-      empresa_id: empresa, instrumento_id: instrumento, nombre: `Pequeña ${tanda}`, modo_acceso: "enlace", creada_por: u["an-cuenta"].id,
+      empresa_id: empresa, instrumento_id: instrumento, nombre: `Pequeña ${tanda}`, modo_acceso: "enlace", plantilla_invitada: 10, creada_por: u["an-cuenta"].id,
     });
     await s["an-cuenta"].rpc("abrir_campana", { p_campana: pequena });
     const { data: fila } = await s["an-cuenta"].from("campanas").select("token_enlace").eq("id", pequena).single();
@@ -305,7 +305,7 @@ describe("resultados agregados con mínimo de 5", () => {
 
   it("compara con la campaña anterior del mismo instrumento", async () => {
     const siguiente = await alta(s["an-cuenta"], "campanas", {
-      empresa_id: empresa, instrumento_id: instrumento, nombre: `Siguiente ${tanda}`, modo_acceso: "enlace", creada_por: u["an-cuenta"].id,
+      empresa_id: empresa, instrumento_id: instrumento, nombre: `Siguiente ${tanda}`, modo_acceso: "enlace", plantilla_invitada: 10, creada_por: u["an-cuenta"].id,
     });
     await s["an-cuenta"].rpc("abrir_campana", { p_campana: siguiente });
     const { data: fila } = await s["an-cuenta"].from("campanas").select("token_enlace").eq("id", siguiente).single();
@@ -334,16 +334,18 @@ describe("informe, plan de acción y evidencias", () => {
     expect((await s["an-admin"].rpc("publicar_instrumento", { p_instrumento: evaluacion })).error).toBeNull();
 
     for (const [clave, cuantas] of [["grande", 6], ["chica", 4]] as const) {
+      // Las evaluaciones solo se responden con códigos de un solo uso.
       const id = await alta(s["an-cuenta"], "campanas", {
-        empresa_id: empresa, instrumento_id: evaluacion, nombre: `Evaluación ${clave} ${tanda}`, modo_acceso: "enlace", creada_por: u["an-cuenta"].id,
+        empresa_id: empresa, instrumento_id: evaluacion, nombre: `Evaluación ${clave} ${tanda}`, modo_acceso: "codigos", creada_por: u["an-cuenta"].id,
       });
       evals[clave] = id;
+      const { data: codigosEval } = await s["an-cuenta"].rpc("generar_codigos", { p_campana: id, p_cantidad: cuantas });
       await s["an-cuenta"].rpc("abrir_campana", { p_campana: id });
-      const { data: fila } = await s["an-cuenta"].from("campanas").select("token_enlace, tipo").eq("id", id).single();
+      const { data: fila } = await s["an-cuenta"].from("campanas").select("tipo").eq("id", id).single();
       expect(fila?.tipo).toBe("evaluacion");
       for (let i = 0; i < cuantas; i++) {
         const { data } = await servicio.rpc("enviar_respuesta", {
-          p_acceso: fila!.token_enlace, p_valores: { [itemsEval[0]]: 1 + (i % 3), [itemsEval[1]]: 3 }, p_grupos: [],
+          p_acceso: (codigosEval as string[])[i], p_valores: { [itemsEval[0]]: 1 + (i % 3), [itemsEval[1]]: 3 }, p_grupos: [],
         });
         expect(data).toBe("ok");
       }
@@ -384,35 +386,47 @@ describe("informe, plan de acción y evidencias", () => {
     expect([...exp.lineas].sort()).toEqual(["A;C", "A;C", "B;C", "B;C", "C;C", "C;C"]);
   });
 
-  it("formato FPSICO 3.1 (Anexo II del manual de FPSICO 4.1): 40 asteriscos y 89 respuestas por línea", async () => {
-    // Con un cuestionario que no tiene 89 ítems, el formato FPSICO se niega a exportar.
-    await s["an-admin"].from("instrumentos").update({ export_formato: "fpsico31" }).eq("id", evaluacion);
-    const corto = await s["an-tecnico"].rpc("exportar_respuestas", { p_campana: evals.grande });
+  it("formato FPSICO 3.1 (Anexo II del manual de FPSICO 4.1): 40 asteriscos y 89 respuestas por línea, en el orden de FPSICO", async () => {
+    // Un cuestionario publicado sin la estructura de FPSICO no puede pasar a ese formato.
+    const corto = await s["an-admin"].from("instrumentos").update({ export_formato: "fpsico31" }).eq("id", evaluacion).select("id");
     expect(corto.error?.message).toContain("89 ítems");
-    await s["an-admin"].from("instrumentos").update({ export_formato: "personalizado" }).eq("id", evaluacion);
 
-    // Cuestionario de prueba con 89 ítems ficticios y escala de 1 a 4.
+    // Cuestionario de prueba con la estructura de FPSICO: 89 ítems numerados y la escala de su rango.
     const fpsico = await alta(s["an-admin"], "instrumentos", { nombre: `FPSICO de prueba ${tanda}`, tipo: "evaluacion" });
     await servicio.from("instrumentos").update({ es_demo: true }).eq("id", fpsico);
-    const escala = await alta(s["an-admin"], "escalas", { instrumento_id: fpsico, nombre: "Escala" });
-    await s["an-admin"].from("escala_opciones").insert([1, 2, 3, 4].map((v) => ({ escala_id: escala, etiqueta: `Opción ${v}`, valor: v, orden: v })));
+    const escalas: Record<number, string> = {};
+    for (const maximo of [3, 4, 5]) {
+      escalas[maximo] = await alta(s["an-admin"], "escalas", { instrumento_id: fpsico, nombre: `De 1 a ${maximo}` });
+      await s["an-admin"].from("escala_opciones").insert(
+        Array.from({ length: maximo }, (_, n) => ({ escala_id: escalas[maximo], etiqueta: `Opción ${n + 1}`, valor: n + 1, orden: n + 1 })),
+      );
+    }
     const bloque = await alta(s["an-admin"], "factores", { instrumento_id: fpsico, nombre: "Bloque" });
+    const { data: estructura } = await s["an-admin"].from("fpsico_estructura").select("posicion, codigo, valor_max").order("posicion");
+    expect(estructura?.length).toBe(89);
+    // Se cargan al revés a propósito: el orden lo marca el número FPSICO, no el de carga.
     const { data: items, error: errItems } = await s["an-admin"]
       .from("items")
-      .insert(Array.from({ length: 89 }, (_, n) => ({ instrumento_id: fpsico, factor_id: bloque, escala_id: escala, enunciado: `Ítem de prueba ${n + 1}`, orden: n + 1 })))
-      .select("id, orden");
+      .insert(estructura!.map((e) => ({
+        instrumento_id: fpsico, factor_id: bloque, escala_id: escalas[e.valor_max], enunciado: `Ítem de prueba ${e.codigo}`, orden: 90 - e.posicion, codigo_fpsico: e.codigo,
+      })))
+      .select("id, codigo_fpsico");
     expect(errItems).toBeNull();
     expect((await s["an-admin"].rpc("publicar_instrumento", { p_instrumento: fpsico })).error).toBeNull();
 
     const campanaF = await alta(s["an-cuenta"], "campanas", {
-      empresa_id: empresa, instrumento_id: fpsico, nombre: `FPSICO ${tanda}`, modo_acceso: "enlace", creada_por: u["an-cuenta"].id,
+      empresa_id: empresa, instrumento_id: fpsico, nombre: `FPSICO ${tanda}`, modo_acceso: "codigos", creada_por: u["an-cuenta"].id,
     });
+    const { data: codigosF } = await s["an-cuenta"].rpc("generar_codigos", { p_campana: campanaF, p_cantidad: 5 });
     await s["an-cuenta"].rpc("abrir_campana", { p_campana: campanaF });
-    const { data: fila } = await s["an-cuenta"].from("campanas").select("token_enlace").eq("id", campanaF).single();
+    const posicion = new Map(estructura!.map((e) => [e.codigo, e]));
+    const valor = (codigo: string, r: number) => 1 + ((posicion.get(codigo)!.posicion + r) % posicion.get(codigo)!.valor_max);
+    const esperadas: string[] = [];
     for (let r = 0; r < 5; r++) {
-      const valores = Object.fromEntries(items!.map((it) => [it.id, 1 + ((it.orden + r) % 4)]));
-      const { data } = await servicio.rpc("enviar_respuesta", { p_acceso: fila!.token_enlace, p_valores: valores, p_grupos: [] });
+      const valores = Object.fromEntries(items!.map((it) => [it.id, valor(it.codigo_fpsico!, r)]));
+      const { data } = await servicio.rpc("enviar_respuesta", { p_acceso: (codigosF as string[])[r], p_valores: valores, p_grupos: [] });
       expect(data).toBe("ok");
+      esperadas.push(`"","","${estructura!.map((e) => valor(e.codigo, r)).join("")}"`);
     }
     await s["an-cuenta"].rpc("cerrar_campana", { p_campana: campanaF });
 
@@ -422,9 +436,8 @@ describe("informe, plan de acción y evidencias", () => {
     const exp = data as { cabecera: string; fin_linea: string; lineas: string[] };
     expect(exp.cabecera).toBe("*".repeat(40));
     expect(exp.fin_linea).toBe("crlf");
-    expect(exp.lineas.length).toBe(5);
-    // Fecha vacía, sin preguntas variables, 89 respuestas y sin identificador.
-    for (const linea of exp.lineas) expect(linea).toMatch(/^"","","[1-4]{89}"$/);
+    // Fecha vacía, sin preguntas variables, 89 respuestas en el orden de FPSICO y sin identificador.
+    expect([...exp.lineas].sort()).toEqual([...esperadas].sort());
   });
 
   it("el informe es el documento que sube el técnico; solo él lo adjunta y lo firma", async () => {

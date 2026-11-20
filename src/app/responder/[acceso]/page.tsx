@@ -5,7 +5,9 @@ import { ORIGEN_INSST } from "@/config/atribucion";
 import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo } from "@/components/marca/logotipo";
 import { EnlaceBoton } from "@/components/ui/boton";
-import { Enviar, Formulario } from "@/components/ui/formulario";
+import { CuestionarioPorPasos, type DimensionCuestionario, type ItemCuestionario } from "@/components/cuestionario/cuestionario-por-pasos";
+import { GarantiasAnonimato } from "@/components/cuestionario/garantias";
+import { Formulario } from "@/components/ui/formulario";
 import { Cargando, Etiqueta } from "@/components/ui/piezas";
 import { crearClienteAdmin } from "@/lib/supabase/admin";
 import { esquemaAccesoRespuesta } from "@/lib/validacion";
@@ -17,9 +19,16 @@ type Cuestionario = {
   estado: string;
   campana?: { nombre: string; tipo: "evaluacion" | "pulso"; minimo_grupo: number };
   empresa?: string;
-  instrumento?: { nombre: string; descripcion: string | null; minutos: number | null; es_demo: boolean; origen: "propio" | "insst_fpsico" };
-  items?: { id: string; enunciado: string; opciones: { valor: number; etiqueta: string }[] }[];
-  dimensiones?: { id: string; nombre: string; grupos: { id: string; nombre: string }[] | null }[];
+  instrumento?: {
+    nombre: string;
+    descripcion: string | null;
+    minutos: number | null;
+    es_demo: boolean;
+    origen: "propio" | "insst_fpsico";
+    estructura_fpsico: boolean;
+  };
+  items?: ItemCuestionario[];
+  dimensiones?: DimensionCuestionario[];
 };
 
 const AVISOS: Record<string, { titulo: string; texto: string }> = {
@@ -27,6 +36,7 @@ const AVISOS: Record<string, { titulo: string; texto: string }> = {
   usado: { titulo: "Este código ya se ha usado", texto: "Cada código sirve una sola vez. Si no ha respondido usted, pida otro a su empresa." },
   cerrada: { titulo: "Esta campaña ya se ha cerrado", texto: "Ya no admite respuestas." },
   no_abierta: { titulo: "Esta campaña todavía no se ha abierto", texto: "Vuelva a probar cuando su empresa le avise." },
+  completa: { titulo: "Este enlace ya no admite más respuestas", texto: "Ya han respondido tantas personas como se invitaron. Si usted no ha respondido, avise a su empresa." },
 };
 
 async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
@@ -54,7 +64,6 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
   }
 
   const { campana, empresa, instrumento, items = [], dimensiones = [] } = cuestionario;
-  const conGrupos = dimensiones.filter((d) => d.grupos && d.grupos.length > 0);
   const esEvaluacion = campana?.tipo === "evaluacion";
 
   return (
@@ -63,73 +72,24 @@ async function Contenido({ params }: { params: Promise<{ acceso: string }> }) {
         <p className="text-sm text-tinta-suave">{empresa}</p>
         <h1 className="text-balance font-serif text-2xl font-medium leading-tight tracking-tight sm:text-3xl">{campana?.nombre}</h1>
         <p className="flex flex-wrap items-center gap-2 text-sm text-tinta-suave">
-          <span>{items.length} preguntas</span>
+          <span>
+            {instrumento?.estructura_fpsico ? `${new Set(items.map((i) => i.pregunta)).size} preguntas (${items.length} respuestas)` : `${items.length} preguntas`}
+          </span>
           {instrumento?.minutos ? <span>· unos {instrumento.minutos} minutos</span> : null}
           {instrumento?.es_demo ? <Etiqueta tono="aviso">Cuestionario de demostración</Etiqueta> : null}
           {!esEvaluacion ? <Etiqueta>Seguimiento</Etiqueta> : null}
         </p>
       </header>
 
-      <section aria-labelledby="titulo-anonimato" className="flex flex-col gap-2 rounded-xl border border-acento/20 bg-acento-tenue p-4 text-acento-fuerte">
-        <h2 id="titulo-anonimato" className="font-semibold">Es voluntario y anónimo</h2>
-        <ul className="flex list-disc flex-col gap-1 pl-5 text-sm">
-          <li>No pedimos su nombre ni su correo.</li>
-          <li>Junto a su respuesta no se guarda su dirección IP ni la hora. Solo el día.</li>
-          {esEvaluacion ? (
-            <li>
-              Su empresa nunca ve respuestas individuales. El técnico de prevención trata las respuestas, sin ningún dato que le identifique, y solo
-              comunica resultados de conjunto.
-            </li>
-          ) : (
-            <li>Su empresa nunca ve respuestas individuales. Solo resultados de grupos de {campana?.minimo_grupo} personas o más.</li>
-          )}
-        </ul>
-      </section>
-
       <Formulario accion={enviarRespuesta} className="gap-6">
         <input type="hidden" name="acceso" value={acceso.data} />
-
-        {conGrupos.map((dimension) => (
-          <fieldset key={dimension.id} className="flex flex-col gap-2 rounded-xl border border-linea bg-superficie p-4">
-            <legend className="px-1 font-medium">{dimension.nombre} (opcional)</legend>
-            <p className="text-sm text-tinta-suave">Sirve para ver resultados por grupo. Puede dejarlo sin indicar.</p>
-            <div className="flex flex-col">
-              <label className="flex min-h-11 items-center gap-3">
-                <input type="radio" name={`dim_${dimension.id}`} value="" defaultChecked className="size-5 accent-acento" />
-                <span>Prefiero no indicarlo</span>
-              </label>
-              {dimension.grupos!.map((grupo) => (
-                <label key={grupo.id} className="flex min-h-11 items-center gap-3">
-                  <input type="radio" name={`dim_${dimension.id}`} value={grupo.id} className="size-5 accent-acento" />
-                  <span>{grupo.nombre}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        ))}
-
-        <ol className="flex flex-col gap-4">
-          {items.map((item, indice) => (
-            <li key={item.id}>
-              <fieldset className="flex flex-col gap-2 rounded-xl border border-linea bg-superficie p-4">
-                <legend className="px-1 font-medium">
-                  <span className="text-tinta-suave">{indice + 1}. </span>
-                  {item.enunciado}
-                </legend>
-                <div className="flex flex-col">
-                  {item.opciones.map((opcion) => (
-                    <label key={opcion.valor} className="flex min-h-11 items-center gap-3">
-                      <input type="radio" name={`item_${item.id}`} value={opcion.valor} required className="size-5 accent-acento" />
-                      <span>{opcion.etiqueta}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-            </li>
-          ))}
-        </ol>
-
-        <Enviar>Enviar respuestas</Enviar>
+        <CuestionarioPorPasos
+          items={items}
+          dimensiones={dimensiones}
+          estructuraFpsico={Boolean(instrumento?.estructura_fpsico)}
+          minutos={instrumento?.minutos ?? null}
+          avisoAnonimato={<GarantiasAnonimato esEvaluacion={esEvaluacion} minimo={campana?.minimo_grupo ?? 5} />}
+        />
       </Formulario>
       {instrumento?.origen === "insst_fpsico" ? <p className="text-sm text-tinta-suave">{ORIGEN_INSST}</p> : null}
     </>

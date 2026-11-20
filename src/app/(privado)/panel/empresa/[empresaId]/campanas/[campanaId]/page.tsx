@@ -11,6 +11,7 @@ import {
 } from "@/app/(privado)/acciones-evaluacion";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { CifraAnimada } from "@/components/movimiento/movimiento";
+import { BlindajeCuestionario } from "@/components/cuestionario/garantias";
 import { AvisoSuprimido, ResultadosPorFactor, type BloqueResultados } from "@/components/panel/resultados";
 import { Anillo, Pasos } from "@/components/panel/pasos";
 import { Boton, clasesBoton, EnlaceBoton } from "@/components/ui/boton";
@@ -21,6 +22,10 @@ import { urlSitio } from "@/lib/entorno";
 import { esquemaUuid } from "@/lib/validacion";
 
 export const metadata: Metadata = { title: "Campaña" };
+
+// Línea ficticia de 89 valores, cada uno dentro de su rango (1 a 3 en 13a-d, 1 a 5 en 10h, 16a-d, 22, 26, 34a-d y 40a-d).
+const EJEMPLO_FPSICO = "23412341234123412412341234123121234123412341234123412341234123412341234123412341234123412";
+const EJEMPLO_FPSICO_2 = "32143214321432143214321432143213321432143214321432143214321432143214321432143214321432143";
 
 type Participacion = { respuestas: number; plantilla: number | null; porcentaje: number | null; codigos_generados: number };
 type Resultados = {
@@ -44,7 +49,7 @@ export default async function PaginaCampana({
 
   const { data: campana } = await supabase
     .from("campanas")
-    .select("*, instrumentos(nombre, es_demo, origen, export_confirmado)")
+    .select("*, instrumentos(nombre, es_demo, origen, export_confirmado, export_formato)")
     .eq("id", id.data)
     .eq("empresa_id", empresa.id)
     .maybeSingle();
@@ -56,6 +61,7 @@ export default async function PaginaCampana({
   // Una evaluación (FPSICO) no se puntúa aquí: se exporta y se registra el informe que llega de fuera.
   const esEvaluacion = campana.tipo === "evaluacion";
   const esFpsico = campana.instrumentos?.origen === "insst_fpsico";
+  const estructuraFpsico = esFpsico || campana.instrumentos?.export_formato === "fpsico31";
 
   const pedido = (await searchParams).g;
   const filtroBruto = (Array.isArray(pedido) ? pedido : pedido ? [pedido] : []).filter((v) => esquemaUuid.safeParse(v).success);
@@ -96,7 +102,12 @@ export default async function PaginaCampana({
       <Cabecera
         titulo={campana.nombre}
         descripcion={`${empresa.nombre} · ${campana.instrumentos?.nombre ?? "Cuestionario"}`}
-        acciones={<EnlaceBoton variante="secundario" href={`${base}/campanas`}>Volver a campañas</EnlaceBoton>}
+        acciones={
+          <>
+            <EnlaceBoton variante="secundario" href={`${ruta}/vista-previa`}>Ver el cuestionario</EnlaceBoton>
+            <EnlaceBoton variante="discreto" href={`${base}/campanas`}>Volver a campañas</EnlaceBoton>
+          </>
+        }
       />
       <div className="flex flex-wrap items-center gap-2">
         <Etiqueta>{campana.tipo === "pulso" ? "Seguimiento" : "Evaluación"}</Etiqueta>
@@ -188,9 +199,13 @@ export default async function PaginaCampana({
                 <>
                   <p className="text-sm text-tinta-suave">Comparta este enlace con toda la plantilla por un canal común. Es el mismo para todas las personas.</p>
                   <p className="break-all rounded-xl border border-linea bg-papel p-3 font-mono text-sm">{enlaceGeneral}</p>
+                  <p className="text-sm text-tinta-suave">Admite como mucho {campana.plantilla_invitada} respuestas, las personas invitadas.</p>
                 </>
               ) : (
-                <p className="text-sm text-tinta-suave">El enlace se crea al abrir la campaña.</p>
+                <p className="text-sm text-tinta-suave">
+                  El enlace se crea al abrir la campaña.
+                  {campana.plantilla_invitada ? "" : " Antes, indique cuántas personas están invitadas: es el tope de respuestas del enlace."}
+                </p>
               )}
             </Tarjeta>
           )}
@@ -204,6 +219,24 @@ export default async function PaginaCampana({
           ) : null}
         </div>
       ) : null}
+
+      <section aria-labelledby="t-blindaje" className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 id="t-blindaje" className="text-xl font-semibold">Cómo se protege este cuestionario</h2>
+          <p className="max-w-prose text-pretty text-sm text-tinta-suave">
+            Lo impone la base de datos, no solo la pantalla: ninguna cuenta, tampoco la de administración, puede saltarse estas reglas.
+          </p>
+        </div>
+        <Tarjeta>
+          <BlindajeCuestionario
+            esEvaluacion={esEvaluacion}
+            estructuraFpsico={estructuraFpsico}
+            modoAcceso={campana.modo_acceso}
+            minimo={campana.minimo_grupo}
+            plantilla={campana.plantilla_invitada}
+          />
+        </Tarjeta>
+      </section>
 
       {cerrada && !esEvaluacion ? (
         <section aria-labelledby="t-resultados" className="flex flex-col gap-4">
@@ -267,7 +300,9 @@ export default async function PaginaCampana({
                     Exportar respuestas (.txt)
                   </a>
                   <p className="text-sm text-tinta-suave">
-                    Una línea por respuesta, en orden aleatorio, sin identificador, fecha ni grupo. Cada exportación queda registrada como evidencia.
+                    {campana.instrumentos?.export_formato === "fpsico31"
+                      ? "Formato .txt de FPSICO 3.1, importable en FPSICO 4.1: 40 asteriscos y una línea por respuesta con sus 89 valores, en orden aleatorio, sin identificador, fecha ni grupo. Cada exportación queda registrada como evidencia."
+                      : "Una línea por respuesta, en orden aleatorio, sin identificador, fecha ni grupo. Cada exportación queda registrada como evidencia."}
                   </p>
                 </div>
               ) : (
@@ -280,6 +315,17 @@ export default async function PaginaCampana({
             ) : (
               <p className="text-sm text-tinta-suave">Solo el técnico de prevención asignado puede exportar las respuestas.</p>
             )}
+            {soloLectura && campana.instrumentos?.export_formato === "fpsico31" ? (
+              <div className="flex flex-col gap-2">
+                <p className="text-sm text-tinta-suave">
+                  Así empieza el archivo que recibe el técnico (Anexo II del manual de FPSICO 4.1). Cada línea es una respuesta: fecha vacía, sin
+                  preguntas variables y las 89 respuestas seguidas, sin identificador. Valores de ejemplo:
+                </p>
+                <pre className="overflow-x-auto rounded-xl border border-linea bg-papel p-3 font-mono text-xs leading-relaxed">
+                  {`${"*".repeat(40)}\n"","","${EJEMPLO_FPSICO}"\n"","","${EJEMPLO_FPSICO_2}"\n…`}
+                </pre>
+              </div>
+            ) : null}
           </Tarjeta>
         </section>
       ) : null}

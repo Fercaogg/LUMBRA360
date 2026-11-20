@@ -331,6 +331,19 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"fpsico_estructura": {
+                  Row: {
+                    "codigo": string,"posicion": number,"pregunta": number,"valor_max": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "codigo": string,"posicion": number,"pregunta": number,"valor_max": number
+                  }
+                  Update: {
+                    "codigo"?: string,"posicion"?: number,"pregunta"?: number,"valor_max"?: number
+                  }
+                  Relationships: [
+                  ]
                 },"formaciones": {
                   Row: {
                     "creada_el": string,"creada_por": string | null,"descripcion": string | null,"documento_nombre": string | null,"documento_ruta": string | null,"documento_sha256": string | null,"empresa_id": string,"fecha": string,"id": string,"participantes": number | null,"titulo": string
@@ -489,17 +502,23 @@ isOneToOne: false
                   ]
                 },"items": {
                   Row: {
-                    "enunciado": string,"escala_id": string,"factor_id": string,"id": string,"instrumento_id": string,"invertido": boolean,"orden": number
+                    "codigo_fpsico": string | null,"enunciado": string,"escala_id": string,"factor_id": string,"id": string,"instrumento_id": string,"invertido": boolean,"orden": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "enunciado": string,"escala_id": string,"factor_id": string,"id"?: string,"instrumento_id": string,"invertido"?: boolean,"orden"?: number
+                    "codigo_fpsico"?: string | null,"enunciado": string,"escala_id": string,"factor_id": string,"id"?: string,"instrumento_id": string,"invertido"?: boolean,"orden"?: number
                   }
                   Update: {
-                    "enunciado"?: string,"escala_id"?: string,"factor_id"?: string,"id"?: string,"instrumento_id"?: string,"invertido"?: boolean,"orden"?: number
+                    "codigo_fpsico"?: string | null,"enunciado"?: string,"escala_id"?: string,"factor_id"?: string,"id"?: string,"instrumento_id"?: string,"invertido"?: boolean,"orden"?: number
                   }
                   Relationships: [
                     {
+      foreignKeyName: "items_codigo_fpsico_fkey"
+      columns: ["codigo_fpsico"]
+isOneToOne: false
+      referencedRelation: "fpsico_estructura"
+      referencedColumns: ["codigo"]
+    },{
       foreignKeyName: "items_escala_id_fkey"
       columns: ["escala_id"]
 isOneToOne: false
@@ -944,6 +963,9 @@ isOneToOne: true
                            },
 "obtener_cuestionario":
 { Args: { "p_acceso": string }; Returns: Json
+                           },
+"vista_previa_cuestionario":
+{ Args: { "p_campana": string }; Returns: Json
                            },
 "obtener_politica_acuse":
 { Args: { "p_token": string }; Returns: Json
