@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { aplazar } from "@/components/movimiento/aplazar";
 import { Check, ClipboardList, FileSpreadsheet, FileText, Folder, Mail, ScrollText } from "lucide-react";
 import { Simbolo } from "@/components/marca/logotipo";
 import { NOMBRE } from "@/config/marca";
@@ -39,7 +40,8 @@ export function CaosOrden() {
   const escena = useRef<HTMLDivElement>(null);
 
   useGSAP(
-    () => {
+    () =>
+      aplazar(() => {
       const raiz = escena.current;
       if (!raiz) return;
       const q = gsap.utils.selector(raiz);
@@ -74,7 +76,7 @@ export function CaosOrden() {
           .fromTo(q("[data-nota-antes]"), { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.2 }, 0.9);
       });
       return () => mm.revert();
-    },
+    }),
     { scope: escena },
   );
 

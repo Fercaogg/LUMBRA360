@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { aplazar } from "@/components/movimiento/aplazar";
 import { Check } from "lucide-react";
 import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca/onda";
 import { LEMA } from "@/config/marca";
@@ -60,7 +61,8 @@ export function VideoLumbra() {
   const lienzo = useRef<HTMLDivElement>(null);
 
   useGSAP(
-    () => {
+    () =>
+      aplazar(() => {
       const raiz = marco.current;
       const tela = lienzo.current;
       if (!raiz || !tela) return;
@@ -151,7 +153,7 @@ export function VideoLumbra() {
         observador.disconnect();
         mm.revert();
       };
-    },
+    }),
     { scope: marco },
   );
 
@@ -167,7 +169,7 @@ export function VideoLumbra() {
         <section data-escena className="absolute inset-0 flex flex-col items-center justify-center gap-10 bg-papel">
           <Onda trazo className="w-[300px]" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img data-intro-texto src="/marca/lumbra-horizontal-positivo.svg" alt="" className="h-[110px] w-auto" />
+          <img data-intro-texto src="/marca/lumbra-horizontal-positivo.svg" alt="" width={437} height={110} className="h-[110px] w-auto" />
           <p data-intro-texto className="text-[36px] text-tinta-suave">{LEMA}</p>
         </section>
 

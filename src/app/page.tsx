@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowUpRight, BellOff, Check, EyeOff, FileCheck2, Waves } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BellOff, Check, EyeOff, FileCheck2, Waves } from "lucide-react";
 import { ORIGEN_INSST } from "@/config/atribucion";
 import { LEMA, NOMBRE } from "@/config/marca";
 import { EfectosPortada } from "@/components/portada/efectos";
@@ -165,7 +165,6 @@ const EQUIPO: Miembro[] = [
 
 const BOTON = "inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base font-medium transition-colors duration-200";
 const BOTON_PRINCIPAL = `${BOTON} bg-tinta text-[var(--texto-sobre-marca)] hover:bg-[var(--tinta-800)]`;
-const BOTON_SECUNDARIO = `${BOTON} border border-linea-fuerte text-tinta hover:border-tinta`;
 
 function Contenedor({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[1264px] px-6 sm:px-8 ${className}`}>{children}</div>;
@@ -223,12 +222,13 @@ export default function Portada() {
             </ul>
             <div className="flex items-center gap-2">
               {/* Enlace normal, sin precarga: /demo abre una sesión al visitarlo. */}
-              <a href="/demo" className={`${BOTON_SECUNDARIO} min-h-10 px-5 text-sm`}>
-                Demo
-              </a>
-              <Link href="/acceso" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
+              {/* «Acceder» es para quien ya tiene cuenta: discreto. El botón destacado es la demo. */}
+              <Link href="/acceso" className="inline-flex min-h-10 items-center rounded-full px-3 text-sm font-medium text-tinta-suave transition-colors hover:text-tinta">
                 Acceder
               </Link>
+              <a href="/demo" className={`${BOTON_PRINCIPAL} min-h-10 px-5 text-sm`}>
+                Demo
+              </a>
             </div>
           </nav>
         </Contenedor>
@@ -245,12 +245,13 @@ export default function Portada() {
               <p className="aparecer max-w-[36rem] text-pretty text-lg text-tinta-suave">
                 Para pymes, servicios de prevención y asesorías que quieren cuidar a su plantilla y documentar cada paso.
               </p>
-              <div className="aparecer mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center">
-                <Link href="/contacto" className={BOTON_PRINCIPAL}>
+              <div className="aparecer mt-2 flex w-full flex-col items-center gap-4 sm:w-auto">
+                <Link href="/contacto" className={`${BOTON_PRINCIPAL} w-full sm:w-auto`}>
                   Solicitar una demostración
                 </Link>
-                <a href="#como-se-utiliza" className={BOTON_SECUNDARIO}>
-                  Cómo se utiliza
+                <a href="#como-se-utiliza" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-tinta-suave underline decoration-linea-fuerte underline-offset-4 transition-colors hover:text-tinta hover:decoration-tinta">
+                  Ver cómo se utiliza
+                  <ArrowDown aria-hidden size={15} strokeWidth={2} />
                 </a>
               </div>
             </div>

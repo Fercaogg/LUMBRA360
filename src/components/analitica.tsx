@@ -12,6 +12,9 @@ function soloPublico(evento: BeforeSendEvent) {
   return evento;
 }
 
+// Solo se carga en Vercel: fuera de allí el script no existe y daría un error en la consola.
+const EN_VERCEL = Boolean(process.env.NEXT_PUBLIC_VERCEL_ENV);
+
 export function Analitica() {
-  return <Analytics beforeSend={soloPublico} />;
+  return EN_VERCEL ? <Analytics beforeSend={soloPublico} /> : null;
 }

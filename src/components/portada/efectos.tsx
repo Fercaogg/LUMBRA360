@@ -25,15 +25,29 @@ export function EfectosPortada() {
       gsap.ticker.lagSmoothing(0);
 
       heroe();
-      titulares();
-      beneficios();
-      pasos();
-      pelicula();
-      perfiles();
-      evolucion();
-      cierre();
+
+      // El resto de secciones queda por debajo de la primera pantalla. Se preparan de una en una
+      // cuando el navegador está libre, para no bloquear la carga con una sola tarea larga.
+      const cola = [titulares, beneficios, pasos, pelicula, perfiles, evolucion, cierre];
+      const contexto = gsap.context(() => {});
+      const conInactividad = typeof window.requestIdleCallback === "function";
+      const libre = (fn: () => void): number => (conInactividad ? window.requestIdleCallback(fn, { timeout: 600 }) : window.setTimeout(fn, 60));
+      const cancelar = (id: number) => (conInactividad ? window.cancelIdleCallback(id) : window.clearTimeout(id));
+      let pendiente = 0;
+      const siguiente = () => {
+        const tarea = cola.shift();
+        if (!tarea) {
+          ScrollTrigger.refresh();
+          return;
+        }
+        contexto.add(tarea);
+        pendiente = libre(siguiente);
+      };
+      pendiente = libre(siguiente);
 
       return () => {
+        cancelar(pendiente);
+        contexto.revert();
         gsap.ticker.remove(latido);
         lenis.destroy();
       };

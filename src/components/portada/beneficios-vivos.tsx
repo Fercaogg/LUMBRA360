@@ -4,6 +4,7 @@ import { useRef, type PointerEvent, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { aplazar } from "@/components/movimiento/aplazar";
 import { Check, EyeOff, FileCheck2, FileText, ListChecks } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -47,7 +48,8 @@ export function BeneficiosVivos() {
   const raiz = useRef<HTMLUListElement>(null);
 
   useGSAP(
-    () => {
+    () =>
+      aplazar(() => {
       const q = gsap.utils.selector(raiz);
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -92,7 +94,7 @@ export function BeneficiosVivos() {
           .from(q("[data-sello-e3]"), { scale: 2.2, rotation: -20, autoAlpha: 0, duration: 0.45, ease: "back.out(2)" }, "-=0.1");
       });
       return () => mm.revert();
-    },
+    }),
     { scope: raiz },
   );
 

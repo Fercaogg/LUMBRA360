@@ -4,6 +4,7 @@ import { useRef, type PointerEvent, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { aplazar } from "@/components/movimiento/aplazar";
 import { ArrowRight, Building2, Check, ClipboardCheck, FileText, HardHat, Stamp, Users } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -41,7 +42,8 @@ export function PerfilesBento() {
   const raiz = useRef<HTMLUListElement>(null);
 
   useGSAP(
-    () => {
+    () =>
+      aplazar(() => {
       const q = gsap.utils.selector(raiz);
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -84,7 +86,7 @@ export function PerfilesBento() {
           .from(q("[data-empresa-estado]"), { scale: 0.6, autoAlpha: 0, duration: 0.3, stagger: 0.12, ease: "back.out(2)" }, 0.3);
       });
       return () => mm.revert();
-    },
+    }),
     { scope: raiz },
   );
 
