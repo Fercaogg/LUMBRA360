@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import { LEMA, NOMBRE } from "@/config/marca";
+import { DESCRIPCION, INDEXAR, urlPublica } from "@/config/publicacion";
+import { Analitica } from "@/components/analitica";
 import "./globals.css";
 
 // Tipografías de marca (ver brand/DESIGN.md): Instrument Sans para titulares, interfaz y datos
@@ -9,10 +11,14 @@ const instrument = Instrument_Sans({ variable: "--font-instrument", subsets: ["l
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(urlPublica()),
   title: { default: NOMBRE, template: `%s · ${NOMBRE}` },
-  description: LEMA,
-  // La web pública llega en la fase 6. Hasta entonces no se indexa nada.
-  robots: { index: false, follow: false },
+  description: DESCRIPCION,
+  applicationName: NOMBRE,
+  // No se indexa hasta que se publiquen el aviso legal y la privacidad (INDEXAR=si).
+  robots: INDEXAR ? { index: true, follow: true } : { index: false, follow: false },
+  openGraph: { type: "website", locale: "es_ES", siteName: NOMBRE, title: `${NOMBRE} · ${LEMA}`, description: DESCRIPCION },
+  twitter: { card: "summary_large_image", title: `${NOMBRE} · ${LEMA}`, description: DESCRIPCION },
 };
 
 export const viewport: Viewport = {
@@ -32,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Saltar al contenido
         </a>
         {children}
+        <Analitica />
       </body>
     </html>
   );

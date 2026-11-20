@@ -14,11 +14,36 @@ import { ONDA_CAJA, ONDA_TRANSFORMACION, ONDA_TRAZADO } from "@/components/marca
 import { EnlaceInicio } from "@/components/marca/enlace-inicio";
 import { Logotipo, Simbolo } from "@/components/marca/logotipo";
 import Image from "next/image";
+import { DESCRIPCION, urlPublica } from "@/config/publicacion";
 
 export const metadata: Metadata = {
   title: { absolute: `${NOMBRE} · ${LEMA}` },
-  description: "Evaluación psicosocial y desconexión digital para pymes, con cada paso documentado.",
+  description: DESCRIPCION,
+  alternates: { canonical: "/" },
 };
+
+// Datos estructurados para buscadores: solo lo que la página ya dice, sin precios ni valoraciones.
+function DatosEstructurados() {
+  const base = urlPublica();
+  const datos = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Organization", "@id": `${base}/#organizacion`, name: NOMBRE, url: `${base}/`, logo: `${base}/marca/lumbra-horizontal-positivo.svg`, description: DESCRIPCION },
+      { "@type": "WebSite", "@id": `${base}/#web`, url: `${base}/`, name: NOMBRE, inLanguage: "es-ES", publisher: { "@id": `${base}/#organizacion` } },
+      {
+        "@type": "SoftwareApplication",
+        name: NOMBRE,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        inLanguage: "es-ES",
+        description: DESCRIPCION,
+        url: `${base}/`,
+        publisher: { "@id": `${base}/#organizacion` },
+      },
+    ],
+  };
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datos).replace(/</g, "\\u003c") }} />;
+}
 
 // ---------- Contenido ----------
 
@@ -177,6 +202,7 @@ function Icono({ icono: I }: { icono: typeof EyeOff }) {
 export default function Portada() {
   return (
     <>
+      <DatosEstructurados />
       <EfectosPortada />
 
       {/* 1. Cabecera */}
